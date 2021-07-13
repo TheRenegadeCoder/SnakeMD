@@ -1,6 +1,7 @@
 import os
 import pathlib
 import sys
+from typing import Iterable
 from urllib.error import HTTPError
 from urllib import request
 
@@ -8,11 +9,11 @@ from generate_docs.repo import LanguageCollection, SampleProgram
 
 
 class Header:
-    def __init__(self, text, level):
+    def __init__(self, text: str, level: int):
         self.text: str = text
         self.level: int = level
 
-    def str(self):
+    def __str__(self) -> str:
         return f"{'#' * self.level} {self.text}"
 
     def promote(self):
@@ -22,6 +23,14 @@ class Header:
     def demote(self):
         if self.level < 6:
             self.level += 1
+
+
+class OrderedList:
+    def __init__(self, items: Iterable):
+        self.items: Iterable = items
+
+    def __str__(self) -> str:
+        return "\n".join([f"{index + 1}. {item}" for index, item in enumerate(self.items)])
 
 
 def create_md_link(text: str, url: str) -> str:

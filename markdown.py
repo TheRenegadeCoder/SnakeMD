@@ -38,7 +38,7 @@ class Link:
 
     def __str__(self) -> str:
         return f"[{self.text}]({self.url})"
-        
+
     def verify_link(self) -> bool:
         """
         Verifies that a URL is a valid URL.
@@ -58,8 +58,13 @@ class Link:
 
 class Document:
 
-    def __init__(self) -> None:
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.ext = ".md"
         self.contents = list()
+
+    def __str__(self):
+        return f"{self.name}\n{self._build_page()}"
 
     def add_link(self, text: str, url: str) -> None:
         """
@@ -69,45 +74,34 @@ class Document:
         """
         self.contents.append(Link(text, url))
 
+    def _build_page(self):
+        return "\n".join(self.content)
 
-    class MarkdownPage:
-        def __init__(self, name: str):
-            self.name: str = name
-            self.ext = ".md"
-            self.wiki_url_base: str = "/jrg94/sample-programs/wiki/"
-            self.content = list()
+    def add_content(self, *lines: str):
+        self.content.extend(lines)
 
-        def __str__(self):
-            return f"{self.name}\n{self._build_page()}"
+    def add_table_header(self, *args):
+        column_separator = " | "
+        header = column_separator.join(args)
+        divider = column_separator.join(["-----"] * len(args))
+        self.content.append(header)
+        self.content.append(divider)
 
-        def _build_page(self):
-            return "\n".join(self.content)
+    def add_table_row(self, *args):
+        column_separator = " | "
+        row = column_separator.join(args)
+        self.content.append(row)
 
-        def add_content(self, *lines: str):
-            self.content.extend(lines)
+    def add_section_break(self):
+        self.content.append("")
 
-        def add_table_header(self, *args):
-            column_separator = " | "
-            header = column_separator.join(args)
-            divider = column_separator.join(["-----"] * len(args))
-            self.content.append(header)
-            self.content.append(divider)
+    def output_page(self, dump_dir):
+        pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
+        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")
+        output_file.write(self._build_page())
+        output_file.close()
 
-        def add_table_row(self, *args):
-            column_separator = " | "
-            row = column_separator.join(args)
-            self.content.append(row)
-
-        def add_section_break(self):
-            self.content.append("")
-
-        def output_page(self, dump_dir):
-            pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-            output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")
-            output_file.write(self._build_page())
-            output_file.close()
-
-        def _get_file_name(self):
-            separator = "-"
-            file_name = f"{separator.join(self.name.split())}{self.ext}"
-            return file_name
+    def _get_file_name(self):
+        separator = "-"
+        file_name = f"{separator.join(self.name.split())}{self.ext}"
+        return file_name

@@ -1,6 +1,5 @@
 import os
 import pathlib
-import sys
 from typing import Iterable
 from urllib.error import HTTPError
 from urllib import request
@@ -54,6 +53,24 @@ class Link:
         except HTTPError:
             print(f"\tINVALID")
             return False
+
+
+class Table:
+    def __init__(self, header: Iterable, body: Iterable[Iterable], footer: Iterable) -> None:
+        self.header = header
+        self.body = body
+        self.footer = footer
+
+    def __str__(self) -> str:
+        rows = list()
+        rows.append(self.header)
+        rows.extend(self.body)
+        rows.append(self.footer)
+        return f"{' | '.join(rows)}"
+
+
+    def verify():
+        pass
 
 
 class Document:

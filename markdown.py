@@ -5,6 +5,27 @@ from urllib.error import HTTPError
 from urllib import request
 
 
+
+class Text:
+    """
+    The basic unit of text in markdown. All components which contain
+    text are built using this class instead of strings directly. That
+    way, those elements capture all styling information. 
+    """
+
+    def __init__(self, text, style=None) -> None:
+        self.text = text
+        self.style = style
+
+    def __str__(self) -> str:
+        text = self.text
+        if self.style == "bold":
+            text = f"**{self.text}**"
+        elif self.style == "italics":
+            text = f"*{self.text}*"
+        return text
+
+
 class Header:
     def __init__(self, text: Text, level: int) -> None:
         self.text: Text = text
@@ -73,25 +94,6 @@ class Table:
         assert len(self.header) == len(self.footer) == len(self.body[0])
 
 
-class Text:
-    """
-    The basic unit of text in markdown. All components which contain
-    text are built using this class instead of strings directly. That
-    way, those elements capture all styling information. 
-    """
-
-    def __init__(self, text, style=None) -> None:
-        self.text = text
-        self.style = style
-
-    def __str__(self) -> str:
-        if self.style == "bold":
-            text = f"**{self.text}**"
-        elif self.style == "italics":
-            text = f"*{self.text}*"
-        return text
-
-
 class Document:
 
     def __init__(self, name: str) -> None:
@@ -122,7 +124,12 @@ class Document:
         assert 1 <= level <= 6
         self.contents.append(Header(Text(text), level))
 
-    def add_text(self, text: str):
+    def add_paragraph(self, text: str):
+        """
+        Adds a paragraph of text to the document.
+
+        :param text: any arbitrary text
+        """
         self.contents.append(Text(text))
 
     def output_page(self, dump_dir):
@@ -132,9 +139,13 @@ class Document:
         output_file.close()
 
     def _build_page(self):
-        return "\n\n".join(self.content)
+        return "\n\n".join(str(element) for element in self.contents)
 
     def _get_file_name(self):
         separator = "-"
         file_name = f"{separator.join(self.name.split())}{self.ext}"
         return file_name
+
+doc = Document("Test")
+doc.add_header("Test")
+doc.output_page("test")

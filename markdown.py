@@ -68,9 +68,9 @@ class Table:
         rows.append(self.footer)
         return f"{' | '.join(rows)}"
 
-
-    def verify():
-        pass
+    def verify(self):
+        assert len({len(i) for i in self.body}) == 1
+        assert len(self.header) == len(self.footer) == len(self.body[0])
 
 
 class Document:

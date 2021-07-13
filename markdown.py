@@ -29,8 +29,17 @@ class Text:
     # One way to do this would be to backslash special characters in the raw text
 
 
-class Header:
+class Element:
+    def __init__(self):
+        pass
+
+    def __str__(self) -> str:
+        raise NotImplementedError()
+
+
+class Header(Element):
     def __init__(self, text: Text, level: int) -> None:
+        super().__init__()
         self.text: Text = text
         self.level: int = level
 
@@ -44,6 +53,15 @@ class Header:
     def demote(self):
         if self.level < 6:
             self.level += 1
+
+
+class Paragraph(Element):
+    def __init__(self, content: Iterable[Text]):
+        super().__init__()
+        self.content = content
+
+    def __str__(self) -> str:
+        return " ".join(str(item) for item in self.content)
 
 
 class OrderedList:
@@ -107,7 +125,7 @@ class Document:
     def __str__(self):
         return f"{self.name}\n{self._build_page()}"
 
-    def add_element(self, element):
+    def add_element(self, element: Element):
         """
         A generic function for appending elements to the document. 
         Use this function when you want a little more control over
@@ -115,6 +133,7 @@ class Document:
 
         :param element: a markdown object (e.g., Table, Header, etc.)
         """
+        assert isinstance(element, Element)
         self.contents.append(element)
 
     def add_header(self, text: str, level: int = 1):
@@ -133,7 +152,7 @@ class Document:
 
         :param text: any arbitrary text
         """
-        self.contents.append(Text(text))
+        self.contents.append(Paragraph([Text(text)]))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)

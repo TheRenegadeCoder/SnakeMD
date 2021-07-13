@@ -13,9 +13,10 @@ class Text:
     way, those elements capture all styling information. 
     """
 
-    def __init__(self, text, style=None) -> None:
+    def __init__(self, text, style=None, url=None) -> None:
         self.text = text
         self.style = style
+        self.url = url
 
     def __str__(self) -> str:
         text = self.text
@@ -23,13 +24,37 @@ class Text:
             text = f"**{self.text}**"
         elif self.style == "italics":
             text = f"*{self.text}*"
+        if self.url:
+            text = f"[{text}]({self.url})"
         return text
+
+    def verify_link(self) -> bool:
+        """
+        Verifies that a URL is a valid URL.
+        :return: True if the URL is valid; False otherwise
+        """
+        req = request.Request(self.url)
+        req.get_method = lambda: 'HEAD'
+        print(f"Trying: {self.url}")
+        try:
+            request.urlopen(req)
+            print(f"\tVALID")
+            return True
+        except HTTPError:
+            print(f"\tINVALID")
+            return False
 
     # TODO: add text processing to avoid issues where asterisks mess up formatting
     # One way to do this would be to backslash special characters in the raw text
 
 
 class Element:
+    """
+    An element is defined as a standalone section of a markdown file. 
+    All elements are to be surrounded by empty lines. Examples of elements
+    include paragraphs, headers, tables, and lists. 
+    """
+
     def __init__(self):
         pass
 
@@ -63,6 +88,9 @@ class Paragraph(Element):
     def __str__(self) -> str:
         return " ".join(str(item) for item in self.content)
 
+    def add(self, text: Text):
+        self.content.append(text)
+
 
 class OrderedList:
     def __init__(self, items: Iterable[Text]) -> None:
@@ -70,31 +98,6 @@ class OrderedList:
 
     def __str__(self) -> str:
         return "\n".join([f"{index + 1}. {item}" for index, item in enumerate(self.items)])
-
-
-class Link:
-    def __init__(self, text: Text, url: str) -> None:
-        self.text: Text = text
-        self.url: str = url
-
-    def __str__(self) -> str:
-        return f"[{self.text}]({self.url})"
-
-    def verify_link(self) -> bool:
-        """
-        Verifies that a URL is a valid URL.
-        :return: True if the URL is valid; False otherwise
-        """
-        req = request.Request(self.url)
-        req.get_method = lambda: 'HEAD'
-        print(f"Trying: {self.url}")
-        try:
-            request.urlopen(req)
-            print(f"\tVALID")
-            return True
-        except HTTPError:
-            print(f"\tINVALID")
-            return False
 
 
 class Table:

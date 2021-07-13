@@ -25,6 +25,9 @@ class Text:
             text = f"*{self.text}*"
         return text
 
+    # TODO: add text processing to avoid issues where asterisks mess up formatting
+    # One way to do this would be to backslash special characters in the raw text
+
 
 class Header:
     def __init__(self, text: Text, level: int) -> None:
@@ -148,4 +151,5 @@ class Document:
 
 doc = Document("Test")
 doc.add_header("Test")
+doc.add_paragraph("I love to program code")
 doc.output_page("test")

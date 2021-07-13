@@ -73,6 +73,20 @@ class Table:
         assert len(self.header) == len(self.footer) == len(self.body[0])
 
 
+class Text:
+    def __init__(self) -> None: 
+        self.content = list()
+
+    def __str__(self) -> str:
+        return " ".join(self.content)        
+
+    def add(self, text, style=None):
+        if style == "bold":
+            text = f"**{text}**"
+        elif style == "italics":
+            text = f"*{text}*"
+        self.content.add(text)
+
 class Document:
 
     def __init__(self, name: str) -> None:
@@ -83,40 +97,23 @@ class Document:
     def __str__(self):
         return f"{self.name}\n{self._build_page()}"
 
-    def add_link(self, text: str, url: str) -> None:
-        """
-        Generates a markdown link in the form [text](url).
-        :param text: the link text
-        :param url: the url to link
-        """
-        self.contents.append(Link(text, url))
+    def add_element(self, element):
+        self.contents.append(element)
 
-    def _build_page(self):
-        return "\n".join(self.content)
+    def add_header(self, text, level):
+        self.contents.append(Header(text, level))
 
-    def add_content(self, *lines: str):
-        self.content.extend(lines)
-
-    def add_table_header(self, *args):
-        column_separator = " | "
-        header = column_separator.join(args)
-        divider = column_separator.join(["-----"] * len(args))
-        self.content.append(header)
-        self.content.append(divider)
-
-    def add_table_row(self, *args):
-        column_separator = " | "
-        row = column_separator.join(args)
-        self.content.append(row)
-
-    def add_section_break(self):
-        self.content.append("")
+    def add_text(self, text: str):
+        self.contents.append(Text(text))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
         output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")
         output_file.write(self._build_page())
         output_file.close()
+
+    def _build_page(self):
+        return "\n\n".join(self.content)
 
     def _get_file_name(self):
         separator = "-"

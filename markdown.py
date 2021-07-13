@@ -58,15 +58,16 @@ class Link:
 
 class Document:
 
-    def create_md_link(text: str, url: str) -> str:
+    def __init__(self) -> None:
+        self.contents = list()
+
+    def add_link(self, text: str, url: str) -> None:
         """
         Generates a markdown link in the form [text](url).
         :param text: the link text
         :param url: the url to link
-        :return: a markdown link
         """
-        separator = ""
-        return separator.join(["[", text, "]", "(", url, ")"])
+        self.contents.append(Link(text, url))
 
 
     class MarkdownPage:

@@ -7,6 +7,23 @@ from urllib import request
 from generate_docs.repo import LanguageCollection, SampleProgram
 
 
+class Header:
+    def __init__(self, text, level):
+        self.text: str = text
+        self.level: int = level
+
+    def str(self):
+        return f"{'#' * self.level} {self.text}"
+
+    def promote(self):
+        if self.level > 1:
+            self.level -= 1
+
+    def demote(self):
+        if self.level < 6:
+            self.level += 1
+
+
 def create_md_link(text: str, url: str) -> str:
     """
     Generates a markdown link in the form [text](url).

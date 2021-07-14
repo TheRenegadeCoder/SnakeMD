@@ -98,12 +98,20 @@ class MDList(Element):
         super().__init__()
         self.items: Iterable = items
         self.ordered = ordered
+        self.depth = 0
 
     def __str__(self) -> str:
-        if self.ordered:
-            return "\n".join([f"{index + 1}. {item}" for index, item in enumerate(self.items)])
-        else:
-            return "\n".join([f"- {item}" for item in self.items])
+        output = list()
+        i = 1
+        for item in self.items:
+            if isinstance(item, MDList):
+                item.depth = self.depth + 1
+            if self.ordered:
+                output.append(f"{'  ' * self.depth}{i}. {item}")
+            else:
+                output.append(f"{'  ' * self.depth}- {item}")
+            i += 1
+        return "\n".join(output)
 
 
 class Table:

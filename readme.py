@@ -2,12 +2,16 @@ from markdown import Document, MDList, Paragraph, InlineText
 
 
 doc = Document("README")
+
+# Introduction
 doc.add_header("Welcome to PyMD!")
 doc.add_paragraph("""PyMD is your ticket to generating markdown in Python. 
 To prove it to you, we've generated this entire README using the library.
 See readme.py for how it was done.""")
 doc.add_paragraph("""In the remainder of this document, we'll show you all of
 the things this library can do.""")
+
+# Lists
 doc.add_header("Make a list!", level=2)
 doc.add_paragraph("""PyMD can make a variety of markdown lists. 
 The two main types of lists are ordered and unordered.""")
@@ -28,6 +32,8 @@ doc.add_element(
         InlineText("!!!")
     ])
 )
+
+# Tables
 doc.add_table([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
 doc.add_header("Testing image", level=2)
 doc.add_element(Paragraph([InlineText("Kitten", url="D:\OneDrive\E-Documents\Work\Employers\ME\The Renegade Coder\Assets\Logos\Icon\icon-360x360.png", image=True)]))

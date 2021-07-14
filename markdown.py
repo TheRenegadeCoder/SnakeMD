@@ -164,11 +164,11 @@ class MDList(Element):
 
 
 class Table(Element):
-    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]], footer: Iterable[InlineText]) -> None:
+    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]], _footer: Iterable[InlineText] = None) -> None:
         super().__init__()
         self.header = header
         self.body = body
-        self.footer = footer
+        self.footer = _footer
 
     def __str__(self) -> str:
         rows = list()
@@ -269,6 +269,14 @@ class Document:
         :param code: a preformatted code string
         """
         self.contents.append(Paragraph([InlineText(code)], code=True, lang=lang))
+
+    def add_quote(self, text: str):
+        """
+        A convenience method which adds a blockquote to the document.
+
+        :param text: the text to be quoted
+        """
+        self.contents.append(Paragraph([InlineText(text)], quote=True))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)

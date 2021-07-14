@@ -1,6 +1,7 @@
+from __future__ import annotations
 import os
 import pathlib
-from typing import Iterable
+from typing import Iterable, Union
 from urllib.error import HTTPError
 from urllib import request
 
@@ -92,12 +93,17 @@ class Paragraph(Element):
         self.content.append(text)
 
 
-class OrderedList:
-    def __init__(self, items: Iterable[Text]) -> None:
+class MDList(Element):
+    def __init__(self, items: Iterable[Union[Text, MDList]], ordered: bool = False) -> None:
+        super().__init__()
         self.items: Iterable = items
+        self.ordered = ordered
 
     def __str__(self) -> str:
-        return "\n".join([f"{index + 1}. {item}" for index, item in enumerate(self.items)])
+        if self.ordered:
+            return "\n".join([f"{index + 1}. {item}" for index, item in enumerate(self.items)])
+        else:
+            return "\n".join([f"- {item}" for item in self.items])
 
 
 class Table:
@@ -163,7 +169,15 @@ class Document:
 
         :param items: a "list" of strings
         """
-        self.contents.append(OrderedList(Text(item) for item in items))
+        self.contents.append(MDList((Text(item) for item in items), ordered=True))
+
+    def add_unordered_list(self, items: Iterable[str]):
+        """
+        A convenience method which adds a simple unordered list to the document. 
+
+        :param items: a "list" of strings
+        """
+        self.contents.append(MDList(Text(item) for item in items))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
@@ -183,4 +197,5 @@ doc = Document("Test")
 doc.add_header("Test")
 doc.add_paragraph("I love to program code")
 doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
+doc.add_unordered_list(["Look", "at", "Me", "Now"])
 doc.output_page("test")

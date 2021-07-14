@@ -35,6 +35,6 @@ I love to program code
 
 ## Testing Code
 
-```
+```generic
 x = 5
 ```

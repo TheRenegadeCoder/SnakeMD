@@ -120,16 +120,17 @@ class Paragraph(Element):
     formatted in a variety of ways including as code and blockquotes. 
     """
 
-    def __init__(self, content: Iterable[InlineText], code=False, quote=False):
+    def __init__(self, content: Iterable[InlineText], code=False, lang="generic", quote=False):
         super().__init__()
         self.content = content
         self.code = code
+        self.lang = lang
         self.quote = quote
 
     def __str__(self) -> str:
         paragraph = ' '.join(str(item) for item in self.content)
         if self.code:
-            return f"```\n{paragraph}\n```"
+            return f"```{self.lang}\n{paragraph}\n```"
         elif self.quote:
             return f"> {paragraph}"
         else:
@@ -241,6 +242,11 @@ class Document:
         self.contents.append(MDList(InlineText(item) for item in items))
 
     def add_table(self, grid: Iterable[Iterable[str]], _header: bool = True, _footer: bool = False):
+        """
+        A convenience method which adds a simple table to the document.
+
+        :param grid: a "list" of "lists" of strings
+        """
         head = None
         foot = None
         bounds = [None, None]
@@ -256,8 +262,13 @@ class Document:
 
         self.contents.append(Table(head, body, foot))
             
-    def add_code(self, code: str):
-        self.contents.append(Paragraph([InlineText(code)], code=True))
+    def add_code(self, code: str, lang="generic"):
+        """
+        A convenience method which adds a code block to the document.
+
+        :param code: a preformatted code string
+        """
+        self.contents.append(Paragraph([InlineText(code)], code=True, lang=lang))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)

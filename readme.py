@@ -23,7 +23,7 @@ doc.add_unordered_list(["Look", "at", "Me", "Now"])
 doc.add_header("Testing nesting", level=2)
 doc.add_element(
     MDList([
-        InlineText("Outer"), 
+        InlineText("Outer"),
         InlineText("List"),
         MDList([
             InlineText("Inner"),
@@ -36,7 +36,9 @@ doc.add_element(
 # Tables
 doc.add_table([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
 doc.add_header("Testing image", level=2)
-doc.add_element(Paragraph([InlineText("Kitten", url="D:\OneDrive\E-Documents\Work\Employers\ME\The Renegade Coder\Assets\Logos\Icon\icon-360x360.png", image=True)]))
+doc.add_element(
+    Paragraph([InlineText("Kitten", url="D:\OneDrive\E-Documents\Work\Employers\ME\The Renegade Coder\Assets\Logos\Icon\icon-360x360.png", image=True)])
+)
 doc.add_header("Testing Links", level=2)
 doc.add_element(Paragraph([InlineText("Doggo", url="google.com")]))
 doc.add_header("Testing Code", level=2)

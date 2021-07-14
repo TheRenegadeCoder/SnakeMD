@@ -6,7 +6,6 @@ from urllib.error import HTTPError
 from urllib import request
 
 
-
 class InlineText:
     """
     The basic unit of text in markdown. All components which contain
@@ -231,7 +230,8 @@ class Document:
 
         :param items: a "list" of strings
         """
-        self.contents.append(MDList((InlineText(item) for item in items), ordered=True))
+        self.contents.append(MDList((InlineText(item)
+                             for item in items), ordered=True))
 
     def add_unordered_list(self, items: Iterable[str]):
         """
@@ -261,14 +261,15 @@ class Document:
         body = grid[slice(*bounds)]
 
         self.contents.append(Table(head, body, foot))
-            
+
     def add_code(self, code: str, lang="generic"):
         """
         A convenience method which adds a code block to the document.
 
         :param code: a preformatted code string
         """
-        self.contents.append(Paragraph([InlineText(code)], code=True, lang=lang))
+        self.contents.append(
+            Paragraph([InlineText(code)], code=True, lang=lang))
 
     def add_quote(self, text: str):
         """

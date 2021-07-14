@@ -39,6 +39,7 @@ class InlineText:
     def _verify_link(self) -> bool:
         """
         Verifies that a URL is a valid URL.
+
         :return: True if the URL is valid; False otherwise
         """
         req = request.Request(self.url)
@@ -75,27 +76,55 @@ class Element:
 
 
 class Header(Element):
+    """
+    A header is a text element which serves as the title for a new
+    section of a document. Headers come in six main sizes which 
+    correspond to the six headers sizes in HTML (e.g., <h1>).
+    """
+
     def __init__(self, text: InlineText, level: int) -> None:
         super().__init__()
         self.text: InlineText = text
         self.level: int = level
 
     def __str__(self) -> str:
+        """
+        Renders the header as markdown using the hash mark.
+
+        :return: the header as a markdown string
+        """
         return f"{'#' * self.level} {self.text}"
 
-    def promote(self):
+    def promote(self) -> None:
+        """
+        Promotes a header up a level. Fails silently
+        if the header is already at the highest level (i.e., <h1>).
+
+        :return: Nothing
+        """
         if self.level > 1:
             self.level -= 1
 
     def demote(self):
+        """
+        Demotes a header down a level. Fails silently if
+        the header is already at the lowest level (i.e., <h6>).
+        """
         if self.level < 6:
             self.level += 1
 
 
 class Paragraph(Element):
-    def __init__(self, content: Iterable[InlineText]):
+    """
+    A paragraph is a standalone element of text. Paragraphs can be
+    formatted in a variety of ways including as code and blockquotes. 
+    """
+
+    def __init__(self, content: Iterable[InlineText], code=False, quote=False):
         super().__init__()
         self.content = content
+        self.code = code
+        self.quote = quote
 
     def __str__(self) -> str:
         return " ".join(str(item) for item in self.content)

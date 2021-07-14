@@ -7,25 +7,26 @@ from urllib import request
 
 
 
-class Text:
+class InlineText:
     """
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information. 
     """
 
-    def __init__(self, text, style=None, url=None, code=False, image=False) -> None:
+    def __init__(self, text, url=None, bold=False, italics=False, code=False, image=False) -> None:
         self.text = text
-        self.style = style
+        self.bold = bold
+        self.italics = italics
         self.url = url
         self.code = code
         self.image = image
 
     def __str__(self) -> str:
         text = self.text
-        if self.style == "bold":
+        if self.bold:
             text = f"**{self.text}**"
-        elif self.style == "italics":
+        elif self.italics:
             text = f"*{self.text}*"
         if self.url:
             text = f"[{text}]({self.url})"
@@ -69,11 +70,14 @@ class Element:
     def __str__(self) -> str:
         raise NotImplementedError()
 
+    def verify(self):
+        raise NotImplementedError()
+
 
 class Header(Element):
-    def __init__(self, text: Text, level: int) -> None:
+    def __init__(self, text: InlineText, level: int) -> None:
         super().__init__()
-        self.text: Text = text
+        self.text: InlineText = text
         self.level: int = level
 
     def __str__(self) -> str:
@@ -89,19 +93,19 @@ class Header(Element):
 
 
 class Paragraph(Element):
-    def __init__(self, content: Iterable[Text]):
+    def __init__(self, content: Iterable[InlineText]):
         super().__init__()
         self.content = content
 
     def __str__(self) -> str:
         return " ".join(str(item) for item in self.content)
 
-    def add(self, text: Text):
+    def add(self, text: InlineText):
         self.content.append(text)
 
 
 class MDList(Element):
-    def __init__(self, items: Iterable[Union[Text, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[Union[InlineText, MDList]], ordered: bool = False) -> None:
         super().__init__()
         self.items: Iterable = items
         self.ordered = ordered
@@ -124,7 +128,7 @@ class MDList(Element):
 
 
 class Table(Element):
-    def __init__(self, header: Iterable[Text], body: Iterable[Iterable[Text]], footer: Iterable[Text]) -> None:
+    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]], footer: Iterable[InlineText]) -> None:
         super().__init__()
         self.header = header
         self.body = body
@@ -175,7 +179,7 @@ class Document:
         :param level: the level of the header from 1 to 6
         """
         assert 1 <= level <= 6
-        self.contents.append(Header(Text(text), level))
+        self.contents.append(Header(InlineText(text), level))
 
     def add_paragraph(self, text: str):
         """
@@ -183,7 +187,7 @@ class Document:
 
         :param text: any arbitrary text
         """
-        self.contents.append(Paragraph([Text(text)]))
+        self.contents.append(Paragraph([InlineText(text)]))
 
     def add_ordered_list(self, items: Iterable[str]):
         """
@@ -191,7 +195,7 @@ class Document:
 
         :param items: a "list" of strings
         """
-        self.contents.append(MDList((Text(item) for item in items), ordered=True))
+        self.contents.append(MDList((InlineText(item) for item in items), ordered=True))
 
     def add_unordered_list(self, items: Iterable[str]):
         """
@@ -199,7 +203,7 @@ class Document:
 
         :param items: a "list" of strings
         """
-        self.contents.append(MDList(Text(item) for item in items))
+        self.contents.append(MDList(InlineText(item) for item in items))
 
     def add_table(self, grid: Iterable[Iterable[str]], _header: bool = True, _footer: bool = False):
         head = None

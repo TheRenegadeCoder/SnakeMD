@@ -127,7 +127,13 @@ class Paragraph(Element):
         self.quote = quote
 
     def __str__(self) -> str:
-        return " ".join(str(item) for item in self.content)
+        paragraph = ' '.join(str(item) for item in self.content)
+        if self.code:
+            return f"```\n{paragraph}\n```"
+        elif self.quote:
+            return f"> {paragraph}"
+        else:
+            return paragraph
 
     def add(self, text: InlineText):
         self.content.append(text)
@@ -250,6 +256,8 @@ class Document:
 
         self.contents.append(Table(head, body, foot))
             
+    def add_code(self, code: str):
+        self.contents.append(Paragraph([InlineText(code)], code=True))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)

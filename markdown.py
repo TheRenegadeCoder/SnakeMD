@@ -14,10 +14,12 @@ class Text:
     way, those elements capture all styling information. 
     """
 
-    def __init__(self, text, style=None, url=None) -> None:
+    def __init__(self, text, style=None, url=None, code=False, image=False) -> None:
         self.text = text
         self.style = style
         self.url = url
+        self.code = code
+        self.image = image
 
     def __str__(self) -> str:
         text = self.text
@@ -27,23 +29,28 @@ class Text:
             text = f"*{self.text}*"
         if self.url:
             text = f"[{text}]({self.url})"
+        if self.image:
+            text = f"!{text}"
+        if self.code:
+            text = f"`{text}`"
         return text
 
-    def verify_link(self) -> bool:
+    def _verify_link(self) -> bool:
         """
         Verifies that a URL is a valid URL.
         :return: True if the URL is valid; False otherwise
         """
         req = request.Request(self.url)
         req.get_method = lambda: 'HEAD'
-        print(f"Trying: {self.url}")
         try:
             request.urlopen(req)
-            print(f"\tVALID")
             return True
         except HTTPError:
-            print(f"\tINVALID")
             return False
+
+    def verify(self) -> bool:
+        if self.url:
+            assert self._verify_link()
 
     # TODO: add text processing to avoid issues where asterisks mess up formatting
     # One way to do this would be to backslash special characters in the raw text
@@ -116,8 +123,9 @@ class MDList(Element):
         return "\n".join(output)
 
 
-class Table:
+class Table(Element):
     def __init__(self, header: Iterable[Text], body: Iterable[Iterable[Text]], footer: Iterable[Text]) -> None:
+        super().__init__()
         self.header = header
         self.body = body
         self.footer = footer
@@ -193,15 +201,15 @@ class Document:
         """
         self.contents.append(MDList(Text(item) for item in items))
 
-    def add_table(self, grid: Iterable[Iterable[str]], header: bool = True, footer: bool = False):
+    def add_table(self, grid: Iterable[Iterable[str]], _header: bool = True, _footer: bool = False):
         head = None
         foot = None
         bounds = [None, None]
 
-        if header:
+        if _header:
             head = grid[0]
             bounds[0] = 1
-        if footer:
+        if _footer:
             foot = grid[-1]
             bounds[1] = -1
 
@@ -242,4 +250,6 @@ doc.add_element(
     ])
 )
 doc.add_table([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
+doc.add_paragraph("Testing image")
+doc.add_element(Paragraph([Text("Kitten", url="D:\OneDrive\E-Documents\Work\Employers\ME\The Renegade Coder\Assets\Logos\Icon\icon-360x360.png", image=True)]))
 doc.output_page("test")

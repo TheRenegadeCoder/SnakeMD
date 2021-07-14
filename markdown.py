@@ -141,7 +141,7 @@ class Document:
 
     def add_header(self, text: str, level: int = 1):
         """
-        Adds a header to the document.
+        A convenience method which adds a simple header to the document.
 
         :param text: the text for the header
         :param level: the level of the header from 1 to 6
@@ -151,11 +151,19 @@ class Document:
 
     def add_paragraph(self, text: str):
         """
-        Adds a paragraph of text to the document.
+        A convenience method which adds a simple paragraph of text to the document.
 
         :param text: any arbitrary text
         """
         self.contents.append(Paragraph([Text(text)]))
+
+    def add_ordered_list(self, items: Iterable[str]):
+        """
+        A convenience method which adds a simple ordered list to the document. 
+
+        :param items: a "list" of strings
+        """
+        self.contents.append(OrderedList(Text(item) for item in items))
 
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
@@ -174,4 +182,5 @@ class Document:
 doc = Document("Test")
 doc.add_header("Test")
 doc.add_paragraph("I love to program code")
+doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
 doc.output_page("test")

@@ -106,10 +106,12 @@ class MDList(Element):
         for item in self.items:
             if isinstance(item, MDList):
                 item.depth = self.depth + 1
-            if self.ordered:
-                output.append(f"{'  ' * self.depth}{i}. {item}")
+                output.append(str(item))
             else:
-                output.append(f"{'  ' * self.depth}- {item}")
+                if self.ordered:
+                    output.append(f"{'  ' * self.depth}{i}. {item}")
+                else:
+                    output.append(f"{'  ' * self.depth}- {item}")
             i += 1
         return "\n".join(output)
 
@@ -206,4 +208,16 @@ doc.add_header("Test")
 doc.add_paragraph("I love to program code")
 doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
 doc.add_unordered_list(["Look", "at", "Me", "Now"])
+doc.add_paragraph("Testing nesting")
+doc.add_element(
+    MDList([
+        Text("Outer"), 
+        Text("List"),
+        MDList([
+            Text("Inner"),
+            Text("List")
+        ]),
+        Text("!!!")
+    ])
+)
 doc.output_page("test")

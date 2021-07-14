@@ -124,10 +124,14 @@ class Table:
 
     def __str__(self) -> str:
         rows = list()
-        rows.append(self.header)
-        rows.extend(self.body)
-        rows.append(self.footer)
-        return f"{' | '.join(rows)}"
+        if self.header:
+            rows.append(' | '.join(self.header))
+            rows.append(' | '.join("-" for _ in self.header))
+        rows.extend(' | '.join(row) for row in self.body)
+        if self.footer:
+            rows.append(' | '.join("-" for _ in self.footer))
+            rows.append(' | '.join(self.footer))
+        return '\n'.join(rows)
 
     def verify(self):
         assert len({len(i) for i in self.body}) == 1
@@ -189,6 +193,23 @@ class Document:
         """
         self.contents.append(MDList(Text(item) for item in items))
 
+    def add_table(self, grid: Iterable[Iterable[str]], header: bool = True, footer: bool = False):
+        head = None
+        foot = None
+        bounds = [None, None]
+
+        if header:
+            head = grid[0]
+            bounds[0] = 1
+        if footer:
+            foot = grid[-1]
+            bounds[1] = -1
+
+        body = grid[slice(*bounds)]
+
+        self.contents.append(Table(head, body, foot))
+            
+
     def output_page(self, dump_dir):
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
         output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")
@@ -220,4 +241,5 @@ doc.add_element(
         Text("!!!")
     ])
 )
+doc.add_table([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
 doc.output_page("test")

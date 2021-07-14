@@ -13,7 +13,30 @@ class InlineText:
     way, those elements capture all styling information. 
     """
 
-    def __init__(self, text, url=None, bold=False, italics=False, code=False, image=False) -> None:
+    def __init__(
+        self, 
+        text: str, 
+        url: str = None, 
+        bold: bool = False, 
+        italics: bool = False, 
+        code: bool = False, 
+        image: bool = False
+        ) -> None:
+        """
+        Initialize the inline text object.
+
+        :param text: the inline text to render
+        :param url: the link associated with the inline text
+        :param bold: the bold state of the inline text; 
+            set to True to render bold inline text (i.e., True -> **bold**)
+        :param italics: the italics state of the inline text; 
+            set to True to render inline text in italics (i.e., True -> *italics*)
+        :param code: the italics state of the inline text;
+            set to True to render inline text as code (i.e., True -> `code`)
+        :param image: the image state of the inline text;
+            set to True to render inline text as an image;
+            must include url parameter to render
+        """
         self.text = text
         self.bold = bold
         self.italics = italics
@@ -22,6 +45,11 @@ class InlineText:
         self.image = image
 
     def __str__(self) -> str:
+        """
+        Renders the inline text object as a string. In this case,
+        inline text can represent many different types of data from
+        stylized text to inline code to links and images. 
+        """
         text = self.text
         if self.bold:
             text = f"**{self.text}**"
@@ -29,7 +57,7 @@ class InlineText:
             text = f"*{self.text}*"
         if self.url:
             text = f"[{text}]({self.url})"
-        if self.image:
+        if self.url and self.image:
             text = f"!{text}"
         if self.code:
             text = f"`{text}`"

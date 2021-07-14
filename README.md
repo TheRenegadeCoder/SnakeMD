@@ -10,7 +10,7 @@ the things this library can do.
 ## Make a list!
 
 PyMD can make a variety of markdown lists. 
-The two main types of lists are ordered and unorded.
+The two main types of lists are ordered and unordered.
 
 ### Ordered List
 
@@ -45,7 +45,7 @@ doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
 
 ## Testing image
 
-![Kitten](D:\OneDrive\E-Documents\Work\Employers\ME\The Renegade Coder\Assets\Logos\Icon\icon-360x360.png)
+![Kitten](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
 
 ## Testing Links
 

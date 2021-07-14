@@ -35,9 +35,12 @@ doc.add_element(
 
 # Tables
 doc.add_table([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
+
+# Images
+logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
 doc.add_header("Testing image", level=2)
 doc.add_element(
-    Paragraph([InlineText("Kitten", url="D:\OneDrive\E-Documents\Work\Employers\ME\The Renegade Coder\Assets\Logos\Icon\icon-360x360.png", image=True)])
+    Paragraph([InlineText("Kitten", url=logo, image=True)])
 )
 doc.add_header("Testing Links", level=2)
 doc.add_element(Paragraph([InlineText("Doggo", url="google.com")]))

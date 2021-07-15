@@ -20,7 +20,7 @@ def main() -> None:
     doc.add_table_of_contents()
 
     # Lists
-    doc.add_header("Make a List!", level=2)
+    doc.add_header("Make a List", level=2)
     doc.add_paragraph("""PyMD can make a variety of markdown lists. 
     The two main types of lists are ordered and unordered.""")
 
@@ -34,6 +34,8 @@ def main() -> None:
 
     # Unordered
     doc.add_header("Unordered List", level=3)
+    doc.add_paragraph("""Unordered lists are lists in which the order of the
+    items does not matter. As a result, we bullet them.""")
     doc.add_code('doc.add_unordered_list(["Look", "at", "Me", "Now"])', lang="py")
     doc.add_unordered_list(["Look", "at", "Me", "Now"])
 
@@ -52,7 +54,7 @@ def main() -> None:
     )
 
     # Tables
-    doc.add_header("Make a Table!", level=2)
+    doc.add_header("Make a Table", level=2)
     doc.add_code("""doc.add_table(
     ["height", "weight", "age"], 
     [

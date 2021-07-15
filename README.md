@@ -10,14 +10,14 @@ In the remainder of this document, we'll show you all of
 ## Table of Contents
 
 1. [Table of Contents](#Table-of-Contents)
-2. [Make a List!](#Make-a-List!)
-3. [Make a Table!](#Make-a-Table!)
+2. [Make a List](#Make-a-List)
+3. [Make a Table](#Make-a-Table)
 4. [Testing image](#Testing-image)
 5. [Testing Links](#Testing-Links)
 6. [Testing Code](#Testing-Code)
 7. [Testing Quote](#Testing-Quote)
 
-## Make a List!
+## Make a List
 
 PyMD can make a variety of markdown lists. 
     The two main types of lists are ordered and unordered.
@@ -38,6 +38,9 @@ doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
 
 ### Unordered List
 
+Unordered lists are lists in which the order of the
+    items does not matter. As a result, we bullet them.
+
 ```py
 doc.add_unordered_list(["Look", "at", "Me", "Now"])
 ```
@@ -55,7 +58,7 @@ doc.add_unordered_list(["Look", "at", "Me", "Now"])
   - List
 - !!!
 
-## Make a Table!
+## Make a Table
 
 ```py
 doc.add_table(

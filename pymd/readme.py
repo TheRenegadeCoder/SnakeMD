@@ -1,6 +1,10 @@
 from pymd.markdown import Document, MDList, Paragraph, InlineText
 
-if __name__ == "__main__":
+
+def main() -> None:
+    """
+    Generates the repo README.
+    """
     doc = Document("README")
 
     # Introduction
@@ -16,7 +20,8 @@ if __name__ == "__main__":
     doc.add_paragraph("""PyMD can make a variety of markdown lists. 
     The two main types of lists are ordered and unordered.""")
     doc.add_header("Ordered List", level=3)
-    doc.add_code('doc.add_ordered_list(["How", "Now", "Brown", "Cow"])', lang="py")
+    doc.add_code(
+        'doc.add_ordered_list(["How", "Now", "Brown", "Cow"])', lang="py")
     doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
     doc.add_header("Unordered List", level=3)
     doc.add_unordered_list(["Look", "at", "Me", "Now"])
@@ -34,7 +39,8 @@ if __name__ == "__main__":
     )
 
     # Tables
-    doc.add_table(["height", "weight", "age"], [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
+    doc.add_table(["height", "weight", "age"], [
+                  ['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
 
     # Images
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
@@ -49,3 +55,7 @@ if __name__ == "__main__":
     doc.add_header("Testing Quote", level=2)
     doc.add_quote("How Now Brown Cow")
     doc.output_page()
+
+
+if __name__ == "__main__":
+    main()

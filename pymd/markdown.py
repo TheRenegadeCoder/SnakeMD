@@ -26,14 +26,14 @@ class InlineText:
     """
 
     def __init__(
-        self, 
-        text: str, 
-        url: str = None, 
-        bold: bool = False, 
-        italics: bool = False, 
-        code: bool = False, 
+        self,
+        text: str,
+        url: str = None,
+        bold: bool = False,
+        italics: bool = False,
+        code: bool = False,
         image: bool = False
-        ) -> None:
+    ) -> None:
         self.text = text
         self.bold = bold
         self.italics = italics
@@ -118,6 +118,7 @@ class Element:
         This function is to be called by `__str__()` of
         the child class. 
 
+        :raises NotImplementedError: interface method never to be implemented
         :return: the element as a markdown string
         """
         raise NotImplementedError()
@@ -126,6 +127,8 @@ class Element:
         """
         Verifies that the element is valid markdown.
         TODO: figure out how this function should work. 
+
+        :raises NotImplementedError: interface method never to be implemented
         """
         raise NotImplementedError()
 
@@ -277,7 +280,7 @@ class Table(Element):
         super().__init__()
         self.header = header
         self.body = body
-        #TODO: add column align
+        # TODO: add column align
 
     def __str__(self) -> str:
         return self.render()
@@ -407,7 +410,7 @@ class Document:
         """
         self.contents.append(Paragraph([InlineText(text)], quote=True))
 
-    def output_page(self, dump_dir: str="") -> None:
+    def output_page(self, dump_dir: str = "") -> None:
         """
         Generates the markdown file.
 

@@ -11,6 +11,18 @@ class InlineText:
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information. 
+
+    :param text: the inline text to render
+    :param url: the link associated with the inline text
+    :param bold: the bold state of the inline text; 
+        set to True to render bold inline text (i.e., True -> **bold**)
+    :param italics: the italics state of the inline text; 
+        set to True to render inline text in italics (i.e., True -> *italics*)
+    :param code: the italics state of the inline text;
+        set to True to render inline text as code (i.e., True -> `code`)
+    :param image: the image state of the inline text;
+        set to True to render inline text as an image;
+        must include url parameter to render
     """
 
     def __init__(
@@ -22,21 +34,6 @@ class InlineText:
         code: bool = False, 
         image: bool = False
         ) -> None:
-        """
-        Initialize the inline text object.
-
-        :param text: the inline text to render
-        :param url: the link associated with the inline text
-        :param bold: the bold state of the inline text; 
-            set to True to render bold inline text (i.e., True -> **bold**)
-        :param italics: the italics state of the inline text; 
-            set to True to render inline text in italics (i.e., True -> *italics*)
-        :param code: the italics state of the inline text;
-            set to True to render inline text as code (i.e., True -> `code`)
-        :param image: the image state of the inline text;
-            set to True to render inline text as an image;
-            must include url parameter to render
-        """
         self.text = text
         self.bold = bold
         self.italics = italics
@@ -45,10 +42,15 @@ class InlineText:
         self.image = image
 
     def __str__(self) -> str:
+        return self.render()
+
+    def render(self) -> str:
         """
         Renders the inline text object as a string. In this case,
         inline text can represent many different types of data from
         stylized text to inline code to links and images. 
+
+        :return: the InlineText object as a string
         """
         text = self.text
         if self.bold:

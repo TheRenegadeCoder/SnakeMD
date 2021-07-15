@@ -27,7 +27,7 @@ jobs:
     - name: Sphinx Build
       uses: ammaraskar/sphinx-action@0.4
       with:
-        docs-folder: /docsrc
+        docs-folder: docsrc/
         build-command: |
           make html
           make github

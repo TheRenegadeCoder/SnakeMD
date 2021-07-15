@@ -249,6 +249,15 @@ stylized text to inline code to links and images.</p>
 <dd><p>Bases: <a class="reference internal" href="#pymd.markdown.Element" title="pymd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">pymd.markdown.Element</span></code></a></p>
 <p>A paragraph is a standalone element of text. Paragraphs can be
 formatted in a variety of ways including as code and blockquotes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> – a “list” of text objects to render as a paragraph</p></li>
+<li><p><strong>code</strong> – the code state of the paragraph;
+set True to convert the paragraph to a code block (i.e., True -&gt; <code class="docutils literal notranslate"><span class="pre">`code`</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Paragraph.add">
 <span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Paragraph.add" title="Permalink to this definition">¶</a></dt>

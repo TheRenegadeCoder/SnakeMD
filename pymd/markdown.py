@@ -120,11 +120,6 @@ class Header(Element):
         self.level: int = level
 
     def __str__(self) -> str:
-        """
-        Renders the header as markdown using the hash mark.
-
-        :return: the header as a markdown string
-        """
         return f"{'#' * self.level} {self.text}"
 
     def promote(self) -> None:
@@ -149,7 +144,11 @@ class Header(Element):
 class Paragraph(Element):
     """
     A paragraph is a standalone element of text. Paragraphs can be
-    formatted in a variety of ways including as code and blockquotes. 
+    formatted in a variety of ways including as code and blockquotes.
+
+    :param content: a "list" of text objects to render as a paragraph 
+    :param code: the code state of the paragraph;
+        set True to convert the paragraph to a code block (i.e., True -> ```code```)
     """
 
     def __init__(self, content: Iterable[InlineText], code=False, lang="generic", quote=False):

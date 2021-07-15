@@ -109,6 +109,9 @@ class Header(Element):
     A header is a text element which serves as the title for a new
     section of a document. Headers come in six main sizes which 
     correspond to the six headers sizes in HTML (e.g., <h1>).
+
+    :param text: the header text
+    :param level: the header level between 1 and 6
     """
 
     def __init__(self, text: InlineText, level: int) -> None:

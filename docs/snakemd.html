@@ -1,0 +1,645 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>snakemd package &mdash; SnakeMD 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="snakemd" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SnakeMD
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">snakemd</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">snakemd package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-snakemd.markdown">snakemd.markdown module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-snakemd.readme">snakemd.readme module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-snakemd">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnakeMD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">snakemd</a> &raquo;</li>
+        
+      <li>snakemd package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/snakemd.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="snakemd-package">
+<h1>snakemd package<a class="headerlink" href="#snakemd-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-snakemd.markdown">
+<span id="snakemd-markdown-module"></span><h2>snakemd.markdown module<a class="headerlink" href="#module-snakemd.markdown" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.Document">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">Document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.Document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A document represents a markdown file. Documents store
+a collection of elements which are appended with new lines
+between to generate the markdown document. Document methods
+are intended to provided convenience when generating a 
+markdown file. However, the functionality is not exhaustive.
+To get the full range of markdown functionality, you can
+take advantage of the <cite>add_element()</cite> function to provide
+custom markdown elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – the name of the document</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_code">
+<span class="sig-name descname"><span class="pre">add_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'generic'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a code block to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<em>str</em>) – a preformatted code string</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – the language for syntax highlighting</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_element">
+<span class="sig-name descname"><span class="pre">add_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#snakemd.markdown.Element" title="snakemd.markdown.Element"><span class="pre">snakemd.markdown.Element</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>A generic function for appending elements to the document. 
+Use this function when you want a little more control over
+what the output looks like.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>element</strong> (<a class="reference internal" href="#snakemd.markdown.Element" title="snakemd.markdown.Element"><em>Element</em></a>) – a markdown object (e.g., Table, Header, etc.)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_header">
+<span class="sig-name descname"><span class="pre">add_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a simple header to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – the text for the header</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – the level of the header from 1 to 6</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_ordered_list">
+<span class="sig-name descname"><span class="pre">add_ordered_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_ordered_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a simple ordered list to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – a “list” of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_paragraph">
+<span class="sig-name descname"><span class="pre">add_paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_paragraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a simple paragraph of text to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – any arbitrary text</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_quote">
+<span class="sig-name descname"><span class="pre">add_quote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a blockquote to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – the text to be quoted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_table">
+<span class="sig-name descname"><span class="pre">add_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a simple table to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – a “list” of strings</p></li>
+<li><p><strong>data</strong> (<em>Iterable</em><em>[</em><em>Iterable</em><em>[</em><em>str</em><em>]</em><em>]</em>) – a “list” of “lists” of strings</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_table_of_contents">
+<span class="sig-name descname"><span class="pre">add_table_of_contents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_table_of_contents" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which creates a table of contents. This function
+can be called where you want to add a table of contents to your
+document. However, be aware that the table of contents uses lazy 
+loading, so it can only be rendered once.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.add_unordered_list">
+<span class="sig-name descname"><span class="pre">add_unordered_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.add_unordered_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience method which adds a simple unordered list to the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – a “list” of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.output_page">
+<span class="sig-name descname"><span class="pre">output_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dump_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.output_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the markdown file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dump_dir</strong> (<em>str</em>) – the path to where you want to dump the file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the markdown document from a list of elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the document as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Document.scramble">
+<span class="sig-name descname"><span class="pre">scramble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Document.scramble" title="Permalink to this definition">¶</a></dt>
+<dd><p>A silly method which mixes all of the elements in this document in 
+a random order.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.Element">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">Element</span></span><a class="headerlink" href="#snakemd.markdown.Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An element is defined as a standalone section of a markdown file. 
+All elements are to be surrounded by empty lines. Examples of elements
+include paragraphs, headers, tables, and lists.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Element.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.Element.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the element as a markdown string.
+This function is to be called by <cite>__str__()</cite> of
+the child class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>NotImplementedError</strong> – interface method never to be implemented</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the element as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Element.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.Element.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies that the element is valid markdown.
+TODO: figure out how this function should work.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>NotImplementedError</strong> – interface method never to be implemented</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.Header">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">Header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><span class="pre">snakemd.markdown.InlineText</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.Header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#snakemd.markdown.Element" title="snakemd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">snakemd.markdown.Element</span></code></a></p>
+<p>A header is a text element which serves as the title for a new
+section of a document. Headers come in six main sizes which 
+correspond to the six headers sizes in HTML (e.g., &lt;h1&gt;).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><em>InlineText</em></a>) – the header text</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – the header level between 1 and 6</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Header.demote">
+<span class="sig-name descname"><span class="pre">demote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Header.demote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Demotes a header down a level. Fails silently if
+the header is already at the lowest level (i.e., &lt;h6&gt;).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Header.promote">
+<span class="sig-name descname"><span class="pre">promote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Header.promote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Promotes a header up a level. Fails silently
+if the header is already at the highest level (i.e., &lt;h1&gt;).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Header.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.Header.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the header in markdown according to
+the level provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the header as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.InlineText">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">InlineText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">italics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.InlineText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The basic unit of text in markdown. All components which contain
+text are built using this class instead of strings directly. That
+way, those elements capture all styling information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – the inline text to render</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – the link associated with the inline text</p></li>
+<li><p><strong>bold</strong> (<em>bool</em>) – the bold state of the inline text; 
+set to True to render bold inline text (i.e., True -&gt; <strong>bold</strong>)</p></li>
+<li><p><strong>italics</strong> (<em>bool</em>) – the italics state of the inline text; 
+set to True to render inline text in italics (i.e., True -&gt; <em>italics</em>)</p></li>
+<li><p><strong>code</strong> (<em>bool</em>) – the italics state of the inline text;
+set to True to render inline text as code (i.e., True -&gt; <cite>code</cite>)</p></li>
+<li><p><strong>image</strong> (<em>bool</em>) – the image state of the inline text;
+set to True to render inline text as an image;
+must include url parameter to render</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.InlineText.bold">
+<span class="sig-name descname"><span class="pre">bold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.InlineText.bold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds bold styling to self.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.InlineText.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.InlineText.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders self as a string. In this case,
+inline text can represent many different types of data from
+stylized text to inline code to links and images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the InlineText object as a string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.InlineText.unbold">
+<span class="sig-name descname"><span class="pre">unbold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.InlineText.unbold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes bold styling from self.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.InlineText.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#snakemd.markdown.InlineText.verify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.MDList">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">MDList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><span class="pre">snakemd.markdown.InlineText</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#snakemd.markdown.MDList" title="snakemd.markdown.MDList"><span class="pre">snakemd.markdown.MDList</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordered</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.MDList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#snakemd.markdown.Element" title="snakemd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">snakemd.markdown.Element</span></code></a></p>
+<p>A markdown list is a standalone list that comes in two varieties: ordered and unordered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> – a “list” of objects to be rendered as a list</p></li>
+<li><p><strong>ordered</strong> – the ordered state of the list;
+set to True to render an ordered list (i.e., True -&gt; 1. item)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.MDList.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.MDList.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the markdown list according to the settings provided.
+For example, if the the ordered flag is set, an ordered list
+will be rendered in markdown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.Paragraph">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">Paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><span class="pre">snakemd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'generic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quote</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.Paragraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#snakemd.markdown.Element" title="snakemd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">snakemd.markdown.Element</span></code></a></p>
+<p>A paragraph is a standalone element of text. Paragraphs can be
+formatted in a variety of ways including as code and blockquotes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><em>InlineText</em></a><em>]</em>) – a “list” of text objects to render as a paragraph</p></li>
+<li><p><strong>code</strong> (<em>bool</em>) – the code state of the paragraph;
+set True to convert the paragraph to a code block (i.e., True -&gt; <code class="docutils literal notranslate"><span class="pre">`code`</span></code>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – the language of the code snippet;
+invalid without the code flag set to True</p></li>
+<li><p><strong>quote</strong> (<em>bool</em>) – the quote state of the paragraph;
+set True to convert the paragraph to a blockquote (i.e., True -&gt; &gt; quote)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Paragraph.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><span class="pre">snakemd.markdown.InlineText</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.markdown.Paragraph.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a text object to the paragraph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> – a custom text element</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Paragraph.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.Paragraph.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the paragraph as markdown according to the settings provided.
+For example, if the code flag is enabled, the paragraph will be
+rendered as a code block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the paragraph as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snakemd.markdown.Table">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">snakemd.markdown.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><span class="pre">snakemd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#snakemd.markdown.InlineText" title="snakemd.markdown.InlineText"><span class="pre">snakemd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.Table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#snakemd.markdown.Element" title="snakemd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">snakemd.markdown.Element</span></code></a></p>
+<p>A table is a standalone element of rows and columns. Data is rendered
+according to underlying InlineText items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> – the header row of labels</p></li>
+<li><p><strong>body</strong> – the collection of rows of data</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Table.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#snakemd.markdown.Table.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders a markdown table from a header “list”
+and a data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a table as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snakemd.markdown.Table.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snakemd.markdown.Table.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies that the element is valid markdown.
+TODO: figure out how this function should work.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>NotImplementedError</strong> – interface method never to be implemented</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-snakemd.readme">
+<span id="snakemd-readme-module"></span><h2>snakemd.readme module<a class="headerlink" href="#module-snakemd.readme" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="snakemd.readme.main">
+<span class="sig-prename descclassname"><span class="pre">snakemd.readme.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#snakemd.readme.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the repo README.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-snakemd">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-snakemd" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="modules.html" class="btn btn-neutral float-left" title="snakemd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, The Renegade Coder.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

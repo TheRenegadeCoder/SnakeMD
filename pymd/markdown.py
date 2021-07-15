@@ -4,6 +4,7 @@ import pathlib
 from typing import Iterable, Union
 from urllib.error import HTTPError
 from urllib import request
+import random
 
 
 class InlineText:
@@ -320,9 +321,9 @@ class Document:
     """
 
     def __init__(self, name: str) -> None:
-        self.name = name
-        self.ext = ".md"
-        self.contents = list()
+        self.name: str = name
+        self.ext: str = ".md"
+        self.contents: list[Element] = list()
 
     def __str__(self):
         return self.render()
@@ -420,6 +421,13 @@ class Document:
             if isinstance(header, Header) and header.level == 2
         )
         self.contents.append(MDList(headers, ordered=True))
+
+    def scramble(self) -> None:
+        """
+        A silly method which mixes all of the elements in this document in 
+        a random order.
+        """
+        random.shuffle(self.contents)
 
     def output_page(self, dump_dir: str = "") -> None:
         """

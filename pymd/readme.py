@@ -1,4 +1,4 @@
-from markdown import Document, MDList, Paragraph, InlineText
+from pymd.markdown import Document, MDList, Paragraph, InlineText
 import inspect
 
 

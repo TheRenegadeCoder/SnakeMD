@@ -1,21 +1,21 @@
-pymd package
-============
+snakemd package
+===============
 
 Submodules
 ----------
 
-pymd.markdown module
---------------------
+snakemd.markdown module
+-----------------------
 
-.. automodule:: pymd.markdown
+.. automodule:: snakemd.markdown
    :members:
    :undoc-members:
    :show-inheritance:
 
-pymd.readme module
-------------------
+snakemd.readme module
+---------------------
 
-.. automodule:: pymd.readme
+.. automodule:: snakemd.readme
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ pymd.readme module
 Module contents
 ---------------
 
-.. automodule:: pymd
+.. automodule:: snakemd
    :members:
    :undoc-members:
    :show-inheritance:

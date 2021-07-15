@@ -1,10 +1,13 @@
-.. PyMD documentation master file, created by
+.. SnakeMD documentation master file, created by
    sphinx-quickstart on Wed Jul 14 20:23:26 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PyMD's documentation!
-================================
+Welcome to SnakeMD's documentation!
+===================================
+
+SnakeMD is a library for generating markdown files
+using Python
 
 .. toctree::
    :maxdepth: 2

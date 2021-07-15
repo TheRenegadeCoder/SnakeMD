@@ -28,9 +28,8 @@ jobs:
       uses: ammaraskar/sphinx-action@0.4
       with:
         docs-folder: docsrc/
-        build-command: |
-          "make html"
-          "make github"
+        build-command: "make html"
+          #"make github"
 
     - name: Commit docs
       continue-on-error: true

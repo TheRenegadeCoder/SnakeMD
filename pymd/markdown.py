@@ -295,6 +295,7 @@ class Table(Element):
 
         :return: a table as a markdown string
         """
+        # TODO: make pretty print more robust
         rows = list()
         header = [str(item) for item in self.header]
         body = [

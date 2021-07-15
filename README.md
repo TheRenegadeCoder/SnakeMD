@@ -26,20 +26,20 @@ def _table_of_contents(doc: Document):
 
 Paragraphs are the most basic feature of any markdown file. As a result, they are very easy to create using PyMD.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _paragraph(doc: Document):
     doc.add_paragraph("I think. Therefore, I am.")
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 I think. Therefore, I am.
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 I think. Therefore, I am.
 
@@ -47,7 +47,7 @@ I think. Therefore, I am.
 
 Links are targets to files or web pages and can be embedded in a Paragraph using InlineText.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _link(doc: Document):
@@ -57,13 +57,13 @@ def _link(doc: Document):
     ]))
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 Learn to program with [The Renegade Coder](https://therenegadecoder.com)
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 Learn to program with [The Renegade Coder](https://therenegadecoder.com)
 
@@ -71,7 +71,7 @@ Learn to program with [The Renegade Coder](https://therenegadecoder.com)
 
 Images can be added by embedding InlineText in a Paragraph.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _image(doc: Document):
@@ -79,13 +79,13 @@ def _image(doc: Document):
     doc.add_element(Paragraph([InlineText("Logo", url=logo, image=True)]))
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 ![Logo](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 ![Logo](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
 
@@ -97,14 +97,14 @@ PyMD can make a variety of markdown lists. The two main types of lists are order
 
 Ordered lists are lists in which the order of the items matters. As a result, we number them.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _ordered_list(doc: Document):
     doc.add_ordered_list(["Deku", "Bakugo", "Uraraka", "Tsuyu"])
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 1. Deku
@@ -113,7 +113,7 @@ def _ordered_list(doc: Document):
 4. Tsuyu
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 1. Deku
 2. Bakugo
@@ -124,14 +124,14 @@ def _ordered_list(doc: Document):
 
 Unordered lists are lists in which the order of the items does not matter. As a result, we bullet them.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _unordered_list(doc: Document):
     doc.add_unordered_list(["Crosby", "Malkin", "Lemieux"])
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 - Crosby
@@ -139,7 +139,7 @@ def _unordered_list(doc: Document):
 - Lemieux
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 - Crosby
 - Malkin
@@ -149,7 +149,7 @@ def _unordered_list(doc: Document):
 
 Nested lists are complex lists that contain lists. Currently, PyMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _nested_list(doc: Document):
@@ -166,7 +166,7 @@ def _nested_list(doc: Document):
     )
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 - Apples
@@ -176,7 +176,7 @@ def _nested_list(doc: Document):
 - Grapes
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 - Apples
 - Onions
@@ -188,7 +188,7 @@ def _nested_list(doc: Document):
 
 Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using InlineText.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _table(doc: Document):
@@ -202,7 +202,7 @@ def _table(doc: Document):
     )
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 Height | Weight | Age
@@ -212,7 +212,7 @@ Height | Weight | Age
 181    | 87     | 40 
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 Height | Weight | Age
 ------ | ------ | ---
@@ -224,14 +224,14 @@ Height | Weight | Age
 
 Code blocks are a form of structured text for sharing code snippets with syntax highlighting.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _code(doc: Document):
     doc.add_code("x = 5", lang="py")
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ````markdown
 ```py
@@ -239,7 +239,7 @@ x = 5
 ```
 ````
 
-**Rendered Result**
+*Rendered Result*
 
 ```py
 x = 5
@@ -249,19 +249,19 @@ x = 5
 
 Quotes are blocks of text that represent quotes from people.
 
-**PyMD Source**
+*PyMD Source*
 
 ```py
 def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 ```
 
-**Markdown Source**
+*Markdown Source*
 
 ```markdown
 > How Now Brown Cow
 ```
 
-**Rendered Result**
+*Rendered Result*
 
 > How Now Brown Cow

@@ -410,6 +410,17 @@ class Document:
         """
         self.contents.append(Paragraph([InlineText(text)], quote=True))
 
+    def add_table_of_contents(self) -> None:
+        """
+        A convenience method which creates a table of contents.
+        """
+        headers = (
+            InlineText(header.text.text, url=f"#{'-'.join(header.text.text.split())}")
+            for header in self.contents 
+            if isinstance(header, Header) and header.level == 2
+        )
+        self.contents.append(MDList(headers, ordered=True))
+
     def output_page(self, dump_dir: str = "") -> None:
         """
         Generates the markdown file.

@@ -10,22 +10,35 @@ def main() -> None:
     # Introduction
     doc.add_header("Welcome to PyMD!")
     doc.add_paragraph("""PyMD is your ticket to generating markdown in Python. 
-    To prove it to you, we've generated this entire README using the library.
+    To prove it to you, we've generated this entire README using PyMD.
     See readme.py for how it was done.""")
     doc.add_paragraph("""In the remainder of this document, we'll show you all of
     the things this library can do.""")
 
+    # Table of Contents
+    doc.add_header("Table of Contents", level=2)
+    doc.add_table_of_contents()
+
     # Lists
-    doc.add_header("Make a list!", level=2)
+    doc.add_header("Make a List!", level=2)
     doc.add_paragraph("""PyMD can make a variety of markdown lists. 
     The two main types of lists are ordered and unordered.""")
+
+    # Ordered
     doc.add_header("Ordered List", level=3)
+    doc.add_paragraph("""Ordered lists are lists in which the order of the 
+    items matters. As a result, we number them.""")
     doc.add_code(
         'doc.add_ordered_list(["How", "Now", "Brown", "Cow"])', lang="py")
     doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
+
+    # Unordered
     doc.add_header("Unordered List", level=3)
+    doc.add_code('doc.add_unordered_list(["Look", "at", "Me", "Now"])', lang="py")
     doc.add_unordered_list(["Look", "at", "Me", "Now"])
-    doc.add_header("Testing nesting", level=2)
+
+    # Nested
+    doc.add_header("Nested Lists", level=3)
     doc.add_element(
         MDList([
             InlineText("Outer"),
@@ -49,12 +62,12 @@ def main() -> None:
     ]
 )
     """,
-    lang="py")
+                 lang="py")
     doc.add_table(
-        ["height", "weight", "age"], 
+        ["height", "weight", "age"],
         [
-            ['1', '2', '3'], 
-            ['4', '5', '6'], 
+            ['1', '2', '3'],
+            ['4', '5', '6'],
             ['7', '8', '9']
         ]
     )

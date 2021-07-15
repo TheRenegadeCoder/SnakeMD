@@ -151,9 +151,24 @@ what the output looks like.</p>
 All elements are to be surrounded by empty lines. Examples of elements
 include paragraphs, headers, tables, and lists.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pymd.markdown.Element.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pymd.markdown.Element.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the element as a markdown string.
+This function is to be called by <cite>__str__()</cite> of
+the child class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the element as a string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Element.verify">
 <span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Element.verify" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Verifies that the element is valid markdown.
+TODO: figure out how this function should work.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -282,7 +297,9 @@ set True to convert the paragraph to a blockquote (i.e., True -&gt; &gt; quote)<
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Table.verify">
 <span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Table.verify" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Verifies that the element is valid markdown.
+TODO: figure out how this function should work.</p>
+</dd></dl>
 
 </dd></dl>
 

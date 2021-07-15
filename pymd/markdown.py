@@ -101,6 +101,20 @@ class Element:
         raise NotImplementedError()
 
     def verify(self):
+        """
+        Verifies that the element is valid markdown.
+        TODO: figure out how this function should work. 
+        """
+        raise NotImplementedError()
+
+    def render(self) -> str:
+        """
+        Renders the element as a markdown string.
+        This function is to be called by `__str__()` of
+        the child class. 
+
+        :return: the element as a string
+        """
         raise NotImplementedError()
 
 

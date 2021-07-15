@@ -100,20 +100,20 @@ class Element:
     def __str__(self) -> str:
         raise NotImplementedError()
 
-    def verify(self):
-        """
-        Verifies that the element is valid markdown.
-        TODO: figure out how this function should work. 
-        """
-        raise NotImplementedError()
-
     def render(self) -> str:
         """
         Renders the element as a markdown string.
         This function is to be called by `__str__()` of
         the child class. 
 
-        :return: the element as a string
+        :return: the element as a markdown string
+        """
+        raise NotImplementedError()
+
+    def verify(self):
+        """
+        Verifies that the element is valid markdown.
+        TODO: figure out how this function should work. 
         """
         raise NotImplementedError()
 
@@ -134,19 +134,26 @@ class Header(Element):
         self.level: int = level
 
     def __str__(self) -> str:
+        return self.render()
+
+    def render(self) -> str:
+        """
+        Renders the header in markdown according to
+        the level provided. 
+
+        :return: the header as a markdown string
+        """
         return f"{'#' * self.level} {self.text}"
 
     def promote(self) -> None:
         """
         Promotes a header up a level. Fails silently
         if the header is already at the highest level (i.e., <h1>).
-
-        :return: Nothing
         """
         if self.level > 1:
             self.level -= 1
 
-    def demote(self):
+    def demote(self) -> None:
         """
         Demotes a header down a level. Fails silently if
         the header is already at the lowest level (i.e., <h6>).
@@ -177,6 +184,16 @@ class Paragraph(Element):
         self.quote = quote
 
     def __str__(self) -> str:
+        return self.render()
+
+    def render(self) -> str:
+        """
+        Renders the paragraph as markdown according to the settings provided.
+        For example, if the code flag is enabled, the paragraph will be
+        rendered as a code block. 
+
+        :return: the paragraph as a markdown string
+        """
         paragraph = ' '.join(str(item) for item in self.content)
         if self.code:
             return f"```{self.lang}\n{paragraph}\n```"
@@ -195,6 +212,14 @@ class Paragraph(Element):
 
 
 class MDList(Element):
+    """
+    A markdown list is a standalone list that comes in two varieties: ordered and unordered.
+
+    :param items: a "list" of objects to be rendered as a list
+    :param ordered: the ordered state of the list;
+        set to True to render an ordered list (i.e., True -> 1. item)
+    """
+
     def __init__(self, items: Iterable[Union[InlineText, MDList]], ordered: bool = False) -> None:
         super().__init__()
         self.items: Iterable = items
@@ -202,6 +227,16 @@ class MDList(Element):
         self.depth = 0
 
     def __str__(self) -> str:
+        return self.render()
+
+    def render(self) -> str:
+        """
+        Renders the markdown list according to the settings provided.
+        For example, if the the ordered flag is set, an ordered list
+        will be rendered in markdown. 
+
+        :return: the list as a markdown string
+        """
         output = list()
         i = 1
         for item in self.items:
@@ -218,21 +253,35 @@ class MDList(Element):
 
 
 class Table(Element):
-    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]], _footer: Iterable[InlineText] = None) -> None:
+    """
+    A table is a standalone element of rows and columns. Data is rendered
+    according to underlying InlineText items. 
+
+    :param header: the header row of labels
+    :param body: the collection of rows of data
+    """
+
+    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]]) -> None:
         super().__init__()
         self.header = header
         self.body = body
-        self.footer = _footer
 
     def __str__(self) -> str:
+        return self.render()
+
+    def render(self) -> str:
+        """
+        Renders a markdown table from a header "list"
+        and a data set. 
+
+        :return: a table as a markdown string
+        """
         rows = list()
-        if self.header:
-            rows.append(' | '.join(self.header))
-            rows.append(' | '.join("-" for _ in self.header))
-        rows.extend(' | '.join(row) for row in self.body)
-        if self.footer:
-            rows.append(' | '.join("-" for _ in self.footer))
-            rows.append(' | '.join(self.footer))
+        header = [str(item) for item in self.header]
+        body = ((str(item) for item in row) for row in self.body)
+        rows.append(' | '.join(header))
+        rows.append(' | '.join("-" for _ in header))
+        rows.extend(' | '.join(row) for row in body)
         return '\n'.join(rows)
 
     def verify(self):
@@ -296,26 +345,16 @@ class Document:
         """
         self.contents.append(MDList(InlineText(item) for item in items))
 
-    def add_table(self, grid: Iterable[Iterable[str]], _header: bool = True, _footer: bool = False):
+    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]):
         """
         A convenience method which adds a simple table to the document.
 
-        :param grid: a "list" of "lists" of strings
+        :param header: a "list" of strings
+        :param data: a "list" of "lists" of strings
         """
-        head = None
-        foot = None
-        bounds = [None, None]
-
-        if _header:
-            head = grid[0]
-            bounds[0] = 1
-        if _footer:
-            foot = grid[-1]
-            bounds[1] = -1
-
-        body = grid[slice(*bounds)]
-
-        self.contents.append(Table(head, body, foot))
+        header = (InlineText(text) for text in header)
+        data = ((InlineText(item) for item in row) for row in data)
+        self.contents.append(Table(header, data))
 
     def add_code(self, code: str, lang="generic"):
         """

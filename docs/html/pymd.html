@@ -116,11 +116,14 @@ what the output looks like.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Document.add_table">
-<span class="sig-name descname"><span class="pre">add_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_footer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Document.add_table" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Document.add_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>A convenience method which adds a simple table to the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>grid</strong> – a “list” of “lists” of strings</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> – a “list” of strings</p></li>
+<li><p><strong>data</strong> – a “list” of “lists” of strings</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -158,7 +161,7 @@ This function is to be called by <cite>__str__()</cite> of
 the child class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the element as a string</p>
+<dd class="field-odd"><p>the element as a markdown string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -189,7 +192,7 @@ correspond to the six headers sizes in HTML (e.g., &lt;h1&gt;).</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Header.demote">
-<span class="sig-name descname"><span class="pre">demote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Header.demote" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">demote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymd.markdown.Header.demote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Demotes a header down a level. Fails silently if
 the header is already at the lowest level (i.e., &lt;h6&gt;).</p>
 </dd></dl>
@@ -199,9 +202,16 @@ the header is already at the lowest level (i.e., &lt;h6&gt;).</p>
 <span class="sig-name descname"><span class="pre">promote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymd.markdown.Header.promote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Promotes a header up a level. Fails silently
 if the header is already at the highest level (i.e., &lt;h1&gt;).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pymd.markdown.Header.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pymd.markdown.Header.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the header in markdown according to
+the level provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Nothing</p>
+<dd class="field-odd"><p>the header as a markdown string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -256,6 +266,29 @@ stylized text to inline code to links and images.</p>
 <dt class="sig sig-object py" id="pymd.markdown.MDList">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pymd.markdown.</span></span><span class="sig-name descname"><span class="pre">MDList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#pymd.markdown.MDList" title="pymd.markdown.MDList"><span class="pre">pymd.markdown.MDList</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordered</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.MDList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pymd.markdown.Element" title="pymd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">pymd.markdown.Element</span></code></a></p>
+<p>A markdown list is a standalone list that comes in two varieties: ordered and unordered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> – a “list” of objects to be rendered as a list</p></li>
+<li><p><strong>ordered</strong> – the ordered state of the list;
+set to True to render an ordered list (i.e., True -&gt; 1. item)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pymd.markdown.MDList.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pymd.markdown.MDList.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the markdown list according to the settings provided.
+For example, if the the ordered flag is set, an ordered list
+will be rendered in markdown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -288,12 +321,47 @@ set True to convert the paragraph to a blockquote (i.e., True -&gt; &gt; quote)<
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pymd.markdown.Paragraph.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pymd.markdown.Paragraph.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the paragraph as markdown according to the settings provided.
+For example, if the code flag is enabled, the paragraph will be
+rendered as a code block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the paragraph as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pymd.markdown.Table">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pymd.markdown.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_footer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Table" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pymd.markdown.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pymd.markdown.Element" title="pymd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">pymd.markdown.Element</span></code></a></p>
+<p>A table is a standalone element of rows and columns. Data is rendered
+according to underlying InlineText items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> – the header row of labels</p></li>
+<li><p><strong>body</strong> – the collection of rows of data</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pymd.markdown.Table.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pymd.markdown.Table.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders a markdown table from a header “list”
+and a data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a table as a markdown string</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Table.verify">
 <span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Table.verify" title="Permalink to this definition">¶</a></dt>

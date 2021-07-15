@@ -34,7 +34,7 @@ if __name__ == "__main__":
     )
 
     # Tables
-    doc.add_table([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
+    doc.add_table(["height", "weight", "age"], [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
 
     # Images
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"

@@ -38,6 +38,20 @@ doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
   - List
 - !!!
 
+## Make a Table!
+
+```py
+doc.add_table(
+    ["height", "weight", "age"], 
+    [
+        ['1', '2', '3'], 
+        ['4', '5', '6'], 
+        ['7', '8', '9']
+    ]
+)
+    
+```
+
 height | weight | age
 - | - | -
 1 | 2 | 3

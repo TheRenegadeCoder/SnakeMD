@@ -1,4 +1,4 @@
-from pymd.markdown import Document, MDList, Paragraph, InlineText
+from markdown import Document, MDList, Paragraph, InlineText
 
 
 def main() -> None:
@@ -39,8 +39,25 @@ def main() -> None:
     )
 
     # Tables
-    doc.add_table(["height", "weight", "age"], [
-                  ['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
+    doc.add_header("Make a Table!", level=2)
+    doc.add_code("""doc.add_table(
+    ["height", "weight", "age"], 
+    [
+        ['1', '2', '3'], 
+        ['4', '5', '6'], 
+        ['7', '8', '9']
+    ]
+)
+    """,
+    lang="py")
+    doc.add_table(
+        ["height", "weight", "age"], 
+        [
+            ['1', '2', '3'], 
+            ['4', '5', '6'], 
+            ['7', '8', '9']
+        ]
+    )
 
     # Images
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"

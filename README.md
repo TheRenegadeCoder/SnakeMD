@@ -193,7 +193,7 @@ Tables are sets of rows and columns which can display text in a grid. To style a
 ```py
 def _table(doc: Document):
     doc.add_table(
-        ["Height", "Weight", "Age"],
+        ["Height (cm)", "Weight (kg)", "Age (y)"],
         [
             ['150', '70', '21'],
             ['164', '75', '19'],
@@ -205,20 +205,20 @@ def _table(doc: Document):
 *Markdown Source*
 
 ```markdown
-Height | Weight | Age
------- | ------ | ---
-150    | 70     | 21 
-164    | 75     | 19 
-181    | 87     | 40 
+Height (cm) | Weight (kg) | Age (y)
+----------- | ----------- | -------
+150         | 70          | 21     
+164         | 75          | 19     
+181         | 87          | 40     
 ```
 
 *Rendered Result*
 
-Height | Weight | Age
------- | ------ | ---
-150    | 70     | 21 
-164    | 75     | 19 
-181    | 87     | 40 
+Height (cm) | Weight (kg) | Age (y)
+----------- | ----------- | -------
+150         | 70          | 21     
+164         | 75          | 19     
+181         | 87          | 40     
 
 ## Code Blocks
 

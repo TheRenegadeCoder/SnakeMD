@@ -38,7 +38,7 @@ def _nested_list(doc: Document):
 
 def _table(doc: Document):
     doc.add_table(
-        ["Height", "Weight", "Age"],
+        ["Height (cm)", "Weight (kg)", "Age (y)"],
         [
             ['150', '70', '21'],
             ['164', '75', '19'],

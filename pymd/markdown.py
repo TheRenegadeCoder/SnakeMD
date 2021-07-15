@@ -211,6 +211,7 @@ class Paragraph(Element):
 
         :return: the paragraph as a markdown string
         """
+        # TODO: add support for nested code blocks
         paragraph = ' '.join(str(item) for item in self.content)
         if self.code:
             ticks = '`' * self.backticks

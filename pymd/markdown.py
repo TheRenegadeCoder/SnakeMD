@@ -215,7 +215,7 @@ class Paragraph(Element):
         elif self.quote:
             return f"> {paragraph}"
         else:
-            return paragraph
+            return paragraph.replace('\n', ' ').replace('\r', ' ')
 
     def add(self, text: InlineText) -> None:
         """
@@ -415,7 +415,7 @@ class Document:
         A convenience method which creates a table of contents.
         """
         headers = (
-            InlineText(header.text.text, url=f"#{'-'.join(header.text.text.split())}")
+            InlineText(header.text.text, url=f"#{'-'.join(header.text.text.lower().split())}")
             for header in self.contents 
             if isinstance(header, Header) and header.level == 2
         )

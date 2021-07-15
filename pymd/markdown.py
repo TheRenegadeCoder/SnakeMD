@@ -149,6 +149,10 @@ class Paragraph(Element):
     :param content: a "list" of text objects to render as a paragraph 
     :param code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
+    :param lang: the language of the code snippet;
+        invalid without the code flag set to True
+    :param quote: the quote state of the paragraph;
+        set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
     def __init__(self, content: Iterable[InlineText], code=False, lang="generic", quote=False):
@@ -167,7 +171,12 @@ class Paragraph(Element):
         else:
             return paragraph
 
-    def add(self, text: InlineText):
+    def add(self, text: InlineText) -> None:
+        """
+        Adds a text object to the paragraph.
+
+        :param text: a custom text element
+        """
         self.content.append(text)
 
 

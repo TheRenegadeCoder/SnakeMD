@@ -255,13 +255,23 @@ formatted in a variety of ways including as code and blockquotes.</p>
 <li><p><strong>content</strong> – a “list” of text objects to render as a paragraph</p></li>
 <li><p><strong>code</strong> – the code state of the paragraph;
 set True to convert the paragraph to a code block (i.e., True -&gt; <code class="docutils literal notranslate"><span class="pre">`code`</span></code>)</p></li>
+<li><p><strong>lang</strong> – the language of the code snippet;
+invalid without the code flag set to True</p></li>
+<li><p><strong>quote</strong> – the quote state of the paragraph;
+set True to convert the paragraph to a blockquote (i.e., True -&gt; &gt; quote)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Paragraph.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Paragraph.add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymd.markdown.Paragraph.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a text object to the paragraph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> – a custom text element</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

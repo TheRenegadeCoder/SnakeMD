@@ -71,7 +71,7 @@ def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 
 
-def _section(doc: Document, title: str, desc: str, func, level: int=2):
+def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_header(title, level=level)
     doc.add_paragraph(desc)
     doc.add_element(Paragraph([InlineText("PyMD Source", italics=True)]))
@@ -82,6 +82,7 @@ def _section(doc: Document, title: str, desc: str, func, level: int=2):
     doc.add_code(str(doc.contents[-2]), lang="markdown")
     doc.contents.insert(-3, doc.contents.pop())
     doc.contents.insert(-3, doc.contents.pop())
+
 
 def main() -> None:
     """

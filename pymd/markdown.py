@@ -300,7 +300,7 @@ class Table(Element):
         rows = list()
         header = [str(item) for item in self.header]
         body = [
-            [str(item).ljust(len(header[i])) for i, item in enumerate(row)] 
+            [str(item).ljust(len(header[i])) for i, item in enumerate(row)]
             for row in self.body
         ]
         rows.append(' | '.join(header))
@@ -379,7 +379,7 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         """
         self.contents.append(MDList(
-            [InlineText(item) for item in items], 
+            [InlineText(item) for item in items],
             ordered=True
         ))
 
@@ -428,8 +428,9 @@ class Document:
         loading, so it can only be rendered once. 
         """
         headers = (
-            InlineText(header.text.text, url=f"#{'-'.join(header.text.text.lower().split())}")
-            for header in self.contents 
+            InlineText(header.text.text,
+                       url=f"#{'-'.join(header.text.text.lower().split())}")
+            for header in self.contents
             if isinstance(header, Header) and header.level == 2
         )
         self.contents.append(MDList(headers, ordered=True))

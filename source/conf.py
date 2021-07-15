@@ -12,14 +12,17 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../pymd'))
+sys.path.insert(0, os.path.abspath('../'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'PyMD'
-copyright = '2021, Jeremy Grifski'
-author = 'Jeremy Grifski'
+copyright = '2021, The Renegade Coder'
+author = 'The Renegade Coder'
+
+# The full version, including alpha/beta/rc tags
+release = '1.0.0'
 
 
 # -- General configuration ---------------------------------------------------

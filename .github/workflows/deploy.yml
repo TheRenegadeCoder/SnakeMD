@@ -29,8 +29,8 @@ jobs:
       with:
         docs-folder: docsrc/
         build-command: |
-          make html
-          make github
+          "make html"
+          "make github"
 
     - name: Commit docs
       continue-on-error: true

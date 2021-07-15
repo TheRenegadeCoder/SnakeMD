@@ -182,6 +182,9 @@ def main() -> None:
         _code
     )
 
+    # ERROR: patch code block
+    doc.contents[-3].backticks = 4
+
     # Quote
     doc.add_header("Quotes", level=2)
     doc.add_paragraph("""Quotes are blocks of text that represent

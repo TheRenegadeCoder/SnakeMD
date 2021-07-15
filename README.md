@@ -235,11 +235,11 @@ def _code(doc: Document):
 
 **Markdown Source**
 
-```markdown
+````markdown
 ```py
 x = 5
 ```
-```
+````
 
 **Rendered Result**
 

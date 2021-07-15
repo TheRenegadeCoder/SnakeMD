@@ -198,6 +198,7 @@ class Paragraph(Element):
         self.code = code
         self.lang = lang
         self.quote = quote
+        self.backticks = 3
 
     def __str__(self) -> str:
         return self.render()
@@ -212,7 +213,8 @@ class Paragraph(Element):
         """
         paragraph = ' '.join(str(item) for item in self.content)
         if self.code:
-            return f"```{self.lang}\n{paragraph}\n```"
+            ticks = '`' * self.backticks
+            return f"{ticks}{self.lang}\n{paragraph}\n{ticks}"
         elif self.quote:
             return f"> {paragraph}"
         else:

@@ -74,8 +74,14 @@ def _quote(doc: Document):
 def _section(doc: Document, title: str, desc: str, func):
     doc.add_header(title, level=2)
     doc.add_paragraph(desc)
+    doc.add_element(Paragraph([InlineText("PyMD Source", bold=True)]))
     doc.add_code(inspect.getsource(func).strip(), lang="py")
+    doc.add_element(Paragraph([InlineText("Rendered Result", bold=True)]))
     func(doc)
+    doc.add_element(Paragraph([InlineText("Markdown Source", bold=True)]))
+    doc.add_code(str(doc.contents[-2]), lang="markdown")
+    doc.contents.insert(-3, doc.contents.pop())
+    doc.contents.insert(-3, doc.contents.pop())
 
 def main() -> None:
     """
@@ -88,29 +94,30 @@ def main() -> None:
     _introduction(doc)
 
     # Table of Contents
-    _section(
-        doc, 
-        "Table of Contents",
-        """Below you'll find the table of contents, but
-        these can also be generated programatically for every markdown
-        document.""",
-        _table_of_contents
-    )
+    doc.add_header("Table of Contents", level=2)
+    doc.add_paragraph("""Below you'll find the table of contents, but
+    these can also be generated programatically for every markdown
+    document.""")
+    doc.add_code(inspect.getsource(_table_of_contents).strip(), lang="py")
+    _table_of_contents(doc)
 
     # Paragraphs
-    doc.add_header("Paragraphs", level=2)
-    doc.add_paragraph("""Paragraphs are the most basic feature of
-    any markdown file. As a result, there very easy to create using
-    PyMD.""")
-    doc.add_code(inspect.getsource(_paragraph).strip(), lang="py")
-    _paragraph(doc)
+    _section(
+        doc,
+        "Paragraphs",
+        """Paragraphs are the most basic feature of any markdown file. 
+        As a result, they are very easy to create using PyMD.""",
+        _paragraph
+    )
 
     # Links
-    doc.add_header("Links", level=2)
-    doc.add_paragraph("""Links are targets to files or web pages and
-    can be embedded in a Paragraph just like images using InlineText.""")
-    doc.add_code(inspect.getsource(_link).strip(), lang="py")
-    _link(doc)
+    _section(
+        doc,
+        "Links",
+        """Links are targets to files or web pages and can be embedded 
+        in a Paragraph just like images using InlineText.""",
+        _link
+    )
 
     # Images
     doc.add_header("Images", level=2)

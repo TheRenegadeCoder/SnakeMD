@@ -24,18 +24,30 @@ def _table_of_contents(doc: Document):
 
 ## Paragraphs
 
-Paragraphs are the most basic feature of any markdown file. As a result, there very easy to create using PyMD.
+Paragraphs are the most basic feature of any markdown file. As a result, they are very easy to create using PyMD.
+
+**PyMD Source**
 
 ```py
 def _paragraph(doc: Document):
     doc.add_paragraph("I think. Therefore, I am.")
 ```
 
+**Markdown Source**
+
+```markdown
+I think. Therefore, I am.
+```
+
+**Rendered Result**
+
 I think. Therefore, I am.
 
 ## Links
 
 Links are targets to files or web pages and can be embedded in a Paragraph just like images using InlineText.
+
+**PyMD Source**
 
 ```py
 def _link(doc: Document):
@@ -44,6 +56,14 @@ def _link(doc: Document):
         InlineText("The Renegade Coder", url="https://therenegadecoder.com")
     ]))
 ```
+
+**Markdown Source**
+
+```markdown
+Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+```
+
+**Rendered Result**
 
 Learn to program with [The Renegade Coder](https://therenegadecoder.com)
 

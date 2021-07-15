@@ -295,9 +295,9 @@ class Table(Element):
         """
         rows = list()
         header = [str(item) for item in self.header]
-        body = ((str(item) for item in row) for row in self.body)
+        body = [[str(item) for item in row] for row in self.body]
         rows.append(' | '.join(header))
-        rows.append(' | '.join("-" for _ in header))
+        rows.append(' | '.join("-" * len(item) for item in header))
         rows.extend(' | '.join(row) for row in body)
         return '\n'.join(rows)
 
@@ -371,8 +371,10 @@ class Document:
 
         :param Iterable[str] items: a "list" of strings
         """
-        self.contents.append(MDList((InlineText(item)
-                             for item in items), ordered=True))
+        self.contents.append(MDList(
+            [InlineText(item) for item in items], 
+            ordered=True
+        ))
 
     def add_unordered_list(self, items: Iterable[str]) -> None:
         """
@@ -380,7 +382,7 @@ class Document:
 
         :param Iterable[str] items: a "list" of strings
         """
-        self.contents.append(MDList(InlineText(item) for item in items))
+        self.contents.append(MDList([InlineText(item) for item in items]))
 
     def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> None:
         """
@@ -389,8 +391,8 @@ class Document:
         :param Iterable[str] header: a "list" of strings
         :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
         """
-        header = (InlineText(text) for text in header)
-        data = ((InlineText(item) for item in row) for row in data)
+        header = [InlineText(text) for text in header]
+        data = [[InlineText(item) for item in row] for row in data]
         self.contents.append(Table(header, data))
 
     def add_code(self, code: str, lang: str = "generic") -> None:
@@ -413,7 +415,10 @@ class Document:
 
     def add_table_of_contents(self) -> None:
         """
-        A convenience method which creates a table of contents.
+        A convenience method which creates a table of contents. This function
+        can be called where you want to add a table of contents to your
+        document. However, be aware that the table of contents uses lazy 
+        loading, so it can only be rendered once. 
         """
         headers = (
             InlineText(header.text.text, url=f"#{'-'.join(header.text.text.lower().split())}")

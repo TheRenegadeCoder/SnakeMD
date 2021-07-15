@@ -71,13 +71,23 @@ Learn to program with [The Renegade Coder](https://therenegadecoder.com)
 
 Images can be added by embedding InlineText in a Paragraph.
 
+**PyMD Source**
+
 ```py
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([InlineText("Kitten", url=logo, image=True)]))
+    doc.add_element(Paragraph([InlineText("Logo", url=logo, image=True)]))
 ```
 
-![Kitten](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
+**Markdown Source**
+
+```markdown
+![Logo](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
+```
+
+**Rendered Result**
+
+![Logo](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
 
 ## Lists
 
@@ -87,10 +97,23 @@ PyMD can make a variety of markdown lists. The two main types of lists are order
 
 Ordered lists are lists in which the order of the items matters. As a result, we number them.
 
+**PyMD Source**
+
 ```py
 def _ordered_list(doc: Document):
     doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
 ```
+
+**Markdown Source**
+
+```markdown
+1. How
+2. Now
+3. Brown
+4. Cow
+```
+
+**Rendered Result**
 
 1. How
 2. Now
@@ -101,10 +124,23 @@ def _ordered_list(doc: Document):
 
 Unordered lists are lists in which the order of the items does not matter. As a result, we bullet them.
 
+**PyMD Source**
+
 ```py
 def _unordered_list(doc: Document):
     doc.add_unordered_list(["Look", "at", "Me", "Now"])
 ```
+
+**Markdown Source**
+
+```markdown
+- Look
+- at
+- Me
+- Now
+```
+
+**Rendered Result**
 
 - Look
 - at
@@ -114,6 +150,8 @@ def _unordered_list(doc: Document):
 ### Nested List
 
 Nested lists are complex lists that contain lists. Currently, PyMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
+
+**PyMD Source**
 
 ```py
 def _nested_list(doc: Document):
@@ -130,6 +168,18 @@ def _nested_list(doc: Document):
     )
 ```
 
+**Markdown Source**
+
+```markdown
+- Outer
+- List
+  - Inner
+  - List
+- !!!
+```
+
+**Rendered Result**
+
 - Outer
 - List
   - Inner
@@ -139,6 +189,8 @@ def _nested_list(doc: Document):
 ## Tables
 
 Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using InlineText.
+
+**PyMD Source**
 
 ```py
 def _table(doc: Document):
@@ -152,8 +204,20 @@ def _table(doc: Document):
     )
 ```
 
+**Markdown Source**
+
+```markdown
 height | weight | age
-- | - | -
+------ | ------ | ---
+1 | 2 | 3
+4 | 5 | 6
+7 | 8 | 9
+```
+
+**Rendered Result**
+
+height | weight | age
+------ | ------ | ---
 1 | 2 | 3
 4 | 5 | 6
 7 | 8 | 9
@@ -162,10 +226,22 @@ height | weight | age
 
 Code blocks are a form of structured text for sharing code snippets with syntax highlighting.
 
+**PyMD Source**
+
 ```py
 def _code(doc: Document):
     doc.add_code("x = 5", lang="py")
 ```
+
+**Markdown Source**
+
+```markdown
+```py
+x = 5
+```
+```
+
+**Rendered Result**
 
 ```py
 x = 5

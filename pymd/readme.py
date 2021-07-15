@@ -56,7 +56,7 @@ def _link(doc: Document):
 
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([InlineText("Kitten", url=logo, image=True)]))
+    doc.add_element(Paragraph([InlineText("Logo", url=logo, image=True)]))
 
 
 def _code(doc: Document):
@@ -71,8 +71,8 @@ def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 
 
-def _section(doc: Document, title: str, desc: str, func):
-    doc.add_header(title, level=2)
+def _section(doc: Document, title: str, desc: str, func, level: int=2):
+    doc.add_header(title, level=level)
     doc.add_paragraph(desc)
     doc.add_element(Paragraph([InlineText("PyMD Source", bold=True)]))
     doc.add_code(inspect.getsource(func).strip(), lang="py")
@@ -120,11 +120,12 @@ def main() -> None:
     )
 
     # Images
-    doc.add_header("Images", level=2)
-    doc.add_paragraph("""Images can be added by embedding InlineText 
-    in a Paragraph.""")
-    doc.add_code(inspect.getsource(_image).strip(), lang="py")
-    _image(doc)
+    _section(
+        doc,
+        "Images",
+        """Images can be added by embedding InlineText in a Paragraph.""",
+        _image
+    )
 
     # Lists
     doc.add_header("Lists", level=2)
@@ -132,41 +133,54 @@ def main() -> None:
     The two main types of lists are ordered and unordered.""")
 
     # Ordered lists
-    doc.add_header("Ordered List", level=3)
-    doc.add_paragraph("""Ordered lists are lists in which the order of the 
-    items matters. As a result, we number them.""")
-    doc.add_code(inspect.getsource(_ordered_list).strip(), lang="py")
-    _ordered_list(doc)
+    _section(
+        doc,
+        "Ordered List",
+        """Ordered lists are lists in which the order of the items 
+        matters. As a result, we number them.""",
+        _ordered_list,
+        level=3
+    )
 
     # Unordered lists
-    doc.add_header("Unordered List", level=3)
-    doc.add_paragraph("""Unordered lists are lists in which the order of the
-    items does not matter. As a result, we bullet them.""")
-    doc.add_code(inspect.getsource(_unordered_list).strip(), lang="py")
-    _unordered_list(doc)
+    _section(
+        doc,
+        "Unordered List",
+        """Unordered lists are lists in which the order of the items 
+        does not matter. As a result, we bullet them.""",
+        _unordered_list,
+        level=3
+    )
 
     # Nested lists
-    doc.add_header("Nested List", level=3)
-    doc.add_paragraph("""Nested lists are complex lists that contain lists.
-    Currently, PyMD does not support any convenience methods to generate
-    nested lists, but they can be created manually using the MDList object.""")
-    doc.add_code(inspect.getsource(_nested_list).strip(), lang="py")
-    _nested_list(doc)
+    _section(
+        doc,
+        "Nested List",
+        """Nested lists are complex lists that contain lists. Currently, 
+        PyMD does not support any convenience methods to generate nested 
+        lists, but they can be created manually using the MDList object.""",
+        _nested_list,
+        level=3
+    )
 
     # Tables
-    doc.add_header("Tables", level=2)
-    doc.add_paragraph("""Tables are sets of rows and columns which
-    can display text in a grid. To style any of the contents of a
-    table, consider using InlineText.""")
-    doc.add_code(inspect.getsource(_table).strip(), lang="py")
-    _table(doc)
+    _section(
+        doc,
+        "Tables",
+        """Tables are sets of rows and columns which can display text in a 
+        grid. To style any of the contents of a table, consider using 
+        InlineText.""",
+        _table
+    )
 
     # Code
-    doc.add_header("Code Blocks", level=2)
-    doc.add_paragraph("""Code blocks are a form of structured text
-    for sharing code snippets with syntax highlighting.""")
-    doc.add_code(inspect.getsource(_code).strip(), lang="py")
-    _code(doc)
+    _section(
+        doc,
+        "Code Blocks",
+        """Code blocks are a form of structured text for sharing code 
+        snippets with syntax highlighting.""",
+        _code
+    )
 
     # Quote
     doc.add_header("Quotes", level=2)

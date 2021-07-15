@@ -1,6 +1,6 @@
-# Welcome to PyMD!
+# Welcome to SnakeMD!
 
-PyMD is your ticket to generating markdown in Python. To prove it to you, we've generated this entire README using PyMD. See readme.py for how it was done.
+SnakeMD is your ticket to generating markdown in Python. To prove it to you, we've generated this entire README using SnakeMD. See readme.py for how it was done.
 
 In the remainder of this document, we'll show you all of the things this library can do.
 
@@ -24,9 +24,9 @@ def _table_of_contents(doc: Document):
 
 ## Paragraphs
 
-Paragraphs are the most basic feature of any markdown file. As a result, they are very easy to create using PyMD.
+Paragraphs are the most basic feature of any markdown file. As a result, they are very easy to create using SnakeMD.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _paragraph(doc: Document):
@@ -47,7 +47,7 @@ I think. Therefore, I am.
 
 Links are targets to files or web pages and can be embedded in a Paragraph using InlineText.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _link(doc: Document):
@@ -71,7 +71,7 @@ Learn to program with [The Renegade Coder](https://therenegadecoder.com)
 
 Images can be added by embedding InlineText in a Paragraph.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _image(doc: Document):
@@ -91,13 +91,13 @@ def _image(doc: Document):
 
 ## Lists
 
-PyMD can make a variety of markdown lists. The two main types of lists are ordered and unordered.
+SnakeMD can make a variety of markdown lists. The two main types of lists are ordered and unordered.
 
 ### Ordered List
 
 Ordered lists are lists in which the order of the items matters. As a result, we number them.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _ordered_list(doc: Document):
@@ -124,7 +124,7 @@ def _ordered_list(doc: Document):
 
 Unordered lists are lists in which the order of the items does not matter. As a result, we bullet them.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _unordered_list(doc: Document):
@@ -147,9 +147,9 @@ def _unordered_list(doc: Document):
 
 ### Nested List
 
-Nested lists are complex lists that contain lists. Currently, PyMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
+Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _nested_list(doc: Document):
@@ -188,7 +188,7 @@ def _nested_list(doc: Document):
 
 Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using InlineText.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _table(doc: Document):
@@ -224,7 +224,7 @@ Height (cm) | Weight (kg) | Age (y)
 
 Code blocks are a form of structured text for sharing code snippets with syntax highlighting.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _code(doc: Document):
@@ -249,7 +249,7 @@ x = 5
 
 Quotes are blocks of text that represent quotes from people.
 
-*PyMD Source*
+*SnakeMD Source*
 
 ```py
 def _quote(doc: Document):

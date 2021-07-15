@@ -1,10 +1,10 @@
-from pymd.markdown import Document, MDList, Paragraph, InlineText
+from snakemd.markdown import Document, MDList, Paragraph, InlineText
 import inspect
 
 
 def _introduction(doc: Document):
-    doc.add_paragraph("""PyMD is your ticket to generating markdown in Python. 
-    To prove it to you, we've generated this entire README using PyMD.
+    doc.add_paragraph("""SnakeMD is your ticket to generating markdown in Python. 
+    To prove it to you, we've generated this entire README using SnakeMD.
     See readme.py for how it was done.""")
     doc.add_paragraph("""In the remainder of this document, we'll show you all of
     the things this library can do.""")
@@ -74,7 +74,7 @@ def _quote(doc: Document):
 def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_header(title, level=level)
     doc.add_paragraph(desc)
-    doc.add_element(Paragraph([InlineText("PyMD Source", italics=True)]))
+    doc.add_element(Paragraph([InlineText("SnakeMD Source", italics=True)]))
     doc.add_code(inspect.getsource(func).strip(), lang="py")
     doc.add_element(Paragraph([InlineText("Rendered Result", italics=True)]))
     func(doc)
@@ -91,7 +91,7 @@ def main() -> None:
     doc = Document("README")
 
     # Introduction
-    doc.add_header("Welcome to PyMD!")
+    doc.add_header("Welcome to SnakeMD!")
     _introduction(doc)
 
     # Table of Contents
@@ -107,7 +107,7 @@ def main() -> None:
         doc,
         "Paragraphs",
         """Paragraphs are the most basic feature of any markdown file. 
-        As a result, they are very easy to create using PyMD.""",
+        As a result, they are very easy to create using SnakeMD.""",
         _paragraph
     )
 
@@ -130,7 +130,7 @@ def main() -> None:
 
     # Lists
     doc.add_header("Lists", level=2)
-    doc.add_paragraph("""PyMD can make a variety of markdown lists. 
+    doc.add_paragraph("""SnakeMD can make a variety of markdown lists. 
     The two main types of lists are ordered and unordered.""")
 
     # Ordered lists
@@ -158,7 +158,7 @@ def main() -> None:
         doc,
         "Nested List",
         """Nested lists are complex lists that contain lists. Currently, 
-        PyMD does not support any convenience methods to generate nested 
+        SnakeMD does not support any convenience methods to generate nested 
         lists, but they can be created manually using the MDList object.""",
         _nested_list,
         level=3

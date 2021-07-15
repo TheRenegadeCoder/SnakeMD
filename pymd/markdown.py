@@ -12,15 +12,15 @@ class InlineText:
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information. 
 
-    :param text: the inline text to render
-    :param url: the link associated with the inline text
-    :param bold: the bold state of the inline text; 
+    :param str text: the inline text to render
+    :param str url: the link associated with the inline text
+    :param bool bold: the bold state of the inline text; 
         set to True to render bold inline text (i.e., True -> **bold**)
-    :param italics: the italics state of the inline text; 
+    :param bool italics: the italics state of the inline text; 
         set to True to render inline text in italics (i.e., True -> *italics*)
-    :param code: the italics state of the inline text;
+    :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
-    :param image: the image state of the inline text;
+    :param bool image: the image state of the inline text;
         set to True to render inline text as an image;
         must include url parameter to render
     """
@@ -46,7 +46,7 @@ class InlineText:
 
     def render(self) -> str:
         """
-        Renders the inline text object as a string. In this case,
+        Renders self as a string. In this case,
         inline text can represent many different types of data from
         stylized text to inline code to links and images. 
 
@@ -82,6 +82,18 @@ class InlineText:
     def verify(self) -> bool:
         if self.url:
             assert self._verify_link()
+
+    def bold(self) -> None:
+        """
+        Adds bold styling to self. 
+        """
+        self.bold = True
+
+    def unbold(self) -> None:
+        """
+        Removes bold styling from self. 
+        """
+        self.bold = False
 
     # TODO: add text processing to avoid issues where asterisks mess up formatting
     # One way to do this would be to backslash special characters in the raw text
@@ -265,6 +277,7 @@ class Table(Element):
         super().__init__()
         self.header = header
         self.body = body
+        #TODO: add column align
 
     def __str__(self) -> str:
         return self.render()
@@ -290,6 +303,18 @@ class Table(Element):
 
 
 class Document:
+    """
+    A document represents a markdown file. Documents store
+    a collection of elements which are appended with new lines
+    between to generate the markdown document. Document methods
+    are intended to provided convenience when generating a 
+    markdown file. However, the functionality is not exhaustive.
+    To get the full range of markdown functionality, you can
+    take advantage of the `add_element()` function to provide
+    custom markdown elements. 
+
+    :param name: the name of the document
+    """
 
     def __init__(self, name: str) -> None:
         self.name = name
@@ -297,9 +322,17 @@ class Document:
         self.contents = list()
 
     def __str__(self):
-        return f"{self.name}\n{self._build_page()}"
+        return self.render()
 
-    def add_element(self, element: Element):
+    def render(self) -> str:
+        """
+        Renders the markdown document from a list of elements.
+
+        :return: the document as a markdown string
+        """
+        return "\n\n".join(str(element) for element in self.contents)
+
+    def add_element(self, element: Element) -> None:
         """
         A generic function for appending elements to the document. 
         Use this function when you want a little more control over
@@ -310,7 +343,7 @@ class Document:
         assert isinstance(element, Element)
         self.contents.append(element)
 
-    def add_header(self, text: str, level: int = 1):
+    def add_header(self, text: str, level: int = 1) -> None:
         """
         A convenience method which adds a simple header to the document.
 
@@ -320,7 +353,7 @@ class Document:
         assert 1 <= level <= 6
         self.contents.append(Header(InlineText(text), level))
 
-    def add_paragraph(self, text: str):
+    def add_paragraph(self, text: str) -> None:
         """
         A convenience method which adds a simple paragraph of text to the document.
 
@@ -328,7 +361,7 @@ class Document:
         """
         self.contents.append(Paragraph([InlineText(text)]))
 
-    def add_ordered_list(self, items: Iterable[str]):
+    def add_ordered_list(self, items: Iterable[str]) -> None:
         """
         A convenience method which adds a simple ordered list to the document. 
 
@@ -337,7 +370,7 @@ class Document:
         self.contents.append(MDList((InlineText(item)
                              for item in items), ordered=True))
 
-    def add_unordered_list(self, items: Iterable[str]):
+    def add_unordered_list(self, items: Iterable[str]) -> None:
         """
         A convenience method which adds a simple unordered list to the document. 
 
@@ -345,7 +378,7 @@ class Document:
         """
         self.contents.append(MDList(InlineText(item) for item in items))
 
-    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]):
+    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> None:
         """
         A convenience method which adds a simple table to the document.
 
@@ -356,7 +389,7 @@ class Document:
         data = ((InlineText(item) for item in row) for row in data)
         self.contents.append(Table(header, data))
 
-    def add_code(self, code: str, lang="generic"):
+    def add_code(self, code: str, lang="generic") -> None:
         """
         A convenience method which adds a code block to the document.
 
@@ -365,24 +398,29 @@ class Document:
         self.contents.append(
             Paragraph([InlineText(code)], code=True, lang=lang))
 
-    def add_quote(self, text: str):
+    def add_quote(self, text: str) -> None:
         """
         A convenience method which adds a blockquote to the document.
 
-        :param text: the text to be quoted
+        :param str text: the text to be quoted
         """
         self.contents.append(Paragraph([InlineText(text)], quote=True))
 
-    def output_page(self, dump_dir):
+    def output_page(self, dump_dir: str="") -> None:
+        """
+        Generates the markdown file.
+
+        :param dump_dir: the path to where you want to dump the file
+        """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
         output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")
-        output_file.write(self._build_page())
+        output_file.write(str(self))
         output_file.close()
 
-    def _build_page(self):
-        return "\n\n".join(str(element) for element in self.contents)
-
-    def _get_file_name(self):
+    def _get_file_name(self) -> str:
+        """
+        A helper function for generating the file name.
+        """
         separator = "-"
         file_name = f"{separator.join(self.name.split())}{self.ext}"
         return file_name

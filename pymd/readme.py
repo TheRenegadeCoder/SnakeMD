@@ -48,4 +48,4 @@ if __name__ == "__main__":
     doc.add_code("x = 5")
     doc.add_header("Testing Quote", level=2)
     doc.add_quote("How Now Brown Cow")
-    doc.output_page("")
+    doc.output_page()

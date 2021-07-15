@@ -1,7 +1,7 @@
-pymd
-====
+snakemd
+=======
 
 .. toctree::
    :maxdepth: 4
 
-   pymd
+   snakemd

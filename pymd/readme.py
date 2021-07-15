@@ -15,34 +15,34 @@ def _table_of_contents(doc: Document):
 
 
 def _ordered_list(doc: Document):
-    doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
+    doc.add_ordered_list(["Deku", "Bakugo", "Uraraka", "Tsuyu"])
 
 
 def _unordered_list(doc: Document):
-    doc.add_unordered_list(["Look", "at", "Me", "Now"])
+    doc.add_unordered_list(["Crosby", "Malkin", "Lemieux"])
 
 
 def _nested_list(doc: Document):
     doc.add_element(
         MDList([
-            InlineText("Outer"),
-            InlineText("List"),
+            InlineText("Apples"),
+            InlineText("Onions"),
             MDList([
-                InlineText("Inner"),
-                InlineText("List")
+                InlineText("Sweet"),
+                InlineText("Red")
             ]),
-            InlineText("!!!")
+            InlineText("Grapes")
         ])
     )
 
 
 def _table(doc: Document):
     doc.add_table(
-        ["height", "weight", "age"],
+        ["Height", "Weight", "Age"],
         [
-            ['1', '2', '3'],
-            ['4', '5', '6'],
-            ['7', '8', '9']
+            ['150', '70', '21'],
+            ['164', '75', '19'],
+            ['181', '87', '40']
         ]
     )
 
@@ -115,7 +115,7 @@ def main() -> None:
         doc,
         "Links",
         """Links are targets to files or web pages and can be embedded 
-        in a Paragraph just like images using InlineText.""",
+        in a Paragraph using InlineText.""",
         _link
     )
 

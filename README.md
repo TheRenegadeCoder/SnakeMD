@@ -45,7 +45,7 @@ I think. Therefore, I am.
 
 ## Links
 
-Links are targets to files or web pages and can be embedded in a Paragraph just like images using InlineText.
+Links are targets to files or web pages and can be embedded in a Paragraph using InlineText.
 
 **PyMD Source**
 
@@ -101,24 +101,24 @@ Ordered lists are lists in which the order of the items matters. As a result, we
 
 ```py
 def _ordered_list(doc: Document):
-    doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
+    doc.add_ordered_list(["Deku", "Bakugo", "Uraraka", "Tsuyu"])
 ```
 
 **Markdown Source**
 
 ```markdown
-1. How
-2. Now
-3. Brown
-4. Cow
+1. Deku
+2. Bakugo
+3. Uraraka
+4. Tsuyu
 ```
 
 **Rendered Result**
 
-1. How
-2. Now
-3. Brown
-4. Cow
+1. Deku
+2. Bakugo
+3. Uraraka
+4. Tsuyu
 
 ### Unordered List
 
@@ -128,24 +128,22 @@ Unordered lists are lists in which the order of the items does not matter. As a 
 
 ```py
 def _unordered_list(doc: Document):
-    doc.add_unordered_list(["Look", "at", "Me", "Now"])
+    doc.add_unordered_list(["Crosby", "Malkin", "Lemieux"])
 ```
 
 **Markdown Source**
 
 ```markdown
-- Look
-- at
-- Me
-- Now
+- Crosby
+- Malkin
+- Lemieux
 ```
 
 **Rendered Result**
 
-- Look
-- at
-- Me
-- Now
+- Crosby
+- Malkin
+- Lemieux
 
 ### Nested List
 
@@ -157,13 +155,13 @@ Nested lists are complex lists that contain lists. Currently, PyMD does not supp
 def _nested_list(doc: Document):
     doc.add_element(
         MDList([
-            InlineText("Outer"),
-            InlineText("List"),
+            InlineText("Apples"),
+            InlineText("Onions"),
             MDList([
-                InlineText("Inner"),
-                InlineText("List")
+                InlineText("Sweet"),
+                InlineText("Red")
             ]),
-            InlineText("!!!")
+            InlineText("Grapes")
         ])
     )
 ```
@@ -171,20 +169,20 @@ def _nested_list(doc: Document):
 **Markdown Source**
 
 ```markdown
-- Outer
-- List
-  - Inner
-  - List
-- !!!
+- Apples
+- Onions
+  - Sweet
+  - Red
+- Grapes
 ```
 
 **Rendered Result**
 
-- Outer
-- List
-  - Inner
-  - List
-- !!!
+- Apples
+- Onions
+  - Sweet
+  - Red
+- Grapes
 
 ## Tables
 
@@ -195,11 +193,11 @@ Tables are sets of rows and columns which can display text in a grid. To style a
 ```py
 def _table(doc: Document):
     doc.add_table(
-        ["height", "weight", "age"],
+        ["Height", "Weight", "Age"],
         [
-            ['1', '2', '3'],
-            ['4', '5', '6'],
-            ['7', '8', '9']
+            ['150', '70', '21'],
+            ['164', '75', '19'],
+            ['181', '87', '40']
         ]
     )
 ```
@@ -207,20 +205,20 @@ def _table(doc: Document):
 **Markdown Source**
 
 ```markdown
-height | weight | age
+Height | Weight | Age
 ------ | ------ | ---
-1 | 2 | 3
-4 | 5 | 6
-7 | 8 | 9
+150    | 70     | 21 
+164    | 75     | 19 
+181    | 87     | 40 
 ```
 
 **Rendered Result**
 
-height | weight | age
+Height | Weight | Age
 ------ | ------ | ---
-1 | 2 | 3
-4 | 5 | 6
-7 | 8 | 9
+150    | 70     | 21 
+164    | 75     | 19 
+181    | 87     | 40 
 
 ## Code Blocks
 

@@ -297,7 +297,10 @@ class Table(Element):
         """
         rows = list()
         header = [str(item) for item in self.header]
-        body = [[str(item) for item in row] for row in self.body]
+        body = [
+            [str(item).ljust(len(header[i])) for i, item in enumerate(row)] 
+            for row in self.body
+        ]
         rows.append(' | '.join(header))
         rows.append(' | '.join("-" * len(item) for item in header))
         rows.extend(' | '.join(row) for row in body)

@@ -193,11 +193,14 @@ custom markdown elements.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pymd.markdown.Document.add_code">
-<span class="sig-name descname"><span class="pre">add_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'generic'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymd.markdown.Document.add_code" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'generic'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymd.markdown.Document.add_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>A convenience method which adds a code block to the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>code</strong> – a preformatted code string</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<em>str</em>) – a preformatted code string</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – the language for syntax highlighting</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -210,7 +213,7 @@ Use this function when you want a little more control over
 what the output looks like.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>element</strong> – a markdown object (e.g., Table, Header, etc.)</p>
+<dd class="field-odd"><p><strong>element</strong> (<a class="reference internal" href="#pymd.markdown.Element" title="pymd.markdown.Element"><em>Element</em></a>) – a markdown object (e.g., Table, Header, etc.)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -222,8 +225,8 @@ what the output looks like.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> – the text for the header</p></li>
-<li><p><strong>level</strong> – the level of the header from 1 to 6</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – the text for the header</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – the level of the header from 1 to 6</p></li>
 </ul>
 </dd>
 </dl>
@@ -235,7 +238,7 @@ what the output looks like.</p>
 <dd><p>A convenience method which adds a simple ordered list to the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>items</strong> – a “list” of strings</p>
+<dd class="field-odd"><p><strong>items</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – a “list” of strings</p>
 </dd>
 </dl>
 </dd></dl>
@@ -246,7 +249,7 @@ what the output looks like.</p>
 <dd><p>A convenience method which adds a simple paragraph of text to the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text</strong> – any arbitrary text</p>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – any arbitrary text</p>
 </dd>
 </dl>
 </dd></dl>
@@ -269,8 +272,8 @@ what the output looks like.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> – a “list” of strings</p></li>
-<li><p><strong>data</strong> – a “list” of “lists” of strings</p></li>
+<li><p><strong>header</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – a “list” of strings</p></li>
+<li><p><strong>data</strong> (<em>Iterable</em><em>[</em><em>Iterable</em><em>[</em><em>str</em><em>]</em><em>]</em>) – a “list” of “lists” of strings</p></li>
 </ul>
 </dd>
 </dl>
@@ -282,7 +285,7 @@ what the output looks like.</p>
 <dd><p>A convenience method which adds a simple unordered list to the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>items</strong> – a “list” of strings</p>
+<dd class="field-odd"><p><strong>items</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – a “list” of strings</p>
 </dd>
 </dl>
 </dd></dl>
@@ -293,7 +296,7 @@ what the output looks like.</p>
 <dd><p>Generates the markdown file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dump_dir</strong> – the path to where you want to dump the file</p>
+<dd class="field-odd"><p><strong>dump_dir</strong> (<em>str</em>) – the path to where you want to dump the file</p>
 </dd>
 </dl>
 </dd></dl>
@@ -350,8 +353,8 @@ correspond to the six headers sizes in HTML (e.g., &lt;h1&gt;).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> – the header text</p></li>
-<li><p><strong>level</strong> – the header level between 1 and 6</p></li>
+<li><p><strong>text</strong> (<a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><em>InlineText</em></a>) – the header text</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – the header level between 1 and 6</p></li>
 </ul>
 </dd>
 </dl>
@@ -470,19 +473,19 @@ will be rendered in markdown.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pymd.markdown.Paragraph">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pymd.markdown.</span></span><span class="sig-name descname"><span class="pre">Paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'generic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quote</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Paragraph" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pymd.markdown.</span></span><span class="sig-name descname"><span class="pre">Paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><span class="pre">pymd.markdown.InlineText</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'generic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quote</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymd.markdown.Paragraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pymd.markdown.Element" title="pymd.markdown.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">pymd.markdown.Element</span></code></a></p>
 <p>A paragraph is a standalone element of text. Paragraphs can be
 formatted in a variety of ways including as code and blockquotes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>content</strong> – a “list” of text objects to render as a paragraph</p></li>
-<li><p><strong>code</strong> – the code state of the paragraph;
+<li><p><strong>content</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="#pymd.markdown.InlineText" title="pymd.markdown.InlineText"><em>InlineText</em></a><em>]</em>) – a “list” of text objects to render as a paragraph</p></li>
+<li><p><strong>code</strong> (<em>bool</em>) – the code state of the paragraph;
 set True to convert the paragraph to a code block (i.e., True -&gt; <code class="docutils literal notranslate"><span class="pre">`code`</span></code>)</p></li>
-<li><p><strong>lang</strong> – the language of the code snippet;
+<li><p><strong>lang</strong> (<em>str</em>) – the language of the code snippet;
 invalid without the code flag set to True</p></li>
-<li><p><strong>quote</strong> – the quote state of the paragraph;
+<li><p><strong>quote</strong> (<em>bool</em>) – the quote state of the paragraph;
 set True to convert the paragraph to a blockquote (i.e., True -&gt; &gt; quote)</p></li>
 </ul>
 </dd>

@@ -136,8 +136,8 @@ class Header(Element):
     section of a document. Headers come in six main sizes which 
     correspond to the six headers sizes in HTML (e.g., <h1>).
 
-    :param text: the header text
-    :param level: the header level between 1 and 6
+    :param InlineText text: the header text
+    :param int level: the header level between 1 and 6
     """
 
     def __init__(self, text: InlineText, level: int) -> None:
@@ -179,16 +179,16 @@ class Paragraph(Element):
     A paragraph is a standalone element of text. Paragraphs can be
     formatted in a variety of ways including as code and blockquotes.
 
-    :param content: a "list" of text objects to render as a paragraph 
-    :param code: the code state of the paragraph;
+    :param Iterable[InlineText] content: a "list" of text objects to render as a paragraph 
+    :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
-    :param lang: the language of the code snippet;
+    :param str lang: the language of the code snippet;
         invalid without the code flag set to True
-    :param quote: the quote state of the paragraph;
+    :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[InlineText], code=False, lang="generic", quote=False):
+    def __init__(self, content: Iterable[InlineText], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
         self.content = content
         self.code = code
@@ -338,17 +338,17 @@ class Document:
         Use this function when you want a little more control over
         what the output looks like. 
 
-        :param element: a markdown object (e.g., Table, Header, etc.)
+        :param Element element: a markdown object (e.g., Table, Header, etc.)
         """
         assert isinstance(element, Element)
         self.contents.append(element)
 
     def add_header(self, text: str, level: int = 1) -> None:
-        """
+        """ 
         A convenience method which adds a simple header to the document.
 
-        :param text: the text for the header
-        :param level: the level of the header from 1 to 6
+        :param str text: the text for the header
+        :param int level: the level of the header from 1 to 6
         """
         assert 1 <= level <= 6
         self.contents.append(Header(InlineText(text), level))
@@ -357,7 +357,7 @@ class Document:
         """
         A convenience method which adds a simple paragraph of text to the document.
 
-        :param text: any arbitrary text
+        :param str text: any arbitrary text
         """
         self.contents.append(Paragraph([InlineText(text)]))
 
@@ -365,7 +365,7 @@ class Document:
         """
         A convenience method which adds a simple ordered list to the document. 
 
-        :param items: a "list" of strings
+        :param Iterable[str] items: a "list" of strings
         """
         self.contents.append(MDList((InlineText(item)
                              for item in items), ordered=True))
@@ -374,7 +374,7 @@ class Document:
         """
         A convenience method which adds a simple unordered list to the document. 
 
-        :param items: a "list" of strings
+        :param Iterable[str] items: a "list" of strings
         """
         self.contents.append(MDList(InlineText(item) for item in items))
 
@@ -382,18 +382,19 @@ class Document:
         """
         A convenience method which adds a simple table to the document.
 
-        :param header: a "list" of strings
-        :param data: a "list" of "lists" of strings
+        :param Iterable[str] header: a "list" of strings
+        :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
         """
         header = (InlineText(text) for text in header)
         data = ((InlineText(item) for item in row) for row in data)
         self.contents.append(Table(header, data))
 
-    def add_code(self, code: str, lang="generic") -> None:
+    def add_code(self, code: str, lang: str = "generic") -> None:
         """
         A convenience method which adds a code block to the document.
 
-        :param code: a preformatted code string
+        :param str code: a preformatted code string
+        :param str lang: the language for syntax highlighting
         """
         self.contents.append(
             Paragraph([InlineText(code)], code=True, lang=lang))
@@ -410,7 +411,7 @@ class Document:
         """
         Generates the markdown file.
 
-        :param dump_dir: the path to where you want to dump the file
+        :param str dump_dir: the path to where you want to dump the file
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
         output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")

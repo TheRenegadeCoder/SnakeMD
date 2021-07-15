@@ -215,7 +215,7 @@ class Paragraph(Element):
         elif self.quote:
             return f"> {paragraph}"
         else:
-            return paragraph.replace('\n', ' ').replace('\r', ' ')
+            return " ".join(paragraph.split())
 
     def add(self, text: InlineText) -> None:
         """

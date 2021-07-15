@@ -1,8 +1,8 @@
 # Welcome to PyMD!
 
-PyMD is your ticket to generating markdown in Python.      To prove it to you, we've generated this entire README using PyMD.     See readme.py for how it was done.
+PyMD is your ticket to generating markdown in Python. To prove it to you, we've generated this entire README using PyMD. See readme.py for how it was done.
 
-In the remainder of this document, we'll show you all of     the things this library can do.
+In the remainder of this document, we'll show you all of the things this library can do.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ def _table_of_contents(doc: Document):
 
 ## Make a List
 
-PyMD can make a variety of markdown lists.      The two main types of lists are ordered and unordered.
+PyMD can make a variety of markdown lists. The two main types of lists are ordered and unordered.
 
 ### Ordered List
 
@@ -32,7 +32,7 @@ def _ordered_list(doc: Document):
     doc.add_ordered_list(["How", "Now", "Brown", "Cow"])
 ```
 
-Ordered lists are lists in which the order of the      items matters. As a result, we number them.
+Ordered lists are lists in which the order of the items matters. As a result, we number them.
 
 1. How
 2. Now
@@ -48,7 +48,7 @@ def _unordered_list(doc: Document):
     doc.add_unordered_list(["Look", "at", "Me", "Now"])
 ```
 
-Unordered lists are lists in which the order of the     items does not matter. As a result, we bullet them.
+Unordered lists are lists in which the order of the items does not matter. As a result, we bullet them.
 
 - Look
 - at
@@ -75,7 +75,7 @@ def _nested_list(doc: Document):
     )
 ```
 
-Nested lists are complex lists that contain lists.     Currently, PyMD does not support any convenience methods to generate     nested lists, but they can be created manually using the MDList object.
+Nested lists are complex lists that contain lists. Currently, PyMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
 
 - Outer
 - List
@@ -86,16 +86,20 @@ Nested lists are complex lists that contain lists.     Currently, PyMD does not 
 ## Make a Table
 
 ```py
-doc.add_table(
-    ["height", "weight", "age"], 
-    [
-        ['1', '2', '3'], 
-        ['4', '5', '6'], 
-        ['7', '8', '9']
-    ]
-)
-    
+def _table(doc: Document):
+    doc.add_paragraph("""Tables are sets of rows and columns which
+    can display text in a grid.""")
+    doc.add_table(
+        ["height", "weight", "age"],
+        [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            ['7', '8', '9']
+        ]
+    )
 ```
+
+Tables are sets of rows and columns which can display text in a grid.
 
 height | weight | age
 - | - | -

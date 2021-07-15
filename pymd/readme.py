@@ -43,6 +43,19 @@ def _nested_list(doc: Document):
     )
 
 
+def _table(doc: Document):
+    doc.add_paragraph("""Tables are sets of rows and columns which
+    can display text in a grid.""")
+    doc.add_table(
+        ["height", "weight", "age"],
+        [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            ['7', '8', '9']
+        ]
+    )
+
+
 def main() -> None:
     """
     Generates the repo README.
@@ -80,24 +93,8 @@ def main() -> None:
 
     # Tables
     doc.add_header("Make a Table", level=2)
-    doc.add_code("""doc.add_table(
-    ["height", "weight", "age"], 
-    [
-        ['1', '2', '3'], 
-        ['4', '5', '6'], 
-        ['7', '8', '9']
-    ]
-)
-    """,
-                 lang="py")
-    doc.add_table(
-        ["height", "weight", "age"],
-        [
-            ['1', '2', '3'],
-            ['4', '5', '6'],
-            ['7', '8', '9']
-        ]
-    )
+    doc.add_code(inspect.getsource(_table).strip(), lang="py")
+    _table(doc)
 
     # Images
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"

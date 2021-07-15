@@ -186,11 +186,12 @@ def main() -> None:
     doc.contents[-3].backticks = 4
 
     # Quote
-    doc.add_header("Quotes", level=2)
-    doc.add_paragraph("""Quotes are blocks of text that represent
-    quotes from people.""")
-    doc.add_code(inspect.getsource(_quote).strip(), lang="py")
-    _quote(doc)
+    _section(
+        doc,
+        "Quotes",
+        """Quotes are blocks of text that represent quotes from people.""",
+        _quote
+    )
 
     doc.output_page()
 

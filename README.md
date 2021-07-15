@@ -251,9 +251,19 @@ x = 5
 
 Quotes are blocks of text that represent quotes from people.
 
+**PyMD Source**
+
 ```py
 def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 ```
+
+**Markdown Source**
+
+```markdown
+> How Now Brown Cow
+```
+
+**Rendered Result**
 
 > How Now Brown Cow

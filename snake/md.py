@@ -35,12 +35,12 @@ class InlineText:
         code: bool = False,
         image: bool = False
     ) -> None:
-        self.text = text
-        self.bold = bold
-        self.italics = italics
-        self.url = url
-        self.code = code
-        self.image = image
+        self._text = text
+        self._bold = bold
+        self._italics = italics
+        self._url = url
+        self._code = code
+        self._image = image
 
     def __str__(self) -> str:
         return self.render()
@@ -53,16 +53,16 @@ class InlineText:
 
         :return: the InlineText object as a string
         """
-        text = self.text
-        if self.bold:
+        text = self._text
+        if self._bold:
             text = f"**{text}**"
-        if self.italics:
+        if self._italics:
             text = f"*{text}*"
-        if self.url:
-            text = f"[{text}]({self.url})"
-        if self.url and self.image:
+        if self._url:
+            text = f"[{text}]({self._url})"
+        if self._url and self._image:
             text = f"!{text}"
-        if self.code:
+        if self._code:
             text = f"`{text}`"
         return text
 
@@ -72,7 +72,7 @@ class InlineText:
 
         :return: True if the URL is valid; False otherwise
         """
-        req = request.Request(self.url)
+        req = request.Request(self._url)
         req.get_method = lambda: 'HEAD'
         try:
             request.urlopen(req)
@@ -81,20 +81,20 @@ class InlineText:
             return False
 
     def verify(self) -> bool:
-        if self.url:
+        if self._url:
             assert self._verify_link()
 
     def bold(self) -> None:
         """
         Adds bold styling to self. 
         """
-        self.bold = True
+        self._bold = True
 
     def unbold(self) -> None:
         """
         Removes bold styling from self. 
         """
-        self.bold = False
+        self._bold = False
 
     # TODO: add text processing to avoid issues where asterisks mess up formatting
     # One way to do this would be to backslash special characters in the raw text

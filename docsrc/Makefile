@@ -13,8 +13,8 @@ help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 github:
-    @make html
-    @cp -a _build/html/. ../docs
+	@make html
+	@cp -a _build/html/. ../docs
 
 .PHONY: help Makefile
 

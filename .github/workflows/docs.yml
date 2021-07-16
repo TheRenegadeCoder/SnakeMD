@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+        pip install sphinx_rtd_theme
+
+    - name: Sphinx Build
+      run: |
+        python setup.py build_sphinx
+        cp -a docsrc/_build/dirhtml/ docs/
+
+    - name: Commit docs
+      continue-on-error: true
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Generated documentation" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.head_ref }}
+        force: true

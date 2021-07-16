@@ -27,7 +27,7 @@ jobs:
       run: python setup.py build_sphinx
 
     - name: Copy HTML
-      run: cp -R /docsrc/_build/dirhtml /docs
+      run: cp -a docsrc/_build/html/. docs
 
     - name: Commit docs
       continue-on-error: true
@@ -35,10 +35,4 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "Generated documentation" -a
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head_ref }}
-        force: true
+        git push

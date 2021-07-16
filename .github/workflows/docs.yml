@@ -12,6 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Get latest tag
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -27,7 +30,9 @@ jobs:
       run: python setup.py build_sphinx
 
     - name: Copy HTML
-      run: cp -a docsrc/_build/dirhtml/. docs
+      run: | 
+        echo cp -a docsrc/_build/dirhtml/. docs/${{ env.RELEASE_VERSION }}
+        echo "<meta http-equiv=\"refresh\" content=\"0; url=./${{ env.RELEASE_VERSION }}/index.html\" />" > docs/index.html
 
     - name: Commit Changes
       uses: EndBug/add-and-commit@v5 

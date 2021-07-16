@@ -229,13 +229,23 @@ class Header(Element):
     correspond to the six headers sizes in HTML (e.g., <h1>).
 
     :param InlineText text: the header text
-    :param int level: the header level between 1 and 6
+    :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
     """
 
     def __init__(self, text: InlineText, level: int) -> None:
         super().__init__()
         self._text: InlineText = text
         self._level: int = level
+        self._bound_input()
+
+    def _bound_input(self) -> None:
+        """
+        Restricts the range of possible levels to avoid issues with rendering.
+        """
+        if self._level < 1:
+            self._level = 1
+        if self._level > 6:
+            self._level = 6
 
     def render(self) -> str:
         """
@@ -245,6 +255,9 @@ class Header(Element):
         :return: the header as a markdown string
         """
         return f"{'#' * self._level} {self._text}"
+
+    def verify(self) -> Verification:
+        return 
 
     def promote(self) -> None:
         """

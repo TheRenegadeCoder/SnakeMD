@@ -5,6 +5,10 @@ def test_header_empty():
     header = Header("", 1)
     assert str(header) == "# "
 
+def test_header_str_level_sub_one():
+    header = Header("Example Header", 0)
+    assert str(header) == "# Example Header"
+
 def test_header_str_level_one():
     header = Header("Example Header", 1)
     assert str(header) == "# Example Header"
@@ -29,6 +33,10 @@ def test_header_str_level_six():
     header = Header("Example Header", 6)
     assert str(header) == "###### Example Header"
 
+def test_header_str_level_sup_six():
+    header = Header("Example Header", 7)
+    assert str(header) == "###### Example Header"
+
 def test_header_promote():
     header = Header("Example Header", 2)
     header.promote()
@@ -48,3 +56,5 @@ def test_header_demote_min():
     header = Header("Example Header", 6)
     header.demote()
     assert str(header) == "###### Example Header"
+
+

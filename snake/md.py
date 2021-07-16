@@ -194,11 +194,11 @@ class Paragraph(Element):
 
     def __init__(self, content: Iterable[InlineText], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
-        self.content = content
-        self.code = code
-        self.lang = lang
-        self.quote = quote
-        self.backticks = 3
+        self._content = content
+        self._code = code
+        self._lang = lang
+        self._quote = quote
+        self._backticks = 3
 
     def __str__(self) -> str:
         return self.render()
@@ -212,11 +212,11 @@ class Paragraph(Element):
         :return: the paragraph as a markdown string
         """
         # TODO: add support for nested code blocks
-        paragraph = ' '.join(str(item) for item in self.content)
-        if self.code:
-            ticks = '`' * self.backticks
-            return f"{ticks}{self.lang}\n{paragraph}\n{ticks}"
-        elif self.quote:
+        paragraph = ' '.join(str(item) for item in self._content)
+        if self._code:
+            ticks = '`' * self._backticks
+            return f"{ticks}{self._lang}\n{paragraph}\n{ticks}"
+        elif self._quote:
             return f"> {paragraph}"
         else:
             return " ".join(paragraph.split())
@@ -227,7 +227,7 @@ class Paragraph(Element):
 
         :param text: a custom text element
         """
-        self.content.append(text)
+        self._content.append(text)
 
 
 class MDList(Element):

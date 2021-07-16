@@ -29,3 +29,9 @@ def test_inline_text_code():
     text = InlineText("x = 7", code=True)
     assert text.text == "x = 7"
     assert str(text) == "`x = 7`"
+
+def test_inline_text_url():
+    text = InlineText("Here", url="https://google.com")
+    assert text.text == "Here"
+    assert text.url == "https://google.com"
+    assert str(text) == "[Here](https://google.com)"

@@ -6,8 +6,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 name = "SnakeMD"
-version = "1.0"
-release = "1.0.1"
+version = "1.1"
+release = "1.1.0"
 setuptools.setup(
     name=name,
     version=release,

@@ -1,7 +1,7 @@
-snakemd
-=======
+snake
+=====
 
 .. toctree::
    :maxdepth: 4
 
-   snakemd
+   snake

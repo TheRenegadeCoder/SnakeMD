@@ -1,8 +1,8 @@
 name: Deploy
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    tags:
 
 jobs:
   deploy:
@@ -31,7 +31,7 @@ jobs:
 
     - name: Copy HTML
       run: | 
-        echo cp -a docsrc/_build/dirhtml/. docs/${{ env.RELEASE_VERSION }}
+        cp -a docsrc/_build/dirhtml/. docs/${{ env.RELEASE_VERSION }}
         echo "<meta http-equiv=\"refresh\" content=\"0; url=./${{ env.RELEASE_VERSION }}/index.html\" />" > docs/index.html
 
     - name: Commit Changes

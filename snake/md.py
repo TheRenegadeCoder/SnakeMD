@@ -210,6 +210,17 @@ class HorizontalRule(Element):
         """
         return "---"
 
+    def verify(self) -> Verification:
+        """
+        Verifies the structure of the HorizontalRule element.
+        Because there is no way to customize this object,
+        it is always valid. Therefore, this method returns an
+        empty Verification object.
+
+        :return: an empty Verification object signaling a lack of errors
+        """
+        return Verification()
+
 
 class Header(Element):
     """

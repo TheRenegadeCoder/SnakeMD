@@ -25,7 +25,7 @@ jobs:
 
     - name: Sphinx Build
       run: |
-        py setup.py build_sphinx
+        python setup.py build_sphinx
         cp -a docsrc/_build/dirhtml/. docs/
 
     - name: Commit docs

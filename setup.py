@@ -1,6 +1,12 @@
 import setuptools
-from sphinx.setup_command import BuildDoc
-cmdclass = {'build_sphinx': BuildDoc}
+
+cmdclass = {}
+
+try:
+    from sphinx.setup_command import BuildDoc
+    cmdclass['build_sphinx'] = BuildDoc
+except ImportError:
+    print("WARNING: sphinx not available")
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -22,7 +28,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/TheRenegadeCoder/SnakeMD",
     packages=setuptools.find_packages(),
-    install_requires=[],
+    install_requires=[
+        "sphinx"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

@@ -217,7 +217,7 @@ class HorizontalRule(Element):
         it is always valid. Therefore, this method returns an
         empty Verification object.
 
-        :return: an empty Verification object signaling a lack of errors
+        :return: a verification object from the violator
         """
         return Verification()
 
@@ -257,7 +257,14 @@ class Header(Element):
         return f"{'#' * self._level} {self._text}"
 
     def verify(self) -> Verification:
-        return 
+        """
+        Verifies that the provided header is valid. This mainly
+        returns errors associated with the InlineText element
+        provided during instantiation. 
+
+        :return: a verification object from the violator
+        """
+        return self._text.verify()
 
     def promote(self) -> None:
         """

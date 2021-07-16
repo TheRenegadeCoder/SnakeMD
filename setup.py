@@ -11,9 +11,9 @@ except ImportError:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-MAJOR = 1
+MAJOR = 0
 MINOR = 1
-PATCH = 3
+PATCH = 0
 
 name = "SnakeMD"
 version = f"{MAJOR}.{MINOR}"

@@ -139,7 +139,7 @@ class InlineText:
         :return: a verification object containing any errors that may have occured
         """
         verification = Verification()
-        if self._url and not self.verify_url():
+        if self._url and not (self._url.startswith("#") or self.verify_url()):
             verification.add_error(self, "Invalid URL")
         if self._image and not self._url:
             verification.add_error(self, "Image requested without URL")

@@ -25,7 +25,7 @@ class Verification():
     def __str__(self) -> str:
         output = []
         for error in self._errors:
-            output.append(f"{type(error[0]).__name__} [{error[0]}]: {error[1]}")
+            output.append(f"- {type(error[0]).__name__}: {error[1]}\n{error[0]}\n")
         return "\n".join(output)
 
     def add_error(self, violator: object, error: str) -> None:
@@ -45,7 +45,7 @@ class Verification():
 
         :param Verification verification: the verification object to absorb
         """
-        self._errors.extend(verification._errors())
+        self._errors.extend(verification._errors)
 
     def passes_inspection(self) -> bool:
         """
@@ -391,7 +391,7 @@ class MDList(Element):
     def verify(self) -> Verification:
         """
         Verifies that the markdown list is valid. Mainly, this checks the validity
-        of the containing InlineText items. The MDList class has no ways to
+        of the containing InlineText items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types. 
 
         :return: a verification object from the violator
@@ -413,8 +413,8 @@ class Table(Element):
 
     def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]]) -> None:
         super().__init__()
-        self.header = header
-        self.body = body
+        self._header = header
+        self._body = body
         # TODO: add column align
 
     def render(self) -> str:
@@ -426,10 +426,10 @@ class Table(Element):
         """
         # TODO: make pretty print more robust
         rows = list()
-        header = [str(item) for item in self.header]
+        header = [str(item) for item in self._header]
         body = [
             [str(item).ljust(len(header[i])) for i, item in enumerate(row)]
-            for row in self.body
+            for row in self._body
         ]
         rows.append(' | '.join(header))
         rows.append(' | '.join("-" * len(item) for item in header))
@@ -437,8 +437,33 @@ class Table(Element):
         return '\n'.join(rows)
 
     def verify(self):
-        assert len({len(i) for i in self.body}) == 1
-        assert len(self.header) == len(self.footer) == len(self.body[0])
+        """
+        Verifies the integrity of the markdown table. There are various ways
+        a user could instantiate this object improperly. For example, they may
+        provide a body with roes that are not all equal width. Likewise, the
+        header may not match the width of the body. InlineText elements may also 
+        be malformed. 
+
+        :return: a verification object from the violator
+        """
+        verification = Verification()
+
+        # Table errors
+        if len({len(row) for row in self._body}) != 1:
+            verification.add_error(self, "Table body rows are not all the same width.")
+        elif len(self._header) != len(self._body[0]):
+            verification.add_error(self, "Header does not match width of body")
+
+        # InlineText errors
+        # TODO: pass information to verification that signals the location of each item
+        # TODO: Mainly we just want more information to help the user debug
+        for item in self._header:
+            verification.absorb(item.verify())
+        for row in self._body:
+            for item in row:
+                verification.absorb(item.verify())
+
+        return verification
 
 
 class Document:

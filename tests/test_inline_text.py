@@ -27,3 +27,7 @@ def test_inline_text_code():
 def test_inline_text_url():
     text = InlineText("Here", url="https://google.com")
     assert str(text) == "[Here](https://google.com)"
+
+def test_inline_text_image():
+    text = InlineText("Here", url="https://google.com", image=True)
+    assert str(text) == "![Here](https://google.com)"

@@ -1,6 +1,5 @@
 from snake.md import InlineText
 
-
 def test_inline_text_empty():
     text = InlineText("")
     assert text.text == ""
@@ -25,3 +24,8 @@ def test_inline_text_bold_italics():
     text = InlineText("Hello, World!", italics=True, bold=True)
     assert text.text == "Hello, World!"
     assert str(text) == "***Hello, World!***"
+
+def test_inline_text_code():
+    text = InlineText("x = 7", code=True)
+    assert text.text == "x = 7"
+    assert str(text) == "`x = 7`"

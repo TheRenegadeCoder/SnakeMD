@@ -27,9 +27,9 @@ jobs:
       run: python setup.py build_sphinx
 
     - name: Copy HTML
-      run: |
-        ls 
+      run: | 
         cp -a docsrc/_build/dirhtml/. docs
+        ls
 
     - name: Commit docs
       continue-on-error: true

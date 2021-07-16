@@ -45,3 +45,15 @@ def test_inline_text_image():
 def test_inline_text_image_minus_url():
     text = InlineText("Here", image=True)
     assert str(text) == "Here"
+
+def test_inline_text_verify_empty():
+    text = InlineText("")
+    assert text.verify().passes_inspection()
+
+def test_inline_text_verify_invalid_url():
+    text = InlineText("Bad URL Test", url="adlsfhaisu")
+    assert not text.verify().passes_inspection()
+
+def test_inline_text_verify_no_image_url():
+    text = InlineText("Bad URL Test", image=True)
+    assert not text.verify().passes_inspection()

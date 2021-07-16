@@ -11,6 +11,12 @@ class Verification():
     def __init__(self) -> None:
         self._errors = list()
 
+    def __str__(self) -> str:
+        output = []
+        for error in self._errors:
+            output.append(f"{type(error[0]).__name__} [{error[0]}]: {error[1]}")
+        return "\n".join(output)
+
     def add_error(self, violator: object, error: str) -> None:
         """
         Documents a verification error.
@@ -31,6 +37,12 @@ class Verification():
         self._errors.extend(verification._errors())
 
     def passes_inspection(self) -> bool:
+        """
+        Assuming this object has already been used to verify something,
+        this function will determine if that verificatioc succeeded.
+
+        :return: True if there are no errors; False otherwise
+        """
         return not bool(self._errors)
 
 class InlineText:
@@ -98,12 +110,12 @@ class InlineText:
 
         :return: True if the URL is valid; False otherwise
         """
-        req = request.Request(self._url)
-        req.get_method = lambda: 'HEAD'
         try:
+            req = request.Request(self._url)
+            req.get_method = lambda: 'HEAD'
             request.urlopen(req)
             return True
-        except HTTPError:
+        except (HTTPError, ValueError):
             return False
 
     def verify(self) -> Verification:

@@ -184,7 +184,7 @@ def main() -> None:
     )
 
     # ERROR: patch code block
-    doc._contents[-3].backticks = 4
+    doc._contents[-3]._backticks = 4
 
     # Quote
     _section(

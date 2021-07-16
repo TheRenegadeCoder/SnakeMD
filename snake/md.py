@@ -441,8 +441,8 @@ class Document:
         loading, so it can only be rendered once. 
         """
         headers = (
-            InlineText(header._text.text,
-                       url=f"#{'-'.join(header._text.text.lower().split())}")
+            InlineText(header._text._text,
+                       url=f"#{'-'.join(header._text._text.lower().split())}")
             for header in self._contents
             if isinstance(header, Header) and header._level == 2
         )

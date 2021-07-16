@@ -111,13 +111,13 @@ class Element:
         pass
 
     def __str__(self) -> str:
-        raise NotImplementedError()
+        return self.render()
 
     def render(self) -> str:
         """
         Renders the element as a markdown string.
-        This function is to be called by `__str__()` of
-        the child class. 
+        This function is called by __str__ for all classes
+        which inherit Element. 
 
         :raises NotImplementedError: interface method never to be implemented
         :return: the element as a markdown string
@@ -134,6 +134,25 @@ class Element:
         raise NotImplementedError()
 
 
+class HorizontalRule(Element):
+    """
+    A horizontal rule is a line separating different sections of
+    a document. Horizontal rules really only come in one form,
+    so there are no settings to adjust. 
+    """
+    
+    def __init__(self):
+        super().__init__()
+
+    def render(self) -> str:
+        """
+        Renders the horizontal rule using the three dash syntax.
+
+        :return: the horizontal rule as a markdown string
+        """
+        return "---"
+
+
 class Header(Element):
     """
     A header is a text element which serves as the title for a new
@@ -148,9 +167,6 @@ class Header(Element):
         super().__init__()
         self.text: InlineText = text
         self.level: int = level
-
-    def __str__(self) -> str:
-        return self.render()
 
     def render(self) -> str:
         """
@@ -200,9 +216,6 @@ class Paragraph(Element):
         self._quote = quote
         self._backticks = 3
 
-    def __str__(self) -> str:
-        return self.render()
-
     def render(self) -> str:
         """
         Renders the paragraph as markdown according to the settings provided.
@@ -245,9 +258,6 @@ class MDList(Element):
         self._ordered = ordered
         self._depth = 0
 
-    def __str__(self) -> str:
-        return self.render()
-
     def render(self) -> str:
         """
         Renders the markdown list according to the settings provided.
@@ -285,9 +295,6 @@ class Table(Element):
         self.header = header
         self.body = body
         # TODO: add column align
-
-    def __str__(self) -> str:
-        return self.render()
 
     def render(self) -> str:
         """

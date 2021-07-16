@@ -1,4 +1,4 @@
-name: Deploy
+name: Docs
 
 on:
   release:
@@ -35,16 +35,14 @@ jobs:
     - name: Update Index
       run: echo "<meta http-equiv=\"refresh\" content=\"0; url=./${{ env.RELEASE_VERSION }}/index.html\" />" > docs/index.html
 
-    - name: Commit Changes
-      uses: EndBug/add-and-commit@v5 
-      with:
-        message: |
-          Generated documentation
-            
-            
-          on-behalf-of: @TheRenegadeCoder <jeremy.grifski@therenegadecoder.com>
-        author_name: Jeremy Grifski
-        author_email: jeremy.grifski@gmail.com
+    - name: Publish Documentation
+      continue-on-error: true
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Update documentation"
+        git push
 
       env:
         # This is necessary in order to push a commit to the repo

@@ -427,6 +427,12 @@ class Document:
         """
         self._contents.append(Paragraph([InlineText(text)], quote=True))
 
+    def add_horizontal_rule(self) -> None:
+        """
+        A convenience method which adds a horizontal rule to the document.
+        """
+        self._contents.append(HorizontalRule())
+
     def add_table_of_contents(self) -> None:
         """
         A convenience method which creates a table of contents. This function

@@ -31,3 +31,7 @@ def test_inline_text_url():
 def test_inline_text_image():
     text = InlineText("Here", url="https://google.com", image=True)
     assert str(text) == "![Here](https://google.com)"
+
+def test_inline_text_image_minus_url():
+    text = InlineText("Here", image=True)
+    assert str(text) == "Here"

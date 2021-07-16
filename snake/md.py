@@ -309,7 +309,8 @@ class Paragraph(Element):
         """
         Renders the paragraph as markdown according to the settings provided.
         For example, if the code flag is enabled, the paragraph will be
-        rendered as a code block. 
+        rendered as a code block. If both flags are enabled, code takes
+        precedence. 
 
         :return: the paragraph as a markdown string
         """
@@ -322,6 +323,24 @@ class Paragraph(Element):
             return f"> {paragraph}"
         else:
             return " ".join(paragraph.split())
+
+    def verify(self) -> Verification:
+        """
+        Verifies that the Paragraph is valid. 
+
+        :return: a verification object from the violator
+        """
+        verification = Verification()
+
+        # Paragraph errors
+        if self._code and self._quote:
+            verification.add_error(self, "Both code and quote are active. Choose one. ")
+
+        # InlineText errors
+        for text in self._content:
+            verification.absorb(text.verify())
+
+        return verification
 
     def add(self, text: InlineText) -> None:
         """

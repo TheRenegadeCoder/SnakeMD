@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 import os
 import pathlib
-from typing import Iterable, Union
-from urllib.error import HTTPError
-from urllib import request
 import random
+from typing import Iterable, Union
+from urllib import request
+from urllib.error import HTTPError
 
 
 class Verification():
@@ -25,7 +26,8 @@ class Verification():
     def __str__(self) -> str:
         output = []
         for error in self._errors:
-            output.append(f"- {type(error[0]).__name__}: {error[1]}\n{error[0]}\n")
+            output.append(
+                f"- {type(error[0]).__name__}: {error[1]}\n{error[0]}\n")
         return "\n".join(output)
 
     def add_error(self, violator: object, error: str) -> None:
@@ -55,6 +57,7 @@ class Verification():
         :return: True if there are no errors; False otherwise
         """
         return not bool(self._errors)
+
 
 class InlineText:
     """
@@ -334,7 +337,8 @@ class Paragraph(Element):
 
         # Paragraph errors
         if self._code and self._quote:
-            verification.add_error(self, "Both code and quote are active. Choose one. ")
+            verification.add_error(
+                self, "Both code and quote are active. Choose one. ")
 
         # InlineText errors
         for text in self._content:
@@ -450,7 +454,8 @@ class Table(Element):
 
         # Table errors
         if len({len(row) for row in self._body}) != 1:
-            verification.add_error(self, "Table body rows are not all the same width.")
+            verification.add_error(
+                self, "Table body rows are not all the same width.")
         elif len(self._header) != len(self._body[0]):
             verification.add_error(self, "Header does not match width of body")
 

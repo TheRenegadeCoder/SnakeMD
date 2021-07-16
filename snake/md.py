@@ -66,7 +66,7 @@ class InlineText:
             text = f"`{text}`"
         return text
 
-    def _verify_link(self) -> bool:
+    def verify_link(self) -> bool:
         """
         Verifies that a URL is a valid URL.
 
@@ -124,12 +124,12 @@ class Element:
         """
         raise NotImplementedError()
 
-    def verify(self):
+    def verify(self) -> list[str]:
         """
         Verifies that the element is valid markdown.
-        TODO: figure out how this function should work. 
 
         :raises NotImplementedError: interface method never to be implemented
+        :return: a series of errors in the current element
         """
         raise NotImplementedError()
 

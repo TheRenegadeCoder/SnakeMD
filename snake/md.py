@@ -388,6 +388,19 @@ class MDList(Element):
             i += 1
         return "\n".join(output)
 
+    def verify(self) -> Verification:
+        """
+        Verifies that the markdown list is valid. Mainly, this checks the validity
+        of the containing InlineText items. The MDList class has no ways to
+        instantiate it incorrectly, beyond providing the wrong data types. 
+
+        :return: a verification object from the violator
+        """
+        verification = Verification()
+        for item in self._items:
+            verification.absorb(item.verify())
+        return verification
+
 
 class Table(Element):
     """

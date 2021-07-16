@@ -26,7 +26,7 @@ jobs:
     - name: Sphinx Build
       run: |
         python setup.py build_sphinx
-        cp -a docsrc/_build/dirhtml/. docs/
+        cp -a docsrc/_build/dirhtml/ docs/
 
     - name: Commit docs
       continue-on-error: true

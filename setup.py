@@ -5,7 +5,7 @@ cmdclass = {'build_sphinx': BuildDoc}
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-name = "snakemd"
+name = "SnakeMD"
 version = "1.0"
 release = "1.0.0"
 setuptools.setup(

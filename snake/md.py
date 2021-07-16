@@ -55,9 +55,9 @@ class InlineText:
         """
         text = self.text
         if self.bold:
-            text = f"**{self.text}**"
-        elif self.italics:
-            text = f"*{self.text}*"
+            text = f"**{text}**"
+        if self.italics:
+            text = f"*{text}*"
         if self.url:
             text = f"[{text}]({self.url})"
         if self.url and self.image:

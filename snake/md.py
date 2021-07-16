@@ -7,6 +7,32 @@ from urllib import request
 import random
 
 
+class Verification():
+    def __init__(self) -> None:
+        self._errors = list()
+
+    def add_error(self, violator: object, error: str) -> None:
+        """
+        Documents a verification error.
+
+        :param object violator: the object which produced the error
+        :param str error: the error message detailing the error
+        """
+        self._errors.append((violator, error))
+
+    def absorb(self, verification: Verification) -> None:
+        """
+        Absorbs an existing verification object in self. This is
+        helpful when you have many verification objects that you'd
+        like to aggregate. 
+
+        :param Verification verification: the verification object to absorb
+        """
+        self._errors.extend(verification._errors())
+
+    def passes_inspection(self) -> bool:
+        return not bool(self._errors)
+
 class InlineText:
     """
     The basic unit of text in markdown. All components which contain
@@ -66,7 +92,7 @@ class InlineText:
             text = f"`{text}`"
         return text
 
-    def verify_link(self) -> bool:
+    def verify_url(self) -> bool:
         """
         Verifies that a URL is a valid URL.
 
@@ -80,9 +106,18 @@ class InlineText:
         except HTTPError:
             return False
 
-    def verify(self) -> bool:
-        if self._url:
-            assert self._verify_link()
+    def verify(self) -> Verification:
+        """
+        Verifies that the InlineText object is valid.
+
+        :return: a verification object containing any errors that may have occured
+        """
+        verification = Verification()
+        if self._url and not self.verify_url():
+            verification.add_error(self, "Invalid URL")
+        if self._image and not self._url:
+            verification.add_error(self, "Image requested without URL")
+        return verification
 
     def bold(self) -> None:
         """
@@ -124,12 +159,12 @@ class Element:
         """
         raise NotImplementedError()
 
-    def verify(self) -> list[str]:
+    def verify(self) -> Verification:
         """
         Verifies that the element is valid markdown.
 
         :raises NotImplementedError: interface method never to be implemented
-        :return: a series of errors in the current element
+        :return: a verification object from the violator
         """
         raise NotImplementedError()
 
@@ -349,6 +384,20 @@ class Document:
         :return: the document as a markdown string
         """
         return "\n\n".join(str(element) for element in self._contents)
+
+    def check_for_errors(self) -> None:
+        """
+        A convenience method which can be used to verify the
+        integrity of the document. Results will be printed to
+        standard out.
+        """
+        verification = Verification()
+        for element in self._contents:
+            verification.absorb(element.verify())
+        if verification.passes_inspection():
+            print("No errors found!")
+        else:
+            print(verification)
 
     def add_element(self, element: Element) -> None:
         """

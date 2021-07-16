@@ -8,6 +8,17 @@ import random
 
 
 class Verification():
+    """
+    Verification is a helper object for storing errors generated
+    when creating a markdown document. This object is largely used
+    internally to verify the contents of a document, but can be 
+    accessed through the various verify() methods throughout the 
+    library by the user. A convenience method is provided in Document 
+    for listing all of the errors. Otherwise, a handful of methods
+    are available here for interacting with the Verification object
+    directly. 
+    """
+
     def __init__(self) -> None:
         self._errors = list()
 

@@ -3,8 +3,6 @@ name: Deploy
 on:
   release:
     types: [published]
-  pull_request:
-    branches: [main]
 
 jobs:
   deploy:
@@ -23,26 +21,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
-
-    - name: Sphinx Build
-      uses: ammaraskar/sphinx-action@0.4
-      with:
-        pre-build-command: "pip install sphinx_rtd_theme"
-        docs-folder: docsrc/
-        build-command: "make github"
-
-    - name: Commit docs
-      continue-on-error: true
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -m "Generated documentation" -a
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
 
     - name: Build package
       run: python -m build

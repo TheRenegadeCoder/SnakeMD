@@ -79,9 +79,9 @@ def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_element(Paragraph([InlineText("Rendered Result", italics=True)]))
     func(doc)
     doc.add_element(Paragraph([InlineText("Markdown Source", italics=True)]))
-    doc.add_code(str(doc.contents[-2]), lang="markdown")
-    doc.contents.insert(-3, doc.contents.pop())
-    doc.contents.insert(-3, doc.contents.pop())
+    doc.add_code(str(doc._contents[-2]), lang="markdown")
+    doc._contents.insert(-3, doc._contents.pop())
+    doc._contents.insert(-3, doc._contents.pop())
 
 
 def main() -> None:
@@ -184,7 +184,7 @@ def main() -> None:
     )
 
     # ERROR: patch code block
-    doc.contents[-3].backticks = 4
+    doc._contents[-3].backticks = 4
 
     # Quote
     _section(

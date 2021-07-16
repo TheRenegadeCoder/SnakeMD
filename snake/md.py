@@ -140,7 +140,7 @@ class HorizontalRule(Element):
     a document. Horizontal rules really only come in one form,
     so there are no settings to adjust. 
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -165,8 +165,8 @@ class Header(Element):
 
     def __init__(self, text: InlineText, level: int) -> None:
         super().__init__()
-        self.text: InlineText = text
-        self.level: int = level
+        self._text: InlineText = text
+        self._level: int = level
 
     def render(self) -> str:
         """
@@ -175,23 +175,23 @@ class Header(Element):
 
         :return: the header as a markdown string
         """
-        return f"{'#' * self.level} {self.text}"
+        return f"{'#' * self._level} {self._text}"
 
     def promote(self) -> None:
         """
         Promotes a header up a level. Fails silently
         if the header is already at the highest level (i.e., <h1>).
         """
-        if self.level > 1:
-            self.level -= 1
+        if self._level > 1:
+            self._level -= 1
 
     def demote(self) -> None:
         """
         Demotes a header down a level. Fails silently if
         the header is already at the lowest level (i.e., <h6>).
         """
-        if self.level < 6:
-            self.level += 1
+        if self._level < 6:
+            self._level += 1
 
 
 class Paragraph(Element):
@@ -335,9 +335,9 @@ class Document:
     """
 
     def __init__(self, name: str) -> None:
-        self.name: str = name
-        self.ext: str = ".md"
-        self.contents: list[Element] = list()
+        self._name: str = name
+        self._ext: str = ".md"
+        self._contents: list[Element] = list()
 
     def __str__(self):
         return self.render()
@@ -348,7 +348,7 @@ class Document:
 
         :return: the document as a markdown string
         """
-        return "\n\n".join(str(element) for element in self.contents)
+        return "\n\n".join(str(element) for element in self._contents)
 
     def add_element(self, element: Element) -> None:
         """
@@ -359,7 +359,7 @@ class Document:
         :param Element element: a markdown object (e.g., Table, Header, etc.)
         """
         assert isinstance(element, Element)
-        self.contents.append(element)
+        self._contents.append(element)
 
     def add_header(self, text: str, level: int = 1) -> None:
         """ 
@@ -369,7 +369,7 @@ class Document:
         :param int level: the level of the header from 1 to 6
         """
         assert 1 <= level <= 6
-        self.contents.append(Header(InlineText(text), level))
+        self._contents.append(Header(InlineText(text), level))
 
     def add_paragraph(self, text: str) -> None:
         """
@@ -377,7 +377,7 @@ class Document:
 
         :param str text: any arbitrary text
         """
-        self.contents.append(Paragraph([InlineText(text)]))
+        self._contents.append(Paragraph([InlineText(text)]))
 
     def add_ordered_list(self, items: Iterable[str]) -> None:
         """
@@ -385,7 +385,7 @@ class Document:
 
         :param Iterable[str] items: a "list" of strings
         """
-        self.contents.append(MDList(
+        self._contents.append(MDList(
             [InlineText(item) for item in items],
             ordered=True
         ))
@@ -396,7 +396,7 @@ class Document:
 
         :param Iterable[str] items: a "list" of strings
         """
-        self.contents.append(MDList([InlineText(item) for item in items]))
+        self._contents.append(MDList([InlineText(item) for item in items]))
 
     def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> None:
         """
@@ -407,7 +407,7 @@ class Document:
         """
         header = [InlineText(text) for text in header]
         data = [[InlineText(item) for item in row] for row in data]
-        self.contents.append(Table(header, data))
+        self._contents.append(Table(header, data))
 
     def add_code(self, code: str, lang: str = "generic") -> None:
         """
@@ -416,7 +416,7 @@ class Document:
         :param str code: a preformatted code string
         :param str lang: the language for syntax highlighting
         """
-        self.contents.append(
+        self._contents.append(
             Paragraph([InlineText(code)], code=True, lang=lang))
 
     def add_quote(self, text: str) -> None:
@@ -425,7 +425,7 @@ class Document:
 
         :param str text: the text to be quoted
         """
-        self.contents.append(Paragraph([InlineText(text)], quote=True))
+        self._contents.append(Paragraph([InlineText(text)], quote=True))
 
     def add_table_of_contents(self) -> None:
         """
@@ -435,19 +435,19 @@ class Document:
         loading, so it can only be rendered once. 
         """
         headers = (
-            InlineText(header.text.text,
-                       url=f"#{'-'.join(header.text.text.lower().split())}")
-            for header in self.contents
-            if isinstance(header, Header) and header.level == 2
+            InlineText(header._text.text,
+                       url=f"#{'-'.join(header._text.text.lower().split())}")
+            for header in self._contents
+            if isinstance(header, Header) and header._level == 2
         )
-        self.contents.append(MDList(headers, ordered=True))
+        self._contents.append(MDList(headers, ordered=True))
 
     def scramble(self) -> None:
         """
         A silly method which mixes all of the elements in this document in 
         a random order.
         """
-        random.shuffle(self.contents)
+        random.shuffle(self._contents)
 
     def output_page(self, dump_dir: str = "") -> None:
         """
@@ -465,5 +465,5 @@ class Document:
         A helper function for generating the file name.
         """
         separator = "-"
-        file_name = f"{separator.join(self.name.split())}{self.ext}"
+        file_name = f"{separator.join(self._name.split())}{self._ext}"
         return file_name

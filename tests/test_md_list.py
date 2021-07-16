@@ -16,3 +16,8 @@ def test_md_list_many():
 def test_md_list_man_ordered():
     md_list = MDList([InlineText("Deku"), InlineText("Bakugo"), InlineText("Uraraka")], ordered=True)
     assert str(md_list) == "1. Deku\n2. Bakugo\n3. Uraraka"
+
+def test_md_list_nested_unordered():
+    inner_list = MDList([InlineText("Deku"), InlineText("Bakugo"), InlineText("Uraraka")])
+    outer_list = MDList([InlineText("Characters"), inner_list, InlineText("Powers")])
+    assert str(outer_list) == "- Characters\n  - Deku\n  - Bakugo\n  - Uraraka\n- Powers"

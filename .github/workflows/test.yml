@@ -3,12 +3,11 @@ name: PyTest
 on:
   pull_request:
     branches: [main]
-  push:
 
 jobs:
   test:
 
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2

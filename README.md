@@ -25,6 +25,7 @@ def _table_of_contents(doc: Document):
 6. [Tables](#tables)
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)
+9. [Horizontal Rule](#horizontal-rule)
 
 ## Paragraphs
 
@@ -269,3 +270,24 @@ def _quote(doc: Document):
 *Rendered Result*
 
 > How Now Brown Cow
+
+## Horizontal Rule
+
+Horizontal Rules are visible dividers in a document.
+
+*SnakeMD Source*
+
+```py
+def _horizontal_rule(doc: Document):
+    doc.add_horizontal_rule()
+```
+
+*Markdown Source*
+
+```markdown
+---
+```
+
+*Rendered Result*
+
+---

@@ -82,6 +82,10 @@ def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 
 
+def _horizontal_rule(doc: Document):
+    doc.add_horizontal_rule()
+
+
 def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_header(title, level=level)
     doc.add_paragraph(desc)
@@ -225,6 +229,13 @@ def main() -> None:
         "Quotes",
         "Quotes are blocks of text that represent quotes from people.",
         _quote
+    )
+
+    _section(
+        doc,
+        "Horizontal Rule",
+        "Horizontal Rules are visible dividers in a document.",
+        _horizontal_rule
     )
 
     doc.check_for_errors()

@@ -1,13 +1,28 @@
-from snake.md import Document, MDList, Paragraph, InlineText
+from md import Document, MDList, Paragraph, InlineText
 import inspect
 
 
 def _introduction(doc: Document):
-    doc.add_paragraph("""SnakeMD is your ticket to generating markdown in Python. 
-    To prove it to you, we've generated this entire README using SnakeMD.
-    See readme.py for how it was done.""")
-    doc.add_paragraph("""In the remainder of this document, we'll show you all of
-    the things this library can do.""")
+    doc.add_paragraph(
+        """
+        SnakeMD is your ticket to generating markdown in Python. 
+        To prove it to you, we've generated this entire README using SnakeMD.
+        See readme.py for how it was done. To get started, download and install SnakeMD:
+        """
+    )
+    doc.add_code("pip install snakemd", lang="shell")
+    doc.add_element(Paragraph([
+        InlineText(
+            """
+            In the remainder of this document, we'll show you all of
+            the things this library can do. For more information, check
+            out the
+            """
+        ),
+        InlineText(
+            "official documentation", url="https://snakemd.therenegadecoder.com"
+        )
+    ]))
 
 
 def _table_of_contents(doc: Document):
@@ -194,6 +209,7 @@ def main() -> None:
         _quote
     )
 
+    doc.check_for_errors()
     doc.output_page()
 
 

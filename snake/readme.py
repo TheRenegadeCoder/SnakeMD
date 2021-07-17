@@ -11,19 +11,14 @@ def _introduction(doc: Document):
         """
     )
     doc.add_code("pip install snakemd", lang="shell")
-    doc.add_element(Paragraph([
-        InlineText(
-            """
-            In the remainder of this document, we'll show you all of
-            the things this library can do. For more information, check
-            out the
-            """
-        ),
-        InlineText(
-            "official documentation", url="https://snakemd.therenegadecoder.com"
-        ),
-        InlineText(".")
-    ]))
+    p = doc.add_paragraph(
+        """
+        In the remainder of this document, we'll show you all of
+        the things this library can do. For more information, check
+        out the official documentation from The Renegade Coder.
+        """
+    )
+    p.insert_link("official documentation", "https://snakemd.therenegadecoder.com")
 
 
 def _table_of_contents(doc: Document):

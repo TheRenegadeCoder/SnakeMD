@@ -145,6 +145,15 @@ class InlineText:
             verification.add_error(self, "Image requested without URL")
         return verification
 
+    def is_text(self) -> bool:
+        """
+        Checks if this InlineText is a text-only element. If not, it must
+        be an image, a URL, or an inline code snippet. 
+
+        :return: True if this is a text-only element; False otherwise
+        """
+        return not (self._code or self._image or self._url)
+
     def bold(self) -> None:
         """
         Adds bold styling to self. 
@@ -353,6 +362,23 @@ class Paragraph(Element):
         :param text: a custom text element
         """
         self._content.append(text)
+
+    def insert_link(self, target: str, url: str) -> None:
+        """
+        A convenience method which inserts a link in the paragraph
+        at the first instance of a target string.
+
+        :param str target: the string to link
+        :param str url: the url to link
+        """
+        content = self._content[:]
+        for i, inline_text in enumerate(content):
+            if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
+                self._content.pop(i)
+                self._content.insert(i, InlineText(items[1]))
+                self._content.insert(i, InlineText(target, url=url))
+                self._content.insert(i, InlineText(items[0]))
+                break
 
 
 class MDList(Element):

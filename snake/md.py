@@ -581,34 +581,37 @@ class Document:
         self._contents.append(header)
         return header
 
-    def add_paragraph(self, text: str) -> None:
+    def add_paragraph(self, text: str) -> Paragraph:
         """
         A convenience method which adds a simple paragraph of text to the document.
 
         :param str text: any arbitrary text
         """
-        self._contents.append(Paragraph([InlineText(text)]))
+        paragraph = Paragraph([InlineText(text)])
+        self._contents.append(paragraph)
+        return paragraph
 
-    def add_ordered_list(self, items: Iterable[str]) -> None:
+    def add_ordered_list(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds a simple ordered list to the document. 
 
         :param Iterable[str] items: a "list" of strings
         """
-        self._contents.append(MDList(
-            [InlineText(item) for item in items],
-            ordered=True
-        ))
+        md_list = MDList([InlineText(item) for item in items], ordered=True)
+        self._contents.append(md_list)
+        return md_list
 
-    def add_unordered_list(self, items: Iterable[str]) -> None:
+    def add_unordered_list(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds a simple unordered list to the document. 
 
         :param Iterable[str] items: a "list" of strings
         """
-        self._contents.append(MDList([InlineText(item) for item in items]))
+        md_list = MDList([InlineText(item) for item in items])
+        self._contents.append(md_list)
+        return md_list
 
-    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> None:
+    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> Table:
         """
         A convenience method which adds a simple table to the document.
 
@@ -617,33 +620,40 @@ class Document:
         """
         header = [InlineText(text) for text in header]
         data = [[InlineText(item) for item in row] for row in data]
-        self._contents.append(Table(header, data))
+        table = Table(header, data)
+        self._contents.append(table)
+        return table
 
-    def add_code(self, code: str, lang: str = "generic") -> None:
+    def add_code(self, code: str, lang: str = "generic") -> Paragraph:
         """
         A convenience method which adds a code block to the document.
 
         :param str code: a preformatted code string
         :param str lang: the language for syntax highlighting
         """
-        self._contents.append(
-            Paragraph([InlineText(code)], code=True, lang=lang))
+        code = Paragraph([InlineText(code)], code=True, lang=lang)
+        self._contents.append(code)
+        return code
 
-    def add_quote(self, text: str) -> None:
+    def add_quote(self, text: str) -> Paragraph:
         """
         A convenience method which adds a blockquote to the document.
 
         :param str text: the text to be quoted
         """
-        self._contents.append(Paragraph([InlineText(text)], quote=True))
+        paragraph = Paragraph([InlineText(text)], quote=True)
+        self._contents.append(paragraph)
+        return paragraph
 
-    def add_horizontal_rule(self) -> None:
+    def add_horizontal_rule(self) -> HorizontalRule:
         """
         A convenience method which adds a horizontal rule to the document.
         """
-        self._contents.append(HorizontalRule())
+        hr = HorizontalRule()
+        self._contents.append(hr)
+        return hr
 
-    def add_table_of_contents(self) -> None:
+    def add_table_of_contents(self) -> TableOfContents:
         """
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
@@ -651,7 +661,9 @@ class Document:
         all of the header elements regardless of when the document is
         rendered. 
         """
-        self._contents.append(TableOfContents(self))
+        toc = TableOfContents(self)
+        self._contents.append(toc)
+        return toc
 
     def scramble(self) -> None:
         """

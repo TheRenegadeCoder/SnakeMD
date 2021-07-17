@@ -1,8 +1,12 @@
 # Welcome to SnakeMD!
 
-SnakeMD is your ticket to generating markdown in Python. To prove it to you, we've generated this entire README using SnakeMD. See readme.py for how it was done.
+SnakeMD is your ticket to generating markdown in Python. To prove it to you, we've generated this entire README using SnakeMD. See readme.py for how it was done. To get started, download and install SnakeMD:
 
-In the remainder of this document, we'll show you all of the things this library can do.
+```shell
+pip install snakemd
+```
+
+In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the [official documentation](https://snakemd.therenegadecoder.com) from The Renegade Coder.
 
 ## Table of Contents
 
@@ -21,6 +25,7 @@ def _table_of_contents(doc: Document):
 6. [Tables](#tables)
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)
+9. [Horizontal Rule](#horizontal-rule)
 
 ## Paragraphs
 
@@ -265,3 +270,24 @@ def _quote(doc: Document):
 *Rendered Result*
 
 > How Now Brown Cow
+
+## Horizontal Rule
+
+Horizontal Rules are visible dividers in a document.
+
+*SnakeMD Source*
+
+```py
+def _horizontal_rule(doc: Document):
+    doc.add_horizontal_rule()
+```
+
+*Markdown Source*
+
+```markdown
+---
+```
+
+*Rendered Result*
+
+---

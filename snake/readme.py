@@ -3,11 +3,23 @@ import inspect
 
 
 def _introduction(doc: Document):
-    doc.add_paragraph("""SnakeMD is your ticket to generating markdown in Python. 
-    To prove it to you, we've generated this entire README using SnakeMD.
-    See readme.py for how it was done.""")
-    doc.add_paragraph("""In the remainder of this document, we'll show you all of
-    the things this library can do.""")
+    doc.add_paragraph(
+        """
+        SnakeMD is your ticket to generating markdown in Python. 
+        To prove it to you, we've generated this entire README using SnakeMD.
+        See readme.py for how it was done. To get started, download and install SnakeMD:
+        """
+    )
+    doc.add_code("pip install snakemd", lang="shell")
+    p = doc.add_paragraph(
+        """
+        In the remainder of this document, we'll show you all of
+        the things this library can do. For more information, check
+        out the official documentation from The Renegade Coder.
+        """
+    )
+    p.insert_link("official documentation",
+                  "https://snakemd.therenegadecoder.com")
 
 
 def _table_of_contents(doc: Document):
@@ -71,6 +83,10 @@ def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 
 
+def _horizontal_rule(doc: Document):
+    doc.add_horizontal_rule()
+
+
 def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_header(title, level=level)
     doc.add_paragraph(desc)
@@ -79,9 +95,9 @@ def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_element(Paragraph([InlineText("Rendered Result", italics=True)]))
     func(doc)
     doc.add_element(Paragraph([InlineText("Markdown Source", italics=True)]))
-    doc.add_code(str(doc.contents[-2]), lang="markdown")
-    doc.contents.insert(-3, doc.contents.pop())
-    doc.contents.insert(-3, doc.contents.pop())
+    doc.add_code(str(doc._contents[-2]), lang="markdown")
+    doc._contents.insert(-3, doc._contents.pop())
+    doc._contents.insert(-3, doc._contents.pop())
 
 
 def main() -> None:
@@ -96,9 +112,13 @@ def main() -> None:
 
     # Table of Contents
     doc.add_header("Table of Contents", level=2)
-    doc.add_paragraph("""Below you'll find the table of contents, but
-    these can also be generated programatically for every markdown
-    document.""")
+    doc.add_paragraph(
+        """
+        Below you'll find the table of contents, but
+        these can also be generated programatically for every markdown
+        document.
+        """
+    )
     doc.add_code(inspect.getsource(_table_of_contents).strip(), lang="py")
     _table_of_contents(doc)
 
@@ -106,8 +126,10 @@ def main() -> None:
     _section(
         doc,
         "Paragraphs",
-        """Paragraphs are the most basic feature of any markdown file. 
-        As a result, they are very easy to create using SnakeMD.""",
+        """
+        Paragraphs are the most basic feature of any markdown file. 
+        As a result, they are very easy to create using SnakeMD.
+        """,
         _paragraph
     )
 
@@ -115,8 +137,10 @@ def main() -> None:
     _section(
         doc,
         "Links",
-        """Links are targets to files or web pages and can be embedded 
-        in a Paragraph using InlineText.""",
+        """
+        Links are targets to files or web pages and can be embedded 
+        in a Paragraph using InlineText.
+        """,
         _link
     )
 
@@ -124,21 +148,27 @@ def main() -> None:
     _section(
         doc,
         "Images",
-        """Images can be added by embedding InlineText in a Paragraph.""",
+        "Images can be added by embedding InlineText in a Paragraph.",
         _image
     )
 
     # Lists
     doc.add_header("Lists", level=2)
-    doc.add_paragraph("""SnakeMD can make a variety of markdown lists. 
-    The two main types of lists are ordered and unordered.""")
+    doc.add_paragraph(
+        """
+        SnakeMD can make a variety of markdown lists. The two main types 
+        of lists are ordered and unordered.
+        """
+    )
 
     # Ordered lists
     _section(
         doc,
         "Ordered List",
-        """Ordered lists are lists in which the order of the items 
-        matters. As a result, we number them.""",
+        """
+        Ordered lists are lists in which the order of the items 
+        matters. As a result, we number them.
+        """,
         _ordered_list,
         level=3
     )
@@ -147,8 +177,10 @@ def main() -> None:
     _section(
         doc,
         "Unordered List",
-        """Unordered lists are lists in which the order of the items 
-        does not matter. As a result, we bullet them.""",
+        """
+        Unordered lists are lists in which the order of the items 
+        does not matter. As a result, we bullet them.
+        """,
         _unordered_list,
         level=3
     )
@@ -157,9 +189,11 @@ def main() -> None:
     _section(
         doc,
         "Nested List",
-        """Nested lists are complex lists that contain lists. Currently, 
+        """
+        Nested lists are complex lists that contain lists. Currently, 
         SnakeMD does not support any convenience methods to generate nested 
-        lists, but they can be created manually using the MDList object.""",
+        lists, but they can be created manually using the MDList object.
+        """,
         _nested_list,
         level=3
     )
@@ -168,9 +202,11 @@ def main() -> None:
     _section(
         doc,
         "Tables",
-        """Tables are sets of rows and columns which can display text in a 
+        """
+        Tables are sets of rows and columns which can display text in a 
         grid. To style any of the contents of a table, consider using 
-        InlineText.""",
+        InlineText.
+        """,
         _table
     )
 
@@ -178,22 +214,32 @@ def main() -> None:
     _section(
         doc,
         "Code Blocks",
-        """Code blocks are a form of structured text for sharing code 
-        snippets with syntax highlighting.""",
+        """
+        Code blocks are a form of structured text for sharing code 
+        snippets with syntax highlighting.
+        """,
         _code
     )
 
     # ERROR: patch code block
-    doc.contents[-3].backticks = 4
+    doc._contents[-3]._backticks = 4
 
     # Quote
     _section(
         doc,
         "Quotes",
-        """Quotes are blocks of text that represent quotes from people.""",
+        "Quotes are blocks of text that represent quotes from people.",
         _quote
     )
 
+    _section(
+        doc,
+        "Horizontal Rule",
+        "Horizontal Rules are visible dividers in a document.",
+        _horizontal_rule
+    )
+
+    doc.check_for_errors()
     doc.output_page()
 
 

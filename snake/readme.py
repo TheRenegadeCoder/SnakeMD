@@ -1,4 +1,4 @@
-from md import Document, MDList, Paragraph, InlineText
+from snake.md import Document, MDList, Paragraph, InlineText
 import inspect
 
 
@@ -18,7 +18,8 @@ def _introduction(doc: Document):
         out the official documentation from The Renegade Coder.
         """
     )
-    p.insert_link("official documentation", "https://snakemd.therenegadecoder.com")
+    p.insert_link("official documentation",
+                  "https://snakemd.therenegadecoder.com")
 
 
 def _table_of_contents(doc: Document):

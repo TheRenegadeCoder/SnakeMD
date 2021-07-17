@@ -443,7 +443,7 @@ class TableOfContents(Element):
 
     def __init__(self, doc: Document):
         super().__init__()
-        self._contents = doc._contents # DO NOT MODIFY
+        self._contents = doc._contents  # DO NOT MODIFY
 
     def render(self) -> str:
         """

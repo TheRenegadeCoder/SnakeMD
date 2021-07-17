@@ -21,7 +21,8 @@ def _introduction(doc: Document):
         ),
         InlineText(
             "official documentation", url="https://snakemd.therenegadecoder.com"
-        )
+        ),
+        InlineText(".")
     ]))
 
 

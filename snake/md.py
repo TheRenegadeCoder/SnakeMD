@@ -555,26 +555,31 @@ class Document:
         else:
             print(verification)
 
-    def add_element(self, element: Element) -> None:
+    def add_element(self, element: Element) -> Element:
         """
         A generic function for appending elements to the document. 
         Use this function when you want a little more control over
         what the output looks like. 
 
         :param Element element: a markdown object (e.g., Table, Header, etc.)
+        :return: the Element added to the Document
         """
         assert isinstance(element, Element)
         self._contents.append(element)
+        return element
 
-    def add_header(self, text: str, level: int = 1) -> None:
+    def add_header(self, text: str, level: int = 1) -> Header:
         """ 
         A convenience method which adds a simple header to the document.
 
         :param str text: the text for the header
         :param int level: the level of the header from 1 to 6
+        :return: the Header which was added to the Document
         """
         assert 1 <= level <= 6
-        self._contents.append(Header(InlineText(text), level))
+        header = Header(InlineText(text), level)
+        self._contents.append(header)
+        return header
 
     def add_paragraph(self, text: str) -> None:
         """

@@ -406,6 +406,46 @@ class MDList(Element):
         return verification
 
 
+class TableOfContents(Element):
+    """
+    A Table of Contents is an element containing an ordered list
+    of all the <h2> headers in the document. This element can be
+    placed in the document. 
+
+    :param Document doc: a reference to the document containing this table of contents 
+    """
+
+    def __init__(self, doc: Document):
+        super().__init__()
+        self._contents = doc._contents # DO NOT MODIFY
+
+    def render(self) -> str:
+        """
+        Renders the table of contents using the Document reference.
+
+        :return: the table of contents as a markdown string
+        """
+        headers = (
+            InlineText(
+                header._text._text,
+                url=f"#{'-'.join(header._text._text.lower().split())}"
+            )
+            for header in self._contents
+            if isinstance(header, Header) and header._level == 2
+        )
+        return str(MDList(headers, ordered=True))
+
+    def verify(self) -> Verification:
+        """
+        A Table of Contents is generated through a circular reference
+        to the Document it contains. There is no way to instantiate 
+        this incorrectly.
+
+        :return: a verification object from the violator
+        """
+        return Verification()
+
+
 class Table(Element):
     """
     A table is a standalone element of rows and columns. Data is rendered
@@ -602,16 +642,11 @@ class Document:
         """
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
-        document. However, be aware that the table of contents uses lazy 
-        loading, so it can only be rendered once. 
+        document. The table itself is lazy loaded, so it always captures
+        all of the header elements regardless of when the document is
+        rendered. 
         """
-        headers = (
-            InlineText(header._text._text,
-                       url=f"#{'-'.join(header._text._text.lower().split())}")
-            for header in self._contents
-            if isinstance(header, Header) and header._level == 2
-        )
-        self._contents.append(MDList(headers, ordered=True))
+        self._contents.append(TableOfContents(self))
 
     def scramble(self) -> None:
         """

@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import pathlib
 import random
+import re
 from typing import Iterable, Union
 from urllib import request
 from urllib.error import HTTPError
@@ -334,7 +335,7 @@ class Paragraph(Element):
         elif self._quote:
             return f"> {paragraph}"
         else:
-            return " ".join(paragraph.split())
+            return re.sub(r'\s([?.!"](?:\s|$))', r'\1', " ".join(paragraph.split()))
 
     def verify(self) -> Verification:
         """

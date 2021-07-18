@@ -20,7 +20,7 @@ class Verification():
     are available here for interacting with the Verification object
     directly. 
 
-    *New in version 0.2.0.*
+    .. versionadded:: 0.2.0
     """
 
     def __init__(self) -> None:
@@ -139,7 +139,7 @@ class InlineText:
         """
         Verifies that the InlineText object is valid.
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: a verification object containing any errors that may have occured
         """
@@ -155,7 +155,7 @@ class InlineText:
         Checks if this InlineText is a text-only element. If not, it must
         be an image, a URL, or an inline code snippet. 
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: True if this is a text-only element; False otherwise
         """
@@ -227,7 +227,7 @@ class HorizontalRule(Element):
         """
         Renders the horizontal rule using the three dash syntax.
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: the horizontal rule as a markdown string
         """
@@ -240,7 +240,7 @@ class HorizontalRule(Element):
         it is always valid. Therefore, this method returns an
         empty Verification object.
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -287,7 +287,7 @@ class Header(Element):
         returns errors associated with the InlineText element
         provided during instantiation.
 
-        *New in version 0.2.0.* 
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -355,7 +355,7 @@ class Paragraph(Element):
         """
         Verifies that the Paragraph is valid. 
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -385,7 +385,7 @@ class Paragraph(Element):
         A convenience method which inserts a link in the paragraph
         at the first instance of a target string.
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :param str target: the string to link
         :param str url: the url to link
@@ -443,7 +443,7 @@ class MDList(Element):
         of the containing InlineText items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types. 
             
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -459,7 +459,7 @@ class TableOfContents(Element):
     of all the <h2> headers in the document. This element can be
     placed in the document. 
 
-    *New in version 0.2.0.*
+    .. versionadded:: 0.2.0
 
     :param Document doc: a reference to the document containing this table of contents 
     """
@@ -490,7 +490,7 @@ class TableOfContents(Element):
         to the Document it contains. There is no way to instantiate 
         this incorrectly.
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -539,7 +539,7 @@ class Table(Element):
         header may not match the width of the body. InlineText elements may also 
         be malformed. 
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -600,7 +600,7 @@ class Document:
         integrity of the document. Results will be printed to
         standard out.
 
-        *New in version 0.2.0.*
+        .. versionadded:: 0.2.0
         """
         verification = Verification()
         for element in self._contents:
@@ -719,6 +719,9 @@ class Document:
         document. The table itself is lazy loaded, so it always captures
         all of the header elements regardless of when the document is
         rendered. 
+
+        .. versionchanged:: 0.2.0
+           Fixed a bug where table could only be rendered once.
         """
         toc = TableOfContents(self)
         self._contents.append(toc)

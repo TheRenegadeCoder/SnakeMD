@@ -459,6 +459,8 @@ class TableOfContents(Element):
     of all the <h2> headers in the document. This element can be
     placed in the document. 
 
+    *New in version 0.2.0.*
+
     :param Document doc: a reference to the document containing this table of contents 
     """
 
@@ -623,7 +625,9 @@ class Document:
 
     def add_header(self, text: str, level: int = 1) -> Header:
         """ 
-        A convenience method which adds a simple header to the document.
+        A convenience method which adds a simple header to the document::
+
+            doc.add_header("Welcome to SnakeMD!")
 
         :param str text: the text for the header
         :param int level: the level of the header from 1 to 6
@@ -636,7 +640,9 @@ class Document:
 
     def add_paragraph(self, text: str) -> Paragraph:
         """
-        A convenience method which adds a simple paragraph of text to the document.
+        A convenience method which adds a simple paragraph of text to the document::
+
+            doc.add_paragraph("Welcome to SnakeMD!")
 
         :param str text: any arbitrary text
         """

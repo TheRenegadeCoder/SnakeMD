@@ -11,8 +11,10 @@ using Python
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :glob:
 
+   install
+   usage
    modules
 
 Indices and tables

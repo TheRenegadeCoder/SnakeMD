@@ -10,12 +10,12 @@ SnakeMD is a library for generating markdown files
 using Python
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :glob:
 
    install
    usage
-   modules
+   snake
 
 Indices and tables
 ==================

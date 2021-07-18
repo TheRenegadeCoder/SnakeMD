@@ -1,5 +1,5 @@
-snake package
-=============
+Documentation
+=====================
 
 The snake package is a collection of submodules for generating
 markdown files with Python. 
@@ -18,20 +18,26 @@ snake.md module
 The md submodule contains all of the functionality for
 generating markdown files with Python. In general, library
 is straightforward to use. To create a new markdown file, 
-create a Document as follows::
+create a Document as follows:
+
+.. code-block::Python
 
    from snake.md import Document
    doc = Document("MyProject")
 
 From there, any number of document methods can be used to
 generate a markdown file. For example, we can create a
-header and a paragraph as follows::
+header and a paragraph as follows:
+
+.. code-block::Python
 
    doc.add_header("Welcome to MyProject!")
    doc.add_paragraph("Learn about MyProject here.")
 
 Then, when you're ready to output your document, you can do
-that as follows::
+that as follows:
+
+.. code-block::Python
 
    doc.output_page()
 

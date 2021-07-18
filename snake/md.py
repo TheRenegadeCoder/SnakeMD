@@ -66,6 +66,8 @@ class InlineText:
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information. 
 
+    *New in version 0.2.0.*
+
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
     :param bool bold: the bold state of the inline text; 
@@ -573,6 +575,8 @@ class Document:
         A convenience method which can be used to verify the
         integrity of the document. Results will be printed to
         standard out.
+
+        *New in version 0.2.0.*
         """
         verification = Verification()
         for element in self._contents:

@@ -19,6 +19,8 @@ class Verification():
     for listing all of the errors. Otherwise, a handful of methods
     are available here for interacting with the Verification object
     directly. 
+
+    *New in version 0.2.0.*
     """
 
     def __init__(self) -> None:
@@ -65,8 +67,6 @@ class InlineText:
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information. 
-
-    *New in version 0.2.0.*
 
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
@@ -139,6 +139,8 @@ class InlineText:
         """
         Verifies that the InlineText object is valid.
 
+        *New in version 0.2.0.*
+
         :return: a verification object containing any errors that may have occured
         """
         verification = Verification()
@@ -152,6 +154,8 @@ class InlineText:
         """
         Checks if this InlineText is a text-only element. If not, it must
         be an image, a URL, or an inline code snippet. 
+
+        *New in version 0.2.0.*
 
         :return: True if this is a text-only element; False otherwise
         """
@@ -371,6 +375,8 @@ class Paragraph(Element):
         A convenience method which inserts a link in the paragraph
         at the first instance of a target string.
 
+        *New in version 0.2.0.*
+
         :param str target: the string to link
         :param str url: the url to link
         """
@@ -426,6 +432,8 @@ class MDList(Element):
         Verifies that the markdown list is valid. Mainly, this checks the validity
         of the containing InlineText items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types. 
+            
+        *New in version 0.2.0.*
 
         :return: a verification object from the violator
         """

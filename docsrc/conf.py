@@ -53,4 +53,9 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+github_url = "https://github.com/TheRenegadeCoder/SnakeMD"
 html_logo = "_static/icon.png"
+
+html_theme_options = {
+    "display_version": True
+}

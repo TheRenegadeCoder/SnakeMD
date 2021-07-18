@@ -216,6 +216,8 @@ class HorizontalRule(Element):
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules really only come in one form,
     so there are no settings to adjust. 
+
+    *New in version 0.2.0.*
     """
 
     def __init__(self):
@@ -224,6 +226,8 @@ class HorizontalRule(Element):
     def render(self) -> str:
         """
         Renders the horizontal rule using the three dash syntax.
+
+        *New in version 0.2.0.*
 
         :return: the horizontal rule as a markdown string
         """
@@ -235,6 +239,8 @@ class HorizontalRule(Element):
         Because there is no way to customize this object,
         it is always valid. Therefore, this method returns an
         empty Verification object.
+
+        *New in version 0.2.0.*
 
         :return: a verification object from the violator
         """
@@ -279,7 +285,9 @@ class Header(Element):
         """
         Verifies that the provided header is valid. This mainly
         returns errors associated with the InlineText element
-        provided during instantiation. 
+        provided during instantiation.
+
+        *New in version 0.2.0.* 
 
         :return: a verification object from the violator
         """
@@ -346,6 +354,8 @@ class Paragraph(Element):
     def verify(self) -> Verification:
         """
         Verifies that the Paragraph is valid. 
+
+        *New in version 0.2.0.*
 
         :return: a verification object from the violator
         """
@@ -478,6 +488,8 @@ class TableOfContents(Element):
         to the Document it contains. There is no way to instantiate 
         this incorrectly.
 
+        *New in version 0.2.0.*
+
         :return: a verification object from the violator
         """
         return Verification()
@@ -524,6 +536,8 @@ class Table(Element):
         provide a body with roes that are not all equal width. Likewise, the
         header may not match the width of the body. InlineText elements may also 
         be malformed. 
+
+        *New in version 0.2.0.*
 
         :return: a verification object from the violator
         """

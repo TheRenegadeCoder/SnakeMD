@@ -10,6 +10,11 @@ as follows:
     v0.2.0 <https://snakemd.therenegadecoder.com/v0.2.0/>
     v0.1.0 <https://snakemd.therenegadecoder.com/v0.1.0/>
 
+.. note::
+    All versions of documentation are left in the condition
+    in which they were generated. At times, the navigation may
+    look different than expected. 
+
 Changes
 -------
 

@@ -11,11 +11,11 @@ using Python
 
 .. toctree::
    :maxdepth: 1
-   :glob:
 
    install
    usage
    snake
+   version-history
 
 Indices and tables
 ==================

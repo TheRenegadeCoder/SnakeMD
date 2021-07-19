@@ -15,11 +15,10 @@ def _introduction(doc: Document):
         """
         In the remainder of this document, we'll show you all of
         the things this library can do. For more information, check
-        out the official documentation from The Renegade Coder.
+        out the official documentation here.
         """
     )
-    p.insert_link("official documentation",
-                  "https://snakemd.therenegadecoder.com")
+    p.insert_link("here", "https://snakemd.therenegadecoder.com")
 
 
 def _table_of_contents(doc: Document):
@@ -43,7 +42,7 @@ def _nested_list(doc: Document):
                 InlineText("Sweet"),
                 InlineText("Red")
             ]),
-            InlineText("Grapes")
+            Paragraph([InlineText("This is the end of the list!")])
         ])
     )
 

@@ -6,7 +6,7 @@ SnakeMD is your ticket to generating markdown in Python. To prove it to you, we'
 pip install snakemd
 ```
 
-In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the [official documentation](https://snakemd.therenegadecoder.com) from The Renegade Coder.
+In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the official documentation [here](https://snakemd.therenegadecoder.com).
 
 ## Table of Contents
 
@@ -166,7 +166,7 @@ def _nested_list(doc: Document):
                 InlineText("Sweet"),
                 InlineText("Red")
             ]),
-            InlineText("Grapes")
+            Paragraph([InlineText("This is the end of the list!")])
         ])
     )
 ```
@@ -178,7 +178,7 @@ def _nested_list(doc: Document):
 - Onions
   - Sweet
   - Red
-- Grapes
+- This is the end of the list!
 ```
 
 *Rendered Result*
@@ -187,7 +187,7 @@ def _nested_list(doc: Document):
 - Onions
   - Sweet
   - Red
-- Grapes
+- This is the end of the list!
 
 ## Tables
 

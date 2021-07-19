@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import pathlib
 import random
+import re
 from typing import Iterable, Union
 from urllib import request
 from urllib.error import HTTPError
@@ -18,6 +19,8 @@ class Verification():
     for listing all of the errors. Otherwise, a handful of methods
     are available here for interacting with the Verification object
     directly. 
+
+    .. versionadded:: 0.2.0
     """
 
     def __init__(self) -> None:
@@ -136,6 +139,8 @@ class InlineText:
         """
         Verifies that the InlineText object is valid.
 
+        .. versionadded:: 0.2.0
+
         :return: a verification object containing any errors that may have occured
         """
         verification = Verification()
@@ -149,6 +154,8 @@ class InlineText:
         """
         Checks if this InlineText is a text-only element. If not, it must
         be an image, a URL, or an inline code snippet. 
+
+        .. versionadded:: 0.2.0
 
         :return: True if this is a text-only element; False otherwise
         """
@@ -209,6 +216,8 @@ class HorizontalRule(Element):
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules really only come in one form,
     so there are no settings to adjust. 
+
+    *New in version 0.2.0.*
     """
 
     def __init__(self):
@@ -217,6 +226,8 @@ class HorizontalRule(Element):
     def render(self) -> str:
         """
         Renders the horizontal rule using the three dash syntax.
+
+        .. versionadded:: 0.2.0
 
         :return: the horizontal rule as a markdown string
         """
@@ -228,6 +239,8 @@ class HorizontalRule(Element):
         Because there is no way to customize this object,
         it is always valid. Therefore, this method returns an
         empty Verification object.
+
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -272,7 +285,9 @@ class Header(Element):
         """
         Verifies that the provided header is valid. This mainly
         returns errors associated with the InlineText element
-        provided during instantiation. 
+        provided during instantiation.
+
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -334,11 +349,13 @@ class Paragraph(Element):
         elif self._quote:
             return f"> {paragraph}"
         else:
-            return " ".join(paragraph.split())
+            return re.sub(r'\s([?.!"](?:\s|$))', r'\1', " ".join(paragraph.split()))
 
     def verify(self) -> Verification:
         """
         Verifies that the Paragraph is valid. 
+
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -362,11 +379,24 @@ class Paragraph(Element):
         :param text: a custom text element
         """
         self._content.append(text)
+    
+    def is_text(self) -> bool:
+        """
+        Checks if this Paragraph is a text-only element. If not, it must
+        be a quote or code block. 
+
+        .. versionadded:: 0.3.0
+
+        :return: True if this is a text-only element; False otherwise
+        """
+        return not (self._code or self._quote)
 
     def insert_link(self, target: str, url: str) -> None:
         """
         A convenience method which inserts a link in the paragraph
         at the first instance of a target string.
+
+        .. versionadded:: 0.2.0
 
         :param str target: the string to link
         :param str url: the url to link
@@ -390,9 +420,9 @@ class MDList(Element):
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[InlineText, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[Union[InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
         super().__init__()
-        self._items: Iterable = items
+        self._items = items
         self._ordered = ordered
         self._depth = 0
 
@@ -423,12 +453,16 @@ class MDList(Element):
         Verifies that the markdown list is valid. Mainly, this checks the validity
         of the containing InlineText items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types. 
+            
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
         verification = Verification()
         for item in self._items:
             verification.absorb(item.verify())
+            if isinstance(item, Paragraph) and not item.is_text():
+                verification.add_error(self, "Child paragraph is not text.")
         return verification
 
 
@@ -437,6 +471,8 @@ class TableOfContents(Element):
     A Table of Contents is an element containing an ordered list
     of all the <h2> headers in the document. This element can be
     placed in the document. 
+
+    .. versionadded:: 0.2.0
 
     :param Document doc: a reference to the document containing this table of contents 
     """
@@ -466,6 +502,8 @@ class TableOfContents(Element):
         A Table of Contents is generated through a circular reference
         to the Document it contains. There is no way to instantiate 
         this incorrectly.
+
+        .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
         """
@@ -514,6 +552,8 @@ class Table(Element):
         header may not match the width of the body. InlineText elements may also 
         be malformed. 
 
+        .. versionadded:: 0.2.0
+
         :return: a verification object from the violator
         """
         verification = Verification()
@@ -545,7 +585,7 @@ class Document:
     are intended to provided convenience when generating a 
     markdown file. However, the functionality is not exhaustive.
     To get the full range of markdown functionality, you can
-    take advantage of the `add_element()` function to provide
+    take advantage of the :code:`add_element()` function to provide
     custom markdown elements. 
 
     :param name: the name of the document
@@ -572,6 +612,8 @@ class Document:
         A convenience method which can be used to verify the
         integrity of the document. Results will be printed to
         standard out.
+
+        .. versionadded:: 0.2.0
         """
         verification = Verification()
         for element in self._contents:
@@ -586,9 +628,16 @@ class Document:
         A generic function for appending elements to the document. 
         Use this function when you want a little more control over
         what the output looks like. 
+        
+        .. code-block:: Python
+
+            doc.add_element(Header(InlineText("Python is Cool!"), 2))
+
+        .. versionchanged:: 0.2.0
+           Returns Element generated by this method instead of None. 
 
         :param Element element: a markdown object (e.g., Table, Header, etc.)
-        :return: the Element added to the Document
+        :return: the Element added to this Document
         """
         assert isinstance(element, Element)
         self._contents.append(element)
@@ -596,11 +645,18 @@ class Document:
 
     def add_header(self, text: str, level: int = 1) -> Header:
         """ 
-        A convenience method which adds a simple header to the document.
+        A convenience method which adds a simple header to the document:
+
+        .. code-block:: Python
+
+            doc.add_header("Welcome to SnakeMD!")
+
+        .. versionchanged:: 0.2.0
+           Returns Header generated by this method instead of None. 
 
         :param str text: the text for the header
         :param int level: the level of the header from 1 to 6
-        :return: the Header which was added to the Document
+        :return: the Header added to this Document
         """
         assert 1 <= level <= 6
         header = Header(InlineText(text), level)
@@ -609,9 +665,17 @@ class Document:
 
     def add_paragraph(self, text: str) -> Paragraph:
         """
-        A convenience method which adds a simple paragraph of text to the document.
+        A convenience method which adds a simple paragraph of text to the document:
+        
+        .. code-block:: Python
+
+            doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+
+        .. versionchanged:: 0.2.0
+           Returns Paragraph generated by this method instead of None. 
 
         :param str text: any arbitrary text
+        :return: the Paragraph added to this Document
         """
         paragraph = Paragraph([InlineText(text)])
         self._contents.append(paragraph)
@@ -619,9 +683,17 @@ class Document:
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
         """
-        A convenience method which adds a simple ordered list to the document. 
+        A convenience method which adds a simple ordered list to the document: 
+
+        .. code-block:: Python
+
+            doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+
+        .. versionchanged:: 0.2.0
+           Returns MDList generated by this method instead of None. 
 
         :param Iterable[str] items: a "list" of strings
+        :return: the MDList added to this Document
         """
         md_list = MDList([InlineText(item) for item in items], ordered=True)
         self._contents.append(md_list)
@@ -631,7 +703,15 @@ class Document:
         """
         A convenience method which adds a simple unordered list to the document. 
 
+        .. code-block:: Python
+
+            doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+
+        .. versionchanged:: 0.2.0
+           Returns MDList generated by this method instead of None. 
+
         :param Iterable[str] items: a "list" of strings
+        :return: the MDList added to this Document
         """
         md_list = MDList([InlineText(item) for item in items])
         self._contents.append(md_list)
@@ -639,10 +719,24 @@ class Document:
 
     def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> Table:
         """
-        A convenience method which adds a simple table to the document.
+        A convenience method which adds a simple table to the document:
+
+        .. code-block:: Python
+
+            doc.add_table(
+                ["Place", "Name"],
+                [
+                    ["1st", "Robert"],
+                    ["2nd", "Rae"]
+                ]
+            )
+
+        .. versionchanged:: 0.2.0
+           Returns Table generated by this method instead of None. 
 
         :param Iterable[str] header: a "list" of strings
         :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
+        :return: the Table added to this Document
         """
         header = [InlineText(text) for text in header]
         data = [[InlineText(item) for item in row] for row in data]
@@ -652,10 +746,18 @@ class Document:
 
     def add_code(self, code: str, lang: str = "generic") -> Paragraph:
         """
-        A convenience method which adds a code block to the document.
+        A convenience method which adds a code block to the document:
+
+        .. code-block:: Python
+
+            doc.add_code("x = 5")
+
+        .. versionchanged:: 0.2.0
+           Returns Paragraph generated by this method instead of None.
 
         :param str code: a preformatted code string
         :param str lang: the language for syntax highlighting
+        :return: the Paragraph added to this Document
         """
         code = Paragraph([InlineText(code)], code=True, lang=lang)
         self._contents.append(code)
@@ -663,9 +765,17 @@ class Document:
 
     def add_quote(self, text: str) -> Paragraph:
         """
-        A convenience method which adds a blockquote to the document.
+        A convenience method which adds a blockquote to the document:
+
+        .. code-block:: Python
+
+            doc.add_quote("Welcome to the Internet!")
+
+        .. versionchanged:: 0.2.0
+           Returns Paragraph generated by this method instead of None. 
 
         :param str text: the text to be quoted
+        :return: the Paragraph added to this Document
         """
         paragraph = Paragraph([InlineText(text)], quote=True)
         self._contents.append(paragraph)
@@ -673,7 +783,15 @@ class Document:
 
     def add_horizontal_rule(self) -> HorizontalRule:
         """
-        A convenience method which adds a horizontal rule to the document.
+        A convenience method which adds a horizontal rule to the document:
+
+        .. code-block:: Python
+
+            doc.add_horizontal_rule()
+
+        .. versionadded:: 0.2.0
+
+        :return: the HorizontalRule added to this Document
         """
         hr = HorizontalRule()
         self._contents.append(hr)
@@ -686,6 +804,15 @@ class Document:
         document. The table itself is lazy loaded, so it always captures
         all of the header elements regardless of when the document is
         rendered. 
+
+        .. code-block:: Python
+
+            doc.add_table_of_contents()
+
+        .. versionchanged:: 0.2.0
+           Fixed a bug where table of contents could only be rendered once.
+
+        :return: the TableOfContents added to this Document
         """
         toc = TableOfContents(self)
         self._contents.append(toc)

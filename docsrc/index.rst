@@ -3,17 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SnakeMD's documentation!
+Welcome to SnakeMD's Documentation!
 ===================================
 
 SnakeMD is a library for generating markdown files
-using Python
+using Python. Use the links below to navigate the docs.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
-   modules
+   install
+   usage
+   snake
+   version-history
 
 Indices and tables
 ==================

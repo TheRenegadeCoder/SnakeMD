@@ -1,60 +1,19 @@
-snake package
+Documentation
 =============
 
-The snake package is a collection of submodules for generating
-markdown files with Python. 
+The documentation page lists out all of the relevant classes
+and functions for generating markdown documents in Python.
 
-Submodules
-----------
+snake.md
+-------------------
 
-The snake package contains two main submodules: md and readme.
-The readme submodule is what is used to generate the project README.
-The md submodule provides all the markdown utilities needed to 
-create a markdown file using Python only. 
-
-snake.md module
----------------
-
-The md submodule contains all of the functionality for
-generating markdown files with Python. In general, library
-is straightforward to use. To create a new markdown file, 
-create a Document as follows::
-
-   from snake.md import Document
-   doc = Document("MyProject")
-
-From there, any number of document methods can be used to
-generate a markdown file. For example, we can create a
-header and a paragraph as follows::
-
-   doc.add_header("Welcome to MyProject!")
-   doc.add_paragraph("Learn about MyProject here.")
-
-Then, when you're ready to output your document, you can do
-that as follows::
-
-   doc.output_page()
-
-See the remainder of this section for details on all the 
+The snake.md module contains all of the functionality for
+generating markdown files with Python. To get started, 
+check out `Usage <usage.html>`_ for information. Otherwise, 
+see the rest of this document for details on all the 
 functionality provided in snake.md. 
 
 .. automodule:: snake.md
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-snake.readme module
--------------------
-
-.. automodule:: snake.readme
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: snake
    :members:
    :undoc-members:
    :show-inheritance:

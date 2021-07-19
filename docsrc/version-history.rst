@@ -12,6 +12,9 @@ as follows:
 
 * `v0.3.0 <https://snakemd.therenegadecoder.com/v0.3.0/>`_
     * Gave documentation a major overhaul
+    * Added support for paragraphs in MDList
+    * Added is_text() method to Paragraph
+    * Fixed issue where punctuation sometimes rendered with an extra space in front
 
 * `v0.2.0 <https://snakemd.therenegadecoder.com/v0.2.0/>`_
     * Added support for horizontal rules

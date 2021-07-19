@@ -42,7 +42,7 @@ def _nested_list(doc: Document):
                 InlineText("Sweet"),
                 InlineText("Red")
             ]),
-            InlineText("Grapes")
+            Paragraph([InlineText("This is the end of the list!")])
         ])
     )
 

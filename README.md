@@ -166,7 +166,7 @@ def _nested_list(doc: Document):
                 InlineText("Sweet"),
                 InlineText("Red")
             ]),
-            InlineText("Grapes")
+            Paragraph([InlineText("This is the end of the list!")])
         ])
     )
 ```
@@ -178,7 +178,7 @@ def _nested_list(doc: Document):
 - Onions
   - Sweet
   - Red
-- Grapes
+- This is the end of the list!
 ```
 
 *Rendered Result*
@@ -187,7 +187,7 @@ def _nested_list(doc: Document):
 - Onions
   - Sweet
   - Red
-- Grapes
+- This is the end of the list!
 
 ## Tables
 

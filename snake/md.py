@@ -379,6 +379,17 @@ class Paragraph(Element):
         :param text: a custom text element
         """
         self._content.append(text)
+    
+    def is_text(self) -> bool:
+        """
+        Checks if this Paragraph is a text-only element. If not, it must
+        be a quote or code block. 
+
+        .. versionadded:: 0.3.0
+
+        :return: True if this is a text-only element; False otherwise
+        """
+        return not (self._code or self._quote)
 
     def insert_link(self, target: str, url: str) -> None:
         """
@@ -409,9 +420,9 @@ class MDList(Element):
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[InlineText, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[Union[InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
         super().__init__()
-        self._items: Iterable = items
+        self._items = items
         self._ordered = ordered
         self._depth = 0
 
@@ -450,6 +461,8 @@ class MDList(Element):
         verification = Verification()
         for item in self._items:
             verification.absorb(item.verify())
+            if isinstance(item, Paragraph) and not item.is_text():
+                verification.add_error(self, "Child paragraph is not text.")
         return verification
 
 

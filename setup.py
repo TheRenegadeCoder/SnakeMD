@@ -29,7 +29,9 @@ setuptools.setup(
     url="https://github.com/TheRenegadeCoder/SnakeMD",
     packages=setuptools.find_packages(),
     install_requires=[
-        "sphinx"
+        "sphinx",
+        "sphinx_rtd_theme",
+        "sphinx-issues"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

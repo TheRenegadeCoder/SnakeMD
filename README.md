@@ -151,7 +151,7 @@ def _unordered_list(doc: Document):
 
 ### Nested List
 
-Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
+Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object. As of v0.4.0, you can forego the InlineText elements if you don't need them.
 
 *SnakeMD Source*
 
@@ -159,13 +159,13 @@ Nested lists are complex lists that contain lists. Currently, SnakeMD does not s
 def _nested_list(doc: Document):
     doc.add_element(
         MDList([
-            InlineText("Apples"),
+            "Apples",
             InlineText("Onions"),
             MDList([
-                InlineText("Sweet"),
-                InlineText("Red")
+                "Sweet",
+                "Red"
             ]),
-            Paragraph([InlineText("This is the end of the list!")])
+            Paragraph(["This is the end of the list!"])
         ])
     )
 ```
@@ -190,7 +190,7 @@ def _nested_list(doc: Document):
 
 ## Tables
 
-Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using InlineText.
+Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or InlineText. As of v0.4.0, you can also align the columns of the table using the Table.Align enum.
 
 *SnakeMD Source*
 
@@ -202,27 +202,28 @@ def _table(doc: Document):
             ['150', '70', '21'],
             ['164', '75', '19'],
             ['181', '87', '40']
-        ]
+        ],
+        [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT]
     )
 ```
 
 *Markdown Source*
 
 ```markdown
-Height (cm) | Weight (kg) | Age (y)
------------ | ----------- | -------
-150         | 70          | 21     
-164         | 75          | 19     
-181         | 87          | 40     
+| Height (cm) | Weight (kg) | Age (y) |
+| :---------- | :---------: | ------: |
+| 150         | 70          | 21      |
+| 164         | 75          | 19      |
+| 181         | 87          | 40      |
 ```
 
 *Rendered Result*
 
-Height (cm) | Weight (kg) | Age (y)
------------ | ----------- | -------
-150         | 70          | 21     
-164         | 75          | 19     
-181         | 87          | 40     
+| Height (cm) | Weight (kg) | Age (y) |
+| :---------- | :---------: | ------: |
+| 150         | 70          | 21      |
+| 164         | 75          | 19      |
+| 181         | 87          | 40      |
 
 ## Code Blocks
 

@@ -846,7 +846,12 @@ class Document:
         logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
 
-    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> Table:
+    def add_table(
+        self, 
+        header: Iterable[str], 
+        data: Iterable[Iterable[str]], 
+        align: Iterable[Table.Align] = None
+        ) -> Table:
         """
         A convenience method which adds a simple table to the document:
 
@@ -867,9 +872,9 @@ class Document:
         :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
         :return: the Table added to this Document
         """
-        header = [InlineText(text) for text in header]
-        data = [[InlineText(item) for item in row] for row in data]
-        table = Table(header, data)
+        header = [Paragraph([text]) for text in header]
+        data = [[Paragraph([item]) for item in row] for row in data]
+        table = Table(header, data, align)
         self._contents.append(table)
         logger.debug(f"Added table to document\n{table}")
         return table

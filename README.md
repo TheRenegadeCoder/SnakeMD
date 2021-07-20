@@ -50,27 +50,55 @@ I think. Therefore, I am.
 
 ## Links
 
-Links are targets to files or web pages and can be embedded in a Paragraph using InlineText.
+Links are targets to files or web pages and can be embedded in a Paragraph in a variety of ways.
+
+### InlineText Links
+
+Because InlineText elements can work as links, we're able to add them through the Paragraph constructor.
 
 *SnakeMD Source*
 
 ```py
-def _link(doc: Document):
+def _inline_link(doc: Document):
     doc.add_element(Paragraph([
-        InlineText("Learn to program with"),
-        InlineText("The Renegade Coder", url="https://therenegadecoder.com")
+        InlineText("Learn to program with "),
+        InlineText("The Renegade Coder", url="https://therenegadecoder.com"),
+        InlineText(".")
     ]))
 ```
 
 *Markdown Source*
 
 ```markdown
-Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+Learn to program with [The Renegade Coder](https://therenegadecoder.com).
 ```
 
 *Rendered Result*
 
-Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+Learn to program with [The Renegade Coder](https://therenegadecoder.com).
+
+### Insert Links
+
+More recently, as of v0.2.0, we're able to add links to existing paragraphs using the insert_link() method. This is a bit cleaner because the paragraph text is more readable. Even better, in v0.4.0, we can chain these insert_link() calls.
+
+*SnakeMD Source*
+
+```py
+def _insert_link(doc: Document):
+    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).") \
+        .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
+        .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
+```
+
+*Markdown Source*
+
+```markdown
+Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
+```
+
+*Rendered Result*
+
+Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 
 ## Images
 

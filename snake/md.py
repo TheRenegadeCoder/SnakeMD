@@ -4,6 +4,7 @@ import os
 import pathlib
 import random
 import logging
+from enum import Enum, auto
 from typing import Iterable, Union
 from urllib import request
 from urllib.error import HTTPError
@@ -365,7 +366,6 @@ class Paragraph(Element):
             else:
                 processed.append(item)
         return processed
-            
 
     def render(self) -> str:
         """
@@ -422,7 +422,7 @@ class Paragraph(Element):
         if isinstance(text, str):
             text = InlineText(text)
         self._content.append(text)
-    
+
     def is_text(self) -> bool:
         """
         Checks if this Paragraph is a text-only element. If not, it must
@@ -516,7 +516,7 @@ class MDList(Element):
         Verifies that the markdown list is valid. Mainly, this checks the validity
         of the containing InlineText items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types. 
-            
+
         .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
@@ -582,10 +582,21 @@ class Table(Element):
     :param body: the collection of rows of data
     """
 
-    def __init__(self, header: Iterable[Union[str, InlineText, Paragraph]], body: Iterable[Iterable[Union[str, InlineText, Paragraph]]]) -> None:
+    def __init__(
+        self, 
+        header: Iterable[Union[str, InlineText, Paragraph]], 
+        body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
+        align: Iterable[Align] = None
+        ) -> None:
         super().__init__()
         self._header, self._body, self._widths = self._process_table(header, body)
+        self._align = align
         # TODO: add column align
+
+    class Align(Enum):
+        LEFT = auto()
+        RIGHT = auto()
+        CENTER = auto()
 
     @staticmethod
     def _process_table(header, body) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
@@ -623,7 +634,6 @@ class Table(Element):
             processed_body.append(processed_row)
 
         return processed_header, processed_body, widths
-                
 
     def render(self) -> str:
         """
@@ -633,13 +643,25 @@ class Table(Element):
         :return: a table as a markdown string
         """
         rows = list()
-        header = [str(item).ljust(self._widths[i]) for i, item in enumerate(self._header)]
+        header = [str(item).ljust(self._widths[i])
+                  for i, item in enumerate(self._header)]
         body = [
             [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
             for row in self._body
         ]
         rows.append(f"| {' | '.join(header)} |")
-        rows.append(f"| {' | '.join('-' * width for width in self._widths)} |")
+        if not self._align:
+            rows.append(f"| {' | '.join('-' * width for width in self._widths)} |")
+        else:
+            meta = []
+            for align, width in zip(self._align, self._widths):
+                if align == Table.Align.LEFT:
+                    meta.append(f":{'-' * (width - 1)}")
+                elif align == Table.Align.RIGHT:
+                    meta.append(f"{'-' * (width - 1)}:")
+                else:
+                    meta.append(f":{'-' * (width - 2)}:")
+            rows.append(f"| {' | '.join(meta)} |")
         rows.extend((f"| {' | '.join(row)} |" for row in body))
         return '\n'.join(rows)
 
@@ -727,7 +749,7 @@ class Document:
         A generic function for appending elements to the document. 
         Use this function when you want a little more control over
         what the output looks like. 
-        
+
         .. code-block:: Python
 
             doc.add_element(Header(InlineText("Python is Cool!"), 2))
@@ -767,7 +789,7 @@ class Document:
     def add_paragraph(self, text: str) -> Paragraph:
         """
         A convenience method which adds a simple paragraph of text to the document:
-        
+
         .. code-block:: Python
 
             doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
@@ -924,7 +946,8 @@ class Document:
         """
         toc = TableOfContents(self)
         self._contents.append(toc)
-        logger.debug(f"Added code block to document (unable to render until file is complete)")
+        logger.debug(
+            f"Added code block to document (unable to render until file is complete)")
         return toc
 
     def scramble(self) -> None:

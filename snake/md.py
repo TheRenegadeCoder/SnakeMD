@@ -460,8 +460,9 @@ class MDList(Element):
     """
     A markdown list is a standalone list that comes in two varieties: ordered and unordered.
 
-    :param items: a "list" of objects to be rendered as a list
-    :param ordered: the ordered state of the list;
+    :param Iterable[Union[str, InlineText, Paragraph, MDList]] items: 
+        a "list" of objects to be rendered as a list
+    :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
@@ -581,11 +582,42 @@ class Table(Element):
     :param body: the collection of rows of data
     """
 
-    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]]) -> None:
+    def __init__(self, header: Iterable[Union[str, InlineText, Paragraph]], body: Iterable[Iterable[Union[str, InlineText, Paragraph]]]) -> None:
         super().__init__()
-        self._header = header
-        self._body = body
+        self._header, self._body, self._widths = self._process_table(header, body)
         # TODO: add column align
+
+    @staticmethod
+    def _process_table(header, body) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
+        """
+        Processes the table inputs to ensure header and body only contain paragraph elements.
+        Also, this computes the max width of each row to ensure pretty print works every time.
+        """
+
+        processed_header = []
+        processed_body = []
+        widths = []
+
+        for item in header:
+            if isinstance(item, (str, InlineText)):
+                processed_header.append(Paragraph([item]))
+            else:
+                processed_header.append(item)
+            widths.append(len(str(item)))
+
+        for row in body:
+            processed_row = []
+            for i, item in enumerate(row):
+                if isinstance(item, (str, InlineText)):
+                    processed_row.append(Paragraph([item]))
+                else:
+                    processed_row.append(item)
+                if (width := len(str(item))) > widths[i]:
+                    widths[i] = width
+            processed_body.append(processed_row)
+
+        return processed_header, processed_body, widths
+                
 
     def render(self) -> str:
         """
@@ -594,16 +626,15 @@ class Table(Element):
 
         :return: a table as a markdown string
         """
-        # TODO: make pretty print more robust
         rows = list()
-        header = [str(item) for item in self._header]
+        header = [str(item).ljust(self._widths[i]) for i, item in enumerate(self._header)]
         body = [
-            [str(item).ljust(len(header[i])) for i, item in enumerate(row)]
+            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
             for row in self._body
         ]
-        rows.append(' | '.join(header))
-        rows.append(' | '.join("-" * len(item) for item in header))
-        rows.extend(' | '.join(row) for row in body)
+        rows.append(f"| {' | '.join(header)} |")
+        rows.append(f"| {' | '.join('-' * width for width in self._widths)} |")
+        rows.extend((f"| {' | '.join(row)} |" for row in body))
         return '\n'.join(rows)
 
     def verify(self):

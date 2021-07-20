@@ -397,7 +397,7 @@ class Paragraph(Element):
         """
         return not (self._code or self._quote)
 
-    def insert_link(self, target: str, url: str) -> None:
+    def insert_link(self, target: str, url: str) -> Paragraph:
         """
         A convenience method which inserts a link in the paragraph
         at the first instance of a target string.
@@ -406,6 +406,7 @@ class Paragraph(Element):
 
         :param str target: the string to link
         :param str url: the url to link
+        :return: self
         """
         content = self._content[:]
         for i, inline_text in enumerate(content):
@@ -415,6 +416,7 @@ class Paragraph(Element):
                 self._content.insert(i, InlineText(target, url=url))
                 self._content.insert(i, InlineText(items[0]))
                 break
+        return self
 
 
 class MDList(Element):

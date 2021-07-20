@@ -59,11 +59,17 @@ def _table(doc: Document):
     )
 
 
-def _link(doc: Document):
+def _inline_link(doc: Document):
     doc.add_element(Paragraph([
         InlineText("Learn to program with"),
         InlineText("The Renegade Coder", url="https://therenegadecoder.com")
     ]))
+
+
+def _insert_link(doc: Document):
+    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94)") \
+        .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
+        .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
 
 
 def _image(doc: Document):
@@ -134,14 +140,38 @@ def main() -> None:
     )
 
     # Links
-    _section(
-        doc,
-        "Links",
+    doc.add_header("Links", level=2)
+    doc.add_paragraph(
         """
         Links are targets to files or web pages and can be embedded 
-        in a Paragraph using InlineText.
+        in a Paragraph in a variety of ways.
+        """
+    )
+
+    # InlineTest Links
+    _section(
+        doc,
+        "InlineText Links",
+        """
+        Because InlineText elements can work as links, we're able to
+        add them through the Paragraph constructor.
         """,
-        _link
+        _inline_link,
+        level=3
+    )
+
+    # Insert Links
+    _section(
+        doc,
+        "Insert Links",
+        """
+        More recently, as of v0.2.0, we're able to add links to existing
+        paragraphs using the insert_link() method. This is a bit cleaner 
+        because the paragraph text is more readable. Even better, in v0.4.0, 
+        we can chain these insert_link() calls. 
+        """,
+        _insert_link,
+        level=3
     )
 
     # Images

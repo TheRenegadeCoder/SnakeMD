@@ -592,6 +592,7 @@ class Table(Element):
         body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
         align: Iterable[Align] = None
         ) -> None:
+        logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
         self._header, self._body, self._widths = self._process_table(header, body)
         self._align = align
@@ -631,6 +632,8 @@ class Table(Element):
             else:
                 processed_header.append(item)
             widths.append(len(str(item)))
+        logger.debug(f"Processed header input\n{processed_header}")
+        logger.debug(f"Computed initial column widths\n{widths}")
 
         # Process body
         for row in body:
@@ -643,6 +646,7 @@ class Table(Element):
                 if (width := len(str(item))) > widths[i]:
                     widths[i] = width
             processed_body.append(processed_row)
+        logger.debug(f"Processed table body\n{processed_body}")
 
         return processed_header, processed_body, widths
 

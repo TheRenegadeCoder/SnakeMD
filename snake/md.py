@@ -591,9 +591,12 @@ class Table(Element):
         super().__init__()
         self._header, self._body, self._widths = self._process_table(header, body)
         self._align = align
-        # TODO: add column align
 
     class Align(Enum):
+        """
+        Align is an enum only used by the Table class to specify the alignment
+        of various columns in the table. 
+        """
         LEFT = auto()
         RIGHT = auto()
         CENTER = auto()

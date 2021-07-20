@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import pathlib
 import random
-import re
 import logging
 from typing import Iterable, Union
 from urllib import request
@@ -345,17 +344,20 @@ class Paragraph(Element):
         rendered as a code block. If both flags are enabled, code takes
         precedence. 
 
+        .. versionchanged:: 0.4.0
+            No longer assumes spaces between InlineText items
+
         :return: the paragraph as a markdown string
         """
         # TODO: add support for nested code blocks
-        paragraph = ' '.join(str(item) for item in self._content)
+        paragraph = ''.join(str(item) for item in self._content)
         if self._code:
             ticks = '`' * self._backticks
             return f"{ticks}{self._lang}\n{paragraph}\n{ticks}"
         elif self._quote:
             return f"> {paragraph}"
         else:
-            return re.sub(r'\s([?.!"](?:\s|$))', r'\1', " ".join(paragraph.split()))
+            return " ".join(paragraph.split())
 
     def verify(self) -> Verification:
         """

@@ -1,4 +1,4 @@
-from md import Document, MDList, Paragraph, InlineText
+from snake.md import Document, MDList, Paragraph, InlineText
 import inspect
 import logging
 
@@ -61,13 +61,14 @@ def _table(doc: Document):
 
 def _inline_link(doc: Document):
     doc.add_element(Paragraph([
-        InlineText("Learn to program with"),
-        InlineText("The Renegade Coder", url="https://therenegadecoder.com")
+        InlineText("Learn to program with "),
+        InlineText("The Renegade Coder", url="https://therenegadecoder.com"),
+        InlineText(".")
     ]))
 
 
 def _insert_link(doc: Document):
-    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94)") \
+    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).") \
         .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
         .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
 

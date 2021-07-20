@@ -262,20 +262,36 @@ class Header(Element):
     :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
     """
 
-    def __init__(self, text: InlineText, level: int) -> None:
+    def __init__(self, text: Union[InlineText, str], level: int) -> None:
         super().__init__()
-        self._text: InlineText = text
-        self._level: int = level
+        self._text: InlineText = self._process_text(text)
+        self._level: int = self._process_level(level)
         self._bound_input()
 
-    def _bound_input(self) -> None:
+    @staticmethod
+    def _process_text(text):
+        """
+        Ensures that Header objects are composed of a single InlineText object.
+
+        :param text: an object to be forced to InlineText
+        """
+        if isinstance(text, str):
+            return InlineText(text)
+        return text
+
+    @staticmethod
+    def _process_level(level: iny) -> int:
         """
         Restricts the range of possible levels to avoid issues with rendering.
+
+        :param int level: the header level
+        :return: the header level in the proper range
         """
-        if self._level < 1:
-            self._level = 1
-        if self._level > 6:
-            self._level = 6
+        if level < 1:
+            level = 1
+        if level > 6:
+            level = 6
+        return level
 
     def render(self) -> str:
         """

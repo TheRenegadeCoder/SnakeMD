@@ -10,7 +10,7 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
-* `v0.4.0 <https://snakemd.therenegadecoder.com/v0.4.0/>`_ 
+* `v0.4.1 <https://snakemd.therenegadecoder.com/v0.4.1/>`_ 
     * Added support for Python logging library (:issue:`22`)
     * Expanded support for strings in the Header, Paragraph, and MDList classes
     * Fixed an issue where Paragraphs would sometimes render unexpected spaces (:issue:`23`)

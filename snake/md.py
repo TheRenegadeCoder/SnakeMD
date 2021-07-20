@@ -592,12 +592,17 @@ class Table(Element):
         """
         Processes the table inputs to ensure header and body only contain paragraph elements.
         Also, this computes the max width of each row to ensure pretty print works every time.
+
+        :param header: the header row in its various forms
+        :param body: the table body in its various forms
+        :return: the table containing only Paragraph elements and a list of the widest items in each row
         """
 
         processed_header = []
         processed_body = []
         widths = []
 
+        # Process header
         for item in header:
             if isinstance(item, (str, InlineText)):
                 processed_header.append(Paragraph([item]))
@@ -605,6 +610,7 @@ class Table(Element):
                 processed_header.append(item)
             widths.append(len(str(item)))
 
+        # Process body
         for row in body:
             processed_row = []
             for i, item in enumerate(row):

@@ -1,5 +1,6 @@
-from snake.md import Document, MDList, Paragraph, InlineText
+from snake.md import Document, MDList, Paragraph, InlineText, Table
 import inspect
+import logging
 
 
 def _introduction(doc: Document):
@@ -36,13 +37,13 @@ def _unordered_list(doc: Document):
 def _nested_list(doc: Document):
     doc.add_element(
         MDList([
-            InlineText("Apples"),
+            "Apples",
             InlineText("Onions"),
             MDList([
-                InlineText("Sweet"),
-                InlineText("Red")
+                "Sweet",
+                "Red"
             ]),
-            Paragraph([InlineText("This is the end of the list!")])
+            Paragraph(["This is the end of the list!"])
         ])
     )
 
@@ -54,15 +55,15 @@ def _table(doc: Document):
             ['150', '70', '21'],
             ['164', '75', '19'],
             ['181', '87', '40']
-        ]
+        ],
+        [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT]
     )
 
 
-def _link(doc: Document):
-    doc.add_element(Paragraph([
-        InlineText("Learn to program with"),
-        InlineText("The Renegade Coder", url="https://therenegadecoder.com")
-    ]))
+def _insert_link(doc: Document):
+    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).") \
+        .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
+        .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
 
 
 def _image(doc: Document):
@@ -132,15 +133,18 @@ def main() -> None:
         _paragraph
     )
 
-    # Links
+
+    # Insert Links
     _section(
         doc,
         "Links",
         """
         Links are targets to files or web pages and can be embedded 
-        in a Paragraph using InlineText.
+        in a Paragraph in a variety of ways. As of v0.2.0, we're able to 
+        add links to existing paragraphs using the insert_link() method. 
+        Even better, in v0.4.0, we can chain these insert_link() calls. 
         """,
-        _link
+        _insert_link
     )
 
     # Images
@@ -191,7 +195,9 @@ def main() -> None:
         """
         Nested lists are complex lists that contain lists. Currently, 
         SnakeMD does not support any convenience methods to generate nested 
-        lists, but they can be created manually using the MDList object.
+        lists, but they can be created manually using the MDList object. As
+        of v0.4.0, you can forego the InlineText elements if you don't
+        need them. 
         """,
         _nested_list,
         level=3
@@ -204,7 +210,8 @@ def main() -> None:
         """
         Tables are sets of rows and columns which can display text in a 
         grid. To style any of the contents of a table, consider using 
-        InlineText.
+        Paragraph or InlineText. As of v0.4.0, you can also align the 
+        columns of the table using the Table.Align enum. 
         """,
         _table
     )
@@ -243,4 +250,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     main()

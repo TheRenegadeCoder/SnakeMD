@@ -3,10 +3,13 @@ from __future__ import annotations
 import os
 import pathlib
 import random
-import re
+import logging
+from enum import Enum, auto
 from typing import Iterable, Union
 from urllib import request
 from urllib.error import HTTPError
+
+logger = logging.getLogger(__name__)
 
 
 class Verification():
@@ -41,6 +44,7 @@ class Verification():
         :param str error: the error message detailing the error
         """
         self._errors.append((violator, error))
+        logger.debug(f"Error logged: {self._errors[-1]}")
 
     def absorb(self, verification: Verification) -> None:
         """
@@ -127,12 +131,14 @@ class InlineText:
 
         :return: True if the URL is valid; False otherwise
         """
+        logger.info(f"Verifying URL: {self._url}")
         try:
             req = request.Request(self._url)
             req.get_method = lambda: 'HEAD'
             request.urlopen(req)
             return True
         except (HTTPError, ValueError):
+            logger.exception(f"URL failed verification: {self._url}")
             return False
 
     def verify(self) -> Verification:
@@ -253,24 +259,40 @@ class Header(Element):
     section of a document. Headers come in six main sizes which 
     correspond to the six headers sizes in HTML (e.g., <h1>).
 
-    :param InlineText text: the header text
+    :param Union[InlineText, str] text: the header text
     :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
     """
 
-    def __init__(self, text: InlineText, level: int) -> None:
+    def __init__(self, text: Union[InlineText, str], level: int) -> None:
         super().__init__()
-        self._text: InlineText = text
-        self._level: int = level
-        self._bound_input()
+        self._text: InlineText = self._process_text(text)
+        self._level: int = self._process_level(level)
 
-    def _bound_input(self) -> None:
+    @staticmethod
+    def _process_text(text) -> InlineText:
+        """
+        Ensures that Header objects are composed of a single InlineText object.
+
+        :param text: an object to be forced to InlineText
+        :return: the input text as an InlineText
+        """
+        if isinstance(text, str):
+            return InlineText(text)
+        return text
+
+    @staticmethod
+    def _process_level(level: int) -> int:
         """
         Restricts the range of possible levels to avoid issues with rendering.
+
+        :param int level: the header level
+        :return: the header level in the proper range
         """
-        if self._level < 1:
-            self._level = 1
-        if self._level > 6:
-            self._level = 6
+        if level < 1:
+            level = 1
+        if level > 6:
+            level = 6
+        return level
 
     def render(self) -> str:
         """
@@ -315,7 +337,10 @@ class Paragraph(Element):
     A paragraph is a standalone element of text. Paragraphs can be
     formatted in a variety of ways including as code and blockquotes.
 
-    :param Iterable[InlineText] content: a "list" of text objects to render as a paragraph 
+    .. versionchanged:: 0.4.0
+        Expanded constructor to accept strings directly
+
+    :param Iterable[Union[InlineText, str]] content: a "list" of text objects to render as a paragraph 
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
     :param str lang: the language of the code snippet;
@@ -324,13 +349,23 @@ class Paragraph(Element):
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[InlineText], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[Union[InlineText | str]], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
-        self._content = content
+        self._content: list[InlineText] = self._process_content(content)
         self._code = code
         self._lang = lang
         self._quote = quote
         self._backticks = 3
+
+    @staticmethod
+    def _process_content(content) -> None:
+        processed = []
+        for item in content:
+            if isinstance(item, str):
+                processed.append(InlineText(item))
+            else:
+                processed.append(item)
+        return processed
 
     def render(self) -> str:
         """
@@ -339,17 +374,20 @@ class Paragraph(Element):
         rendered as a code block. If both flags are enabled, code takes
         precedence. 
 
+        .. versionchanged:: 0.4.0
+            No longer assumes spaces between InlineText items
+
         :return: the paragraph as a markdown string
         """
         # TODO: add support for nested code blocks
-        paragraph = ' '.join(str(item) for item in self._content)
+        paragraph = ''.join(str(item) for item in self._content)
         if self._code:
             ticks = '`' * self._backticks
             return f"{ticks}{self._lang}\n{paragraph}\n{ticks}"
         elif self._quote:
             return f"> {paragraph}"
         else:
-            return re.sub(r'\s([?.!"](?:\s|$))', r'\1', " ".join(paragraph.split()))
+            return " ".join(paragraph.split())
 
     def verify(self) -> Verification:
         """
@@ -372,14 +410,19 @@ class Paragraph(Element):
 
         return verification
 
-    def add(self, text: InlineText) -> None:
+    def add(self, text: Union[InlineText, str]) -> None:
         """
         Adds a text object to the paragraph.
 
+        .. versionchanged:: 0.4.0
+            Allows adding of strings directly
+
         :param text: a custom text element
         """
+        if isinstance(text, str):
+            text = InlineText(text)
         self._content.append(text)
-    
+
     def is_text(self) -> bool:
         """
         Checks if this Paragraph is a text-only element. If not, it must
@@ -391,7 +434,7 @@ class Paragraph(Element):
         """
         return not (self._code or self._quote)
 
-    def insert_link(self, target: str, url: str) -> None:
+    def insert_link(self, target: str, url: str) -> Paragraph:
         """
         A convenience method which inserts a link in the paragraph
         at the first instance of a target string.
@@ -400,6 +443,7 @@ class Paragraph(Element):
 
         :param str target: the string to link
         :param str url: the url to link
+        :return: self
         """
         content = self._content[:]
         for i, inline_text in enumerate(content):
@@ -409,22 +453,44 @@ class Paragraph(Element):
                 self._content.insert(i, InlineText(target, url=url))
                 self._content.insert(i, InlineText(items[0]))
                 break
+        return self
 
 
 class MDList(Element):
     """
     A markdown list is a standalone list that comes in two varieties: ordered and unordered.
 
-    :param items: a "list" of objects to be rendered as a list
-    :param ordered: the ordered state of the list;
+    .. versionchanged:: 0.4.0
+        Expanded constructor to accept strings directly
+
+    :param Iterable[Union[str, InlineText, Paragraph, MDList]] items: 
+        a "list" of objects to be rendered as a list
+    :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[Union[str, InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
         super().__init__()
-        self._items = items
+        self._items: Union[MDList, Paragraph] = self._process_items(items)
         self._ordered = ordered
         self._depth = 0
+
+    @staticmethod
+    def _process_items(items):
+        """
+        Given the variety of data that MDList can accept, this function
+        forces all possible data types to be either MDLists or Paragraphs.
+
+        :param items: a list of items
+        :return: a list of paragraphs and MDLists
+        """
+        processed = []
+        for item in items:
+            if isinstance(item, (str, InlineText)):
+                processed.append(Paragraph([item]))
+            else:
+                processed.append(item)
+        return processed
 
     def render(self) -> str:
         """
@@ -453,7 +519,7 @@ class MDList(Element):
         Verifies that the markdown list is valid. Mainly, this checks the validity
         of the containing InlineText items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types. 
-            
+
         .. versionadded:: 0.2.0
 
         :return: a verification object from the violator
@@ -515,33 +581,109 @@ class Table(Element):
     A table is a standalone element of rows and columns. Data is rendered
     according to underlying InlineText items. 
 
+    .. versionchanged:: 0.4.0
+        Added optional alignment parameter and expanded constructor to accept strings
+
     :param header: the header row of labels
     :param body: the collection of rows of data
+    :param align: the column alignment 
     """
 
-    def __init__(self, header: Iterable[InlineText], body: Iterable[Iterable[InlineText]]) -> None:
+    def __init__(
+        self, 
+        header: Iterable[Union[str, InlineText, Paragraph]], 
+        body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
+        align: Iterable[Align] = None
+        ) -> None:
+        logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
-        self._header = header
-        self._body = body
-        # TODO: add column align
+        self._header, self._body, self._widths = self._process_table(header, body)
+        self._align = align
+
+    class Align(Enum):
+        """
+        Align is an enum only used by the Table class to specify the alignment
+        of various columns in the table. 
+
+        .. versionadded:: 0.4.0
+        """
+        LEFT = auto()
+        RIGHT = auto()
+        CENTER = auto()
+
+    @staticmethod
+    def _process_table(header, body) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
+        """
+        Processes the table inputs to ensure header and body only contain paragraph elements.
+        Also, this computes the max width of each row to ensure pretty print works every time.
+
+        .. versionadded:: 0.4.0
+
+        :param header: the header row in its various forms
+        :param body: the table body in its various forms
+        :return: the table containing only Paragraph elements and a list of the widest items in each row
+        """
+
+        processed_header = []
+        processed_body = []
+        widths = []
+
+        # Process header
+        for item in header:
+            if isinstance(item, (str, InlineText)):
+                processed_header.append(Paragraph([item]))
+            else:
+                processed_header.append(item)
+            widths.append(len(str(item)))
+        logger.debug(f"Processed header input\n{processed_header}")
+        logger.debug(f"Computed initial column widths\n{widths}")
+
+        # Process body
+        for row in body:
+            processed_row = []
+            for i, item in enumerate(row):
+                if isinstance(item, (str, InlineText)):
+                    processed_row.append(Paragraph([item]))
+                else:
+                    processed_row.append(item)
+                if (width := len(str(item))) > widths[i]:
+                    widths[i] = width
+            processed_body.append(processed_row)
+        logger.debug(f"Processed table body\n{processed_body}")
+
+        return processed_header, processed_body, widths
 
     def render(self) -> str:
         """
         Renders a markdown table from a header "list"
         and a data set. 
 
+        .. versionchanged:: 0.4.0
+            Modified to support column alignment and pipes on both sides of the table
+
         :return: a table as a markdown string
         """
-        # TODO: make pretty print more robust
         rows = list()
-        header = [str(item) for item in self._header]
+        header = [str(item).ljust(self._widths[i])
+                  for i, item in enumerate(self._header)]
         body = [
-            [str(item).ljust(len(header[i])) for i, item in enumerate(row)]
+            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
             for row in self._body
         ]
-        rows.append(' | '.join(header))
-        rows.append(' | '.join("-" * len(item) for item in header))
-        rows.extend(' | '.join(row) for row in body)
+        rows.append(f"| {' | '.join(header)} |")
+        if not self._align:
+            rows.append(f"| {' | '.join('-' * width for width in self._widths)} |")
+        else:
+            meta = []
+            for align, width in zip(self._align, self._widths):
+                if align == Table.Align.LEFT:
+                    meta.append(f":{'-' * (width - 1)}")
+                elif align == Table.Align.RIGHT:
+                    meta.append(f"{'-' * (width - 1)}:")
+                else:
+                    meta.append(f":{'-' * (width - 2)}:")
+            rows.append(f"| {' | '.join(meta)} |")
+        rows.extend((f"| {' | '.join(row)} |" for row in body))
         return '\n'.join(rows)
 
     def verify(self):
@@ -628,7 +770,7 @@ class Document:
         A generic function for appending elements to the document. 
         Use this function when you want a little more control over
         what the output looks like. 
-        
+
         .. code-block:: Python
 
             doc.add_element(Header(InlineText("Python is Cool!"), 2))
@@ -641,6 +783,7 @@ class Document:
         """
         assert isinstance(element, Element)
         self._contents.append(element)
+        logger.debug(f"Added element to document\n{element}")
         return element
 
     def add_header(self, text: str, level: int = 1) -> Header:
@@ -661,12 +804,13 @@ class Document:
         assert 1 <= level <= 6
         header = Header(InlineText(text), level)
         self._contents.append(header)
+        logger.debug(f"Added header to document\n{header}")
         return header
 
     def add_paragraph(self, text: str) -> Paragraph:
         """
         A convenience method which adds a simple paragraph of text to the document:
-        
+
         .. code-block:: Python
 
             doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
@@ -679,6 +823,7 @@ class Document:
         """
         paragraph = Paragraph([InlineText(text)])
         self._contents.append(paragraph)
+        logger.debug(f"Added paragraph to document\n{paragraph}")
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
@@ -697,6 +842,7 @@ class Document:
         """
         md_list = MDList([InlineText(item) for item in items], ordered=True)
         self._contents.append(md_list)
+        logger.debug(f"Added ordered list to document\n{md_list}")
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -715,9 +861,15 @@ class Document:
         """
         md_list = MDList([InlineText(item) for item in items])
         self._contents.append(md_list)
+        logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
 
-    def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> Table:
+    def add_table(
+        self, 
+        header: Iterable[str], 
+        data: Iterable[Iterable[str]], 
+        align: Iterable[Table.Align] = None
+        ) -> Table:
         """
         A convenience method which adds a simple table to the document:
 
@@ -728,20 +880,26 @@ class Document:
                 [
                     ["1st", "Robert"],
                     ["2nd", "Rae"]
-                ]
+                ],
+                [Table.Align.CENTER, Table.Align.RIGHT]
             )
 
         .. versionchanged:: 0.2.0
-           Returns Table generated by this method instead of None. 
+            Returns Table generated by this method instead of None. 
+        .. versionchanged:: 0.4.0
+            Added optional alignment parameter
 
         :param Iterable[str] header: a "list" of strings
         :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
+        :param Iterable[Table.Align] align: a "list" of column alignment values;
+            defaults to None
         :return: the Table added to this Document
         """
-        header = [InlineText(text) for text in header]
-        data = [[InlineText(item) for item in row] for row in data]
-        table = Table(header, data)
+        header = [Paragraph([text]) for text in header]
+        data = [[Paragraph([item]) for item in row] for row in data]
+        table = Table(header, data, align)
         self._contents.append(table)
+        logger.debug(f"Added table to document\n{table}")
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Paragraph:
@@ -761,6 +919,7 @@ class Document:
         """
         code = Paragraph([InlineText(code)], code=True, lang=lang)
         self._contents.append(code)
+        logger.debug(f"Added code block to document\n{code}")
         return code
 
     def add_quote(self, text: str) -> Paragraph:
@@ -779,6 +938,7 @@ class Document:
         """
         paragraph = Paragraph([InlineText(text)], quote=True)
         self._contents.append(paragraph)
+        logger.debug(f"Added code block to document\n{paragraph}")
         return paragraph
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -795,6 +955,7 @@ class Document:
         """
         hr = HorizontalRule()
         self._contents.append(hr)
+        logger.debug(f"Added code block to document\n{hr}")
         return hr
 
     def add_table_of_contents(self) -> TableOfContents:
@@ -816,6 +977,8 @@ class Document:
         """
         toc = TableOfContents(self)
         self._contents.append(toc)
+        logger.debug(
+            f"Added code block to document (unable to render until file is complete)")
         return toc
 
     def scramble(self) -> None:
@@ -824,6 +987,7 @@ class Document:
         a random order.
         """
         random.shuffle(self._contents)
+        logger.debug(f"Scrambled document")
 
     def output_page(self, dump_dir: str = "") -> None:
         """

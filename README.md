@@ -50,27 +50,26 @@ I think. Therefore, I am.
 
 ## Links
 
-Links are targets to files or web pages and can be embedded in a Paragraph using InlineText.
+Links are targets to files or web pages and can be embedded in a Paragraph in a variety of ways. As of v0.2.0, we're able to add links to existing paragraphs using the insert_link() method. Even better, in v0.4.0, we can chain these insert_link() calls.
 
 *SnakeMD Source*
 
 ```py
-def _link(doc: Document):
-    doc.add_element(Paragraph([
-        InlineText("Learn to program with"),
-        InlineText("The Renegade Coder", url="https://therenegadecoder.com")
-    ]))
+def _insert_link(doc: Document):
+    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).") \
+        .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
+        .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
 ```
 
 *Markdown Source*
 
 ```markdown
-Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 ```
 
 *Rendered Result*
 
-Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 
 ## Images
 
@@ -152,7 +151,7 @@ def _unordered_list(doc: Document):
 
 ### Nested List
 
-Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
+Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object. As of v0.4.0, you can forego the InlineText elements if you don't need them.
 
 *SnakeMD Source*
 
@@ -160,13 +159,13 @@ Nested lists are complex lists that contain lists. Currently, SnakeMD does not s
 def _nested_list(doc: Document):
     doc.add_element(
         MDList([
-            InlineText("Apples"),
+            "Apples",
             InlineText("Onions"),
             MDList([
-                InlineText("Sweet"),
-                InlineText("Red")
+                "Sweet",
+                "Red"
             ]),
-            Paragraph([InlineText("This is the end of the list!")])
+            Paragraph(["This is the end of the list!"])
         ])
     )
 ```
@@ -191,7 +190,7 @@ def _nested_list(doc: Document):
 
 ## Tables
 
-Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using InlineText.
+Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or InlineText. As of v0.4.0, you can also align the columns of the table using the Table.Align enum.
 
 *SnakeMD Source*
 
@@ -203,27 +202,28 @@ def _table(doc: Document):
             ['150', '70', '21'],
             ['164', '75', '19'],
             ['181', '87', '40']
-        ]
+        ],
+        [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT]
     )
 ```
 
 *Markdown Source*
 
 ```markdown
-Height (cm) | Weight (kg) | Age (y)
------------ | ----------- | -------
-150         | 70          | 21     
-164         | 75          | 19     
-181         | 87          | 40     
+| Height (cm) | Weight (kg) | Age (y) |
+| :---------- | :---------: | ------: |
+| 150         | 70          | 21      |
+| 164         | 75          | 19      |
+| 181         | 87          | 40      |
 ```
 
 *Rendered Result*
 
-Height (cm) | Weight (kg) | Age (y)
------------ | ----------- | -------
-150         | 70          | 21     
-164         | 75          | 19     
-181         | 87          | 40     
+| Height (cm) | Weight (kg) | Age (y) |
+| :---------- | :---------: | ------: |
+| 150         | 70          | 21      |
+| 164         | 75          | 19      |
+| 181         | 87          | 40      |
 
 ## Code Blocks
 

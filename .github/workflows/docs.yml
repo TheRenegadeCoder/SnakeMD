@@ -25,6 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install build
         pip install sphinx_rtd_theme
+        pip install sphinx-issues
 
     - name: Sphinx Build
       run: python setup.py build_sphinx

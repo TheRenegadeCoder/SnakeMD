@@ -460,6 +460,9 @@ class MDList(Element):
     """
     A markdown list is a standalone list that comes in two varieties: ordered and unordered.
 
+    .. versionchanged:: 0.4.0
+        Expanded constructor to accept strings directly
+
     :param Iterable[Union[str, InlineText, Paragraph, MDList]] items: 
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
@@ -579,7 +582,7 @@ class Table(Element):
     according to underlying InlineText items. 
 
     .. versionchanged:: 0.4.0
-        Added optional alignment parameter
+        Added optional alignment parameter and expanded constructor to accept strings
 
     :param header: the header row of labels
     :param body: the collection of rows of data

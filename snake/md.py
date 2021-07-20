@@ -320,7 +320,10 @@ class Paragraph(Element):
     A paragraph is a standalone element of text. Paragraphs can be
     formatted in a variety of ways including as code and blockquotes.
 
-    :param Iterable[InlineText] content: a "list" of text objects to render as a paragraph 
+    .. versionchanged:: 0.4.0
+        Expanded constructor to accept strings directly
+
+    :param Iterable[Union[InlineText, str]] content: a "list" of text objects to render as a paragraph 
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
     :param str lang: the language of the code snippet;
@@ -329,13 +332,24 @@ class Paragraph(Element):
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[InlineText], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[Union[InlineText | str]], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
-        self._content = content
+        self._content: list[InlineText] = self._process_content(content)
         self._code = code
         self._lang = lang
         self._quote = quote
         self._backticks = 3
+
+    @staticmethod
+    def _process_content(content) -> None:
+        processed = []
+        for item in content:
+            if isinstance(item, str):
+                processed.append(InlineText(item))
+            else:
+                processed.append(item)
+        return processed
+            
 
     def render(self) -> str:
         """
@@ -380,12 +394,17 @@ class Paragraph(Element):
 
         return verification
 
-    def add(self, text: InlineText) -> None:
+    def add(self, text: Union[InlineText, str]) -> None:
         """
         Adds a text object to the paragraph.
 
+        .. versionchanged:: 0.4.0
+            Allows adding of strings directly
+
         :param text: a custom text element
         """
+        if isinstance(text, str):
+            text = InlineText(text)
         self._content.append(text)
     
     def is_text(self) -> bool:

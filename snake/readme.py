@@ -1,4 +1,4 @@
-from snake.md import Document, MDList, Paragraph, InlineText
+from md import Document, MDList, Paragraph, InlineText
 import inspect
 import logging
 
@@ -57,14 +57,6 @@ def _table(doc: Document):
             ['181', '87', '40']
         ]
     )
-
-
-def _inline_link(doc: Document):
-    doc.add_element(Paragraph([
-        InlineText("Learn to program with "),
-        InlineText("The Renegade Coder", url="https://therenegadecoder.com"),
-        InlineText(".")
-    ]))
 
 
 def _insert_link(doc: Document):
@@ -140,39 +132,18 @@ def main() -> None:
         _paragraph
     )
 
-    # Links
-    doc.add_header("Links", level=2)
-    doc.add_paragraph(
-        """
-        Links are targets to files or web pages and can be embedded 
-        in a Paragraph in a variety of ways.
-        """
-    )
-
-    # InlineTest Links
-    _section(
-        doc,
-        "InlineText Links",
-        """
-        Because InlineText elements can work as links, we're able to
-        add them through the Paragraph constructor.
-        """,
-        _inline_link,
-        level=3
-    )
 
     # Insert Links
     _section(
         doc,
-        "Insert Links",
+        "Links",
         """
-        More recently, as of v0.2.0, we're able to add links to existing
-        paragraphs using the insert_link() method. This is a bit cleaner 
-        because the paragraph text is more readable. Even better, in v0.4.0, 
-        we can chain these insert_link() calls. 
+        Links are targets to files or web pages and can be embedded 
+        in a Paragraph in a variety of ways. As of v0.2.0, we're able to 
+        add links to existing paragraphs using the insert_link() method. 
+        Even better, in v0.4.0, we can chain these insert_link() calls. 
         """,
-        _insert_link,
-        level=3
+        _insert_link
     )
 
     # Images

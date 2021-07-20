@@ -4,9 +4,12 @@ import os
 import pathlib
 import random
 import re
+import logging
 from typing import Iterable, Union
 from urllib import request
 from urllib.error import HTTPError
+
+logger = logging.getLogger(__name__)
 
 
 class Verification():
@@ -41,6 +44,7 @@ class Verification():
         :param str error: the error message detailing the error
         """
         self._errors.append((violator, error))
+        logger.debug(f"Error logged: {self._errors[-1]}")
 
     def absorb(self, verification: Verification) -> None:
         """
@@ -127,12 +131,14 @@ class InlineText:
 
         :return: True if the URL is valid; False otherwise
         """
+        logger.info(f"Verifying URL: {self._url}")
         try:
             req = request.Request(self._url)
             req.get_method = lambda: 'HEAD'
             request.urlopen(req)
             return True
         except (HTTPError, ValueError):
+            logger.exception(f"URL failed verification: {self._url}")
             return False
 
     def verify(self) -> Verification:
@@ -641,6 +647,7 @@ class Document:
         """
         assert isinstance(element, Element)
         self._contents.append(element)
+        logger.debug(f"Added element to document\n{element}")
         return element
 
     def add_header(self, text: str, level: int = 1) -> Header:
@@ -661,6 +668,7 @@ class Document:
         assert 1 <= level <= 6
         header = Header(InlineText(text), level)
         self._contents.append(header)
+        logger.debug(f"Added header to document\n{header}")
         return header
 
     def add_paragraph(self, text: str) -> Paragraph:
@@ -679,6 +687,7 @@ class Document:
         """
         paragraph = Paragraph([InlineText(text)])
         self._contents.append(paragraph)
+        logger.debug(f"Added paragraph to document\n{paragraph}")
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
@@ -697,6 +706,7 @@ class Document:
         """
         md_list = MDList([InlineText(item) for item in items], ordered=True)
         self._contents.append(md_list)
+        logger.debug(f"Added ordered list to document\n{md_list}")
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -715,6 +725,7 @@ class Document:
         """
         md_list = MDList([InlineText(item) for item in items])
         self._contents.append(md_list)
+        logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
 
     def add_table(self, header: Iterable[str], data: Iterable[Iterable[str]]) -> Table:
@@ -742,6 +753,7 @@ class Document:
         data = [[InlineText(item) for item in row] for row in data]
         table = Table(header, data)
         self._contents.append(table)
+        logger.debug(f"Added table to document\n{table}")
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Paragraph:
@@ -761,6 +773,7 @@ class Document:
         """
         code = Paragraph([InlineText(code)], code=True, lang=lang)
         self._contents.append(code)
+        logger.debug(f"Added code block to document\n{code}")
         return code
 
     def add_quote(self, text: str) -> Paragraph:
@@ -779,6 +792,7 @@ class Document:
         """
         paragraph = Paragraph([InlineText(text)], quote=True)
         self._contents.append(paragraph)
+        logger.debug(f"Added code block to document\n{paragraph}")
         return paragraph
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -795,6 +809,7 @@ class Document:
         """
         hr = HorizontalRule()
         self._contents.append(hr)
+        logger.debug(f"Added code block to document\n{hr}")
         return hr
 
     def add_table_of_contents(self) -> TableOfContents:
@@ -816,6 +831,7 @@ class Document:
         """
         toc = TableOfContents(self)
         self._contents.append(toc)
+        logger.debug(f"Added code block to document (unable to render until file is complete)")
         return toc
 
     def scramble(self) -> None:
@@ -824,6 +840,7 @@ class Document:
         a random order.
         """
         random.shuffle(self._contents)
+        logger.debug(f"Scrambled document")
 
     def output_page(self, dump_dir: str = "") -> None:
         """

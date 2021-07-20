@@ -1,5 +1,6 @@
-from snake.md import Document, MDList, Paragraph, InlineText
+from md import Document, MDList, Paragraph, InlineText
 import inspect
+import logging
 
 
 def _introduction(doc: Document):
@@ -243,4 +244,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     main()

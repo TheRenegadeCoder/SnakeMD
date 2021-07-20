@@ -258,7 +258,7 @@ class Header(Element):
     section of a document. Headers come in six main sizes which 
     correspond to the six headers sizes in HTML (e.g., <h1>).
 
-    :param InlineText text: the header text
+    :param Union[InlineText, str] text: the header text
     :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
     """
 
@@ -266,21 +266,21 @@ class Header(Element):
         super().__init__()
         self._text: InlineText = self._process_text(text)
         self._level: int = self._process_level(level)
-        self._bound_input()
 
     @staticmethod
-    def _process_text(text):
+    def _process_text(text) -> InlineText:
         """
         Ensures that Header objects are composed of a single InlineText object.
 
         :param text: an object to be forced to InlineText
+        :return: the input text as an InlineText
         """
         if isinstance(text, str):
             return InlineText(text)
         return text
 
     @staticmethod
-    def _process_level(level: iny) -> int:
+    def _process_level(level: int) -> int:
         """
         Restricts the range of possible levels to avoid issues with rendering.
 
@@ -465,11 +465,28 @@ class MDList(Element):
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[Union[str, InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
         super().__init__()
-        self._items = items
+        self._items: Union[MDList, Paragraph] = self._process_items(items)
         self._ordered = ordered
         self._depth = 0
+
+    @staticmethod
+    def _process_items(items):
+        """
+        Given the variety of data that MDList can accept, this function
+        forces all possible data types to be either MDLists or Paragraphs.
+
+        :param items: a list of items
+        :return: a list of paragraphs and MDLists
+        """
+        processed = []
+        for item in items:
+            if isinstance(item, (str, InlineText)):
+                processed.append(Paragraph([item]))
+            else:
+                processed.append(item)
+        return processed
 
     def render(self) -> str:
         """

@@ -1,4 +1,4 @@
-from snake.md import Header
+from snake.md import Header, InlineText
 
 
 def test_header_empty():
@@ -13,6 +13,11 @@ def test_header_str_level_sub_one():
 
 def test_header_str_level_one():
     header = Header("Example Header", 1)
+    assert str(header) == "# Example Header"
+
+
+def test_header_inline_level_one():
+    header = Header(InlineText("Example Header"), 1)
     assert str(header) == "# Example Header"
 
 

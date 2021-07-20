@@ -14,11 +14,11 @@ def test_paragraph_one():
 def test_paragraph_many():
     paragraph = Paragraph([InlineText("How"), InlineText(
         "Now"), InlineText("Brown"), InlineText("Cow")])
-    assert str(paragraph) == "How Now Brown Cow"
+    assert str(paragraph) == "HowNowBrownCow"
 
 
 def test_paragraph_add():
     paragraph = Paragraph(
         [InlineText("How"), InlineText("Now"), InlineText("Brown")])
     paragraph.add(InlineText("Cow"))
-    assert str(paragraph) == "How Now Brown Cow"
+    assert str(paragraph) == "HowNowBrownCow"

@@ -12,9 +12,10 @@ as follows:
 
 * `v0.4.0 <https://snakemd.therenegadecoder.com/v0.4.0/>`_ 
     * Added support for Python logging library (:issue:`22`)
-    * Expanded support for strings in the Paragraph class
+    * Expanded support for strings in the Header, Paragraph, and MDList classes
     * Fixed an issue where Paragraphs would sometimes render unexpected spaces (:issue:`23`)
     * Added GitHub links to version history page
+    * Added support for column alignment on tables
 
 * `v0.3.0 <https://snakemd.therenegadecoder.com/v0.3.0/>`_ [:pr:`21`]
     * Gave documentation a major overhaul

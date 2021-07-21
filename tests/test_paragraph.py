@@ -46,13 +46,21 @@ def test_insert_link_one():
         .insert_link("Google", "https://google.com")
     assert str(paragraph) == "Check out [Google](https://google.com)!"
 
+
 def test_insert_link_two_chained():
     paragraph = Paragraph(["Hello, World!"]) \
         .insert_link("Hello", "A") \
         .insert_link("World", "B")
     assert str(paragraph) == "[Hello](A), [World](B)!"
 
+
 def test_insert_link_two_same():
     paragraph = Paragraph(["Hello, Hello!"]) \
         .insert_link("Hello", "A")
     assert str(paragraph) == "[Hello](A), [Hello](A)!"
+
+
+def test_insert_link_two_limit():
+    paragraph = Paragraph(["Hello, Hello!"]) \
+        .insert_link("Hello", "A", count=1)
+    assert str(paragraph) == "[Hello](A), Hello!"

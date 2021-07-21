@@ -462,7 +462,7 @@ class Paragraph(Element):
         i = 0
         content = []
         for inline_text in self._content:
-            if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
+            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
                 for item in items:
                     content.append(InlineText(item))
                     if count == -1 or i < count:

@@ -485,15 +485,13 @@ class Paragraph(Element):
         can be provided to limit the number of strings replaced in the paragraph. 
 
         .. versionadded:: 0.5.0
-        
+
         :param str target: the target string to replace
         :param str replacement: the InlineText object to insert in place of the target
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
-        self._replace_any(target, InlineText(replacement), count)
-        return self
-
+        return self._replace_any(target, InlineText(replacement), count)
 
     def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
@@ -512,8 +510,7 @@ class Paragraph(Element):
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
-        self._replace_any(target, InlineText(target, url=url), count)
-        return self
+        return self._replace_any(target, InlineText(target, url=url), count)
 
     def verify_urls(self) -> dict[str, bool]:
         """
@@ -663,14 +660,15 @@ class Table(Element):
     """
 
     def __init__(
-        self, 
-        header: Iterable[Union[str, InlineText, Paragraph]], 
+        self,
+        header: Iterable[Union[str, InlineText, Paragraph]],
         body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
         align: Iterable[Align] = None
-        ) -> None:
+    ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
-        self._header, self._body, self._widths = self._process_table(header, body)
+        self._header, self._body, self._widths = self._process_table(
+            header, body)
         self._align = align
 
     class Align(Enum):
@@ -745,7 +743,8 @@ class Table(Element):
         ]
         rows.append(f"| {' | '.join(header)} |")
         if not self._align:
-            rows.append(f"| {' | '.join('-' * width for width in self._widths)} |")
+            rows.append(
+                f"| {' | '.join('-' * width for width in self._widths)} |")
         else:
             meta = []
             for align, width in zip(self._align, self._widths):
@@ -938,11 +937,11 @@ class Document:
         return md_list
 
     def add_table(
-        self, 
-        header: Iterable[str], 
-        data: Iterable[Iterable[str]], 
+        self,
+        header: Iterable[str],
+        data: Iterable[Iterable[str]],
         align: Iterable[Table.Align] = None
-        ) -> Table:
+    ) -> Table:
         """
         A convenience method which adds a simple table to the document:
 

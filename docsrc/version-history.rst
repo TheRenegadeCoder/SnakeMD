@@ -12,9 +12,10 @@ as follows:
 
 * `v0.5.0 <https://snakemd.therenegadecoder.com/v0.5.0/>`_
     * Added favicon to docs
-    * Added mass URL veriification function to Paragraph class
+    * Added mass URL verification function to Paragraph class
     * Expanded testing to ensure code works as expected
     * Changed behavior of insert_link() to mimic str.replace()
+    * Added a replace method to Paragraph
 
 * `v0.4.1 <https://snakemd.therenegadecoder.com/v0.4.1/>`_ 
     * Added support for Python logging library (:issue:`22`)

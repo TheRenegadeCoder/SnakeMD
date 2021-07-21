@@ -442,6 +442,59 @@ class Paragraph(Element):
         """
         return not (self._code or self._quote)
 
+    def _replace_any(self, target: str, text: InlineText, count: int = -1) -> Paragraph:
+        """
+        Given a target string, this helper method replaces it with the specified
+        InlineText object. This method was created because insert_link and
+        replace were literally one line different. This method serves as the
+        mediator. Note that using this method will introduce several new
+        underlying InlineText objects even if they could be aggregated. 
+        At some point, we may just expose this method because it seems handy.
+        For example, I foresee a need for a function where all the person wants
+        to do is add italics for every instance of a particular string. 
+        Though, I suppose we could include all of that in the default replace
+        method. 
+
+        :param str target: the target string to replace
+        :param InlineText text: the InlineText object to insert in place of the target
+        :param int count: the number of links to insert; defaults to -1
+        :return: self
+        """
+        i = 0
+        content = []
+        for inline_text in self._content:
+            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
+                for item in items:
+                    content.append(InlineText(item))
+                    if count == -1 or i < count:
+                        content.append(text)
+                        i += 1
+                    else:
+                        content.append(InlineText(target))
+                content.pop()
+            else:
+                content.append(inline_text)
+        self._content = content
+        return self
+
+    def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which replaces a target string with a string of
+        the users choice. Like insert_link, this method is modeled after
+        :code:`str.replace()` of the standard library. As a result, a count
+        can be provided to limit the number of strings replaced in the paragraph. 
+
+        .. versionadded:: 0.5.0
+        
+        :param str target: the target string to replace
+        :param str replacement: the InlineText object to insert in place of the target
+        :param int count: the number of links to insert; defaults to -1
+        :return: self
+        """
+        self._replace_any(target, InlineText(replacement), count)
+        return self
+
+
     def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
         A convenience method which inserts links in the paragraph
@@ -459,21 +512,7 @@ class Paragraph(Element):
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
-        i = 0
-        content = []
-        for inline_text in self._content:
-            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
-                for item in items:
-                    content.append(InlineText(item))
-                    if count == -1 or i < count:
-                        content.append(InlineText(target, url=url))
-                        i += 1
-                    else:
-                        content.append(InlineText(target))
-                content.pop()
-            else:
-                content.append(inline_text)
-        self._content = content
+        self._replace_any(target, InlineText(target, url=url), count)
         return self
 
     def verify_urls(self) -> dict[str, bool]:

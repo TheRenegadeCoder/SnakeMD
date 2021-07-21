@@ -456,6 +456,7 @@ class Paragraph(Element):
 
         :param str target: the string to link
         :param str url: the url to link
+        :param int count: the number of links to insert; defaults to -1
         :return: self
         """
         i = 0

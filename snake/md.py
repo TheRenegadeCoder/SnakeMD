@@ -167,6 +167,14 @@ class InlineText:
         """
         return not (self._code or self._image or self._url)
 
+    def is_url(self) -> bool:
+        """
+        Checks if the InlineText object represents a URL.
+
+        :return: True if the object has a URL; False otherwise
+        """
+        return bool(self._url)
+
     def bold(self) -> None:
         """
         Adds bold styling to self. 
@@ -454,6 +462,19 @@ class Paragraph(Element):
                 self._content.insert(i, InlineText(items[0]))
                 break
         return self
+
+    def verify_urls(self) -> dict[str, bool]:
+        """
+        Verifies all URLs in the paragraph. Results are
+        returned in a dictionary where the URLs are
+        mapped to their validity. 
+
+        :return: a dictionary of URLs to their validity
+        """
+        result = {}
+        for item in self._content:
+            result[item._url] = item.is_url() and item.verify_url()
+        return result
 
 
 class MDList(Element):

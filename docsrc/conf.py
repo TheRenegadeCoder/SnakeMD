@@ -55,9 +55,9 @@ html_static_path = ['_static']
 
 github_url = "https://github.com/TheRenegadeCoder/SnakeMD"
 html_logo = "_static/icon.png"
+html_favicon = '_static/favicon.ico'
+issues_github_path = "TheRenegadeCoder/SnakeMD"
 
 html_theme_options = {
     "display_version": True
 }
-
-issues_github_path = "TheRenegadeCoder/SnakeMD"

@@ -12,8 +12,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 MAJOR = 0
-MINOR = 4
-PATCH = 1
+MINOR = 5
+PATCH = 0
 
 name = "SnakeMD"
 version = f"{MAJOR}.{MINOR}"

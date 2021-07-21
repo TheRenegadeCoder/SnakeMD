@@ -10,6 +10,14 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* `v0.5.0 <https://snakemd.therenegadecoder.com/v0.5.0/>`_
+    * Added favicon to docs (:issue:`26`)
+    * Added mass URL verification function to Paragraph class (:issue:`27`)
+    * Expanded testing to ensure code works as expected
+    * Changed behavior of insert_link() to mimic str.replace() (:issue:`19`)
+    * Added a replace method to Paragraph (:issue:`27`)
+    * Added plausible tracking to latest version of docs (:issue:`25`)
+
 * `v0.4.1 <https://snakemd.therenegadecoder.com/v0.4.1/>`_ 
     * Added support for Python logging library (:issue:`22`)
     * Expanded support for strings in the Header, Paragraph, and MDList classes

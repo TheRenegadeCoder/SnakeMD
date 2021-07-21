@@ -167,6 +167,14 @@ class InlineText:
         """
         return not (self._code or self._image or self._url)
 
+    def is_url(self) -> bool:
+        """
+        Checks if the InlineText object represents a URL.
+
+        :return: True if the object has a URL; False otherwise
+        """
+        return bool(self._url)
+
     def bold(self) -> None:
         """
         Adds bold styling to self. 
@@ -434,26 +442,88 @@ class Paragraph(Element):
         """
         return not (self._code or self._quote)
 
-    def insert_link(self, target: str, url: str) -> Paragraph:
+    def _replace_any(self, target: str, text: InlineText, count: int = -1) -> Paragraph:
         """
-        A convenience method which inserts a link in the paragraph
-        at the first instance of a target string.
+        Given a target string, this helper method replaces it with the specified
+        InlineText object. This method was created because insert_link and
+        replace were literally one line different. This method serves as the
+        mediator. Note that using this method will introduce several new
+        underlying InlineText objects even if they could be aggregated. 
+        At some point, we may just expose this method because it seems handy.
+        For example, I foresee a need for a function where all the person wants
+        to do is add italics for every instance of a particular string. 
+        Though, I suppose we could include all of that in the default replace
+        method. 
+
+        :param str target: the target string to replace
+        :param InlineText text: the InlineText object to insert in place of the target
+        :param int count: the number of links to insert; defaults to -1
+        :return: self
+        """
+        i = 0
+        content = []
+        for inline_text in self._content:
+            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
+                for item in items:
+                    content.append(InlineText(item))
+                    if count == -1 or i < count:
+                        content.append(text)
+                        i += 1
+                    else:
+                        content.append(InlineText(target))
+                content.pop()
+            else:
+                content.append(inline_text)
+        self._content = content
+        return self
+
+    def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which replaces a target string with a string of
+        the users choice. Like insert_link, this method is modeled after
+        :code:`str.replace()` of the standard library. As a result, a count
+        can be provided to limit the number of strings replaced in the paragraph. 
+
+        .. versionadded:: 0.5.0
+
+        :param str target: the target string to replace
+        :param str replacement: the InlineText object to insert in place of the target
+        :param int count: the number of links to insert; defaults to -1
+        :return: self
+        """
+        return self._replace_any(target, InlineText(replacement), count)
+
+    def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which inserts links in the paragraph
+        for all matching instances of a target string. This method
+        is modeled after :code:`str.replace()`, so a count can be
+        provided to limit the number of insertions. 
 
         .. versionadded:: 0.2.0
+        .. versionchanged:: 0.5.0
+            Changed function to insert links at all instances of target 
+            rather than just the first instance
 
         :param str target: the string to link
         :param str url: the url to link
+        :param int count: the number of links to insert; defaults to -1
         :return: self
         """
-        content = self._content[:]
-        for i, inline_text in enumerate(content):
-            if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
-                self._content.pop(i)
-                self._content.insert(i, InlineText(items[1]))
-                self._content.insert(i, InlineText(target, url=url))
-                self._content.insert(i, InlineText(items[0]))
-                break
-        return self
+        return self._replace_any(target, InlineText(target, url=url), count)
+
+    def verify_urls(self) -> dict[str, bool]:
+        """
+        Verifies all URLs in the paragraph. Results are
+        returned in a dictionary where the URLs are
+        mapped to their validity. 
+
+        :return: a dictionary of URLs mapped to their validity
+        """
+        result = {}
+        for item in self._content:
+            result[item._url] = item.is_url() and item.verify_url()
+        return result
 
 
 class MDList(Element):
@@ -590,14 +660,15 @@ class Table(Element):
     """
 
     def __init__(
-        self, 
-        header: Iterable[Union[str, InlineText, Paragraph]], 
+        self,
+        header: Iterable[Union[str, InlineText, Paragraph]],
         body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
         align: Iterable[Align] = None
-        ) -> None:
+    ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
-        self._header, self._body, self._widths = self._process_table(header, body)
+        self._header, self._body, self._widths = self._process_table(
+            header, body)
         self._align = align
 
     class Align(Enum):
@@ -672,7 +743,8 @@ class Table(Element):
         ]
         rows.append(f"| {' | '.join(header)} |")
         if not self._align:
-            rows.append(f"| {' | '.join('-' * width for width in self._widths)} |")
+            rows.append(
+                f"| {' | '.join('-' * width for width in self._widths)} |")
         else:
             meta = []
             for align, width in zip(self._align, self._widths):
@@ -865,11 +937,11 @@ class Document:
         return md_list
 
     def add_table(
-        self, 
-        header: Iterable[str], 
-        data: Iterable[Iterable[str]], 
+        self,
+        header: Iterable[str],
+        data: Iterable[Iterable[str]],
         align: Iterable[Table.Align] = None
-        ) -> Table:
+    ) -> Table:
         """
         A convenience method which adds a simple table to the document:
 

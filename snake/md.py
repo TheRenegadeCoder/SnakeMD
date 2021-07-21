@@ -462,16 +462,17 @@ class Paragraph(Element):
         i = 0
         content = []
         for inline_text in self._content:
-            if count == -1 or i < count:
-                if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
-                    content.append(InlineText(items[0]))
-                    content.append(InlineText(target, url=url))
-                    content.append(InlineText(items[1]))
-                else:
-                    content.append(inline_text)
+            if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
+                for item in items:
+                    content.append(InlineText(item))
+                    if count == -1 or i < count:
+                        content.append(InlineText(target, url=url))
+                        i += 1
+                    else:
+                        content.append(InlineText(target))
+                content.pop()
             else:
                 content.append(inline_text)
-            i += 1
         self._content = content
         return self
 
@@ -481,7 +482,7 @@ class Paragraph(Element):
         returned in a dictionary where the URLs are
         mapped to their validity. 
 
-        :return: a dictionary of URLs to their validity
+        :return: a dictionary of URLs mapped to their validity
         """
         result = {}
         for item in self._content:

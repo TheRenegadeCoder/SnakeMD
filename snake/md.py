@@ -442,25 +442,36 @@ class Paragraph(Element):
         """
         return not (self._code or self._quote)
 
-    def insert_link(self, target: str, url: str) -> Paragraph:
+    def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
-        A convenience method which inserts a link in the paragraph
-        at the first instance of a target string.
+        A convenience method which inserts links in the paragraph
+        for all matching instances of a target string. This method
+        is modeled after :code:`str.replace()`, so a count can be
+        provided to limit the number of insertions. 
 
         .. versionadded:: 0.2.0
+        .. versionchanged:: 0.5.0
+            Changed function to insert links at all instances of target 
+            rather than just the first instance
 
         :param str target: the string to link
         :param str url: the url to link
         :return: self
         """
-        content = self._content[:]
-        for i, inline_text in enumerate(content):
-            if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
-                self._content.pop(i)
-                self._content.insert(i, InlineText(items[1]))
-                self._content.insert(i, InlineText(target, url=url))
-                self._content.insert(i, InlineText(items[0]))
-                break
+        i = 0
+        content = []
+        for inline_text in self._content:
+            if count == -1 or i < count:
+                if inline_text.is_text() and len(items := inline_text._text.split(target, 1)) > 1:
+                    content.append(InlineText(items[0]))
+                    content.append(InlineText(target, url=url))
+                    content.append(InlineText(items[1]))
+                else:
+                    content.append(inline_text)
+            else:
+                content.append(inline_text)
+            i += 1
+        self._content = content
         return self
 
     def verify_urls(self) -> dict[str, bool]:

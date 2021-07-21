@@ -61,3 +61,5 @@ html_theme_options = {
 }
 
 issues_github_path = "TheRenegadeCoder/SnakeMD"
+
+html_favicon = '_static/favicon.ico'

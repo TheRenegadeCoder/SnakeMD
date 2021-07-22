@@ -13,6 +13,7 @@ as follows:
 * `v0.6.0 <https://snakemd.therenegadecoder.com/v0.6.0/>`_
     * Restructured api, so snakemd is the import module
     * Updated usage page to show more features
+    * Fixed issue where base docs link would reroute to index.html directly
 
 * `v0.5.0 <https://snakemd.therenegadecoder.com/v0.5.0/>`_
     * Added favicon to docs (:issue:`26`)

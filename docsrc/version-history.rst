@@ -10,6 +10,10 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* `v0.6.0 <https://snakemd.therenegadecoder.com/v0.6.0/>`_
+    * Restructured api, so snakemd is the import module
+    * Updated usage page
+
 * `v0.5.0 <https://snakemd.therenegadecoder.com/v0.5.0/>`_
     * Added favicon to docs (:issue:`26`)
     * Added mass URL verification function to Paragraph class (:issue:`27`)

@@ -175,33 +175,55 @@ class InlineText:
         """
         return bool(self._url)
 
-    def bold(self) -> None:
+    def bold(self) -> bool:
         """
         Adds bold styling to self. 
-        """
-        self._bold = True
 
-    def unbold(self) -> None:
+        .. versionchanged:: 0.7.0
+            Modified to return previous bold state
+
+        :return: the previous bold state
+        """
+        old = self._bold
+        self._bold = True
+        return old
+
+    def unbold(self) -> bool:
         """
         Removes bold styling from self. 
-        """
-        self._bold = False
 
-    def italicize(self) -> None:
+        .. versionchanged:: 0.7.0
+            Modified to return previous bold state
+
+        :return: the previous bold state
+        """
+        old = self._bold
+        self._bold = False
+        return old
+
+    def italicize(self) -> bool:
         """
         Adds italics styling to self.
 
         .. versionadded:: 0.7.0
-        """
-        self._italics = True
 
-    def unitalicize(self) -> None:
+        :return: the previous italics state
+        """
+        old = self._italics
+        self._italics = True
+        return old
+
+    def unitalicize(self) -> bool:
         """
         Removes italics styling from self. 
 
         .. versionadded:: 0.7.0
+
+        :return: the previous italics state
         """
+        old = self._italics
         self._italics = False
+        return old
 
     def code(self) -> bool:
         """
@@ -316,7 +338,7 @@ class HorizontalRule(Element):
     a document. Horizontal rules really only come in one form,
     so there are no settings to adjust. 
 
-    *New in version 0.2.0.*
+    .. versionadded:: 0.2.0
     """
 
     def __init__(self):

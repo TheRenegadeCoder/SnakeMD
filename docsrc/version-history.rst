@@ -10,6 +10,9 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* `v0.7.0 <https://snakemd.therenegadecoder.com/v0.7.0/>`_
+    * Added replace_link() method to Paragraph
+
 * `v0.6.0 <https://snakemd.therenegadecoder.com/v0.6.0/>`_
     * Restructured api, so snakemd is the import module
     * Updated usage page to show more features

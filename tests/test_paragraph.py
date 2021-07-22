@@ -64,3 +64,8 @@ def test_insert_link_two_limit():
     paragraph = Paragraph(["Hello, Hello!"]) \
         .insert_link("Hello", "A", count=1)
     assert str(paragraph) == "[Hello](A), Hello!"
+
+def test_replace_link_one():
+    paragraph = Paragraph([InlineText("Hello, World!", url="https://example.com")]) \
+        .replace_link("https://example.com", "https://google.com")
+    assert str(paragraph) == "[Hello, World!](https://google.com)"

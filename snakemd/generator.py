@@ -536,7 +536,7 @@ class Paragraph(Element):
         """
         i = 0
         for text in self._content:
-            if count != -1 and i < count and text._url == target:
+            if (count == -1 or i < count) and text._url == target:
                 text._url = url
                 i += 1
         return self

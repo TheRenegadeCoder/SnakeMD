@@ -7,7 +7,7 @@ program directly:
 
 .. code-block:: Python
 
-    from snake import md
+    import snakemd
 
 This way, you'll have access to all of the classes available
 in the SnakeMD module. That said, the quickest way to get 
@@ -15,7 +15,7 @@ started is to import the Document class:
 
 .. code-block:: Python
 
-    from snake.md import Document
+    from snakemd import Document
 
 From here, you can instantiate the Document class directly:
 

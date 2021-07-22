@@ -131,14 +131,14 @@ class InlineText:
 
         :return: True if the URL is valid; False otherwise
         """
-        logger.info(f"Verifying URL: {self._url}")
         try:
             req = request.Request(self._url)
             req.get_method = lambda: 'HEAD'
             request.urlopen(req)
+            logger.info(f"URL passed verification: {self._url}")
             return True
         except (HTTPError, ValueError):
-            logger.exception(f"URL failed verification: {self._url}")
+            logger.info(f"URL failed verification: {self._url}")
             return False
 
     def verify(self) -> Verification:

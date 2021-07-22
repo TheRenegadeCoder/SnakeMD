@@ -502,6 +502,10 @@ class Paragraph(Element):
         will not replace links of text that have already been linked.
         See replace_link() for that behavior. 
 
+        .. code-block:: Python
+
+            paragraph.insert_link("Here", "https://therenegadecoder.com")
+
         .. versionadded:: 0.2.0
         .. versionchanged:: 0.5.0
             Changed function to insert links at all instances of target 

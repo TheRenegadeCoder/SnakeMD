@@ -175,104 +175,96 @@ class InlineText:
         """
         return bool(self._url)
 
-    def bold(self) -> bool:
+    def bold(self) -> InlineText:
         """
         Adds bold styling to self. 
 
         .. versionchanged:: 0.7.0
             Modified to return previous bold state
 
-        :return: the previous bold state
+        :return: self
         """
-        old = self._bold
         self._bold = True
-        return old
+        return self
 
-    def unbold(self) -> bool:
+    def unbold(self) -> InlineText:
         """
         Removes bold styling from self. 
 
         .. versionchanged:: 0.7.0
             Modified to return previous bold state
 
-        :return: the previous bold state
+        :return: self
         """
-        old = self._bold
         self._bold = False
-        return old
+        return self
 
-    def italicize(self) -> bool:
+    def italicize(self) -> InlineText:
         """
         Adds italics styling to self.
 
         .. versionadded:: 0.7.0
 
-        :return: the previous italics state
+        :return: self
         """
-        old = self._italics
         self._italics = True
-        return old
+        return self
 
-    def unitalicize(self) -> bool:
+    def unitalicize(self) -> InlineText:
         """
         Removes italics styling from self. 
 
         .. versionadded:: 0.7.0
 
-        :return: the previous italics state
+        :return: self
         """
-        old = self._italics
         self._italics = False
-        return old
+        return self
 
-    def code(self) -> bool:
+    def code(self) -> InlineText:
         """
         Adds code style to self.
 
         .. versionadded:: 0.7.0
 
-        :return: the previous code state
+        :return: self
         """
-        old = self._code
         self._code = True
-        return old
+        return self
 
-    def uncode(self) -> bool:
+    def uncode(self) -> InlineText:
         """
         Removes code style from self.
 
         .. versionadded:: 0.7.0
 
-        :return: the previous code state
+        :return: self
         """
-        old = self._code
         self._code = False
-        return old
+        return self
 
-    def link(self, url: str) -> str:
+    def link(self, url: str) -> InlineText:
         """
         Adds URL to self.
 
         .. versionadded:: 0.7.0
 
         :param str url: the URL to apply to this text element
-        :return: a copy of the previous URL of it exists; None otherwise
+        :return: self
         """
-        old = self._url
         self._url = url
-        return old
+        return self
 
-    def unlink(self) -> str:
+    def unlink(self) -> InlineText:
         """
         Removes URL from self.
 
         .. versionadded:: 0.7.0
 
-        :return: a copy of the previous URL of it exists; None otherwise
+        :return: self
         """
-        old = self._url
         self._url = None
-        return old
+        return self
 
     def reset(self) -> dict:
         """
@@ -281,21 +273,14 @@ class InlineText:
 
         .. versionadded:: 0.7.0
 
-        :return: the previous state of self
+        :return: self
         """
-        old = {
-            "url": self._url, 
-            "bold": self._bold, 
-            "italics": self._italics, 
-            "code": self._code, 
-            "image": self._image
-        }
         self._url = None
         self._code = False
         self._italics = False
         self._bold = False
         self._image = False
-        return old
+        return self
 
 
 class Element:

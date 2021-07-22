@@ -15,6 +15,7 @@ as follows:
     * Added various state methods to InlineText
     * Expanded testing
     * Lowered log level to INFO for verify URL errors
+    * Added code coverage to build
 
 * `v0.6.0 <https://snakemd.therenegadecoder.com/v0.6.0/>`_
     * Restructured api, so snakemd is the import module

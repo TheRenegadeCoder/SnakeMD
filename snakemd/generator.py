@@ -187,8 +187,21 @@ class InlineText:
         """
         self._bold = False
 
-    # TODO: add text processing to avoid issues where asterisks mess up formatting
-    # One way to do this would be to backslash special characters in the raw text
+    def italicize(self) -> None:
+        """
+        Adds italics styling to self.
+
+        .. versionadded:: 0.7.0
+        """
+        self._italics = True
+
+    def unitalicize(self) -> None:
+        """
+        Removes italics styling from self. 
+
+        .. versionadded:: 0.7.0
+        """
+        self._italics = False
 
 
 class Element:

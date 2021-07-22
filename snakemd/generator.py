@@ -203,6 +203,67 @@ class InlineText:
         """
         self._italics = False
 
+    def code(self) -> bool:
+        """
+        Adds code style to self.
+
+        .. versionadded:: 0.7.0
+
+        :return: the previous code state
+        """
+        old = self._code
+        self._code = True
+        return old
+
+    def uncode(self) -> bool:
+        """
+        Removes code style from self.
+
+        .. versionadded:: 0.7.0
+
+        :return: the previous code state
+        """
+        old = self._code
+        self._code = False
+        return old
+
+    def link(self, url: str) -> str:
+        """
+        Adds URL to self.
+
+        .. versionadded:: 0.7.0
+
+        :param str url: the URL to apply to this text element
+        :return: a copy of the previous URL of it exists; None otherwise
+        """
+        old = self._url
+        self._url = url
+        return old
+
+    def unlink(self) -> str:
+        """
+        Removes URL from self.
+
+        .. versionadded:: 0.7.0
+
+        :return: a copy of the previous URL of it exists; None otherwise
+        """
+        old = self._url
+        self._url = None
+        return old
+
+    def reset(self) -> None:
+        """
+        Removes all settings from self (e.g., bold, code, italics, url, etc.). 
+        All that will remain is the text itself. 
+
+        .. versionadded:: 0.7.0
+        """
+        self._url = None
+        self._code = False
+        self._italics = False
+        self._bold = False
+
 
 class Element:
     """

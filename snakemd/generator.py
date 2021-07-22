@@ -498,7 +498,9 @@ class Paragraph(Element):
         A convenience method which inserts links in the paragraph
         for all matching instances of a target string. This method
         is modeled after :code:`str.replace()`, so a count can be
-        provided to limit the number of insertions. 
+        provided to limit the number of insertions. This method
+        will not replace links of text that has already been linked.
+        See replace_link() for that behavior. 
 
         .. versionadded:: 0.2.0
         .. versionchanged:: 0.5.0
@@ -507,10 +509,33 @@ class Paragraph(Element):
 
         :param str target: the string to link
         :param str url: the url to link
-        :param int count: the number of links to insert; defaults to -1
+        :param int count: the number of links to insert; defaults to -1 (all)
         :return: self
         """
         return self._replace_any(target, InlineText(target, url=url), count)
+
+    def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which replaces matching URLs in the paragraph with
+        a new url. Like insert_link() and replace(), this method is also
+        modeled after :code:`str.replace()`, so a count can be provided to limit
+        the number of links replaced in the paragraph. This method is useful
+        if you want to replace existing URLs but don't necessarily care what
+        the anchor text is. 
+
+        .. versionadded:: 0.7.0
+
+        :param str target: the string to link
+        :param str url: the url to link
+        :param int count: the number of links to replace; defaults to -1 (all)
+        :return: self
+        """
+        i = 0
+        for text in self._content:
+            if count != -1 and i < count and text._url == target:
+                text._url = url
+                i += 1
+        return self
 
     def verify_urls(self) -> dict[str, bool]:
         """

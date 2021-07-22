@@ -18,14 +18,16 @@ def test_inline_text_bold():
 
 def test_inline_text_bold_method():
     text = InlineText("Hello, World!")
-    text.bold()
+    old = text.bold()
     assert str(text) == "**Hello, World!**"
+    assert not old
 
 
 def test_inline_text_unbold_method():
     text = InlineText("Hello, World!", bold=True)
-    text.unbold()
+    old = text.unbold()
     assert str(text) == "Hello, World!"
+    assert old
 
 
 def test_inline_text_italics():
@@ -33,8 +35,22 @@ def test_inline_text_italics():
     assert str(text) == "*Hello, World!*"
 
 
+def test_inline_text_italics_method():
+    text = InlineText("Hello, World!")
+    old = text.italicize()
+    assert str(text) == "*Hello, World!*"
+    assert not old
+
+
 def test_inline_text_bold_italics():
     text = InlineText("Hello, World!", italics=True, bold=True)
+    assert str(text) == "***Hello, World!***"
+
+
+def test_inline_text_bold_italics_methods():
+    text = InlineText("Hello, World!")
+    text.bold()
+    text.italicize()
     assert str(text) == "***Hello, World!***"
 
 

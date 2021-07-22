@@ -499,7 +499,7 @@ class Paragraph(Element):
         for all matching instances of a target string. This method
         is modeled after :code:`str.replace()`, so a count can be
         provided to limit the number of insertions. This method
-        will not replace links of text that has already been linked.
+        will not replace links of text that have already been linked.
         See replace_link() for that behavior. 
 
         .. versionadded:: 0.2.0

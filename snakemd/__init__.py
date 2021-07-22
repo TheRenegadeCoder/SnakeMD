@@ -1,1 +1,1 @@
-from .snakemd import *
+from .generator import *

@@ -1,4 +1,4 @@
-from snake.md import InlineText, Paragraph
+from snakemd import InlineText, Paragraph
 
 
 def test_paragraph_empty():

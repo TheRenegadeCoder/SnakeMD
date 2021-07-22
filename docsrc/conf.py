@@ -21,10 +21,6 @@ project = 'SnakeMD'
 copyright = '2021, The Renegade Coder'
 author = 'The Renegade Coder'
 
-# The full version, including alpha/beta/rc tags
-release = '1.0.0'
-
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be

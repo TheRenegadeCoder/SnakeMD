@@ -1,4 +1,4 @@
-from snake.md import Document
+from snakemd import Document
 
 
 def test_document_empty():

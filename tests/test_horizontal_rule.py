@@ -1,4 +1,4 @@
-from snake.md import HorizontalRule
+from snakemd import HorizontalRule
 
 
 def test_horizontal_rule():

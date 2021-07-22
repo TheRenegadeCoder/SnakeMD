@@ -1,4 +1,4 @@
-from snake.md import InlineText, Paragraph, Table
+from snakemd import InlineText, Paragraph, Table
 
 
 def test_table_one_col_str():

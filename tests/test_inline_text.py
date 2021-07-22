@@ -1,4 +1,4 @@
-from snake.md import InlineText
+from snakemd import InlineText
 
 
 def test_inline_text_empty():

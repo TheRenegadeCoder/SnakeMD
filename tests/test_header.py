@@ -1,4 +1,4 @@
-from snake.md import Header, InlineText
+from snakemd import Header, InlineText
 
 
 def test_header_empty():

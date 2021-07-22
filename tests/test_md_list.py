@@ -1,4 +1,4 @@
-from snake.md import InlineText, MDList, Paragraph
+from snakemd import InlineText, MDList, Paragraph
 
 
 def test_md_list_empty():

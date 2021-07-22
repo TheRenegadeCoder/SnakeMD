@@ -1,4 +1,4 @@
-from snake.md import Document, MDList, Paragraph, InlineText, Table
+from snakemd import Document, MDList, Paragraph, InlineText, Table
 import inspect
 import logging
 

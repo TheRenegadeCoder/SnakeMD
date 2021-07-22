@@ -12,6 +12,9 @@ as follows:
 
 * `v0.7.0 <https://snakemd.therenegadecoder.com/v0.7.0/>`_
     * Added replace_link() method to Paragraph
+    * Added various state methods to InlineText
+    * Expanded testing
+    * Lowered log level to INFO for verify URL errors
 
 * `v0.6.0 <https://snakemd.therenegadecoder.com/v0.6.0/>`_
     * Restructured api, so snakemd is the import module

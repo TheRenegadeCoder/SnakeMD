@@ -266,7 +266,7 @@ class InlineText:
         self._url = None
         return self
 
-    def reset(self) -> dict:
+    def reset(self) -> InlineText:
         """
         Removes all settings from self (e.g., bold, code, italics, url, etc.). 
         All that will remain is the text itself. 

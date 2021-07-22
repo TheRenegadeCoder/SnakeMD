@@ -131,14 +131,14 @@ class InlineText:
 
         :return: True if the URL is valid; False otherwise
         """
-        logger.info(f"Verifying URL: {self._url}")
         try:
             req = request.Request(self._url)
             req.get_method = lambda: 'HEAD'
             request.urlopen(req)
+            logger.info(f"URL passed verification: {self._url}")
             return True
         except (HTTPError, ValueError):
-            logger.exception(f"URL failed verification: {self._url}")
+            logger.info(f"URL failed verification: {self._url}")
             return False
 
     def verify(self) -> Verification:
@@ -175,20 +175,112 @@ class InlineText:
         """
         return bool(self._url)
 
-    def bold(self) -> None:
+    def bold(self) -> InlineText:
         """
         Adds bold styling to self. 
+
+        .. versionchanged:: 0.7.0
+            Modified to return previous bold state
+
+        :return: self
         """
         self._bold = True
+        return self
 
-    def unbold(self) -> None:
+    def unbold(self) -> InlineText:
         """
         Removes bold styling from self. 
+
+        .. versionchanged:: 0.7.0
+            Modified to return previous bold state
+
+        :return: self
         """
         self._bold = False
+        return self
 
-    # TODO: add text processing to avoid issues where asterisks mess up formatting
-    # One way to do this would be to backslash special characters in the raw text
+    def italicize(self) -> InlineText:
+        """
+        Adds italics styling to self.
+
+        .. versionadded:: 0.7.0
+
+        :return: self
+        """
+        self._italics = True
+        return self
+
+    def unitalicize(self) -> InlineText:
+        """
+        Removes italics styling from self. 
+
+        .. versionadded:: 0.7.0
+
+        :return: self
+        """
+        self._italics = False
+        return self
+
+    def code(self) -> InlineText:
+        """
+        Adds code style to self.
+
+        .. versionadded:: 0.7.0
+
+        :return: self
+        """
+        self._code = True
+        return self
+
+    def uncode(self) -> InlineText:
+        """
+        Removes code style from self.
+
+        .. versionadded:: 0.7.0
+
+        :return: self
+        """
+        self._code = False
+        return self
+
+    def link(self, url: str) -> InlineText:
+        """
+        Adds URL to self.
+
+        .. versionadded:: 0.7.0
+
+        :param str url: the URL to apply to this text element
+        :return: self
+        """
+        self._url = url
+        return self
+
+    def unlink(self) -> InlineText:
+        """
+        Removes URL from self.
+
+        .. versionadded:: 0.7.0
+
+        :return: self
+        """
+        self._url = None
+        return self
+
+    def reset(self) -> InlineText:
+        """
+        Removes all settings from self (e.g., bold, code, italics, url, etc.). 
+        All that will remain is the text itself. 
+
+        .. versionadded:: 0.7.0
+
+        :return: self
+        """
+        self._url = None
+        self._code = False
+        self._italics = False
+        self._bold = False
+        self._image = False
+        return self
 
 
 class Element:
@@ -231,7 +323,7 @@ class HorizontalRule(Element):
     a document. Horizontal rules really only come in one form,
     so there are no settings to adjust. 
 
-    *New in version 0.2.0.*
+    .. versionadded:: 0.2.0
     """
 
     def __init__(self):
@@ -498,7 +590,13 @@ class Paragraph(Element):
         A convenience method which inserts links in the paragraph
         for all matching instances of a target string. This method
         is modeled after :code:`str.replace()`, so a count can be
-        provided to limit the number of insertions. 
+        provided to limit the number of insertions. This method
+        will not replace links of text that have already been linked.
+        See replace_link() for that behavior. 
+
+        .. code-block:: Python
+
+            paragraph.insert_link("Here", "https://therenegadecoder.com")
 
         .. versionadded:: 0.2.0
         .. versionchanged:: 0.5.0
@@ -507,10 +605,33 @@ class Paragraph(Element):
 
         :param str target: the string to link
         :param str url: the url to link
-        :param int count: the number of links to insert; defaults to -1
+        :param int count: the number of links to insert; defaults to -1 (all)
         :return: self
         """
         return self._replace_any(target, InlineText(target, url=url), count)
+
+    def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which replaces matching URLs in the paragraph with
+        a new url. Like insert_link() and replace(), this method is also
+        modeled after :code:`str.replace()`, so a count can be provided to limit
+        the number of links replaced in the paragraph. This method is useful
+        if you want to replace existing URLs but don't necessarily care what
+        the anchor text is. 
+
+        .. versionadded:: 0.7.0
+
+        :param str target: the string to link
+        :param str url: the url to link
+        :param int count: the number of links to replace; defaults to -1 (all)
+        :return: self
+        """
+        i = 0
+        for text in self._content:
+            if (count == -1 or i < count) and text._url == target:
+                text.link(url)
+                i += 1
+        return self
 
     def verify_urls(self) -> dict[str, bool]:
         """

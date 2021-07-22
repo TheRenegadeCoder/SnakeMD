@@ -252,17 +252,28 @@ class InlineText:
         self._url = None
         return old
 
-    def reset(self) -> None:
+    def reset(self) -> dict:
         """
         Removes all settings from self (e.g., bold, code, italics, url, etc.). 
         All that will remain is the text itself. 
 
         .. versionadded:: 0.7.0
+
+        :return: the previous state of self
         """
+        old = {
+            "url": self._url, 
+            "bold": self._bold, 
+            "italics": self._italics, 
+            "code": self._code, 
+            "image": self._image
+        }
         self._url = None
         self._code = False
         self._italics = False
         self._bold = False
+        self._image = False
+        return old
 
 
 class Element:
@@ -611,7 +622,7 @@ class Paragraph(Element):
         i = 0
         for text in self._content:
             if (count == -1 or i < count) and text._url == target:
-                text._url = url
+                text.link(url)
                 i += 1
         return self
 

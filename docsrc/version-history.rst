@@ -10,6 +10,9 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* `v0.8.0 <https://snakemd.therenegadecoder.com/v0.8.0/>`
+    * Added range feature to Table of Contents
+
 * `v0.7.0 <https://snakemd.therenegadecoder.com/v0.7.0/>`_
     * Added replace_link() method to Paragraph
     * Added various state methods to InlineText

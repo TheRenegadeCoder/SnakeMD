@@ -726,8 +726,9 @@ class MDList(Element):
 class TableOfContents(Element):
     """
     A Table of Contents is an element containing an ordered list
-    of all the <h2> headers in the document. This element can be
-    placed in the document. 
+    of all the `<h2>` headers in the document. A range can be specified to
+    customize which headers (e.g., `<h3>`) are included in the table of 
+    contents. This element can be placed anywhere in the document. 
 
     .. versionadded:: 0.2.0
 
@@ -778,7 +779,7 @@ class TableOfContents(Element):
                 table_of_contents.append(sublevel)
                 i += size
         return MDList(table_of_contents, ordered=True), i - position
-        
+
     def render(self) -> str:
         """
         Renders the table of contents using the Document reference.
@@ -1186,7 +1187,7 @@ class Document:
         logger.debug(f"Added code block to document\n{hr}")
         return hr
 
-    def add_table_of_contents(self) -> TableOfContents:
+    def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
         """
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
@@ -1203,7 +1204,7 @@ class Document:
 
         :return: the TableOfContents added to this Document
         """
-        toc = TableOfContents(self)
+        toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
         logger.debug(
             f"Added code block to document (unable to render until file is complete)")

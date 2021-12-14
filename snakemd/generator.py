@@ -702,7 +702,7 @@ class MDList(Element):
                     output.append(f"{'  ' * self._depth}{i}. {item}")
                 else:
                     output.append(f"{'  ' * self._depth}- {item}")
-            i += 1
+                i += 1
         return "\n".join(output)
 
     def verify(self) -> Verification:
@@ -753,19 +753,19 @@ class TableOfContents(Element):
             if isinstance(header, Header) and header._level in self._levels
         ]
 
-    def _assemble_table_of_contents(self, headers: Iterable, position: int) -> MDList:
+    def _assemble_table_of_contents(self, headers: Iterable, position: int) -> tuple(MDList, int):
         """
         Assembles the table of contents from the headers in the document. 
 
         :return: a list of strings representing the table of contents
         """
         if not headers:
-            return MDList([])
+            return MDList([]), -1
 
         i = position
         level = headers[i]._level
         table_of_contents = list()
-        while i < len(headers) and headers[i]._level <= level:
+        while i < len(headers) and headers[i]._level >= level:
             if headers[i]._level == level:
                 line = InlineText(
                     headers[i]._text._text,
@@ -774,10 +774,10 @@ class TableOfContents(Element):
                 table_of_contents.append(line)
                 i += 1
             else:
-                sublevel = self._assemble_table_of_contents(headers, i)
-                table_of_contents.append(MDList(sublevel, ordered=True))
-                i += len(sublevel)
-        return MDList(table_of_contents, ordered=True)
+                sublevel, size = self._assemble_table_of_contents(headers, i)
+                table_of_contents.append(sublevel)
+                i += size
+        return MDList(table_of_contents, ordered=True), i - position
         
     def render(self) -> str:
         """
@@ -786,7 +786,7 @@ class TableOfContents(Element):
         :return: the table of contents as a markdown string
         """
         headers = self._get_headers()
-        table_of_contents = self._assemble_table_of_contents(headers, 0)
+        table_of_contents, _ = self._assemble_table_of_contents(headers, 0)
         return str(table_of_contents)
 
     def verify(self) -> Verification:

@@ -732,14 +732,14 @@ class TableOfContents(Element):
     .. versionadded:: 0.2.0
 
     :param Document doc: a reference to the document containing this table of contents 
-    :param list[int] level_range: a pair of integers representing the minimum and maximum header level 
-        to include in the table of contents; defaults to (2, 2)
+    :param list[int] levels: a range of integers representing the sequence of header levels 
+        to include in the table of contents; defaults to range(2, 3)
     """
 
-    def __init__(self, doc: Document, level_range: list[int] = (2, 2)):
+    def __init__(self, doc: Document, levels: range = range(2, 3)):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
-        self._level_range = level_range
+        self._levels = levels
 
     def _get_headers(self) -> list[Header]:
         """
@@ -747,11 +747,10 @@ class TableOfContents(Element):
 
         :return: a list header objects
         """
-        levels = range(*self._level_range)
         return [
             header
             for header in self._contents
-            if isinstance(header, Header) and header._level in levels
+            if isinstance(header, Header) and header._level in self._levels
         ]
 
     def _assemble_table_of_contents(self, headers: Iterable, position: int) -> MDList:
@@ -760,12 +759,19 @@ class TableOfContents(Element):
 
         :return: a list of strings representing the table of contents
         """
+        if not headers:
+            return MDList([])
+
         i = position
         level = headers[i]._level
         table_of_contents = list()
         while i < len(headers) and headers[i]._level <= level:
             if headers[i]._level == level:
-                table_of_contents.append(headers[i])
+                line = InlineText(
+                    headers[i]._text._text,
+                    url=f"#{'-'.join(headers[i]._text._text.lower().split())}"
+                )
+                table_of_contents.append(line)
                 i += 1
             else:
                 sublevel = self._assemble_table_of_contents(headers, i)

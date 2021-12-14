@@ -726,9 +726,9 @@ class MDList(Element):
 class TableOfContents(Element):
     """
     A Table of Contents is an element containing an ordered list
-    of all the `<h2>` headers in the document. A range can be specified to
-    customize which headers (e.g., `<h3>`) are included in the table of 
-    contents. This element can be placed anywhere in the document. 
+    of all the `<h2>` headers in the document by default. A range can be 
+    specified to customize which headers (e.g., `<h3>`) are included in 
+    the table of contents. This element can be placed anywhere in the document. 
 
     .. versionadded:: 0.2.0
 

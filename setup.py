@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 MAJOR = 0
-MINOR = 7
+MINOR = 8
 PATCH = 0
 
 name = "SnakeMD"

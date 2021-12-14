@@ -702,7 +702,7 @@ class MDList(Element):
                     output.append(f"{'  ' * self._depth}{i}. {item}")
                 else:
                     output.append(f"{'  ' * self._depth}- {item}")
-            i += 1
+                i += 1
         return "\n".join(output)
 
     def verify(self) -> Verification:
@@ -726,17 +726,62 @@ class MDList(Element):
 class TableOfContents(Element):
     """
     A Table of Contents is an element containing an ordered list
-    of all the <h2> headers in the document. This element can be
-    placed in the document. 
+    of all the `<h2>` headers in the document by default. A range can be 
+    specified to customize which headers (e.g., `<h3>`) are included in 
+    the table of contents. This element can be placed anywhere in the document. 
 
     .. versionadded:: 0.2.0
 
+    .. versionchanged:: 0.8.0
+       Added optional levels parameter
+
     :param Document doc: a reference to the document containing this table of contents 
+    :param list[int] levels: a range of integers representing the sequence of header levels 
+        to include in the table of contents; defaults to range(2, 3)
     """
 
-    def __init__(self, doc: Document):
+    def __init__(self, doc: Document, levels: range = range(2, 3)):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
+        self._levels = levels
+
+    def _get_headers(self) -> list[Header]:
+        """
+        Retrieves the list of headers from the current document.
+
+        :return: a list header objects
+        """
+        return [
+            header
+            for header in self._contents
+            if isinstance(header, Header) and header._level in self._levels
+        ]
+
+    def _assemble_table_of_contents(self, headers: Iterable, position: int) -> tuple(MDList, int):
+        """
+        Assembles the table of contents from the headers in the document. 
+
+        :return: a list of strings representing the table of contents
+        """
+        if not headers:
+            return MDList([]), -1
+
+        i = position
+        level = headers[i]._level
+        table_of_contents = list()
+        while i < len(headers) and headers[i]._level >= level:
+            if headers[i]._level == level:
+                line = InlineText(
+                    headers[i]._text._text,
+                    url=f"#{'-'.join(headers[i]._text._text.lower().split())}"
+                )
+                table_of_contents.append(line)
+                i += 1
+            else:
+                sublevel, size = self._assemble_table_of_contents(headers, i)
+                table_of_contents.append(sublevel)
+                i += size
+        return MDList(table_of_contents, ordered=True), i - position
 
     def render(self) -> str:
         """
@@ -744,15 +789,9 @@ class TableOfContents(Element):
 
         :return: the table of contents as a markdown string
         """
-        headers = (
-            InlineText(
-                header._text._text,
-                url=f"#{'-'.join(header._text._text.lower().split())}"
-            )
-            for header in self._contents
-            if isinstance(header, Header) and header._level == 2
-        )
-        return str(MDList(headers, ordered=True))
+        headers = self._get_headers()
+        table_of_contents, _ = self._assemble_table_of_contents(headers, 0)
+        return str(table_of_contents)
 
     def verify(self) -> Verification:
         """
@@ -1151,13 +1190,13 @@ class Document:
         logger.debug(f"Added code block to document\n{hr}")
         return hr
 
-    def add_table_of_contents(self) -> TableOfContents:
+    def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
         """
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
         document. The table itself is lazy loaded, so it always captures
-        all of the header elements regardless of when the document is
-        rendered. 
+        all of the header elements regardless of where the table of contents
+        is added to the document. 
 
         .. code-block:: Python
 
@@ -1166,9 +1205,13 @@ class Document:
         .. versionchanged:: 0.2.0
            Fixed a bug where table of contents could only be rendered once.
 
+        .. versionchanged:: 0.8.0
+           Added optional levels parameter
+
+        :param range levels: a range of header levels to be included in the table of contents
         :return: the TableOfContents added to this Document
         """
-        toc = TableOfContents(self)
+        toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
         logger.debug(
             f"Added code block to document (unable to render until file is complete)")

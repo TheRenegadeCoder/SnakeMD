@@ -116,7 +116,8 @@ def main() -> None:
         """
         Below you'll find the table of contents, but
         these can also be generated programatically for every markdown
-        document.
+        document. As of v0.8.0, you can also specify which
+        types of headings are included in the table of contents.
         """
     )
     doc.add_code(inspect.getsource(_table_of_contents).strip(), lang="py")

@@ -732,6 +732,9 @@ class TableOfContents(Element):
 
     .. versionadded:: 0.2.0
 
+    .. versionchanged:: 0.8.0
+       Added optional levels parameter
+
     :param Document doc: a reference to the document containing this table of contents 
     :param list[int] levels: a range of integers representing the sequence of header levels 
         to include in the table of contents; defaults to range(2, 3)
@@ -1192,8 +1195,8 @@ class Document:
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
         document. The table itself is lazy loaded, so it always captures
-        all of the header elements regardless of when the document is
-        rendered. 
+        all of the header elements regardless of where the table of contents
+        is added to the document. 
 
         .. code-block:: Python
 
@@ -1202,6 +1205,10 @@ class Document:
         .. versionchanged:: 0.2.0
            Fixed a bug where table of contents could only be rendered once.
 
+        .. versionchanged:: 0.8.0
+           Added optional levels parameter
+
+        :param range levels: a range of header levels to be included in the table of contents
         :return: the TableOfContents added to this Document
         """
         toc = TableOfContents(self, levels=levels)

@@ -732,27 +732,56 @@ class TableOfContents(Element):
     .. versionadded:: 0.2.0
 
     :param Document doc: a reference to the document containing this table of contents 
+    :param list[int] level_range: a pair of integers representing the minimum and maximum header level 
+        to include in the table of contents; defaults to (2, 2)
     """
 
-    def __init__(self, doc: Document):
+    def __init__(self, doc: Document, level_range: list[int] = (2, 2)):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
+        self._level_range = level_range
 
+    def _get_headers(self) -> list[Header]:
+        """
+        Retrieves the list of headers from the current document.
+
+        :return: a list header objects
+        """
+        levels = range(*self._level_range)
+        return [
+            header
+            for header in self._contents
+            if isinstance(header, Header) and header._level in levels
+        ]
+
+    def _assemble_table_of_contents(self, headers: Iterable, position: int) -> MDList:
+        """
+        Assembles the table of contents from the headers in the document. 
+
+        :return: a list of strings representing the table of contents
+        """
+        i = position
+        level = headers[i]._level
+        table_of_contents = list()
+        while i < len(headers) and headers[i]._level <= level:
+            if headers[i]._level == level:
+                table_of_contents.append(headers[i])
+                i += 1
+            else:
+                sublevel = self._assemble_table_of_contents(headers, i)
+                table_of_contents.append(MDList(sublevel, ordered=True))
+                i += len(sublevel)
+        return MDList(table_of_contents, ordered=True)
+        
     def render(self) -> str:
         """
         Renders the table of contents using the Document reference.
 
         :return: the table of contents as a markdown string
         """
-        headers = (
-            InlineText(
-                header._text._text,
-                url=f"#{'-'.join(header._text._text.lower().split())}"
-            )
-            for header in self._contents
-            if isinstance(header, Header) and header._level == 2
-        )
-        return str(MDList(headers, ordered=True))
+        headers = self._get_headers()
+        table_of_contents = self._assemble_table_of_contents(headers, 0)
+        return str(table_of_contents)
 
     def verify(self) -> Verification:
         """

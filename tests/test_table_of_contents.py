@@ -54,6 +54,7 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
         "2. [Section 2](#section-2)\n" \
         "   1. [Subsection 3](#subsection-3)"
 
+
 def test_table_of_contents_double_digit_sections():
     doc = Document("Many Sections and Subsections")
     toc = TableOfContents(doc, levels=range(2, 4))
@@ -87,6 +88,7 @@ def test_table_of_contents_double_digit_sections():
         "10. [Section 10](#section-10)\n" \
         "    1. [Subsection 10A](#subsection-10a)"
 
+
 def test_table_of_contents_triple_nesting():
     doc = Document("Many Sections and Subsections")
     toc = TableOfContents(doc, levels=range(2, 5))
@@ -97,4 +99,3 @@ def test_table_of_contents_triple_nesting():
         "1. [Section 1](#section-1)\n" \
         "   1. [Subsection 1A](#subsection-1a)\n" \
         "      1. [Subsubsection 1Ai](#subsubsection-1ai)"
-

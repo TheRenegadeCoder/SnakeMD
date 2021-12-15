@@ -1,6 +1,6 @@
-# Welcome to SnakeMD!
+# Welcome to SnakeMD
 
-SnakeMD is your ticket to generating markdown in Python. To prove it to you, we've generated this entire README using SnakeMD. See readme.py for how it was done. To get started, download and install SnakeMD:
+SnakeMD is your ticket to generating Markdown in Python. To prove it to you, we've generated this entire README using SnakeMD. See readme.py for how it was done. To get started, download and install SnakeMD:
 
 ```shell
 pip install snakemd
@@ -10,7 +10,7 @@ In the remainder of this document, we'll show you all of the things this library
 
 ## Table of Contents
 
-Below you'll find the table of contents, but these can also be generated programatically for every markdown document. As of v0.8.0, you can also specify which types of headings are included in the table of contents.
+Below you'll find the table of contents, but these can also be generated programatically for every Markdown document. As of v0.8.0, you can also specify which types of headings are included in the table of contents.
 
 ```py
 def _table_of_contents(doc: Document):
@@ -29,7 +29,7 @@ def _table_of_contents(doc: Document):
 
 ## Paragraphs
 
-Paragraphs are the most basic feature of any markdown file. As a result, they are very easy to create using SnakeMD.
+Paragraphs are the most basic feature of any Markdown file. As a result, they are very easy to create using SnakeMD.
 
 *SnakeMD Source*
 
@@ -95,7 +95,7 @@ def _image(doc: Document):
 
 ## Lists
 
-SnakeMD can make a variety of markdown lists. The two main types of lists are ordered and unordered.
+SnakeMD can make a variety of Markdown lists. The two main types of lists are ordered and unordered.
 
 ### Ordered List
 

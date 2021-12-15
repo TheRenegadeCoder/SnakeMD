@@ -1,4 +1,4 @@
-from snakemd.generator import Document, MDList, Paragraph, InlineText, Table
+from generator import Document, MDList, Paragraph, InlineText, Table
 import inspect
 import logging
 

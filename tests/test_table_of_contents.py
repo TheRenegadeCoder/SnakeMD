@@ -20,7 +20,8 @@ def test_table_of_contents_many_sections():
     doc.add_header("Section 1", level=2)
     doc.add_header("Section 2", level=2)
     doc.add_header("Section 3", level=2)
-    assert str(toc) == "1. [Section 1](#section-1)\n" \
+    assert str(toc) == \
+        "1. [Section 1](#section-1)\n" \
         "2. [Section 2](#section-2)\n" \
         "3. [Section 3](#section-3)"
 
@@ -33,7 +34,8 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2():
     doc.add_header("Subsection 2", level=3)
     doc.add_header("Section 2", level=2)
     doc.add_header("Subsection 3", level=3)
-    assert str(toc) == "1. [Section 1](#section-1)\n" \
+    assert str(toc) == \
+        "1. [Section 1](#section-1)\n" \
         "2. [Section 2](#section-2)"
 
 
@@ -45,7 +47,8 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
     doc.add_header("Subsection 2", level=3)
     doc.add_header("Section 2", level=2)
     doc.add_header("Subsection 3", level=3)
-    assert str(toc) == "1. [Section 1](#section-1)\n" \
+    assert str(toc) == \
+        "1. [Section 1](#section-1)\n" \
         "   1. [Subsection 1](#subsection-1)\n" \
         "   2. [Subsection 2](#subsection-2)\n" \
         "2. [Section 2](#section-2)\n" \
@@ -68,7 +71,8 @@ def test_table_of_contents_double_digit_sections():
     doc.add_header("Section 9", level=2)
     doc.add_header("Section 10", level=2)
     doc.add_header("Subsection 10A", level=3)
-    assert str(toc) == "1. [Section 1](#section-1)\n" \
+    assert str(toc) == \
+        "1. [Section 1](#section-1)\n" \
         "   1. [Subsection 1A](#subsection-1a)\n" \
         "   2. [Subsection 1B](#subsection-1b)\n" \
         "2. [Section 2](#section-2)\n" \
@@ -83,4 +87,14 @@ def test_table_of_contents_double_digit_sections():
         "10. [Section 10](#section-10)\n" \
         "    1. [Subsection 10A](#subsection-10a)"
 
+def test_table_of_contents_triple_nesting():
+    doc = Document("Many Sections and Subsections")
+    toc = TableOfContents(doc, levels=range(2, 5))
+    doc.add_header("Section 1", level=2)
+    doc.add_header("Subsection 1A", level=3)
+    doc.add_header("Subsubsection 1Ai", level=4)
+    assert str(toc) == \
+        "1. [Section 1](#section-1)\n" \
+        "   1. [Subsection 1A](#subsection-1a)\n" \
+        "      1. [Subsubsection 1Ai](#subsubsection-1ai)"
 

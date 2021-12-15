@@ -976,7 +976,7 @@ class Document:
     take advantage of the :code:`add_element()` function to provide
     custom markdown elements. 
 
-    :param name: the name of the document
+    :param name: the file name of the document without the extension
     """
 
     def __init__(self, name: str) -> None:

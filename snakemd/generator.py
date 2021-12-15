@@ -664,7 +664,7 @@ class MDList(Element):
         super().__init__()
         self._items: Union[MDList, Paragraph] = self._process_items(items)
         self._ordered = ordered
-        self._depth = 0
+        self._space = ""
 
     @staticmethod
     def _process_items(items):
@@ -683,6 +683,20 @@ class MDList(Element):
                 processed.append(item)
         return processed
 
+    def _get_indent_size(self, item_index: int = -1) -> int:
+        """
+        Returns the number of spaces that any sublists should be indented.
+
+        :param int item_index: the index of the item to check (only used for ordered lists); 
+            defaults to -1
+        :return: the number of spaces
+        """
+        if not self._ordered:
+            return 2
+        else:
+            # Ordered items vary in length, so we adjust the result based on the index
+            return 2 + len(str(item_index))
+
     def render(self) -> str:
         """
         Renders the markdown list according to the settings provided.
@@ -695,13 +709,13 @@ class MDList(Element):
         i = 1
         for item in self._items:
             if isinstance(item, MDList):
-                item._depth = self._depth + 1
+                item._space = self._space + " " * self._get_indent_size(i)
                 output.append(str(item))
             else:
                 if self._ordered:
-                    output.append(f"{'  ' * self._depth}{i}. {item}")
+                    output.append(f"{self._space}{i}. {item}")
                 else:
-                    output.append(f"{'  ' * self._depth}- {item}")
+                    output.append(f"{self._space}- {item}")
                 i += 1
         return "\n".join(output)
 

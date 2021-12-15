@@ -10,14 +10,21 @@ program directly:
     import snakemd
 
 This way, you'll have access to all of the classes available
-in the SnakeMD module. That said, the quickest way to get 
-started is to import the Document class:
+in the SnakeMD module. From here, you can take advantage of
+a handy function to create a new document:
+
+.. code-block:: Python
+
+    doc = snakemd.new_doc("README")
+
+This will create a new Document object. Alternatively, you can 
+import the Document class directly:
 
 .. code-block:: Python
 
     from snakemd import Document
 
-From here, you can instantiate the Document class directly:
+From here, you can instantiate the Document class:
 
 .. code-block:: Python
 

@@ -10,6 +10,9 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* `v0.9.0 <https://snakemd.therenegadecoder.com/v0.9.0/>`_
+    * Added convenience function for creating new Document objects
+
 * `v0.8.1 <https://snakemd.therenegadecoder.com/v0.8.1/>`_
     * Fixed an issue where nested lists did not render correctly 
 

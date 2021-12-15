@@ -14,7 +14,7 @@ Below you'll find the table of contents, but these can also be generated program
 
 ```py
 def _table_of_contents(doc: Document):
-    doc.add_table_of_contents()
+    doc.add_table_of_contents(range(2, 4))
 ```
 
 1. [Table of Contents](#table-of-contents)
@@ -22,6 +22,9 @@ def _table_of_contents(doc: Document):
 3. [Links](#links)
 4. [Images](#images)
 5. [Lists](#lists)
+   1. [Ordered List](#ordered-list)
+   2. [Unordered List](#unordered-list)
+   3. [Nested List](#nested-list)
 6. [Tables](#tables)
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)

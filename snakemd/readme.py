@@ -23,7 +23,7 @@ def _introduction(doc: Document):
 
 
 def _table_of_contents(doc: Document):
-    doc.add_table_of_contents()
+    doc.add_table_of_contents(range(2, 4))
 
 
 def _ordered_list(doc: Document):

@@ -134,7 +134,6 @@ def main() -> None:
         _paragraph
     )
 
-
     # Insert Links
     _section(
         doc,

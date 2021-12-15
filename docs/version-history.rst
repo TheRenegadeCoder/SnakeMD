@@ -10,7 +10,7 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
-* v0.9.1 [:pr:`50`, :pr:`49`]
+* v0.9.2 [:pr:`50`, :pr:`49`]
     * Added multiple versions of Python testing
     * Restricted package to Python version 3.8+
     * Added Markdown linting for main README

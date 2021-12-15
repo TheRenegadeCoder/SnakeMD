@@ -683,10 +683,12 @@ class MDList(Element):
                 processed.append(item)
         return processed
 
-    def _get_indent_size(self, item_index: int=-1) -> int:
+    def _get_indent_size(self, item_index: int = -1) -> int:
         """
         Returns the number of spaces that any sublists should be indented.
 
+        :param int item_index: the index of the item to check (only used for ordered lists); 
+            defaults to -1
         :return: the number of spaces
         """
         if not self._ordered:

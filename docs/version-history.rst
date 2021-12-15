@@ -10,6 +10,11 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* v0.9.1 [:pr:`50`, :pr:`49`]
+    * Added multiple versions of Python testing
+    * Restricted package to Python version 3.8+
+    * Added Markdown linting for main README
+
 * v0.9.0 [:pr:`47`, :pr:`46`, :pr:`45`]
     * Added convenience function for creating new Document objects (:issue:`40`)
     * Ported documentation to Read the Docs (:issue:`43`)

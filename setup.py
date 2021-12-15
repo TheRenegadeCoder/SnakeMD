@@ -30,8 +30,12 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
+        "Topic :: Documentation :: Sphinx",
     ],
     cmdclass=cmdclass,
     command_options={

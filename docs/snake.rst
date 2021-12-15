@@ -13,6 +13,9 @@ check out `Usage <usage.html>`_ for information. Otherwise,
 see the rest of this document for details on all the 
 functionality provided in snakemd. 
 
+.. automodule:: snakemd
+   :members:
+
 .. automodule:: snakemd.generator
    :members:
    :undoc-members:

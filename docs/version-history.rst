@@ -10,14 +10,15 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
-* `v0.9.0 <https://snakemd.therenegadecoder.com/v0.9.0/>`_
-    * Added convenience function for creating new Document objects
+* v0.9.0 [:pr:`47`, :pr:`46`, :pr:`45`]
+    * Added convenience function for creating new Document objects (:issue:`40`)
+    * Ported documentation to Read the Docs (:issue:`43`)
 
 * v0.8.1
     * Fixed an issue where nested lists did not render correctly 
 
 * v0.8.0
-    * Added range feature to Table of Contents
+    * Added range feature to Table of Contents (:issue:`41`)
 
 * v0.7.0
     * Added replace_link() method to Paragraph

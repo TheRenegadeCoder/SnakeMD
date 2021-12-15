@@ -28,10 +28,15 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/TheRenegadeCoder/SnakeMD",
     packages=setuptools.find_packages(),
+    python_requires=">=3.8",
     install_requires=[],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
+        "Topic :: Documentation :: Sphinx",
     ],
     cmdclass=cmdclass,
     command_options={

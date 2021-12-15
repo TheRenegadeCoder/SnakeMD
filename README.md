@@ -10,7 +10,7 @@ In the remainder of this document, we'll show you all of the things this library
 
 ## Table of Contents
 
-Below you'll find the table of contents, but these can also be generated programatically for every markdown document.
+Below you'll find the table of contents, but these can also be generated programatically for every markdown document. As of v0.8.0, you can also specify which types of headings are included in the table of contents.
 
 ```py
 def _table_of_contents(doc: Document):

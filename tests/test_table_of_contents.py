@@ -46,7 +46,7 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
     doc.add_header("Section 2", level=2)
     doc.add_header("Subsection 3", level=3)
     assert str(toc) == "1. [Section 1](#section-1)\n" \
-        "  1. [Subsection 1](#subsection-1)\n" \
-        "  2. [Subsection 2](#subsection-2)\n" \
+        "   1. [Subsection 1](#subsection-1)\n" \
+        "   2. [Subsection 2](#subsection-2)\n" \
         "2. [Section 2](#section-2)\n" \
-        "  1. [Subsection 3](#subsection-3)"
+        "   1. [Subsection 3](#subsection-3)"

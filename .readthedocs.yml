@@ -1,7 +1,7 @@
 version: 2
 
 sphinx:
-   configuration: docsrc/conf.py
+   configuration: docs/conf.py
    builder: dirhtml
 
 formats: all

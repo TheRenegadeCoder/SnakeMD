@@ -6,7 +6,7 @@ import logging
 def _introduction(doc: Document):
     doc.add_paragraph(
         """
-        SnakeMD is your ticket to generating markdown in Python. 
+        SnakeMD is your ticket to generating Markdown in Python. 
         To prove it to you, we've generated this entire README using SnakeMD.
         See readme.py for how it was done. To get started, download and install SnakeMD:
         """
@@ -107,7 +107,7 @@ def main() -> None:
     doc = Document("README")
 
     # Introduction
-    doc.add_header("Welcome to SnakeMD!")
+    doc.add_header("Welcome to SnakeMD")
     _introduction(doc)
 
     # Table of Contents
@@ -115,7 +115,7 @@ def main() -> None:
     doc.add_paragraph(
         """
         Below you'll find the table of contents, but
-        these can also be generated programatically for every markdown
+        these can also be generated programatically for every Markdown
         document. As of v0.8.0, you can also specify which
         types of headings are included in the table of contents.
         """
@@ -128,7 +128,7 @@ def main() -> None:
         doc,
         "Paragraphs",
         """
-        Paragraphs are the most basic feature of any markdown file. 
+        Paragraphs are the most basic feature of any Markdown file. 
         As a result, they are very easy to create using SnakeMD.
         """,
         _paragraph
@@ -160,7 +160,7 @@ def main() -> None:
     doc.add_header("Lists", level=2)
     doc.add_paragraph(
         """
-        SnakeMD can make a variety of markdown lists. The two main types 
+        SnakeMD can make a variety of Markdown lists. The two main types 
         of lists are ordered and unordered.
         """
     )

@@ -28,6 +28,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/TheRenegadeCoder/SnakeMD",
     packages=setuptools.find_packages(),
+    python_requires=">=3.8",
     install_requires=[],
     classifiers=[
         "License :: OSI Approved :: MIT License",

@@ -708,7 +708,7 @@ class MDList(Element):
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[str, InlineText, Paragraph, MDList, CheckBox]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[Union[str, InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
         super().__init__()
         self._items: Union[MDList, Paragraph] = self._process_items(items)
         self._ordered = ordered

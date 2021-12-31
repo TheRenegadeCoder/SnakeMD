@@ -744,7 +744,7 @@ class MDCheckList(MDList):
     :param Iterable[Union[str, InlineText, Paragraph, MDList]] items: 
         a "list" of objects to be rendered as a Checkbox list
     :param bool checked: the state of the checkbox;
-        set to True to render an checked box (i.e., True -> 1. item)
+        set to True to render an checked box (i.e., True -> - [x] item)
     """
     def __init__(self,  items: Iterable[Union[str, InlineText, Paragraph, MDList]], checked: bool=False) -> None:
         super().__init__(items, False)
@@ -753,7 +753,7 @@ class MDCheckList(MDList):
     def render(self) -> str:
         """
         Renders the markdown Check Box list according to the settings provided.
-        For example, if the the ordered flag is set, an ordered list
+        For example, if the the checked flag is set, a checked list
         will be rendered in markdown. 
 
         :return: the list as a markdown string

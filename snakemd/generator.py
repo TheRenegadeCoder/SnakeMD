@@ -283,6 +283,33 @@ class InlineText:
         return self
 
 
+
+class CheckBox(InlineText):
+        def __init__(
+            self,
+            text: str,
+            url: str = None,
+            bold: bool = False,
+            italics: bool = False,
+            code: bool = False,
+            image: bool = False,
+            checked: bool = False
+        ) -> None:
+            super().__init__(
+                    text,
+                    url = url,
+                    bold = bold,
+                    italics = italics,
+                    code = code,
+                    image = image
+                    )
+            self.checked = checked
+
+        def render(self) -> str:
+            text = super().render()
+            checked_str = "X" if self.checked else " "
+            return f"[{checked_str}] {text}"
+
 class Element:
     """
     An element is defined as a standalone section of a markdown file. 

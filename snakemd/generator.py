@@ -740,11 +740,13 @@ class MDList(Element):
 class MDCheckList(MDList):
     """
     A markdown CheckBox list has boxes that can be clicked.
+    
+    .. versionadded:: 0.10.0
 
     :param Iterable[Union[str, InlineText, Paragraph, MDList]] items: 
         a "list" of objects to be rendered as a Checkbox list
     :param bool checked: the state of the checkbox;
-        set to True to render an checked box (i.e., True -> - [x] item)
+        set to True to render a checked box (i.e., True -> - [x] item)
     """
     def __init__(self,  items: Iterable[Union[str, InlineText, Paragraph, MDList]], checked: bool=False) -> None:
         super().__init__(items, False)
@@ -769,6 +771,8 @@ class MDCheckList(MDList):
                 output.append(f"{self._space}- [{checked_str}] {item}")
 
         return "\n".join(output)
+    
+
 class TableOfContents(Element):
     """
     A Table of Contents is an element containing an ordered list

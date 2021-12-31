@@ -1,4 +1,4 @@
-from snakemd import InlineText, MDList, Paragraph
+from snakemd import InlineText, MDList, Paragraph, CheckBox
 
 
 def test_md_list_empty():
@@ -56,3 +56,8 @@ def test_md_list_nested_ordered():
     outer_list = MDList(
         [InlineText("Characters"), inner_list, InlineText("Powers")], ordered=True)
     assert str(outer_list) == "1. Characters\n   1. Deku\n   2. Bakugo\n   3. Uraraka\n2. Powers"
+
+def test_md_list_checkboxes():
+    md_list = MDList([CheckBox("Deku"), CheckBox(
+        "Bakugo", checked=True), CheckBox("Uraraka")], ordered=False)
+    assert str(md_list) == "- [ ] Deku\n- [X] Bakugo\n- [ ] Uraraka"

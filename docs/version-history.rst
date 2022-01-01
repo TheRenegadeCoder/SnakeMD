@@ -10,6 +10,12 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* v0.10.0 [:pr:`55`, :pr:`56`, :pr:`57`]
+    * Added the CheckBox class for creating checkboxes
+    * Added the MDCheckList class for creating lists of checkboxes
+    * Added a Document method for implementing easy checklists
+    * Updated README to include a new section on checklists
+
 * v0.9.3 [:pr:`50`, :pr:`49`]
     * Added multiple versions of Python testing
     * Restricted package to Python version 3.8+

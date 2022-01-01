@@ -34,6 +34,16 @@ def _unordered_list(doc: Document):
     doc.add_unordered_list(["Crosby", "Malkin", "Lemieux"])
 
 
+def _checklist(doc: Document):
+    doc.add_checklist(
+        [
+            "Pass the puck",
+            "Shoot the puck",
+            "Score a goal"
+        ]
+    )
+
+
 def _nested_list(doc: Document):
     doc.add_element(
         MDList([
@@ -159,8 +169,8 @@ def main() -> None:
     doc.add_header("Lists", level=2)
     doc.add_paragraph(
         """
-        SnakeMD can make a variety of Markdown lists. The two main types 
-        of lists are ordered and unordered.
+        SnakeMD can make a variety of Markdown lists. The three main types 
+        of lists are ordered, unordered, and checked.
         """
     )
 
@@ -185,6 +195,18 @@ def main() -> None:
         does not matter. As a result, we bullet them.
         """,
         _unordered_list,
+        level=3
+    )
+
+    # Checklist
+    _section(
+        doc,
+        "Checklist",
+        """
+        Checklists are lists in which the items themselves can be
+        checked on and off. This feature is new as of v0.10.0. 
+        """,
+        _checklist,
         level=3
     )
 

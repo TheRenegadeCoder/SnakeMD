@@ -24,7 +24,8 @@ def _table_of_contents(doc: Document):
 5. [Lists](#lists)
    1. [Ordered List](#ordered-list)
    2. [Unordered List](#unordered-list)
-   3. [Nested List](#nested-list)
+   3. [Checklist](#checklist)
+   4. [Nested List](#nested-list)
 6. [Tables](#tables)
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)
@@ -98,7 +99,7 @@ def _image(doc: Document):
 
 ## Lists
 
-SnakeMD can make a variety of Markdown lists. The two main types of lists are ordered and unordered.
+SnakeMD can make a variety of Markdown lists. The three main types of lists are ordered, unordered, and checked.
 
 ### Ordered List
 
@@ -151,6 +152,37 @@ def _unordered_list(doc: Document):
 - Crosby
 - Malkin
 - Lemieux
+
+### Checklist
+
+Checklists are lists in which the items themselves can be checked on and off. This feature is new as of v0.10.0.
+
+*SnakeMD Source*
+
+```py
+def _checklist(doc: Document):
+    doc.add_checklist(
+        [
+            "Pass the puck",
+            "Shoot the puck",
+            "Score a goal"
+        ]
+    )
+```
+
+*Markdown Source*
+
+```markdown
+- [ ] Pass the puck
+- [ ] Shoot the puck
+- [ ] Score a goal
+```
+
+*Rendered Result*
+
+- [ ] Pass the puck
+- [ ] Shoot the puck
+- [ ] Score a goal
 
 ### Nested List
 

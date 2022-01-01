@@ -14,6 +14,7 @@ as follows:
     * Added the CheckBox class for creating checkboxes
     * Added the MDCheckList class for creating lists of checkboxes
     * Added a Document method for implementing easy checklists
+    * Updated README to include a new section on checklists
 
 * v0.9.3 [:pr:`50`, :pr:`49`]
     * Added multiple versions of Python testing

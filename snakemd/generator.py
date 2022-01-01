@@ -283,11 +283,10 @@ class InlineText:
         return self
 
 
-
 class CheckBox(InlineText):
         """
         A checkable box, based of InlineText.
-        Supports all formates available via InlineText (eg. url, bold, italics, etc.) 
+        Supports all formats available via InlineText (eg. url, bold, italics, etc.) 
 
         :param str text: the inline text to render
         :param str url: the link associated with the inline text
@@ -297,9 +296,6 @@ class CheckBox(InlineText):
             set to True to render inline text in italics (i.e., True -> *italics*)
         :param bool code: the italics state of the inline text;
             set to True to render inline text as code (i.e., True -> `code`)
-        :param bool image: the image state of the inline text;
-            set to True to render inline text as an image;
-            must include url parameter to render
         :param bool image: the image state of the inline text;
             set to True to render inline text as an image;
             must include url parameter to render
@@ -330,6 +326,7 @@ class CheckBox(InlineText):
             text = super().render()
             checked_str = "X" if self.checked else " "
             return f"[{checked_str}] {text}"
+
 
 class Element:
     """

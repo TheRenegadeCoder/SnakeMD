@@ -283,6 +283,51 @@ class InlineText:
         return self
 
 
+class CheckBox(InlineText):
+        """
+        A checkable box, based of InlineText.
+        Supports all formats available via InlineText (eg. url, bold, italics, etc.) 
+
+        :param str text: the inline text to render
+        :param str url: the link associated with the inline text
+        :param bool bold: the bold state of the inline text; 
+            set to True to render bold inline text (i.e., True -> **bold**)
+        :param bool italics: the italics state of the inline text; 
+            set to True to render inline text in italics (i.e., True -> *italics*)
+        :param bool code: the italics state of the inline text;
+            set to True to render inline text as code (i.e., True -> `code`)
+        :param bool image: the image state of the inline text;
+            set to True to render inline text as an image;
+            must include url parameter to render
+        :param bool checked: the checkbox state, checked or not;
+            set to True to render checkbox as checked
+        """
+        def __init__(
+            self,
+            text: str,
+            url: str = None,
+            bold: bool = False,
+            italics: bool = False,
+            code: bool = False,
+            image: bool = False,
+            checked: bool = False
+        ) -> None:
+            super().__init__(
+                    text,
+                    url = url,
+                    bold = bold,
+                    italics = italics,
+                    code = code,
+                    image = image
+                    )
+            self.checked = checked
+
+        def render(self) -> str:
+            text = super().render()
+            checked_str = "X" if self.checked else " "
+            return f"[{checked_str}] {text}"
+
+
 class Element:
     """
     An element is defined as a standalone section of a markdown file. 

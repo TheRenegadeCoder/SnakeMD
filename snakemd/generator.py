@@ -1191,6 +1191,24 @@ class Document:
         logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
 
+    def add_checklist(self, items: Iterable[str]) -> MDCheckList:
+        """
+        A convenience method which adds a simple checklist to the document. 
+
+        .. code-block:: Python
+
+            doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+
+        .. versionadded:: 0.10.0
+
+        :param Iterable[str] items: a "list" of strings
+        :return: the MDCheckList added to this Document
+        """
+        md_checklist = MDCheckList([InlineText(item) for item in items], checked=False)
+        self._contents.append(md_checklist)
+        logger.debug(f"Added checklist to document\n{md_checklist}")
+        return md_checklist
+
     def add_table(
         self,
         header: Iterable[str],

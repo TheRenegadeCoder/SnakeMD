@@ -1340,12 +1340,12 @@ class Document:
 
     def output_page(self, dump_dir: str = "") -> None:
         """
-        Generates the markdown file.
+        Generates the markdown file. Assumes UTF-8 encoding.
 
         :param str dump_dir: the path to where you want to dump the file
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+")
+        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+", encoding="utf-8")
         output_file.write(str(self))
         output_file.close()
 

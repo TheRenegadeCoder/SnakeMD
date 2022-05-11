@@ -10,6 +10,9 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* v0.10.1
+    * Enforced UTF-8 encoding in the output_page method
+
 * v0.10.0 [:pr:`55`, :pr:`56`, :pr:`57`]
     * Added the CheckBox class for creating checkboxes
     * Added the MDCheckList class for creating lists of checkboxes

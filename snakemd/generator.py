@@ -1338,14 +1338,15 @@ class Document:
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")
 
-    def output_page(self, dump_dir: str = "") -> None:
+    def output_page(self, dump_dir: str = "", encoding: str = "utf-8") -> None:
         """
         Generates the markdown file. Assumes UTF-8 encoding.
 
         :param str dump_dir: the path to where you want to dump the file
+        :param str encoding: the encoding to use
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+", encoding="utf-8")
+        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+", encoding=encoding)
         output_file.write(str(self))
         output_file.close()
 

@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 MAJOR = 0
 MINOR = 10
-PATCH = 0
+PATCH = 1
 
 name = "SnakeMD"
 version = f"{MAJOR}.{MINOR}"

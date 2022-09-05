@@ -238,7 +238,8 @@ def _table(doc: Document):
             ['164', '75', '19'],
             ['181', '87', '40']
         ],
-        [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT]
+        [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT],
+        0
     )
 ```
 

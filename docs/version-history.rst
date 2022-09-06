@@ -10,6 +10,9 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* v0.11.0
+    * Added support for table indentation
+
 * v0.10.1
     * Enforced UTF-8 encoding in the output_page method
 

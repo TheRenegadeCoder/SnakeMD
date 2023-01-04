@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import textwrap
 import logging
 import os
 import pathlib
@@ -564,7 +565,7 @@ class Paragraph(Element):
         elif self._quote:
             return f"> {paragraph}"
         else:
-            return " ".join(paragraph.split())
+            return "\n".join(textwrap.wrap(" ".join(paragraph.split())))
 
     def verify(self) -> Verification:
         """

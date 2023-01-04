@@ -7,7 +7,7 @@ and functions for generating markdown documents in Python.
 The SnakeMD Module
 -------------------
 
-The snakemd module contains all of the functionality for
+The SnakeMD module contains all of the functionality for
 generating markdown files with Python. To get started, 
 check out :ref:`usage_target` for information. Otherwise, 
 see the rest of this document for details on all the 
@@ -22,7 +22,7 @@ The SnakeMD Document
 For the average user, the document object is the only
 object in the library necessary to create markdown files.
 Document objects are automatically created from the
-:code:`new_doc()` function of the snakemd module.
+:code:`new_doc()` function of the SnakeMD module.
 
 .. autoclass:: snakemd.generator.Document
    :members:

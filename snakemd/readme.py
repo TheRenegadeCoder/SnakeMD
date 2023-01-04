@@ -271,7 +271,7 @@ def main() -> None:
         _horizontal_rule
     )
 
-    #doc.check_for_errors()
+    doc.check_for_errors()
     doc.output_page()
 
 

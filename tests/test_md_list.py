@@ -29,8 +29,8 @@ def test_md_list_many():
 
 def test_md_list_many_mixed_syntax():
     md_list = MDList([
-        "Deku", 
-        InlineText("Bakugo"), 
+        "Deku",
+        InlineText("Bakugo"),
         Paragraph(["Uraraka"])
     ])
     assert str(md_list) == "- Deku\n- Bakugo\n- Uraraka"
@@ -50,14 +50,19 @@ def test_md_list_nested_unordered():
     assert str(
         outer_list) == "- Characters\n  - Deku\n  - Bakugo\n  - Uraraka\n- Powers"
 
+
 def test_md_list_nested_ordered():
     inner_list = MDList(
-        [InlineText("Deku"), InlineText("Bakugo"), InlineText("Uraraka")], ordered=True)
+        [InlineText("Deku"), InlineText("Bakugo"), InlineText("Uraraka")], 
+        ordered=True
+    )
     outer_list = MDList(
-        [InlineText("Characters"), inner_list, InlineText("Powers")], ordered=True)
+        [InlineText("Characters"), inner_list, InlineText("Powers")], 
+        ordered=True
+    )
     assert str(outer_list) == "1. Characters\n   1. Deku\n   2. Bakugo\n   3. Uraraka\n2. Powers"
 
+
 def test_md_list_checkboxes():
-    md_list = MDList([CheckBox("Deku"), CheckBox(
-        "Bakugo", checked=True), CheckBox("Uraraka")], ordered=False)
+    md_list = MDList([CheckBox("Deku"), CheckBox("Bakugo", checked=True), CheckBox("Uraraka")], ordered=False)
     assert str(md_list) == "- [ ] Deku\n- [X] Bakugo\n- [ ] Uraraka"

@@ -1,5 +1,6 @@
 from snakemd import MDCheckList, Paragraph, InlineText
 
+
 def test_md_list_empty():
     md_list = MDCheckList([])
     assert str(md_list) == ""
@@ -28,8 +29,8 @@ def test_md_list_many():
 
 def test_md_list_many_mixed_syntax():
     md_list = MDCheckList([
-        "Deku", 
-        InlineText("Bakugo"), 
+        "Deku",
+        InlineText("Bakugo"),
         Paragraph(["Uraraka"])
     ])
     assert str(md_list) == "- [ ] Deku\n- [ ] Bakugo\n- [ ] Uraraka"
@@ -49,9 +50,14 @@ def test_md_list_nested_unchecked():
     assert str(
         outer_list) == "- [ ] Characters\n  - [ ] Deku\n  - [ ] Bakugo\n  - [ ] Uraraka\n- [ ] Powers"
 
+
 def test_md_list_nested_checked():
     inner_list = MDCheckList(
-        [InlineText("Deku"), InlineText("Bakugo"), InlineText("Uraraka")], checked=True)
+        [InlineText("Deku"), InlineText("Bakugo"), InlineText("Uraraka")], 
+        checked=True
+    )
     outer_list = MDCheckList(
-        [InlineText("Characters"), inner_list, InlineText("Powers")], checked=True)
+        [InlineText("Characters"), inner_list, InlineText("Powers")], 
+        checked=True
+    )
     assert str(outer_list) == "- [X] Characters\n  - [X] Deku\n  - [X] Bakugo\n  - [X] Uraraka\n- [X] Powers"

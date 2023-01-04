@@ -30,9 +30,11 @@ def test_table_one_col_align_left():
     table = Table(["Age"], [["37"]], [Table.Align.LEFT])
     assert str(table) == "| Age |\n| :-- |\n| 37  |"
 
+
 def test_table_one_col_align_right():
     table = Table(["Age"], [["37"]], [Table.Align.RIGHT])
     assert str(table) == "| Age |\n| --: |\n| 37  |"
+
 
 def test_table_one_col_align_center():
     table = Table(["Age"], [["37"]], [Table.Align.CENTER])

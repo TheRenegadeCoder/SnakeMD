@@ -71,6 +71,9 @@ class InlineText:
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
+    
+    .. versionchanged:: 0.12.0
+        Added strike parameter
 
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
@@ -78,6 +81,8 @@ class InlineText:
         set to True to render bold inline text (i.e., True -> **bold**)
     :param bool italics: the italics state of the inline text;
         set to True to render inline text in italics (i.e., True -> *italics*)
+    :param bool strike: the strikethrough state of the inline text;
+        set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
     :param bool image: the image state of the inline text;
@@ -91,9 +96,9 @@ class InlineText:
         url: str = None,
         bold: bool = False,
         italics: bool = False,
+        strike: bool = False,
         code: bool = False,
-        image: bool = False,
-        strike: bool = False
+        image: bool = False
     ) -> None:
         self._text = text
         self._bold = bold

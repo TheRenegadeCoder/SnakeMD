@@ -71,6 +71,9 @@ class InlineText:
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
+    
+    .. versionchanged:: 0.12.0
+        Added strike parameter
 
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
@@ -78,6 +81,8 @@ class InlineText:
         set to True to render bold inline text (i.e., True -> **bold**)
     :param bool italics: the italics state of the inline text;
         set to True to render inline text in italics (i.e., True -> *italics*)
+    :param bool strikethrough: the strikethrough state of the inline text;
+        set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
     :param bool image: the image state of the inline text;
@@ -91,6 +96,7 @@ class InlineText:
         url: str = None,
         bold: bool = False,
         italics: bool = False,
+        strikethrough: bool = False,
         code: bool = False,
         image: bool = False
     ) -> None:
@@ -100,6 +106,7 @@ class InlineText:
         self._url = url
         self._code = code
         self._image = image
+        self._strikethrough = strikethrough
 
     def __str__(self) -> str:
         return self.render()
@@ -117,6 +124,8 @@ class InlineText:
             text = f"**{text}**"
         if self._italics:
             text = f"*{text}*"
+        if self._strikethrough:
+            text = f"~~{text}~~"
         if self._url:
             text = f"[{text}]({self._url})"
         if self._url and self._image:
@@ -219,6 +228,28 @@ class InlineText:
         :return: self
         """
         self._italics = False
+        return self
+    
+    def strikethrough(self) -> InlineText:
+        """
+        Adds strikethrough styling to self.
+        
+        .. versionadded:: 0.12.0
+
+        :return: self
+        """
+        self._strikethrough = True
+        return self
+    
+    def unstrikethrough(self) -> InlineText:
+        """
+        Remove strikethrough styling from self.
+        
+        .. versionadded:: 0.12.0
+
+        :return: self
+        """
+        self._strikethrough = False
         return self
 
     def code(self) -> InlineText:

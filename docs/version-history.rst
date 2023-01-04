@@ -10,9 +10,10 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
-* v0.12.0
+* v0.12.0 [:pr:`65`, :pr:`66`]
     * Added support for table generation on-the-fly (:issue:`64`)
     * Reworked documentation to include proper headings and organization
+    * Added support for strikethrough on InlineText elements (:issue:`58`)
 
 * v0.11.0 [:pr:`61`, :pr:`62`]
     * Added support for table indentation

@@ -34,6 +34,16 @@ def test_inline_text_italics():
 def test_inline_text_italics_method():
     text = InlineText("Hello, World!").italicize()
     assert str(text) == "*Hello, World!*"
+    
+
+def test_inline_text_strikethrough():
+    text = InlineText("Hello, World!", strikethrough=True)
+    assert str(text) == "~~Hello, World!~~"
+    
+    
+def test_inline_text_strikethrough_method():
+    text = InlineText("Hello, World!").strikethrough()
+    assert str(text) == "~~Hello, World!~~"
 
 
 def test_inline_text_bold_italics():

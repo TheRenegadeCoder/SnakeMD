@@ -16,10 +16,3 @@ using Python. Use the links below to navigate the docs.
    usage
    snake
    version-history
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

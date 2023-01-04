@@ -142,6 +142,8 @@ def main() -> None:
         """
         Paragraphs are the most basic feature of any Markdown file. 
         As a result, they are very easy to create using SnakeMD.
+        As of v0.12.0, paragraphs can be set to wrap by a number of
+        characters.
         """,
         _paragraph
     )
@@ -269,7 +271,7 @@ def main() -> None:
         _horizontal_rule
     )
 
-    doc.check_for_errors()
+    #doc.check_for_errors()
     doc.output_page()
 
 

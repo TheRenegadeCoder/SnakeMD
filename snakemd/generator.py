@@ -517,6 +517,8 @@ class Paragraph(Element):
 
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
+    .. versionchanged:: 0.12.0
+        Expanded constructor to accept the text wrapping parameter
 
     :param Iterable[InlineText | str] content: a "list" of text objects to render as a paragraph
     :param bool code: the code state of the paragraph;
@@ -525,14 +527,24 @@ class Paragraph(Element):
         invalid without the code flag set to True
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
+    :param int wrap: the maximum length of a line assuming no word exceeds this length (defaults to 80); 
+        set to 0 to disable
     """
 
-    def __init__(self, content: Iterable[InlineText | str], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(
+        self, 
+        content: Iterable[InlineText | str], 
+        code: bool = False, 
+        lang: str = "generic", 
+        quote: bool = False, 
+        wrap: int = 80
+    ):
         super().__init__()
         self._content: list[InlineText] = self._process_content(content)
         self._code = code
         self._lang = lang
         self._quote = quote
+        self._wrap = wrap
         self._backticks = 3
 
     @staticmethod
@@ -565,7 +577,15 @@ class Paragraph(Element):
         elif self._quote:
             return f"> {paragraph}"
         else:
-            return "\n".join(textwrap.wrap(" ".join(paragraph.split())))
+            if self._wrap > 0:
+                return "\n".join(textwrap.wrap(
+                        " ".join(paragraph.split()),
+                        break_on_hyphens=False,
+                        break_long_words=False,
+                        width=self._wrap
+                ))
+            else:
+                return " ".join(paragraph.split())
 
     def verify(self) -> Verification:
         """

@@ -1,16 +1,22 @@
 # Welcome to SnakeMD
 
-SnakeMD is your ticket to generating Markdown in Python. To prove it to you, we've generated this entire README using SnakeMD. See readme.py for how it was done. To get started, download and install SnakeMD:
+SnakeMD is your ticket to generating Markdown in Python. To prove it to you,
+we've generated this entire README using SnakeMD. See readme.py for how it was
+done. To get started, download and install SnakeMD:
 
 ```shell
 pip install snakemd
 ```
 
-In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the official documentation [here](https://snakemd.therenegadecoder.com).
+In the remainder of this document, we'll show you all of the things this library
+can do. For more information, check out the official documentation
+[here](https://snakemd.therenegadecoder.com).
 
 ## Table of Contents
 
-Below you'll find the table of contents, but these can also be generated programatically for every Markdown document. As of v0.8.0, you can also specify which types of headings are included in the table of contents.
+Below you'll find the table of contents, but these can also be generated
+programatically for every Markdown document. As of v0.8.0, you can also specify
+which types of headings are included in the table of contents.
 
 ```py
 def _table_of_contents(doc: Document):
@@ -33,7 +39,9 @@ def _table_of_contents(doc: Document):
 
 ## Paragraphs
 
-Paragraphs are the most basic feature of any Markdown file. As a result, they are very easy to create using SnakeMD.
+Paragraphs are the most basic feature of any Markdown file. As a result, they
+are very easy to create using SnakeMD. As of v0.12.0, paragraphs can be set to
+wrap by a number of characters.
 
 *SnakeMD Source*
 
@@ -54,7 +62,10 @@ I think. Therefore, I am.
 
 ## Links
 
-Links are targets to files or web pages and can be embedded in a Paragraph in a variety of ways. As of v0.2.0, we're able to add links to existing paragraphs using the insert_link() method. Even better, in v0.4.0, we can chain these insert_link() calls.
+Links are targets to files or web pages and can be embedded in a Paragraph in a
+variety of ways. As of v0.2.0, we're able to add links to existing paragraphs
+using the insert_link() method. Even better, in v0.4.0, we can chain these
+insert_link() calls.
 
 *SnakeMD Source*
 
@@ -68,12 +79,14 @@ def _insert_link(doc: Document):
 *Markdown Source*
 
 ```markdown
-Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
+Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 ```
 
 *Rendered Result*
 
-Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
+Learn to program with [The Renegade Coder](https://therenegadecoder.com)
+([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 
 ## Images
 
@@ -99,11 +112,13 @@ def _image(doc: Document):
 
 ## Lists
 
-SnakeMD can make a variety of Markdown lists. The three main types of lists are ordered, unordered, and checked.
+SnakeMD can make a variety of Markdown lists. The three main types of lists are
+ordered, unordered, and checked.
 
 ### Ordered List
 
-Ordered lists are lists in which the order of the items matters. As a result, we number them.
+Ordered lists are lists in which the order of the items matters. As a result, we
+number them.
 
 *SnakeMD Source*
 
@@ -130,7 +145,8 @@ def _ordered_list(doc: Document):
 
 ### Unordered List
 
-Unordered lists are lists in which the order of the items does not matter. As a result, we bullet them.
+Unordered lists are lists in which the order of the items does not matter. As a
+result, we bullet them.
 
 *SnakeMD Source*
 
@@ -155,7 +171,8 @@ def _unordered_list(doc: Document):
 
 ### Checklist
 
-Checklists are lists in which the items themselves can be checked on and off. This feature is new as of v0.10.0.
+Checklists are lists in which the items themselves can be checked on and off.
+This feature is new as of v0.10.0.
 
 *SnakeMD Source*
 
@@ -186,7 +203,10 @@ def _checklist(doc: Document):
 
 ### Nested List
 
-Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object. As of v0.4.0, you can forego the InlineText elements if you don't need them.
+Nested lists are complex lists that contain lists. Currently, SnakeMD does not
+support any convenience methods to generate nested lists, but they can be
+created manually using the MDList object. As of v0.4.0, you can forego the
+InlineText elements if you don't need them.
 
 *SnakeMD Source*
 
@@ -225,7 +245,9 @@ def _nested_list(doc: Document):
 
 ## Tables
 
-Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or InlineText. As of v0.4.0, you can also align the columns of the table using the Table.Align enum.
+Tables are sets of rows and columns which can display text in a grid. To style
+any of the contents of a table, consider using Paragraph or InlineText. As of
+v0.4.0, you can also align the columns of the table using the Table.Align enum.
 
 *SnakeMD Source*
 
@@ -263,7 +285,8 @@ def _table(doc: Document):
 
 ## Code Blocks
 
-Code blocks are a form of structured text for sharing code snippets with syntax highlighting.
+Code blocks are a form of structured text for sharing code snippets with syntax
+highlighting.
 
 *SnakeMD Source*
 

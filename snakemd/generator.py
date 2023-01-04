@@ -494,7 +494,7 @@ class Paragraph(Element):
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Union[InlineText | str]], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[Union[InlineText, str]], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
         self._content: list[InlineText] = self._process_content(content)
         self._code = code
@@ -920,7 +920,7 @@ class Table(Element):
     def __init__(
         self,
         header: Iterable[Union[str, InlineText, Paragraph]],
-        body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
+        body: Iterable[Iterable[Union[str, InlineText, Paragraph]]] = [],
         align: Iterable[Align] = None,
         indent: int = 0
     ) -> None:
@@ -983,6 +983,21 @@ class Table(Element):
         logger.debug(f"Processed table body\n{processed_body}")
 
         return processed_header, processed_body, widths
+    
+    def add_row(self, row: Iterable[Union[str, InlineText, Paragraph]]) -> None:
+        """
+        Adds a row to the end of table. This method assumes the underlying
+        iterable containing the table rows is a Python list. If not,
+        the existing iterable (e.g., tuple, string, generator) will be converted 
+        into a list before the new row is added.
+        
+        .. versionadded:: 0.12.0
+        """
+        if isinstance(self.body, list):
+            self.body.append(row)
+        else:
+            self.body = [old_row for old_row in self.body]
+            self.body.append(row)
 
     def render(self) -> str:
         """
@@ -995,8 +1010,10 @@ class Table(Element):
         :return: a table as a markdown string
         """
         rows = list()
-        header = [str(item).ljust(self._widths[i])
-                  for i, item in enumerate(self._header)]
+        header = [
+            str(item).ljust(self._widths[i])
+            for i, item in enumerate(self._header)
+        ]
         body = [
             [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
             for row in self._body

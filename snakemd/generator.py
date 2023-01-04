@@ -912,6 +912,8 @@ class Table(Element):
         Added optional alignment parameter and expanded constructor to accept strings
     .. versionchanged:: 0.11.0
         Added optional indentation parameter for the whole table
+    .. versionchanged:: 0.12.0
+        Made body parameter optional
 
     :param header: the header row of labels
     :param body: the collection of rows of data
@@ -928,8 +930,10 @@ class Table(Element):
     ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
-        self._header, self._body, self._widths = self._process_table(
-            header, body)
+        self._header: list[Paragraph]
+        self._body: list[list[Paragraph]]
+        self._widths: list[int]
+        self._header, self._body, self._widths = self._process_table(header, body)
         self._align = align
         self._indent = indent
 
@@ -988,18 +992,11 @@ class Table(Element):
 
     def add_row(self, row: Iterable[str | InlineText | Paragraph]) -> None:
         """
-        Adds a row to the end of table. This method assumes the underlying
-        iterable containing the table rows is a Python list. If not,
-        the existing iterable (e.g., tuple, string, generator) will be converted 
-        into a list before the new row is added.
+        Adds a row to the end of table. 
 
         .. versionadded:: 0.12.0
         """
-        if isinstance(self.body, list):
-            self.body.append(row)
-        else:
-            self.body = [old_row for old_row in self.body]
-            self.body.append(row)
+        self._body.append(row)
 
     def render(self) -> str:
         """

@@ -39,3 +39,21 @@ def test_table_one_col_align_right():
 def test_table_one_col_align_center():
     table = Table(["Age"], [["37"]], [Table.Align.CENTER])
     assert str(table) == "| Age |\n| :-: |\n| 37  |"
+    
+    
+def test_table_no_body_add_row_one():
+    table = Table(["Age"])
+    table.add_row(["25"])
+    assert str(table) == "| Age |\n| --- |\n| 25  |"
+    
+
+def test_table_list_body_add_row_one():
+    table = Table(["Age"], [["24"]])
+    table.add_row(["25"])
+    assert str(table) == "| Age |\n| --- |\n| 24  |\n| 25  |"
+    
+    
+def test_table_generator_body_add_row_one():
+    table = Table(["Age"], ([x] for x in ("24",)))
+    table.add_row(["25"])
+    assert str(table) == "| Age |\n| --- |\n| 24  |\n| 25  |"

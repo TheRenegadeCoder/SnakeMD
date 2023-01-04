@@ -10,11 +10,15 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
-* v0.11.0
+* v0.12.0
+    * Added support for table generation on-the-fly (:issue:`64`)
+    * Reworked documentation to include proper headings and organization
+
+* v0.11.0 [:pr:`61`, :pr:`62`]
     * Added support for table indentation
 
-* v0.10.1
-    * Enforced UTF-8 encoding in the output_page method
+* v0.10.1 [:pr:`59`]
+    * Enforced UTF-8 encoding in the output_page method (:issue:`54`)
 
 * v0.10.0 [:pr:`55`, :pr:`56`, :pr:`57`]
     * Added the CheckBox class for creating checkboxes

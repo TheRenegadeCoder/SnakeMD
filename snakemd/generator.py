@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import logging
 import os
 import pathlib
 import random
-import logging
 from enum import Enum, auto
 from typing import Iterable
 from urllib import request
@@ -284,48 +284,49 @@ class InlineText:
 
 
 class CheckBox(InlineText):
-        """
-        A checkable box, based of InlineText.
-        Supports all formats available via InlineText (eg. url, bold, italics, etc.)
+    """
+    A checkable box, based of InlineText.
+    Supports all formats available via InlineText (eg. url, bold, italics, etc.)
 
-        :param str text: the inline text to render
-        :param str url: the link associated with the inline text
-        :param bool bold: the bold state of the inline text;
-            set to True to render bold inline text (i.e., True -> **bold**)
-        :param bool italics: the italics state of the inline text;
-            set to True to render inline text in italics (i.e., True -> *italics*)
-        :param bool code: the italics state of the inline text;
-            set to True to render inline text as code (i.e., True -> `code`)
-        :param bool image: the image state of the inline text;
-            set to True to render inline text as an image;
-            must include url parameter to render
-        :param bool checked: the checkbox state, checked or not;
-            set to True to render checkbox as checked
-        """
-        def __init__(
-            self,
-            text: str,
-            url: str = None,
-            bold: bool = False,
-            italics: bool = False,
-            code: bool = False,
-            image: bool = False,
-            checked: bool = False
-        ) -> None:
-            super().__init__(
-                    text,
-                    url = url,
-                    bold = bold,
-                    italics = italics,
-                    code = code,
-                    image = image
-                    )
-            self.checked = checked
+    :param str text: the inline text to render
+    :param str url: the link associated with the inline text
+    :param bool bold: the bold state of the inline text;
+        set to True to render bold inline text (i.e., True -> **bold**)
+    :param bool italics: the italics state of the inline text;
+        set to True to render inline text in italics (i.e., True -> *italics*)
+    :param bool code: the italics state of the inline text;
+        set to True to render inline text as code (i.e., True -> `code`)
+    :param bool image: the image state of the inline text;
+        set to True to render inline text as an image;
+        must include url parameter to render
+    :param bool checked: the checkbox state, checked or not;
+        set to True to render checkbox as checked
+    """
 
-        def render(self) -> str:
-            text = super().render()
-            checked_str = "X" if self.checked else " "
-            return f"[{checked_str}] {text}"
+    def __init__(
+        self,
+        text: str,
+        url: str = None,
+        bold: bool = False,
+        italics: bool = False,
+        code: bool = False,
+        image: bool = False,
+        checked: bool = False
+    ) -> None:
+        super().__init__(
+            text,
+            url=url,
+            bold=bold,
+            italics=italics,
+            code=code,
+            image=image
+        )
+        self.checked = checked
+
+    def render(self) -> str:
+        text = super().render()
+        checked_str = "X" if self.checked else " "
+        return f"[{checked_str}] {text}"
 
 
 class Element:
@@ -793,7 +794,8 @@ class MDCheckList(MDList):
     :param bool checked: the state of the checkbox;
         set to True to render a checked box (i.e., True -> - [x] item)
     """
-    def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool=False) -> None:
+
+    def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool = False) -> None:
         super().__init__(items, False)
         self.checked = checked
 
@@ -983,14 +985,14 @@ class Table(Element):
         logger.debug(f"Processed table body\n{processed_body}")
 
         return processed_header, processed_body, widths
-    
+
     def add_row(self, row: Iterable[str | InlineText | Paragraph]) -> None:
         """
         Adds a row to the end of table. This method assumes the underlying
         iterable containing the table rows is a Python list. If not,
         the existing iterable (e.g., tuple, string, generator) will be converted 
         into a list before the new row is added.
-        
+
         .. versionadded:: 0.12.0
         """
         if isinstance(self.body, list):
@@ -1032,7 +1034,8 @@ class Table(Element):
                 else:
                     meta.append(f":{'-' * (width - 2)}:")
             rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
-        rows.extend((f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
+        rows.extend(
+            (f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
         return '\n'.join(rows)
 
     def verify(self):
@@ -1226,7 +1229,8 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         :return: the MDCheckList added to this Document
         """
-        md_checklist = MDCheckList([InlineText(item) for item in items], checked=False)
+        md_checklist = MDCheckList([InlineText(item)
+                                   for item in items], checked=False)
         self._contents.append(md_checklist)
         logger.debug(f"Added checklist to document\n{md_checklist}")
         return md_checklist
@@ -1373,7 +1377,8 @@ class Document:
         :param str encoding: the encoding to use
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+", encoding=encoding)
+        output_file = open(os.path.join(
+            dump_dir, self._get_file_name()), "w+", encoding=encoding)
         output_file.write(str(self))
         output_file.close()
 

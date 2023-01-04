@@ -81,7 +81,7 @@ class InlineText:
         set to True to render bold inline text (i.e., True -> **bold**)
     :param bool italics: the italics state of the inline text;
         set to True to render inline text in italics (i.e., True -> *italics*)
-    :param bool strike: the strikethrough state of the inline text;
+    :param bool strikethrough: the strikethrough state of the inline text;
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
@@ -96,7 +96,7 @@ class InlineText:
         url: str = None,
         bold: bool = False,
         italics: bool = False,
-        strike: bool = False,
+        strikethrough: bool = False,
         code: bool = False,
         image: bool = False
     ) -> None:
@@ -106,7 +106,7 @@ class InlineText:
         self._url = url
         self._code = code
         self._image = image
-        self._strike = strike
+        self._strikethrough = strikethrough
 
     def __str__(self) -> str:
         return self.render()
@@ -124,7 +124,7 @@ class InlineText:
             text = f"**{text}**"
         if self._italics:
             text = f"*{text}*"
-        if self._strike:
+        if self._strikethrough:
             text = f"~~{text}~~"
         if self._url:
             text = f"[{text}]({self._url})"
@@ -238,7 +238,7 @@ class InlineText:
 
         :return: self
         """
-        self._strike = True
+        self._strikethrough = True
         return self
     
     def unstrikethrough(self) -> InlineText:
@@ -249,7 +249,7 @@ class InlineText:
 
         :return: self
         """
-        self._strike = False
+        self._strikethrough = False
         return self
 
     def code(self) -> InlineText:

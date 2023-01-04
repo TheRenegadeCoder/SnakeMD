@@ -17,8 +17,10 @@ def test_paragraph_one_str():
 
 
 def test_paragraph_many_inline():
-    paragraph = Paragraph([InlineText("How"), InlineText(
-        "Now"), InlineText("Brown"), InlineText("Cow")])
+    paragraph = Paragraph(
+        [InlineText("How"), InlineText("Now"),
+         InlineText("Brown"), InlineText("Cow")]
+    )
     assert str(paragraph) == "HowNowBrownCow"
 
 
@@ -29,14 +31,16 @@ def test_paragraph_many_str():
 
 def test_paragraph_add_inline():
     paragraph = Paragraph(
-        [InlineText("How"), InlineText("Now"), InlineText("Brown")])
+        [InlineText("How"), InlineText("Now"), InlineText("Brown")]
+    )
     paragraph.add(InlineText("Cow"))
     assert str(paragraph) == "HowNowBrownCow"
 
 
 def test_paragraph_add_str():
     paragraph = Paragraph(
-        [InlineText("How"), InlineText("Now"), InlineText("Brown")])
+        [InlineText("How"), InlineText("Now"), InlineText("Brown")]
+    )
     paragraph.add("Cow")
     assert str(paragraph) == "HowNowBrownCow"
 
@@ -81,8 +85,7 @@ def test_replace_link_two_chained():
     ]) \
         .replace_link("https://example.com", "https://google.com") \
         .replace_link("https://example2.com", "https://google.com")
-    assert str(
-        paragraph) == "[Hello](https://google.com), [World](https://google.com)!"
+    assert str(paragraph) == "[Hello](https://google.com), [World](https://google.com)!"
 
 
 def test_replace_link_two_same():
@@ -93,8 +96,7 @@ def test_replace_link_two_same():
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com")
-    assert str(
-        paragraph) == "[Hello](https://google.com), [World](https://google.com)!"
+    assert str(paragraph) == "[Hello](https://google.com), [World](https://google.com)!"
 
 
 def test_replace_link_two_limit():
@@ -105,5 +107,4 @@ def test_replace_link_two_limit():
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com", count=1)
-    assert str(
-        paragraph) == "[Hello](https://google.com), [World](https://example.com)!"
+    assert str(paragraph) == "[Hello](https://google.com), [World](https://example.com)!"

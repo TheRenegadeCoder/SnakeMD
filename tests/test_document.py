@@ -38,6 +38,7 @@ def test_document_add_table_of_contents_one_section():
     assert str(doc) == "## Section 1\n\n" \
         "1. [Section 1](#section-1)"
 
+
 def test_document_add_table_of_contents_many_section():
     doc = Document("Test")
     doc.add_header("Section 1", level=2)

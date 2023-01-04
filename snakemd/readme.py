@@ -1,6 +1,7 @@
-from generator import Document, MDList, Paragraph, InlineText, Table
 import inspect
 import logging
+
+from generator import Document, InlineText, MDList, Paragraph, Table
 
 
 def _introduction(doc: Document):

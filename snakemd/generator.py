@@ -1,11 +1,11 @@
 from __future__ import annotations
 
+import logging
 import os
 import pathlib
 import random
-import logging
 from enum import Enum, auto
-from typing import Iterable, Union
+from typing import Iterable
 from urllib import request
 from urllib.error import HTTPError
 
@@ -284,48 +284,49 @@ class InlineText:
 
 
 class CheckBox(InlineText):
-        """
-        A checkable box, based of InlineText.
-        Supports all formats available via InlineText (eg. url, bold, italics, etc.)
+    """
+    A checkable box, based of InlineText.
+    Supports all formats available via InlineText (eg. url, bold, italics, etc.)
 
-        :param str text: the inline text to render
-        :param str url: the link associated with the inline text
-        :param bool bold: the bold state of the inline text;
-            set to True to render bold inline text (i.e., True -> **bold**)
-        :param bool italics: the italics state of the inline text;
-            set to True to render inline text in italics (i.e., True -> *italics*)
-        :param bool code: the italics state of the inline text;
-            set to True to render inline text as code (i.e., True -> `code`)
-        :param bool image: the image state of the inline text;
-            set to True to render inline text as an image;
-            must include url parameter to render
-        :param bool checked: the checkbox state, checked or not;
-            set to True to render checkbox as checked
-        """
-        def __init__(
-            self,
-            text: str,
-            url: str = None,
-            bold: bool = False,
-            italics: bool = False,
-            code: bool = False,
-            image: bool = False,
-            checked: bool = False
-        ) -> None:
-            super().__init__(
-                    text,
-                    url = url,
-                    bold = bold,
-                    italics = italics,
-                    code = code,
-                    image = image
-                    )
-            self.checked = checked
+    :param str text: the inline text to render
+    :param str url: the link associated with the inline text
+    :param bool bold: the bold state of the inline text;
+        set to True to render bold inline text (i.e., True -> **bold**)
+    :param bool italics: the italics state of the inline text;
+        set to True to render inline text in italics (i.e., True -> *italics*)
+    :param bool code: the italics state of the inline text;
+        set to True to render inline text as code (i.e., True -> `code`)
+    :param bool image: the image state of the inline text;
+        set to True to render inline text as an image;
+        must include url parameter to render
+    :param bool checked: the checkbox state, checked or not;
+        set to True to render checkbox as checked
+    """
 
-        def render(self) -> str:
-            text = super().render()
-            checked_str = "X" if self.checked else " "
-            return f"[{checked_str}] {text}"
+    def __init__(
+        self,
+        text: str,
+        url: str = None,
+        bold: bool = False,
+        italics: bool = False,
+        code: bool = False,
+        image: bool = False,
+        checked: bool = False
+    ) -> None:
+        super().__init__(
+            text,
+            url=url,
+            bold=bold,
+            italics=italics,
+            code=code,
+            image=image
+        )
+        self.checked = checked
+
+    def render(self) -> str:
+        text = super().render()
+        checked_str = "X" if self.checked else " "
+        return f"[{checked_str}] {text}"
 
 
 class Element:
@@ -404,11 +405,11 @@ class Header(Element):
     section of a document. Headers come in six main sizes which
     correspond to the six headers sizes in HTML (e.g., <h1>).
 
-    :param Union[InlineText, str] text: the header text
+    :param InlineText | str text: the header text
     :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
     """
 
-    def __init__(self, text: Union[InlineText, str], level: int) -> None:
+    def __init__(self, text: InlineText | str, level: int) -> None:
         super().__init__()
         self._text: InlineText = self._process_text(text)
         self._level: int = self._process_level(level)
@@ -485,7 +486,7 @@ class Paragraph(Element):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[Union[InlineText, str]] content: a "list" of text objects to render as a paragraph
+    :param Iterable[InlineText | str] content: a "list" of text objects to render as a paragraph
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
     :param str lang: the language of the code snippet;
@@ -494,7 +495,7 @@ class Paragraph(Element):
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Union[InlineText | str]], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[InlineText | str], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
         self._content: list[InlineText] = self._process_content(content)
         self._code = code
@@ -555,7 +556,7 @@ class Paragraph(Element):
 
         return verification
 
-    def add(self, text: Union[InlineText, str]) -> None:
+    def add(self, text: InlineText | str) -> None:
         """
         Adds a text object to the paragraph.
 
@@ -699,15 +700,15 @@ class MDList(Element):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[Union[str, InlineText, Paragraph, MDList]] items:
+    :param Iterable[str | InlineText | Paragraph | MDList] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[str, InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[str | InlineText | Paragraph | MDList], ordered: bool = False) -> None:
         super().__init__()
-        self._items: Union[MDList, Paragraph] = self._process_items(items)
+        self._items: MDList | Paragraph = self._process_items(items)
         self._ordered = ordered
         self._space = ""
 
@@ -788,12 +789,13 @@ class MDCheckList(MDList):
 
     .. versionadded:: 0.10.0
 
-    :param Iterable[Union[str, InlineText, Paragraph, MDList]] items:
+    :param Iterable[str | InlineText | Paragraph | MDList] items:
         a "list" of objects to be rendered as a Checkbox list
     :param bool checked: the state of the checkbox;
         set to True to render a checked box (i.e., True -> - [x] item)
     """
-    def __init__(self,  items: Iterable[Union[str, InlineText, Paragraph, MDList]], checked: bool=False) -> None:
+
+    def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool = False) -> None:
         super().__init__(items, False)
         self.checked = checked
 
@@ -910,6 +912,8 @@ class Table(Element):
         Added optional alignment parameter and expanded constructor to accept strings
     .. versionchanged:: 0.11.0
         Added optional indentation parameter for the whole table
+    .. versionchanged:: 0.12.0
+        Made body parameter optional
 
     :param header: the header row of labels
     :param body: the collection of rows of data
@@ -919,15 +923,17 @@ class Table(Element):
 
     def __init__(
         self,
-        header: Iterable[Union[str, InlineText, Paragraph]],
-        body: Iterable[Iterable[Union[str, InlineText, Paragraph]]],
+        header: Iterable[str | InlineText | Paragraph],
+        body: Iterable[Iterable[str | InlineText | Paragraph]] = [],
         align: Iterable[Align] = None,
         indent: int = 0
     ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
-        self._header, self._body, self._widths = self._process_table(
-            header, body)
+        self._header: list[Paragraph]
+        self._body: list[list[Paragraph]]
+        self._widths: list[int]
+        self._header, self._body, self._widths = self._process_table(header, body)
         self._align = align
         self._indent = indent
 
@@ -984,6 +990,14 @@ class Table(Element):
 
         return processed_header, processed_body, widths
 
+    def add_row(self, row: Iterable[str | InlineText | Paragraph]) -> None:
+        """
+        Adds a row to the end of table. 
+
+        .. versionadded:: 0.12.0
+        """
+        self._body.append(row)
+
     def render(self) -> str:
         """
         Renders a markdown table from a header "list"
@@ -995,8 +1009,10 @@ class Table(Element):
         :return: a table as a markdown string
         """
         rows = list()
-        header = [str(item).ljust(self._widths[i])
-                  for i, item in enumerate(self._header)]
+        header = [
+            str(item).ljust(self._widths[i])
+            for i, item in enumerate(self._header)
+        ]
         body = [
             [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
             for row in self._body
@@ -1015,7 +1031,8 @@ class Table(Element):
                 else:
                     meta.append(f":{'-' * (width - 2)}:")
             rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
-        rows.extend((f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
+        rows.extend(
+            (f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
         return '\n'.join(rows)
 
     def verify(self):
@@ -1209,7 +1226,8 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         :return: the MDCheckList added to this Document
         """
-        md_checklist = MDCheckList([InlineText(item) for item in items], checked=False)
+        md_checklist = MDCheckList([InlineText(item)
+                                   for item in items], checked=False)
         self._contents.append(md_checklist)
         logger.debug(f"Added checklist to document\n{md_checklist}")
         return md_checklist
@@ -1356,7 +1374,8 @@ class Document:
         :param str encoding: the encoding to use
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(os.path.join(dump_dir, self._get_file_name()), "w+", encoding=encoding)
+        output_file = open(os.path.join(
+            dump_dir, self._get_file_name()), "w+", encoding=encoding)
         output_file.write(str(self))
         output_file.close()
 

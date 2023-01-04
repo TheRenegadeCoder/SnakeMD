@@ -10,9 +10,11 @@ def test_checkbox_str():
     text = CheckBox("Hello, World!")
     assert str(text) == "[ ] Hello, World!"
 
+
 def test_checkbox_checked():
     text = CheckBox("Hello, World!", checked=True)
     assert str(text) == "[X] Hello, World!"
+
 
 def test_checkbox_bold():
     text = CheckBox("Hello, World!", bold=True)
@@ -82,6 +84,3 @@ def test_checkbox_verify_invalid_url():
 def test_checkbox_verify_no_image_url():
     text = CheckBox("Bad URL Test", image=True)
     assert not text.verify().passes_inspection()
-
-
-    

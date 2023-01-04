@@ -92,7 +92,8 @@ class InlineText:
         bold: bool = False,
         italics: bool = False,
         code: bool = False,
-        image: bool = False
+        image: bool = False,
+        strike: bool = False
     ) -> None:
         self._text = text
         self._bold = bold
@@ -100,6 +101,7 @@ class InlineText:
         self._url = url
         self._code = code
         self._image = image
+        self._strike = strike
 
     def __str__(self) -> str:
         return self.render()
@@ -117,6 +119,8 @@ class InlineText:
             text = f"**{text}**"
         if self._italics:
             text = f"*{text}*"
+        if self._strike:
+            text = f"~~{text}~~"
         if self._url:
             text = f"[{text}]({self._url})"
         if self._url and self._image:
@@ -219,6 +223,28 @@ class InlineText:
         :return: self
         """
         self._italics = False
+        return self
+    
+    def strikethrough(self) -> InlineText:
+        """
+        Adds strikethrough styling to self.
+        
+        .. versionadded:: 0.12.0
+
+        :return: self
+        """
+        self._strike = True
+        return self
+    
+    def unstrikethrough(self) -> InlineText:
+        """
+        Remove strikethrough styling from self.
+        
+        .. versionadded:: 0.12.0
+
+        :return: self
+        """
+        self._strike = False
         return self
 
     def code(self) -> InlineText:

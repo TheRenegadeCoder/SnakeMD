@@ -5,7 +5,7 @@ import pathlib
 import random
 import logging
 from enum import Enum, auto
-from typing import Iterable, Union
+from typing import Iterable
 from urllib import request
 from urllib.error import HTTPError
 
@@ -404,11 +404,11 @@ class Header(Element):
     section of a document. Headers come in six main sizes which
     correspond to the six headers sizes in HTML (e.g., <h1>).
 
-    :param Union[InlineText, str] text: the header text
+    :param InlineText | str text: the header text
     :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
     """
 
-    def __init__(self, text: Union[InlineText, str], level: int) -> None:
+    def __init__(self, text: InlineText | str, level: int) -> None:
         super().__init__()
         self._text: InlineText = self._process_text(text)
         self._level: int = self._process_level(level)
@@ -485,7 +485,7 @@ class Paragraph(Element):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[Union[InlineText, str]] content: a "list" of text objects to render as a paragraph
+    :param Iterable[InlineText | str] content: a "list" of text objects to render as a paragraph
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
     :param str lang: the language of the code snippet;
@@ -494,7 +494,7 @@ class Paragraph(Element):
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Union[InlineText, str]], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[InlineText | str], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
         self._content: list[InlineText] = self._process_content(content)
         self._code = code
@@ -555,7 +555,7 @@ class Paragraph(Element):
 
         return verification
 
-    def add(self, text: Union[InlineText, str]) -> None:
+    def add(self, text: InlineText | str) -> None:
         """
         Adds a text object to the paragraph.
 
@@ -699,15 +699,15 @@ class MDList(Element):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[Union[str, InlineText, Paragraph, MDList]] items:
+    :param Iterable[str | InlineText | Paragraph | MDList] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
     """
 
-    def __init__(self, items: Iterable[Union[str, InlineText, Paragraph, MDList]], ordered: bool = False) -> None:
+    def __init__(self, items: Iterable[str | InlineText | Paragraph | MDList], ordered: bool = False) -> None:
         super().__init__()
-        self._items: Union[MDList, Paragraph] = self._process_items(items)
+        self._items: MDList | Paragraph = self._process_items(items)
         self._ordered = ordered
         self._space = ""
 
@@ -788,12 +788,12 @@ class MDCheckList(MDList):
 
     .. versionadded:: 0.10.0
 
-    :param Iterable[Union[str, InlineText, Paragraph, MDList]] items:
+    :param Iterable[str | InlineText | Paragraph | MDList] items:
         a "list" of objects to be rendered as a Checkbox list
     :param bool checked: the state of the checkbox;
         set to True to render a checked box (i.e., True -> - [x] item)
     """
-    def __init__(self,  items: Iterable[Union[str, InlineText, Paragraph, MDList]], checked: bool=False) -> None:
+    def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool=False) -> None:
         super().__init__(items, False)
         self.checked = checked
 
@@ -919,8 +919,8 @@ class Table(Element):
 
     def __init__(
         self,
-        header: Iterable[Union[str, InlineText, Paragraph]],
-        body: Iterable[Iterable[Union[str, InlineText, Paragraph]]] = [],
+        header: Iterable[str | InlineText | Paragraph],
+        body: Iterable[Iterable[str | InlineText | Paragraph]] = [],
         align: Iterable[Align] = None,
         indent: int = 0
     ) -> None:
@@ -984,7 +984,7 @@ class Table(Element):
 
         return processed_header, processed_body, widths
     
-    def add_row(self, row: Iterable[Union[str, InlineText, Paragraph]]) -> None:
+    def add_row(self, row: Iterable[str | InlineText | Paragraph]) -> None:
         """
         Adds a row to the end of table. This method assumes the underlying
         iterable containing the table rows is a Python list. If not,

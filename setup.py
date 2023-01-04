@@ -44,8 +44,8 @@ setuptools.setup(
             'project': ('setup.py', name),
             'version': ('setup.py', version),
             'release': ('setup.py', release),
-            'source_dir': ('setup.py', 'docsrc'),
-            'build_dir': ('setup.py', 'docsrc/_build'),
+            'source_dir': ('setup.py', 'docs'),
+            'build_dir': ('setup.py', 'docs/_build'),
             'builder': ("setup.py", "dirhtml")
         }
     },

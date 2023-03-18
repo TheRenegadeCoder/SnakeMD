@@ -1111,10 +1111,12 @@ class Document:
     custom markdown elements.
 
     :param name: the file name of the document without the extension
+    :param separator: the whitespace separator; defaults to -
     """
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, separator: str = "-") -> None:
         self._name: str = name
+        self._separator: str = separator
         self._ext: str = ".md"
         self._contents: list[Element] = list()
 
@@ -1414,6 +1416,5 @@ class Document:
         """
         A helper function for generating the file name.
         """
-        separator = "-"
-        file_name = f"{separator.join(self._name.split())}{self._ext}"
+        file_name = f"{self._separator.join(self._name.split())}{self._ext}"
         return file_name

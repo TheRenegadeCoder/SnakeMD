@@ -1,6 +1,6 @@
 from .generator import *
 
-def new_doc(name: str) -> Document:
+def new_doc(name: str, separator: str = "-") -> Document:
     """
     Creates a new SnakeMD document. This is a convenience function
     that allows you to create a new markdown document without having
@@ -16,6 +16,7 @@ def new_doc(name: str) -> Document:
     .. versionadded:: 0.9.0
 
     :param name: the file name of the document without the extension
+    :param separator: the whitespace separator; defaults to -
     :return: a new Document object
     """
-    return Document(name)
+    return Document(name, separator)

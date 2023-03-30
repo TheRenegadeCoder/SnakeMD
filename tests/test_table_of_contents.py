@@ -2,20 +2,20 @@ from snakemd.generator import Document, TableOfContents
 
 
 def test_table_of_contents_empty():
-    doc = Document("Empty Document")
+    doc = Document()
     toc = TableOfContents(doc)
     assert str(toc) == ""
 
 
 def test_table_of_contents_one_section():
-    doc = Document("One Section")
+    doc = Document()
     toc = TableOfContents(doc)
     doc.add_header("Section", level=2)
     assert str(toc) == "1. [Section](#section)"
 
 
 def test_table_of_contents_many_sections():
-    doc = Document("Many Sections")
+    doc = Document()
     toc = TableOfContents(doc)
     doc.add_header("Section 1", level=2)
     doc.add_header("Section 2", level=2)
@@ -27,7 +27,7 @@ def test_table_of_contents_many_sections():
 
 
 def test_table_of_contents_many_sections_and_subsections_limit_h2():
-    doc = Document("Many Sections and Subsections")
+    doc = Document()
     toc = TableOfContents(doc)
     doc.add_header("Section 1", level=2)
     doc.add_header("Subsection 1", level=3)
@@ -40,7 +40,7 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2():
 
 
 def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
-    doc = Document("Many Sections and Subsections")
+    doc = Document()
     toc = TableOfContents(doc, levels=range(2, 4))
     doc.add_header("Section 1", level=2)
     doc.add_header("Subsection 1", level=3)
@@ -56,7 +56,7 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
 
 
 def test_table_of_contents_double_digit_sections():
-    doc = Document("Many Sections and Subsections")
+    doc = Document()
     toc = TableOfContents(doc, levels=range(2, 4))
     doc.add_header("Section 1", level=2)
     doc.add_header("Subsection 1A", level=3)
@@ -90,7 +90,7 @@ def test_table_of_contents_double_digit_sections():
 
 
 def test_table_of_contents_triple_nesting():
-    doc = Document("Many Sections and Subsections")
+    doc = Document()
     toc = TableOfContents(doc, levels=range(2, 5))
     doc.add_header("Section 1", level=2)
     doc.add_header("Subsection 1A", level=3)

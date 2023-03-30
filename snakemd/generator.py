@@ -1107,14 +1107,20 @@ class Document:
     are intended to provided convenience when generating a
     markdown file. However, the functionality is not exhaustive.
     To get the full range of markdown functionality, you can
-    take advantage of the :code:`add_element()` function to provide
+    take advantage of the :func:`add_element` function to provide
     custom markdown elements.
 
-    :param name: the file name of the document without the extension
-    :param separator: the whitespace separator; defaults to -
+    :param str name: 
+        the file name of the document without the extension
+        
+        .. deprecated:: 0.13.0
+            parameter is now optional and will be removed in 1.0.0
+
+    :param str separator: 
+        the whitespace separator; defaults to -
     """
 
-    def __init__(self, name: str, separator: str = "-") -> None:
+    def __init__(self, name: str = None, separator: str = "-") -> None:
         self._name: str = name
         self._separator: str = separator
         self._ext: str = ".md"
@@ -1402,13 +1408,19 @@ class Document:
     def output_page(self, dump_dir: str = "", encoding: str = "utf-8") -> None:
         """
         Generates the markdown file. Assumes UTF-8 encoding.
+        
+        .. deprecated:: 0.13.0
+            Use :func:`dump` instead
 
         :param str dump_dir: the path to where you want to dump the file
         :param str encoding: the encoding to use
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(os.path.join(
-            dump_dir, self._get_file_name()), "w+", encoding=encoding)
+        output_file = open(
+            os.path.join(dump_dir, self._get_file_name()), 
+            "w+", 
+            encoding=encoding
+        )
         output_file.write(str(self))
         output_file.close()
 
@@ -1418,3 +1430,31 @@ class Document:
         """
         file_name = f"{self._separator.join(self._name.split())}{self._ext}"
         return file_name
+    
+    def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:
+        """
+        Outputs the markdown document to a file. This method assumes the output directory
+        is the current working directory. Any alternative directory provided will be
+        made if it does not already exist. This method also assumes a file extension of md
+        and a file encoding of utf-8, all of which are configurable through the method
+        parameters.
+        
+        .. code-block:: Python
+        
+            doc.dump("README")
+            
+        .. versionadded:: 0.13.0
+            Replaces the :func:`output_page` method
+            
+        :param str name: the name of the markdown file to output without the file extension
+        :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""
+        :param str ext: the output file extension; defaults to "md"
+        :param str encoding: the encoding to use; defaults to utf-8
+        """
+        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
+        with open(
+            os.path.join(dir, f"{name}.{ext}"),
+            "w+",
+            encoding=encoding
+        ) as output_file:
+            output_file.write(str(self))

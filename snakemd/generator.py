@@ -1110,11 +1110,17 @@ class Document:
     take advantage of the :func:`add_element` function to provide
     custom markdown elements.
 
-    :param name: the file name of the document without the extension
-    :param separator: the whitespace separator; defaults to -
+    :param str name: 
+        the file name of the document without the extension
+        
+        .. deprecated:: 0.13.0
+            parameter is now optional and will be removed in 1.0.0
+
+    :param str separator: 
+        the whitespace separator; defaults to -
     """
 
-    def __init__(self, name: str, separator: str = "-") -> None:
+    def __init__(self, name: str = None, separator: str = "-") -> None:
         self._name: str = name
         self._separator: str = separator
         self._ext: str = ".md"
@@ -1410,8 +1416,11 @@ class Document:
         :param str encoding: the encoding to use
         """
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(os.path.join(
-            dump_dir, self._get_file_name()), "w+", encoding=encoding)
+        output_file = open(
+            os.path.join(dump_dir, self._get_file_name()), 
+            "w+", 
+            encoding=encoding
+        )
         output_file.write(str(self))
         output_file.close()
 

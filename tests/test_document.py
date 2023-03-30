@@ -6,7 +6,7 @@ def test_document_empty():
     assert str(doc) == ""
 
 
-def test_document_add_header():
+def test_document_add_heading():
     doc = Document()
     doc.add_heading("Test Document")
     assert str(doc) == "# Test Document"
@@ -18,7 +18,7 @@ def test_document_add_paragraph():
     assert str(doc) == "Test Document"
 
 
-def test_document_add_header_and_paragraph():
+def test_document_add_heading_and_paragraph():
     doc = Document()
     doc.add_heading("Test Document")
     doc.add_paragraph("This is a test document.")

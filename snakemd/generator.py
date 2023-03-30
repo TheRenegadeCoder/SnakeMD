@@ -445,8 +445,9 @@ class Block(Element):
     element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
     headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
     (e.g., <ol>, <ul>, etc.).
-    .. versionadded:: 1.0.0
-        Replaced the Element class
+    
+    .. versionadded:: 0.14.0
+        replaced the :class:`Element` class
     """
     pass
 

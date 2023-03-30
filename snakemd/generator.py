@@ -783,7 +783,7 @@ class Paragraph(Element):
 
 class MDList(Element):
     """
-    A markdown list is a standalone list that comes in two varieties: ordered and unordered.
+    A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly

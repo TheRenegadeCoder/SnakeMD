@@ -105,18 +105,6 @@ class Element(ABC):
 
 class Inline(Element):
     """
-    An inline element in markdown. All blocks which contain
-    text are built using this class instead of strings directly. That
-    way, those blocks capture all styling information. By design,
-    Inline elements can be nested (e.g., <b><i>hello</i></b>). 
-    """
-
-    def __init__(self, inline: Inline | str):
-        self._inline = inline
-
-
-class InlineText:
-    """
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
@@ -244,7 +232,7 @@ class InlineText:
         """
         return bool(self._url)
 
-    def bold(self) -> InlineText:
+    def bold(self) -> Inline:
         """
         Adds bold styling to self.
 
@@ -256,7 +244,7 @@ class InlineText:
         self._bold = True
         return self
 
-    def unbold(self) -> InlineText:
+    def unbold(self) -> Inline:
         """
         Removes bold styling from self.
 
@@ -268,7 +256,7 @@ class InlineText:
         self._bold = False
         return self
 
-    def italicize(self) -> InlineText:
+    def italicize(self) -> Inline:
         """
         Adds italics styling to self.
 
@@ -279,7 +267,7 @@ class InlineText:
         self._italics = True
         return self
 
-    def unitalicize(self) -> InlineText:
+    def unitalicize(self) -> Inline:
         """
         Removes italics styling from self.
 
@@ -290,7 +278,7 @@ class InlineText:
         self._italics = False
         return self
     
-    def strikethrough(self) -> InlineText:
+    def strikethrough(self) -> Inline:
         """
         Adds strikethrough styling to self.
         
@@ -301,7 +289,7 @@ class InlineText:
         self._strikethrough = True
         return self
     
-    def unstrikethrough(self) -> InlineText:
+    def unstrikethrough(self) -> Inline:
         """
         Remove strikethrough styling from self.
         
@@ -312,7 +300,7 @@ class InlineText:
         self._strikethrough = False
         return self
 
-    def code(self) -> InlineText:
+    def code(self) -> Inline:
         """
         Adds code style to self.
 
@@ -323,7 +311,7 @@ class InlineText:
         self._code = True
         return self
 
-    def uncode(self) -> InlineText:
+    def uncode(self) -> Inline:
         """
         Removes code style from self.
 
@@ -334,7 +322,7 @@ class InlineText:
         self._code = False
         return self
 
-    def link(self, url: str) -> InlineText:
+    def link(self, url: str) -> Inline:
         """
         Adds URL to self.
 
@@ -346,7 +334,7 @@ class InlineText:
         self._url = url
         return self
 
-    def unlink(self) -> InlineText:
+    def unlink(self) -> Inline:
         """
         Removes URL from self.
 
@@ -357,7 +345,7 @@ class InlineText:
         self._url = None
         return self
 
-    def reset(self) -> InlineText:
+    def reset(self) -> Inline:
         """
         Removes all settings from self (e.g., bold, code, italics, url, etc.).
         All that will remain is the text itself.
@@ -372,9 +360,17 @@ class InlineText:
         self._bold = False
         self._image = False
         return self
+    
+    
+class InlineText(Inline):
+    """
+    .. deprecated:: 0.14.0
+        replaced with :class:`Inline`
+    """
+    pass
 
 
-class CheckBox(InlineText):
+class CheckBox(Inline):
     """
     A checkable box, based of InlineText.
     Supports all formats available via InlineText (eg. url, bold, italics, etc.)
@@ -501,9 +497,9 @@ class Heading(Block):
     :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
     """
 
-    def __init__(self, text: InlineText | str, level: int) -> None:
+    def __init__(self, text: Inline | str, level: int) -> None:
         super().__init__()
-        self._text: InlineText = self._process_text(text)
+        self._text: Inline = self._process_text(text)
         self._level: int = self._process_level(level)
         
     def __str__(self) -> str:
@@ -516,7 +512,7 @@ class Heading(Block):
         return f"{'#' * self._level} {self._text}"
 
     @staticmethod
-    def _process_text(text) -> InlineText:
+    def _process_text(text) -> Inline:
         """
         Ensures that Heading objects are composed of a single InlineText object.
 
@@ -524,7 +520,7 @@ class Heading(Block):
         :return: the input text as an InlineText
         """
         if isinstance(text, str):
-            return InlineText(text)
+            return Inline(text)
         return text
 
     @staticmethod
@@ -575,7 +571,7 @@ class Header(Heading):
     .. deprecated:: 0.13.0
         renamed to :class:`Heading`
     """
-    def __init__(self, text: InlineText | str, level: int) -> None:
+    def __init__(self, text: Inline | str, level: int) -> None:
         super().__init__(text, level)
         warnings.warn(
             "Header has been deprecated as of 0.13.0 and replaced with Heading", 
@@ -600,9 +596,9 @@ class Paragraph(Block):
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[InlineText | str], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[Inline | str], code: bool = False, lang: str = "generic", quote: bool = False):
         super().__init__()
-        self._content: list[InlineText] = self._process_content(content)
+        self._content: list[Inline] = self._process_content(content)
         self._code = code
         self._lang = lang
         self._quote = quote
@@ -613,7 +609,7 @@ class Paragraph(Block):
         processed = []
         for item in content:
             if isinstance(item, str):
-                processed.append(InlineText(item))
+                processed.append(Inline(item))
             else:
                 processed.append(item)
         return processed
@@ -661,7 +657,7 @@ class Paragraph(Block):
 
         return verification
 
-    def add(self, text: InlineText | str) -> None:
+    def add(self, text: Inline | str) -> None:
         """
         Adds a text object to the paragraph.
 
@@ -671,7 +667,7 @@ class Paragraph(Block):
         :param text: a custom text element
         """
         if isinstance(text, str):
-            text = InlineText(text)
+            text = Inline(text)
         self._content.append(text)
 
     def is_text(self) -> bool:
@@ -685,7 +681,7 @@ class Paragraph(Block):
         """
         return not (self._code or self._quote)
 
-    def _replace_any(self, target: str, text: InlineText, count: int = -1) -> Paragraph:
+    def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """
         Given a target string, this helper method replaces it with the specified
         InlineText object. This method was created because insert_link and
@@ -708,12 +704,12 @@ class Paragraph(Block):
         for inline_text in self._content:
             if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
                 for item in items:
-                    content.append(InlineText(item))
+                    content.append(Inline(item))
                     if count == -1 or i < count:
                         content.append(text)
                         i += 1
                     else:
-                        content.append(InlineText(target))
+                        content.append(Inline(target))
                 content.pop()
             else:
                 content.append(inline_text)
@@ -734,7 +730,7 @@ class Paragraph(Block):
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
-        return self._replace_any(target, InlineText(replacement), count)
+        return self._replace_any(target, Inline(replacement), count)
 
     def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
@@ -759,7 +755,7 @@ class Paragraph(Block):
         :param int count: the number of links to insert; defaults to -1 (all)
         :return: self
         """
-        return self._replace_any(target, InlineText(target, url=url), count)
+        return self._replace_any(target, Inline(target, url=url), count)
 
     def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
@@ -815,7 +811,7 @@ class MDList(Block):
 
     def __init__(
         self, 
-        items: Iterable[str | InlineText | Paragraph | MDList], 
+        items: Iterable[str | Inline | Paragraph | MDList], 
         ordered: bool = False, 
         checked: None | bool | Iterable[bool] = None
     ) -> None:
@@ -871,7 +867,7 @@ class MDList(Block):
         """
         processed = []
         for item in items:
-            if isinstance(item, (str, InlineText)):
+            if isinstance(item, (str, Inline)):
                 processed.append(Paragraph([item]))
             else:
                 processed.append(item)
@@ -924,7 +920,7 @@ class MDCheckList(MDList):
         set to True to render a checked box (i.e., True -> - [x] item)
     """
 
-    def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool = False) -> None:
+    def __init__(self,  items: Iterable[str | Inline | Paragraph | MDList], checked: bool = False) -> None:
         super().__init__(items, False)
         self.checked = checked
         warnings.warn(
@@ -973,8 +969,8 @@ class Table(Block):
 
     def __init__(
         self,
-        header: Iterable[str | InlineText | Paragraph],
-        body: Iterable[Iterable[str | InlineText | Paragraph]] = [],
+        header: Iterable[str | Inline | Paragraph],
+        body: Iterable[Iterable[str | Inline | Paragraph]] = [],
         align: Iterable[Align] = None,
         indent: int = 0
     ) -> None:
@@ -1054,7 +1050,7 @@ class Table(Block):
 
         # Process header
         for item in header:
-            if isinstance(item, (str, InlineText)):
+            if isinstance(item, (str, Inline)):
                 processed_header.append(Paragraph([item]))
             else:
                 processed_header.append(item)
@@ -1066,7 +1062,7 @@ class Table(Block):
         for row in body:
             processed_row = []
             for i, item in enumerate(row):
-                if isinstance(item, (str, InlineText)):
+                if isinstance(item, (str, Inline)):
                     processed_row.append(Paragraph([item]))
                 else:
                     processed_row.append(item)
@@ -1077,7 +1073,7 @@ class Table(Block):
 
         return processed_header, processed_body, widths
 
-    def add_row(self, row: Iterable[str | InlineText | Paragraph]) -> None:
+    def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """
         Adds a row to the end of table. 
 
@@ -1176,7 +1172,7 @@ class TableOfContents(Element):
         table_of_contents = list()
         while i < len(headings) and headings[i]._level >= level:
             if headings[i]._level == level:
-                line = InlineText(
+                line = Inline(
                     headings[i]._text._text,
                     url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
                 )
@@ -1317,7 +1313,7 @@ class Document:
         :return: the Heading added to this Document
         """
         assert 1 <= level <= 6
-        heading = Heading(InlineText(text), level)
+        heading = Heading(Inline(text), level)
         self._contents.append(heading)
         logger.debug(f"Added heading to document\n{heading}")
         return heading
@@ -1345,7 +1341,7 @@ class Document:
             DeprecationWarning
         )
         assert 1 <= level <= 6
-        header = Header(InlineText(text), level)
+        header = Header(Inline(text), level)
         self._contents.append(header)
         logger.debug(f"Added header to document\n{header}")
         return header
@@ -1364,7 +1360,7 @@ class Document:
         :param str text: any arbitrary text
         :return: the Paragraph added to this Document
         """
-        paragraph = Paragraph([InlineText(text)])
+        paragraph = Paragraph([Inline(text)])
         self._contents.append(paragraph)
         logger.debug(f"Added paragraph to document\n{paragraph}")
         return paragraph
@@ -1383,7 +1379,7 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         :return: the MDList added to this Document
         """
-        md_list = MDList([InlineText(item) for item in items], ordered=True)
+        md_list = MDList([Inline(item) for item in items], ordered=True)
         self._contents.append(md_list)
         logger.debug(f"Added ordered list to document\n{md_list}")
         return md_list
@@ -1402,7 +1398,7 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         :return: the MDList added to this Document
         """
-        md_list = MDList([InlineText(item) for item in items])
+        md_list = MDList([Inline(item) for item in items])
         self._contents.append(md_list)
         logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
@@ -1420,7 +1416,7 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         :return: the MDCheckList added to this Document
         """
-        md_checklist = MDCheckList([InlineText(item)
+        md_checklist = MDCheckList([Inline(item)
                                    for item in items], checked=False)
         self._contents.append(md_checklist)
         logger.debug(f"Added checklist to document\n{md_checklist}")
@@ -1484,7 +1480,7 @@ class Document:
         :param str lang: the language for syntax highlighting
         :return: the Paragraph added to this Document
         """
-        code = Paragraph([InlineText(code)], code=True, lang=lang)
+        code = Paragraph([Inline(code)], code=True, lang=lang)
         self._contents.append(code)
         logger.debug(f"Added code block to document\n{code}")
         return code
@@ -1503,7 +1499,7 @@ class Document:
         :param str text: the text to be quoted
         :return: the Paragraph added to this Document
         """
-        paragraph = Paragraph([InlineText(text)], quote=True)
+        paragraph = Paragraph([Inline(text)], quote=True)
         self._contents.append(paragraph)
         logger.debug(f"Added code block to document\n{paragraph}")
         return paragraph

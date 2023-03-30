@@ -1,4 +1,4 @@
-from snakemd import InlineText, Paragraph
+from snakemd import Inline, Paragraph
 
 
 def test_paragraph_empty():
@@ -7,7 +7,7 @@ def test_paragraph_empty():
 
 
 def test_paragraph_one_inline():
-    paragraph = Paragraph([InlineText("Single Phrase")])
+    paragraph = Paragraph([Inline("Single Phrase")])
     assert str(paragraph) == "Single Phrase"
 
 
@@ -18,8 +18,8 @@ def test_paragraph_one_str():
 
 def test_paragraph_many_inline():
     paragraph = Paragraph(
-        [InlineText("How"), InlineText("Now"),
-         InlineText("Brown"), InlineText("Cow")]
+        [Inline("How"), Inline("Now"),
+         Inline("Brown"), Inline("Cow")]
     )
     assert str(paragraph) == "HowNowBrownCow"
 
@@ -31,22 +31,22 @@ def test_paragraph_many_str():
 
 def test_paragraph_add_inline():
     paragraph = Paragraph(
-        [InlineText("How"), InlineText("Now"), InlineText("Brown")]
+        [Inline("How"), Inline("Now"), Inline("Brown")]
     )
-    paragraph.add(InlineText("Cow"))
+    paragraph.add(Inline("Cow"))
     assert str(paragraph) == "HowNowBrownCow"
 
 
 def test_paragraph_add_str():
     paragraph = Paragraph(
-        [InlineText("How"), InlineText("Now"), InlineText("Brown")]
+        [Inline("How"), Inline("Now"), Inline("Brown")]
     )
     paragraph.add("Cow")
     assert str(paragraph) == "HowNowBrownCow"
 
 
 def test_insert_link_one():
-    paragraph = Paragraph([InlineText("Check out Google!")]) \
+    paragraph = Paragraph([Inline("Check out Google!")]) \
         .insert_link("Google", "https://google.com")
     assert str(paragraph) == "Check out [Google](https://google.com)!"
 
@@ -71,16 +71,16 @@ def test_insert_link_two_limit():
 
 
 def test_replace_link_one():
-    paragraph = Paragraph([InlineText("Hello, World!", url="https://example.com")]) \
+    paragraph = Paragraph([Inline("Hello, World!", url="https://example.com")]) \
         .replace_link("https://example.com", "https://google.com")
     assert str(paragraph) == "[Hello, World!](https://google.com)"
 
 
 def test_replace_link_two_chained():
     paragraph = Paragraph([
-        InlineText("Hello", url="https://example.com"),
+        Inline("Hello", url="https://example.com"),
         ", ",
-        InlineText("World", url="https://example2.com"),
+        Inline("World", url="https://example2.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com") \
@@ -90,9 +90,9 @@ def test_replace_link_two_chained():
 
 def test_replace_link_two_same():
     paragraph = Paragraph([
-        InlineText("Hello", url="https://example.com"),
+        Inline("Hello", url="https://example.com"),
         ", ",
-        InlineText("World", url="https://example.com"),
+        Inline("World", url="https://example.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com")
@@ -101,9 +101,9 @@ def test_replace_link_two_same():
 
 def test_replace_link_two_limit():
     paragraph = Paragraph([
-        InlineText("Hello", url="https://example.com"),
+        Inline("Hello", url="https://example.com"),
         ", ",
-        InlineText("World", url="https://example.com"),
+        Inline("World", url="https://example.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com", count=1)

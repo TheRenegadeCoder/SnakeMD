@@ -1,4 +1,4 @@
-from snakemd import InlineText, Paragraph, Table
+from snakemd import Inline, Paragraph, Table
 
 
 def test_table_one_col_str():
@@ -7,7 +7,7 @@ def test_table_one_col_str():
 
 
 def test_table_one_col_inline():
-    table = Table([InlineText("Age")], [[InlineText("37")]])
+    table = Table([Inline("Age")], [[Inline("37")]])
     assert str(table) == "| Age |\n| --- |\n| 37  |"
 
 

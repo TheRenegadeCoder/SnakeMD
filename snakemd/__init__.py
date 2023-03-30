@@ -25,4 +25,9 @@ def new_doc(name: str = None, separator: str = "-") -> Document:
         the whitespace separator; defaults to -
     :return: a new Document object
     """
+    if name:
+        warnings.warn(
+            "name has been deprecated as of 0.13.0", 
+            DeprecationWarning
+        )
     return Document(name, separator)

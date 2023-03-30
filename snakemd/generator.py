@@ -4,6 +4,7 @@ import logging
 import os
 import pathlib
 import random
+import warnings
 from enum import Enum, auto
 from typing import Iterable
 from urllib import request
@@ -514,7 +515,12 @@ class Header(Heading):
     .. deprecated:: 0.13.0
         renamed to :class:`Heading`
     """
-    pass
+    def __init__(self, text: InlineText | str, level: int) -> None:
+        super().__init__(text, level)
+        warnings.warn(
+            "Header has been deprecated as of 0.13.0 and replaced with Heading", 
+            DeprecationWarning
+        )
 
 
 class Paragraph(Element):
@@ -1133,6 +1139,11 @@ class Document:
         self._separator: str = separator
         self._ext: str = ".md"
         self._contents: list[Element] = list()
+        if name:
+            warnings.warn(
+                "name parameter has been deprecated as of 0.13.0", 
+                DeprecationWarning
+            )
 
     def __str__(self):
         return self.render()
@@ -1221,6 +1232,10 @@ class Document:
         :param int level: the level of the header from 1 to 6
         :return: the Header added to this Document
         """
+        warnings.warn(
+            "add_header has been deprecated as of 0.13.0 and replaced with add_heading", 
+            DeprecationWarning
+        )
         assert 1 <= level <= 6
         header = Header(InlineText(text), level)
         self._contents.append(header)
@@ -1446,6 +1461,10 @@ class Document:
         :param str dump_dir: the path to where you want to dump the file
         :param str encoding: the encoding to use
         """
+        warnings.warn(
+            "output_page has been deprecated as of 0.13.0 and replaced with dump", 
+            DeprecationWarning
+        )
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
         output_file = open(
             os.path.join(dump_dir, self._get_file_name()), 

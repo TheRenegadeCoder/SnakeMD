@@ -1,4 +1,5 @@
 from __future__ import annotations
+from abc import ABC, abstractmethod
 
 import logging
 import os
@@ -65,6 +66,65 @@ class Verification():
         :return: True if there are no errors; False otherwise
         """
         return not bool(self._errors)
+    
+
+class Element(ABC):
+    """
+    A generic element interface which provides a framework for all
+    types of elements in the collection. In short, elements should
+    be able to be verified. 
+    """
+    
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+    
+    @abstractmethod
+    def verify(self) -> Verification:
+        """
+        Verifies that the element is valid markdown.
+
+        :return: a verification object from the violator
+        """
+        pass
+    
+    def render(self) -> str:
+        """
+        Renders the element as a markdown string.
+        This function now just calls the __str__
+        method directly.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
+
+        :return: the element as a markdown string
+        """
+        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
+        return str(self)
+
+
+class Inline(Element):
+    """
+    An inline element in markdown. All blocks which contain
+    text are built using this class instead of strings directly. That
+    way, those blocks capture all styling information. By design,
+    Inline elements can be nested (e.g., <b><i>hello</i></b>). 
+    """
+
+    def __init__(self, inline: Inline | str):
+        self._inline = inline
+
+
+class Block(Element):
+    """
+    A block element in Markdown. A block is defined as a standalone 
+    element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
+    headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
+    (e.g., <ol>, <ul>, etc.).
+    .. versionadded:: 1.0.0
+        Replaced the Element class
+    """
+    pass
 
 
 class InlineText:
@@ -395,50 +455,7 @@ class CheckBox(InlineText):
         return str(self)
 
 
-class Element:
-    """
-    An element is defined as a standalone section of a markdown file.
-    All elements are to be surrounded by empty lines. Examples of elements
-    include paragraphs, headings, tables, and lists.
-    """
-
-    def __init__(self):
-        pass
-
-    def __str__(self) -> str:
-        """
-        Renders the element as a string.
-
-        :raises NotImplementedError: interface method never to be implemented
-        :return: the element as a string
-        """
-        raise NotImplementedError()
-
-    def render(self) -> str:
-        """
-        Renders the element as a markdown string.
-        This function now just calls the __str__
-        method directly.
-        
-        .. deprecated:: 0.14.0
-            replaced with the default dunder method :func:`__str__`
-
-        :return: the element as a markdown string
-        """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
-        return str(self)
-
-    def verify(self) -> Verification:
-        """
-        Verifies that the element is valid markdown.
-
-        :raises NotImplementedError: interface method never to be implemented
-        :return: a verification object from the violator
-        """
-        raise NotImplementedError()
-
-
-class HorizontalRule(Element):
+class HorizontalRule(Block):
     """
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules really only come in one form,
@@ -474,7 +491,7 @@ class HorizontalRule(Element):
         return Verification()
 
 
-class Heading(Element):
+class Heading(Block):
     """
     A heading is a text element which serves as the title for a new
     section of a document. Headings come in six main sizes which
@@ -566,7 +583,7 @@ class Header(Heading):
         )
 
 
-class Paragraph(Element):
+class Paragraph(Block):
     """
     A paragraph is a standalone element of text. Paragraphs can be
     formatted in a variety of ways including as code and blockquotes.
@@ -781,9 +798,9 @@ class Paragraph(Element):
         return result
 
 
-class MDList(Element):
+class MDList(Block):
     """
-    A markdown list is a standalone list that comes in two varieties: ordered and unordered.
+    A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
@@ -936,90 +953,7 @@ class MDCheckList(MDList):
         return "\n".join(output)
 
 
-class TableOfContents(Element):
-    """
-    A Table of Contents is an element containing an ordered list
-    of all the `<h2>` headings in the document by default. A range can be
-    specified to customize which headings (e.g., `<h3>`) are included in
-    the table of contents. This element can be placed anywhere in the document.
-
-    .. versionadded:: 0.2.0
-
-    .. versionchanged:: 0.8.0
-       Added optional levels parameter
-
-    :param Document doc: a reference to the document containing this table of contents
-    :param list[int] levels: a range of integers representing the sequence of heading levels
-        to include in the table of contents; defaults to range(2, 3)
-    """
-
-    def __init__(self, doc: Document, levels: range = range(2, 3)):
-        super().__init__()
-        self._contents = doc._contents  # DO NOT MODIFY
-        self._levels = levels
-        
-    def __str__(self) -> str:
-        """
-        Renders the table of contents using the Document reference.
-
-        :return: the table of contents as a markdown string
-        """
-        headings = self._get_headings()
-        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
-        return str(table_of_contents)
-
-    def _get_headings(self) -> list[Heading]:
-        """
-        Retrieves the list of headings from the current document.
-
-        :return: a list heading objects
-        """
-        return [
-            heading
-            for heading in self._contents
-            if isinstance(heading, Heading) and heading._level in self._levels
-        ]
-
-    def _assemble_table_of_contents(self, headings: Iterable, position: int) -> tuple(MDList, int):
-        """
-        Assembles the table of contents from the headings in the document.
-
-        :return: a list of strings representing the table of contents
-        """
-        if not headings:
-            return MDList([]), -1
-
-        i = position
-        level = headings[i]._level
-        table_of_contents = list()
-        while i < len(headings) and headings[i]._level >= level:
-            if headings[i]._level == level:
-                line = InlineText(
-                    headings[i]._text._text,
-                    url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
-                )
-                table_of_contents.append(line)
-                i += 1
-            else:
-                sublevel, size = self._assemble_table_of_contents(headings, i)
-                table_of_contents.append(sublevel)
-                i += size
-        return MDList(table_of_contents, ordered=True), i - position
-
-    def verify(self) -> Verification:
-        """
-        A Table of Contents is generated through a circular reference
-        to the Document it contains. There is no way to instantiate
-        this incorrectly.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        return Verification()
-
-
-class Table(Element):
+class Table(Block):
     """
     A table is a standalone element of rows and columns. Data is rendered
     according to underlying InlineText items.
@@ -1184,6 +1118,89 @@ class Table(Element):
         return verification
 
 
+class TableOfContents(Element):
+    """
+    A Table of Contents is an element containing an ordered list
+    of all the `<h2>` headings in the document by default. A range can be
+    specified to customize which headings (e.g., `<h3>`) are included in
+    the table of contents. This element can be placed anywhere in the document.
+
+    .. versionadded:: 0.2.0
+
+    .. versionchanged:: 0.8.0
+       Added optional levels parameter
+
+    :param Document doc: a reference to the document containing this table of contents
+    :param list[int] levels: a range of integers representing the sequence of heading levels
+        to include in the table of contents; defaults to range(2, 3)
+    """
+
+    def __init__(self, doc: Document, levels: range = range(2, 3)):
+        super().__init__()
+        self._contents = doc._contents  # DO NOT MODIFY
+        self._levels = levels
+        
+    def __str__(self) -> str:
+        """
+        Renders the table of contents using the Document reference.
+
+        :return: the table of contents as a markdown string
+        """
+        headings = self._get_headings()
+        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
+        return str(table_of_contents)
+
+    def _get_headings(self) -> list[Heading]:
+        """
+        Retrieves the list of headings from the current document.
+
+        :return: a list heading objects
+        """
+        return [
+            heading
+            for heading in self._contents
+            if isinstance(heading, Heading) and heading._level in self._levels
+        ]
+
+    def _assemble_table_of_contents(self, headings: Iterable, position: int) -> tuple(MDList, int):
+        """
+        Assembles the table of contents from the headings in the document.
+
+        :return: a list of strings representing the table of contents
+        """
+        if not headings:
+            return MDList([]), -1
+
+        i = position
+        level = headings[i]._level
+        table_of_contents = list()
+        while i < len(headings) and headings[i]._level >= level:
+            if headings[i]._level == level:
+                line = InlineText(
+                    headings[i]._text._text,
+                    url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
+                )
+                table_of_contents.append(line)
+                i += 1
+            else:
+                sublevel, size = self._assemble_table_of_contents(headings, i)
+                table_of_contents.append(sublevel)
+                i += size
+        return MDList(table_of_contents, ordered=True), i - position
+
+    def verify(self) -> Verification:
+        """
+        A Table of Contents is generated through a circular reference
+        to the Document it contains. There is no way to instantiate
+        this incorrectly.
+
+        .. versionadded:: 0.2.0
+
+        :return: a verification object from the violator
+        """
+        return Verification()
+
+
 class Document:
     """
     A document represents a markdown file. Documents store
@@ -1250,15 +1267,39 @@ class Document:
             doc.add_element(Heading(InlineText("Python is Cool!"), 2))
 
         .. versionchanged:: 0.2.0
-           Returns Element generated by this method instead of None.
+            Returns Element generated by this method instead of None.
+        .. deprecated:: 0.14.0
+            replaced in favor of :func:`add_block`
 
         :param Element element: a markdown object (e.g., Table, Heading, etc.)
         :return: the Element added to this Document
         """
+        warnings.warn("use add_block instead", DeprecationWarning)
         assert isinstance(element, Element)
         self._contents.append(element)
         logger.debug(f"Added element to document\n{element}")
         return element
+    
+    def add_block(self, block: Block) -> Block:
+        """
+        A generic function for appending blocks to the document.
+        Use this function when you want a little more control over
+        what the output looks like.
+
+        .. code-block:: Python
+
+            doc.add_block(Heading("Python is Cool!"), 2))
+
+        .. versionadded:: 0.14.0
+           replaces :func:`add_element`
+
+        :param Block block: a markdown block (e.g., Table, Heading, etc.)
+        :return: the Block added to this Document
+        """
+        assert isinstance(block, Block)
+        self._contents.append(block)
+        logger.debug(f"Added block to document\n{block}")
+        return block
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
         """

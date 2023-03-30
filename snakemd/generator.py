@@ -1402,6 +1402,9 @@ class Document:
     def output_page(self, dump_dir: str = "", encoding: str = "utf-8") -> None:
         """
         Generates the markdown file. Assumes UTF-8 encoding.
+        
+        .. deprecated:: 0.13.0
+            Use :func:`dump` instead
 
         :param str dump_dir: the path to where you want to dump the file
         :param str encoding: the encoding to use
@@ -1418,3 +1421,31 @@ class Document:
         """
         file_name = f"{self._separator.join(self._name.split())}{self._ext}"
         return file_name
+    
+    def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:
+        """
+        Outputs the markdown document to a file. This method assumes the output directory
+        is the current working directory. Any alternative directory provided will be
+        made if it does not already exist. This method also assumes a file extension of md
+        and a file encoding of utf-8, all of which are configurable through the method
+        parameters.
+        
+        .. code-block:: Python
+        
+            doc.dump("README")
+            
+        .. versionadded:: 0.13.0
+            Replaces the output_page method
+            
+        :param str file_name: the name of the markdown file to output without the file extension
+        :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""
+        :param str ext: the output file extension; defaults to "md"
+        :param str encoding: the encoding to use; defaults to utf-8
+        """
+        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
+        with open(
+            os.path.join(dir, f"{name}.{ext}"),
+            "w+",
+            encoding=encoding
+        ) as output_file:
+            output_file.write(str(self))

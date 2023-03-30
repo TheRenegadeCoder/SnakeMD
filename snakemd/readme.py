@@ -100,7 +100,7 @@ def _horizontal_rule(doc: Document):
 
 
 def _section(doc: Document, title: str, desc: str, func, level: int = 2):
-    doc.add_header(title, level=level)
+    doc.add_heading(title, level=level)
     doc.add_paragraph(desc)
     doc.add_element(Paragraph([InlineText("SnakeMD Source", italics=True)]))
     doc.add_code(inspect.getsource(func).strip(), lang="py")
@@ -119,11 +119,11 @@ def main() -> None:
     doc = Document("README")
 
     # Introduction
-    doc.add_header("Welcome to SnakeMD")
+    doc.add_heading("Welcome to SnakeMD")
     _introduction(doc)
 
     # Table of Contents
-    doc.add_header("Table of Contents", level=2)
+    doc.add_heading("Table of Contents", level=2)
     doc.add_paragraph(
         """
         Below you'll find the table of contents, but
@@ -168,7 +168,7 @@ def main() -> None:
     )
 
     # Lists
-    doc.add_header("Lists", level=2)
+    doc.add_heading("Lists", level=2)
     doc.add_paragraph(
         """
         SnakeMD can make a variety of Markdown lists. The three main types 

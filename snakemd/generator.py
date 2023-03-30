@@ -364,7 +364,7 @@ class Element:
     """
     An element is defined as a standalone section of a markdown file.
     All elements are to be surrounded by empty lines. Examples of elements
-    include paragraphs, headers, tables, and lists.
+    include paragraphs, headings, tables, and lists.
     """
 
     def __init__(self):
@@ -430,14 +430,14 @@ class HorizontalRule(Element):
         return Verification()
 
 
-class Header(Element):
+class Heading(Element):
     """
-    A header is a text element which serves as the title for a new
-    section of a document. Headers come in six main sizes which
-    correspond to the six headers sizes in HTML (e.g., <h1>).
+    A heading is a text element which serves as the title for a new
+    section of a document. Headings come in six main sizes which
+    correspond to the six headings sizes in HTML (e.g., <h1>).
 
-    :param InlineText | str text: the header text
-    :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
+    :param InlineText | str text: the heading text
+    :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
     """
 
     def __init__(self, text: InlineText | str, level: int) -> None:
@@ -448,7 +448,7 @@ class Header(Element):
     @staticmethod
     def _process_text(text) -> InlineText:
         """
-        Ensures that Header objects are composed of a single InlineText object.
+        Ensures that Heading objects are composed of a single InlineText object.
 
         :param text: an object to be forced to InlineText
         :return: the input text as an InlineText
@@ -462,8 +462,8 @@ class Header(Element):
         """
         Restricts the range of possible levels to avoid issues with rendering.
 
-        :param int level: the header level
-        :return: the header level in the proper range
+        :param int level: the heading level
+        :return: the heading level in the proper range
         """
         if level < 1:
             level = 1
@@ -473,16 +473,16 @@ class Header(Element):
 
     def render(self) -> str:
         """
-        Renders the header in markdown according to
+        Renders the heading in markdown according to
         the level provided.
 
-        :return: the header as a markdown string
+        :return: the heading as a markdown string
         """
         return f"{'#' * self._level} {self._text}"
 
     def verify(self) -> Verification:
         """
-        Verifies that the provided header is valid. This mainly
+        Verifies that the provided heading is valid. This mainly
         returns errors associated with the InlineText element
         provided during instantiation.
 
@@ -494,19 +494,27 @@ class Header(Element):
 
     def promote(self) -> None:
         """
-        Promotes a header up a level. Fails silently
-        if the header is already at the highest level (i.e., <h1>).
+        Promotes a heading up a level. Fails silently
+        if the heading is already at the highest level (i.e., <h1>).
         """
         if self._level > 1:
             self._level -= 1
 
     def demote(self) -> None:
         """
-        Demotes a header down a level. Fails silently if
-        the header is already at the lowest level (i.e., <h6>).
+        Demotes a heading down a level. Fails silently if
+        the heading is already at the lowest level (i.e., <h6>).
         """
         if self._level < 6:
             self._level += 1
+            
+
+class Header(Heading):
+    """
+    .. deprecated:: 0.13.0
+        renamed to :class:`Heading`
+    """
+    pass
 
 
 class Paragraph(Element):
@@ -854,8 +862,8 @@ class MDCheckList(MDList):
 class TableOfContents(Element):
     """
     A Table of Contents is an element containing an ordered list
-    of all the `<h2>` headers in the document by default. A range can be
-    specified to customize which headers (e.g., `<h3>`) are included in
+    of all the `<h2>` headings in the document by default. A range can be
+    specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
 
     .. versionadded:: 0.2.0
@@ -864,7 +872,7 @@ class TableOfContents(Element):
        Added optional levels parameter
 
     :param Document doc: a reference to the document containing this table of contents
-    :param list[int] levels: a range of integers representing the sequence of header levels
+    :param list[int] levels: a range of integers representing the sequence of heading levels
         to include in the table of contents; defaults to range(2, 3)
     """
 
@@ -873,40 +881,40 @@ class TableOfContents(Element):
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
 
-    def _get_headers(self) -> list[Header]:
+    def _get_headings(self) -> list[Heading]:
         """
-        Retrieves the list of headers from the current document.
+        Retrieves the list of headings from the current document.
 
-        :return: a list header objects
+        :return: a list heading objects
         """
         return [
-            header
-            for header in self._contents
-            if isinstance(header, Header) and header._level in self._levels
+            heading
+            for heading in self._contents
+            if isinstance(heading, Heading) and heading._level in self._levels
         ]
 
-    def _assemble_table_of_contents(self, headers: Iterable, position: int) -> tuple(MDList, int):
+    def _assemble_table_of_contents(self, headings: Iterable, position: int) -> tuple(MDList, int):
         """
-        Assembles the table of contents from the headers in the document.
+        Assembles the table of contents from the headings in the document.
 
         :return: a list of strings representing the table of contents
         """
-        if not headers:
+        if not headings:
             return MDList([]), -1
 
         i = position
-        level = headers[i]._level
+        level = headings[i]._level
         table_of_contents = list()
-        while i < len(headers) and headers[i]._level >= level:
-            if headers[i]._level == level:
+        while i < len(headings) and headings[i]._level >= level:
+            if headings[i]._level == level:
                 line = InlineText(
-                    headers[i]._text._text,
-                    url=f"#{'-'.join(headers[i]._text._text.lower().split())}"
+                    headings[i]._text._text,
+                    url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
                 )
                 table_of_contents.append(line)
                 i += 1
             else:
-                sublevel, size = self._assemble_table_of_contents(headers, i)
+                sublevel, size = self._assemble_table_of_contents(headings, i)
                 table_of_contents.append(sublevel)
                 i += size
         return MDList(table_of_contents, ordered=True), i - position
@@ -917,8 +925,8 @@ class TableOfContents(Element):
 
         :return: the table of contents as a markdown string
         """
-        headers = self._get_headers()
-        table_of_contents, _ = self._assemble_table_of_contents(headers, 0)
+        headings = self._get_headings()
+        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
         return str(table_of_contents)
 
     def verify(self) -> Verification:
@@ -1161,12 +1169,12 @@ class Document:
 
         .. code-block:: Python
 
-            doc.add_element(Header(InlineText("Python is Cool!"), 2))
+            doc.add_element(Heading(InlineText("Python is Cool!"), 2))
 
         .. versionchanged:: 0.2.0
            Returns Element generated by this method instead of None.
 
-        :param Element element: a markdown object (e.g., Table, Header, etc.)
+        :param Element element: a markdown object (e.g., Table, Heading, etc.)
         :return: the Element added to this Document
         """
         assert isinstance(element, Element)
@@ -1174,6 +1182,27 @@ class Document:
         logger.debug(f"Added element to document\n{element}")
         return element
 
+    def add_heading(self, text: str, level: int = 1) -> Heading:
+        """
+        A convenience method which adds a simple heading to the document:
+
+        .. code-block:: Python
+
+            doc.add_heading("Welcome to SnakeMD!")
+
+        .. versionadded:: 0.13.0
+           replaces :func:`add_header`
+
+        :param str text: the text for the heading
+        :param int level: the level of the heading from 1 to 6
+        :return: the Heading added to this Document
+        """
+        assert 1 <= level <= 6
+        heading = Heading(InlineText(text), level)
+        self._contents.append(heading)
+        logger.debug(f"Added heading to document\n{heading}")
+        return heading
+    
     def add_header(self, text: str, level: int = 1) -> Header:
         """
         A convenience method which adds a simple header to the document:
@@ -1183,7 +1212,10 @@ class Document:
             doc.add_header("Welcome to SnakeMD!")
 
         .. versionchanged:: 0.2.0
-           Returns Header generated by this method instead of None.
+           returns Header generated by this method instead of None.
+           
+        .. deprecated:: 0.13.0
+            use :func:`add_heading` instead
 
         :param str text: the text for the header
         :param int level: the level of the header from 1 to 6
@@ -1375,7 +1407,7 @@ class Document:
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
         document. The table itself is lazy loaded, so it always captures
-        all of the header elements regardless of where the table of contents
+        all of the heading elements regardless of where the table of contents
         is added to the document.
 
         .. code-block:: Python
@@ -1388,13 +1420,12 @@ class Document:
         .. versionchanged:: 0.8.0
            Added optional levels parameter
 
-        :param range levels: a range of header levels to be included in the table of contents
+        :param range levels: a range of heading levels to be included in the table of contents
         :return: the TableOfContents added to this Document
         """
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
-        logger.debug(
-            f"Added code block to document (unable to render until file is complete)")
+        logger.debug(f"Added code block to document (unable to render until file is complete)")
         return toc
 
     def scramble(self) -> None:

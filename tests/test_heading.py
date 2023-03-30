@@ -1,4 +1,4 @@
-from snakemd import Heading, InlineText
+from snakemd import Heading, Inline
 
 
 def test_heading_empty():
@@ -17,7 +17,7 @@ def test_heading_str_level_one():
 
 
 def test_heading_inline_level_one():
-    heading = Heading(InlineText("Example heading"), 1)
+    heading = Heading(Inline("Example heading"), 1)
     assert str(heading) == "# Example heading"
 
 

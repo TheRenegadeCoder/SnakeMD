@@ -1,7 +1,7 @@
 import inspect
 import logging
 
-from generator import Document, InlineText, MDList, Paragraph, Table
+from generator import Document, Inline, MDList, Paragraph, Table
 
 
 def _introduction(doc: Document):
@@ -49,7 +49,7 @@ def _nested_list(doc: Document):
     doc.add_element(
         MDList([
             "Apples",
-            InlineText("Onions"),
+            Inline("Onions"),
             MDList([
                 "Sweet",
                 "Red"
@@ -80,7 +80,7 @@ def _insert_link(doc: Document):
 
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([InlineText("Logo", url=logo, image=True)]))
+    doc.add_element(Paragraph([Inline("Logo", url=logo, image=True)]))
 
 
 def _code(doc: Document):
@@ -102,11 +102,11 @@ def _horizontal_rule(doc: Document):
 def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_heading(title, level=level)
     doc.add_paragraph(desc)
-    doc.add_element(Paragraph([InlineText("SnakeMD Source", italics=True)]))
+    doc.add_element(Paragraph([Inline("SnakeMD Source", italics=True)]))
     doc.add_code(inspect.getsource(func).strip(), lang="py")
-    doc.add_element(Paragraph([InlineText("Rendered Result", italics=True)]))
+    doc.add_element(Paragraph([Inline("Rendered Result", italics=True)]))
     func(doc)
-    doc.add_element(Paragraph([InlineText("Markdown Source", italics=True)]))
+    doc.add_element(Paragraph([Inline("Markdown Source", italics=True)]))
     doc.add_code(str(doc._contents[-2]), lang="markdown")
     doc._contents.insert(-3, doc._contents.pop())
     doc._contents.insert(-3, doc._contents.pop())

@@ -371,6 +371,15 @@ class CheckBox(InlineText):
         return f"[{checked_str}] {super().__str__()}"
 
     def render(self) -> str:
+        """
+        Renders the Checkbox.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
+
+        :return: the checkbox as a string
+        """
+        warnings.warn("render has been replaced by __str__ as of 0.14.0")
         return str(self)
 
 
@@ -385,18 +394,26 @@ class Element:
         pass
 
     def __str__(self) -> str:
-        return self.render()
+        """
+        Renders the element as a string.
+
+        :raises NotImplementedError: interface method never to be implemented
+        :return: the element as a string
+        """
+        raise NotImplementedError()
 
     def render(self) -> str:
         """
         Renders the element as a markdown string.
-        This function is called by __str__ for all classes
-        which inherit Element.
+        This function now just calls the __str__
+        method directly.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
 
-        :raises NotImplementedError: interface method never to be implemented
         :return: the element as a markdown string
         """
-        raise NotImplementedError()
+        return str(self)
 
     def verify(self) -> Verification:
         """
@@ -458,6 +475,15 @@ class Heading(Element):
         super().__init__()
         self._text: InlineText = self._process_text(text)
         self._level: int = self._process_level(level)
+        
+    def __str__(self) -> str:
+        """
+        Renders the heading in markdown according to
+        the level provided.
+
+        :return: the heading as a markdown string
+        """
+        return f"{'#' * self._level} {self._text}"
 
     @staticmethod
     def _process_text(text) -> InlineText:
@@ -484,15 +510,6 @@ class Heading(Element):
         if level > 6:
             level = 6
         return level
-
-    def render(self) -> str:
-        """
-        Renders the heading in markdown according to
-        the level provided.
-
-        :return: the heading as a markdown string
-        """
-        return f"{'#' * self._level} {self._text}"
 
     def verify(self) -> Verification:
         """

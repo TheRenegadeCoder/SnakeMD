@@ -1,11 +1,11 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
 
 import logging
 import os
 import pathlib
 import random
 import warnings
+from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import Iterable
 from urllib import request

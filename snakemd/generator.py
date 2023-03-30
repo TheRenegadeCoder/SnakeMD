@@ -780,12 +780,20 @@ class MDList(Element):
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
+    :param None | bool | Iterable[bool] checked: the checked state of the list;
+        set to True, False, or an iterable of booleans to enable the checklist feature.
     """
 
-    def __init__(self, items: Iterable[str | InlineText | Paragraph | MDList], ordered: bool = False) -> None:
+    def __init__(
+        self, 
+        items: Iterable[str | InlineText | Paragraph | MDList], 
+        ordered: bool = False, 
+        checked: None | bool | Iterable[bool] = None
+    ) -> None:
         super().__init__()
         self._items: MDList | Paragraph = self._process_items(items)
         self._ordered = ordered
+        self._checked = checked
         self._space = ""
         
     def __str__(self) -> str:
@@ -803,10 +811,23 @@ class MDList(Element):
                 item._space = self._space + " " * self._get_indent_size(i)
                 output.append(str(item))
             else:
+                # Create the start of the row based on `order` parameter
                 if self._ordered:
-                    output.append(f"{self._space}{i}. {item}")
+                    row = f"{self._space}{i}."
                 else:
-                    output.append(f"{self._space}- {item}")
+                    row = f"{self._space}-"
+                    
+                # Add checkbox based on `checked` parameter
+                if isinstance(self._checked, bool):
+                    checked_str = "X" if self._checked else " "
+                    row = f"{row} [{checked_str}] {item}"
+                elif self._checked is not None:
+                    checked_str = "X" if self._checked[i - 1] else " "
+                    row = f"{row} [{checked_str}] {item}"
+                else:    
+                    row = f"{row} {item}"
+                    
+                output.append(row)
                 i += 1
         return "\n".join(output)
 

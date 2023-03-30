@@ -46,7 +46,7 @@ we'll add a title to the document:
 
 .. code-block:: Python 
 
-    doc.add_header("Why Use SnakeMD?")
+    doc.add_heading("Why Use SnakeMD?")
 
 From here, we can do pretty much anything we'd like. Some
 quick actions might be to include a paragraph about this 

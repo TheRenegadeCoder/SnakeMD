@@ -77,6 +77,14 @@ Header
    :undoc-members:
    :show-inheritance:
 
+Heading
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: snakemd.generator.Heading
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 HorizontalRule
 ^^^^^^^^^^^^^^^^^^^
 

@@ -432,12 +432,12 @@ class HorizontalRule(Element):
 
 class Heading(Element):
     """
-    A header is a text element which serves as the title for a new
-    section of a document. Headers come in six main sizes which
-    correspond to the six headers sizes in HTML (e.g., <h1>).
+    A heading is a text element which serves as the title for a new
+    section of a document. Headings come in six main sizes which
+    correspond to the six headings sizes in HTML (e.g., <h1>).
 
-    :param InlineText | str text: the header text
-    :param int level: the header level between 1 and 6 (rounds to closest bound if out of range)
+    :param InlineText | str text: the heading text
+    :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
     """
 
     def __init__(self, text: InlineText | str, level: int) -> None:
@@ -448,7 +448,7 @@ class Heading(Element):
     @staticmethod
     def _process_text(text) -> InlineText:
         """
-        Ensures that Header objects are composed of a single InlineText object.
+        Ensures that Heading objects are composed of a single InlineText object.
 
         :param text: an object to be forced to InlineText
         :return: the input text as an InlineText
@@ -462,8 +462,8 @@ class Heading(Element):
         """
         Restricts the range of possible levels to avoid issues with rendering.
 
-        :param int level: the header level
-        :return: the header level in the proper range
+        :param int level: the heading level
+        :return: the heading level in the proper range
         """
         if level < 1:
             level = 1
@@ -473,16 +473,16 @@ class Heading(Element):
 
     def render(self) -> str:
         """
-        Renders the header in markdown according to
+        Renders the heading in markdown according to
         the level provided.
 
-        :return: the header as a markdown string
+        :return: the heading as a markdown string
         """
         return f"{'#' * self._level} {self._text}"
 
     def verify(self) -> Verification:
         """
-        Verifies that the provided header is valid. This mainly
+        Verifies that the provided heading is valid. This mainly
         returns errors associated with the InlineText element
         provided during instantiation.
 
@@ -494,16 +494,16 @@ class Heading(Element):
 
     def promote(self) -> None:
         """
-        Promotes a header up a level. Fails silently
-        if the header is already at the highest level (i.e., <h1>).
+        Promotes a heading up a level. Fails silently
+        if the heading is already at the highest level (i.e., <h1>).
         """
         if self._level > 1:
             self._level -= 1
 
     def demote(self) -> None:
         """
-        Demotes a header down a level. Fails silently if
-        the header is already at the lowest level (i.e., <h6>).
+        Demotes a heading down a level. Fails silently if
+        the heading is already at the lowest level (i.e., <h6>).
         """
         if self._level < 6:
             self._level += 1

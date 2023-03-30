@@ -143,7 +143,7 @@ class InlineText:
 
         :return: the InlineText object as a string
         """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
         return str(self)
 
     def verify_url(self) -> bool:
@@ -330,6 +330,9 @@ class CheckBox(InlineText):
     """
     A checkable box, based of InlineText.
     Supports all formats available via InlineText (eg. url, bold, italics, etc.)
+    
+    .. deprecated:: 0.14.0
+        checkbox features have moved to the MDList object as the checked parameter
 
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
@@ -379,7 +382,7 @@ class CheckBox(InlineText):
 
         :return: the checkbox as a string
         """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
         return str(self)
 
 
@@ -413,7 +416,7 @@ class Element:
 
         :return: the element as a markdown string
         """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
         return str(self)
 
     def verify(self) -> Verification:

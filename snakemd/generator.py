@@ -76,6 +76,10 @@ class Element(ABC):
     """
     
     @abstractmethod
+    def __str__(self) -> str:
+        pass
+    
+    @abstractmethod
     def verify(self) -> Verification:
         """
         Verifies that the element is valid markdown.

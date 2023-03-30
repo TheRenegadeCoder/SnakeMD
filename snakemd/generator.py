@@ -4,6 +4,7 @@ import logging
 import os
 import pathlib
 import random
+import warnings
 from enum import Enum, auto
 from typing import Iterable
 from urllib import request
@@ -1446,6 +1447,10 @@ class Document:
         :param str dump_dir: the path to where you want to dump the file
         :param str encoding: the encoding to use
         """
+        warnings.warn(
+            "output_page has been deprecated as of 0.13.0 and replaced with dump", 
+            DeprecationWarning
+        )
         pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
         output_file = open(
             os.path.join(dump_dir, self._get_file_name()), 

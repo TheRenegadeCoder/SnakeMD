@@ -1107,7 +1107,7 @@ class Document:
     are intended to provided convenience when generating a
     markdown file. However, the functionality is not exhaustive.
     To get the full range of markdown functionality, you can
-    take advantage of the :code:`add_element()` function to provide
+    take advantage of the :func:`add_element` function to provide
     custom markdown elements.
 
     :param name: the file name of the document without the extension
@@ -1435,9 +1435,9 @@ class Document:
             doc.dump("README")
             
         .. versionadded:: 0.13.0
-            Replaces the output_page method
+            Replaces the :func:`output_page` method
             
-        :param str file_name: the name of the markdown file to output without the file extension
+        :param str name: the name of the markdown file to output without the file extension
         :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""
         :param str ext: the output file extension; defaults to "md"
         :param str encoding: the encoding to use; defaults to utf-8

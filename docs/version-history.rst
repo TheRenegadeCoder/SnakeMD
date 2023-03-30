@@ -10,6 +10,11 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* v0.13.0 [:pr:`71`, :pr:`74`, :pr:`76`, :pr:`78`, :pr:`80`, :pr:`82`]
+    * Created a replacement method for output_page called dump
+    * Renamed Header class to Heading
+    * Included deprecation warnings for both output_page and header as well as others affected
+
 * v0.12.0 [:pr:`65`, :pr:`66`]
     * Added support for table generation on-the-fly (:issue:`64`)
     * Reworked documentation to include proper headings and organization

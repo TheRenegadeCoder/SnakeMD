@@ -1,8 +1,3 @@
-.. SnakeMD documentation master file, created by
-   sphinx-quickstart on Thu Jul 15 16:04:57 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to SnakeMD's Documentation!
 ===================================
 
@@ -14,5 +9,5 @@ using Python. Use the links below to navigate the docs.
 
    install
    usage
-   snake
+   docs
    version-history

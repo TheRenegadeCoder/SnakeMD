@@ -22,9 +22,9 @@ The SnakeMD Document
 For the average user, the document object is the only
 object in the library necessary to create markdown files.
 Document objects are automatically created from the
-:code:`new_doc()` function of the SnakeMD module.
+:func:`new_doc()` function of the SnakeMD module.
 
-.. autoclass:: snakemd.generator.Document
+.. autoclass:: snakemd.Document
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,11 +36,11 @@ For users who want a little more control over how
 their markdown is formatted, SnakeMD provides, 
 a variety of markdown elements which you can create 
 and add to an existing document using the 
-:code:`add_element()` method. Elements all inherit 
-from the :code:`Element` "interface" which is defined 
+:func:`add_element()` method. Elements all inherit 
+from the :class:`Element` "interface" which is defined 
 as follows:
 
-.. autoclass:: snakemd.generator.Element
+.. autoclass:: snakemd.Element
    :members:
    :undoc-members:
    :show-inheritance:
@@ -49,11 +49,11 @@ Because of the increase in control granted to you
 by elements, there are opportunities where invalid
 markdown can be generated. In an attempt to provide
 a method of verifying the structure of the markdown,
-a :code:`verify()`` method has been provided for all 
-elements. The result of a call to :code:`verify`
+a :func:`verify()`` method has been provided for all 
+elements. The result of a call to :func:`verify`
 is a verification object which is defined as folows:
 
-.. autoclass:: snakemd.generator.Verification
+.. autoclass:: snakemd.Verification
    :members:
    :undoc-members:
    :show-inheritance:
@@ -64,7 +64,7 @@ elements that can be added to a markdown document.
 CheckBox
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.CheckBox
+.. autoclass:: snakemd.CheckBox
    :members:
    :undoc-members:
    :show-inheritance:
@@ -72,7 +72,7 @@ CheckBox
 Header
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.Header
+.. autoclass:: snakemd.Header
    :members:
    :undoc-members:
    :show-inheritance:
@@ -80,7 +80,7 @@ Header
 Heading
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.Heading
+.. autoclass:: snakemd.Heading
    :members:
    :undoc-members:
    :show-inheritance:
@@ -88,7 +88,7 @@ Heading
 HorizontalRule
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.HorizontalRule
+.. autoclass:: snakemd.HorizontalRule
    :members:
    :undoc-members:
    :show-inheritance:
@@ -96,7 +96,7 @@ HorizontalRule
 InlineText
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.InlineText
+.. autoclass:: snakemd.InlineText
    :members:
    :undoc-members:
    :show-inheritance:
@@ -104,7 +104,7 @@ InlineText
 MDCheckList
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.MDCheckList
+.. autoclass:: snakemd.MDCheckList
    :members:
    :undoc-members:
    :show-inheritance:
@@ -112,7 +112,7 @@ MDCheckList
 MDList
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.MDList
+.. autoclass:: snakemd.MDList
    :members:
    :undoc-members:
    :show-inheritance:
@@ -120,7 +120,7 @@ MDList
 Paragraph
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.Paragraph
+.. autoclass:: snakemd.Paragraph
    :members:
    :undoc-members:
    :show-inheritance:
@@ -128,7 +128,7 @@ Paragraph
 Table
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.Table
+.. autoclass:: snakemd.Table
    :members:
    :undoc-members:
    :show-inheritance:
@@ -136,7 +136,7 @@ Table
 TableOfContents
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: snakemd.generator.TableOfContents
+.. autoclass:: snakemd.TableOfContents
    :members:
    :undoc-members:
    :show-inheritance:

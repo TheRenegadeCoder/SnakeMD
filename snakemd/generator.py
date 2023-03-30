@@ -364,7 +364,7 @@ class Element:
     """
     An element is defined as a standalone section of a markdown file.
     All elements are to be surrounded by empty lines. Examples of elements
-    include paragraphs, headers, tables, and lists.
+    include paragraphs, headings, tables, and lists.
     """
 
     def __init__(self):
@@ -1193,14 +1193,14 @@ class Document:
         .. versionadded:: 0.13.0
            replaces :func:`add_header`
 
-        :param str text: the text for the header
-        :param int level: the level of the header from 1 to 6
+        :param str text: the text for the heading
+        :param int level: the level of the heading from 1 to 6
         :return: the Heading added to this Document
         """
         assert 1 <= level <= 6
         heading = Heading(InlineText(text), level)
         self._contents.append(heading)
-        logger.debug(f"Added header to document\n{heading}")
+        logger.debug(f"Added heading to document\n{heading}")
         return heading
     
     def add_header(self, text: str, level: int = 1) -> Header:
@@ -1407,7 +1407,7 @@ class Document:
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
         document. The table itself is lazy loaded, so it always captures
-        all of the header elements regardless of where the table of contents
+        all of the heading elements regardless of where the table of contents
         is added to the document.
 
         .. code-block:: Python
@@ -1420,13 +1420,12 @@ class Document:
         .. versionchanged:: 0.8.0
            Added optional levels parameter
 
-        :param range levels: a range of header levels to be included in the table of contents
+        :param range levels: a range of heading levels to be included in the table of contents
         :return: the TableOfContents added to this Document
         """
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
-        logger.debug(
-            f"Added code block to document (unable to render until file is complete)")
+        logger.debug(f"Added code block to document (unable to render until file is complete)")
         return toc
 
     def scramble(self) -> None:

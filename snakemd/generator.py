@@ -110,9 +110,6 @@ class InlineText:
         self._strikethrough = strikethrough
 
     def __str__(self) -> str:
-        return self.render()
-
-    def render(self) -> str:
         """
         Renders self as a string. In this case,
         inline text can represent many different types of data from
@@ -134,6 +131,20 @@ class InlineText:
         if self._code:
             text = f"`{text}`"
         return text
+
+    def render(self) -> str:
+        """
+        Renders self as a string. In this case,
+        inline text can represent many different types of data from
+        stylized text to inline code to links and images.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
+
+        :return: the InlineText object as a string
+        """
+        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        return str(self)
 
     def verify_url(self) -> bool:
         """
@@ -354,11 +365,22 @@ class CheckBox(InlineText):
             image=image
         )
         self.checked = checked
+        
+    def __str__(self) -> str:
+        checked_str = "X" if self.checked else " "
+        return f"[{checked_str}] {super().__str__()}"
 
     def render(self) -> str:
-        text = super().render()
-        checked_str = "X" if self.checked else " "
-        return f"[{checked_str}] {text}"
+        """
+        Renders the Checkbox.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
+
+        :return: the checkbox as a string
+        """
+        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        return str(self)
 
 
 class Element:
@@ -372,18 +394,27 @@ class Element:
         pass
 
     def __str__(self) -> str:
-        return self.render()
+        """
+        Renders the element as a string.
+
+        :raises NotImplementedError: interface method never to be implemented
+        :return: the element as a string
+        """
+        raise NotImplementedError()
 
     def render(self) -> str:
         """
         Renders the element as a markdown string.
-        This function is called by __str__ for all classes
-        which inherit Element.
+        This function now just calls the __str__
+        method directly.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
 
-        :raises NotImplementedError: interface method never to be implemented
         :return: the element as a markdown string
         """
-        raise NotImplementedError()
+        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        return str(self)
 
     def verify(self) -> Verification:
         """
@@ -406,8 +437,8 @@ class HorizontalRule(Element):
 
     def __init__(self):
         super().__init__()
-
-    def render(self) -> str:
+        
+    def __str__(self) -> str:
         """
         Renders the horizontal rule using the three dash syntax.
 
@@ -445,6 +476,15 @@ class Heading(Element):
         super().__init__()
         self._text: InlineText = self._process_text(text)
         self._level: int = self._process_level(level)
+        
+    def __str__(self) -> str:
+        """
+        Renders the heading in markdown according to
+        the level provided.
+
+        :return: the heading as a markdown string
+        """
+        return f"{'#' * self._level} {self._text}"
 
     @staticmethod
     def _process_text(text) -> InlineText:
@@ -471,15 +511,6 @@ class Heading(Element):
         if level > 6:
             level = 6
         return level
-
-    def render(self) -> str:
-        """
-        Renders the heading in markdown according to
-        the level provided.
-
-        :return: the heading as a markdown string
-        """
-        return f"{'#' * self._level} {self._text}"
 
     def verify(self) -> Verification:
         """
@@ -557,8 +588,8 @@ class Paragraph(Element):
             else:
                 processed.append(item)
         return processed
-
-    def render(self) -> str:
+    
+    def __str__(self) -> str:
         """
         Renders the paragraph as markdown according to the settings provided.
         For example, if the code flag is enabled, the paragraph will be
@@ -756,6 +787,28 @@ class MDList(Element):
         self._items: MDList | Paragraph = self._process_items(items)
         self._ordered = ordered
         self._space = ""
+        
+    def __str__(self) -> str:
+        """
+        Renders the markdown list according to the settings provided.
+        For example, if the the ordered flag is set, an ordered list
+        will be rendered in markdown.
+
+        :return: the list as a markdown string
+        """
+        output = list()
+        i = 1
+        for item in self._items:
+            if isinstance(item, MDList):
+                item._space = self._space + " " * self._get_indent_size(i)
+                output.append(str(item))
+            else:
+                if self._ordered:
+                    output.append(f"{self._space}{i}. {item}")
+                else:
+                    output.append(f"{self._space}- {item}")
+                i += 1
+        return "\n".join(output)
 
     @staticmethod
     def _process_items(items):
@@ -787,28 +840,6 @@ class MDList(Element):
         else:
             # Ordered items vary in length, so we adjust the result based on the index
             return 2 + len(str(item_index))
-
-    def render(self) -> str:
-        """
-        Renders the markdown list according to the settings provided.
-        For example, if the the ordered flag is set, an ordered list
-        will be rendered in markdown.
-
-        :return: the list as a markdown string
-        """
-        output = list()
-        i = 1
-        for item in self._items:
-            if isinstance(item, MDList):
-                item._space = self._space + " " * self._get_indent_size(i)
-                output.append(str(item))
-            else:
-                if self._ordered:
-                    output.append(f"{self._space}{i}. {item}")
-                else:
-                    output.append(f"{self._space}- {item}")
-                i += 1
-        return "\n".join(output)
 
     def verify(self) -> Verification:
         """
@@ -843,8 +874,8 @@ class MDCheckList(MDList):
     def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool = False) -> None:
         super().__init__(items, False)
         self.checked = checked
-
-    def render(self) -> str:
+        
+    def __str__(self) -> str:
         """
         Renders the markdown Check Box list according to the settings provided.
         For example, if the the checked flag is set, a checked list
@@ -886,6 +917,16 @@ class TableOfContents(Element):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
+        
+    def __str__(self) -> str:
+        """
+        Renders the table of contents using the Document reference.
+
+        :return: the table of contents as a markdown string
+        """
+        headings = self._get_headings()
+        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
+        return str(table_of_contents)
 
     def _get_headings(self) -> list[Heading]:
         """
@@ -924,16 +965,6 @@ class TableOfContents(Element):
                 table_of_contents.append(sublevel)
                 i += size
         return MDList(table_of_contents, ordered=True), i - position
-
-    def render(self) -> str:
-        """
-        Renders the table of contents using the Document reference.
-
-        :return: the table of contents as a markdown string
-        """
-        headings = self._get_headings()
-        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
-        return str(table_of_contents)
 
     def verify(self) -> Verification:
         """
@@ -981,6 +1012,43 @@ class Table(Element):
         self._header, self._body, self._widths = self._process_table(header, body)
         self._align = align
         self._indent = indent
+        
+    def __str__(self) -> str:
+        """
+        Renders a markdown table from a header "list"
+        and a data set.
+
+        .. versionchanged:: 0.4.0
+            Modified to support column alignment and pipes on both sides of the table
+
+        :return: a table as a markdown string
+        """
+        rows = list()
+        header = [
+            str(item).ljust(self._widths[i])
+            for i, item in enumerate(self._header)
+        ]
+        body = [
+            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
+            for row in self._body
+        ]
+        rows.append(f"{' ' * self._indent}| {' | '.join(header)} |")
+        if not self._align:
+            rows.append(
+                f"{' ' * self._indent}| {' | '.join('-' * width for width in self._widths)} |")
+        else:
+            meta = []
+            for align, width in zip(self._align, self._widths):
+                if align == Table.Align.LEFT:
+                    meta.append(f":{'-' * (width - 1)}")
+                elif align == Table.Align.RIGHT:
+                    meta.append(f"{'-' * (width - 1)}:")
+                else:
+                    meta.append(f":{'-' * (width - 2)}:")
+            rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
+        rows.extend(
+            (f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
+        return '\n'.join(rows)
 
     class Align(Enum):
         """
@@ -1042,43 +1110,6 @@ class Table(Element):
         .. versionadded:: 0.12.0
         """
         self._body.append(row)
-
-    def render(self) -> str:
-        """
-        Renders a markdown table from a header "list"
-        and a data set.
-
-        .. versionchanged:: 0.4.0
-            Modified to support column alignment and pipes on both sides of the table
-
-        :return: a table as a markdown string
-        """
-        rows = list()
-        header = [
-            str(item).ljust(self._widths[i])
-            for i, item in enumerate(self._header)
-        ]
-        body = [
-            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
-            for row in self._body
-        ]
-        rows.append(f"{' ' * self._indent}| {' | '.join(header)} |")
-        if not self._align:
-            rows.append(
-                f"{' ' * self._indent}| {' | '.join('-' * width for width in self._widths)} |")
-        else:
-            meta = []
-            for align, width in zip(self._align, self._widths):
-                if align == Table.Align.LEFT:
-                    meta.append(f":{'-' * (width - 1)}")
-                elif align == Table.Align.RIGHT:
-                    meta.append(f"{'-' * (width - 1)}:")
-                else:
-                    meta.append(f":{'-' * (width - 2)}:")
-            rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
-        rows.extend(
-            (f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
-        return '\n'.join(rows)
 
     def verify(self):
         """

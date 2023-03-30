@@ -109,8 +109,8 @@ class Inline(Element):
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
     
-    .. versionchanged:: 0.12.0
-        Added strike parameter
+    .. versionadded:: 0.14.0
+        replaced the :class:`InlineText`
 
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
@@ -364,6 +364,8 @@ class Inline(Element):
     
 class InlineText(Inline):
     """
+    .. versionchanged:: 0.12.0
+        Added strike parameter
     .. deprecated:: 0.14.0
         replaced with :class:`Inline`
     """

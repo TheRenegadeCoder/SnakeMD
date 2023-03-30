@@ -368,8 +368,17 @@ class CheckBox(InlineText):
             image=image
         )
         self.checked = checked
+        warnings.warn(
+            "CheckBox is replaced by the MDList checked parameter", 
+            DeprecationWarning
+        )
         
     def __str__(self) -> str:
+        """
+        Renders the Checkbox.
+
+        :return: the checkbox as a string
+        """
         checked_str = "X" if self.checked else " "
         return f"[{checked_str}] {super().__str__()}"
 
@@ -888,6 +897,9 @@ class MDCheckList(MDList):
     A markdown CheckBox list has boxes that can be clicked.
 
     .. versionadded:: 0.10.0
+    
+    .. deprecated:: 0.14.0
+        MDChecklist has been replaced with preference for the MDList checked parameter
 
     :param Iterable[str | InlineText | Paragraph | MDList] items:
         a "list" of objects to be rendered as a Checkbox list
@@ -898,6 +910,10 @@ class MDCheckList(MDList):
     def __init__(self,  items: Iterable[str | InlineText | Paragraph | MDList], checked: bool = False) -> None:
         super().__init__(items, False)
         self.checked = checked
+        warnings.warn(
+            "MDChecklist is replaced by the MDList checked parameter", 
+            DeprecationWarning
+        )
         
     def __str__(self) -> str:
         """

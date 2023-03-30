@@ -115,18 +115,6 @@ class Inline(Element):
         self._inline = inline
 
 
-class Block(Element):
-    """
-    A block element in Markdown. A block is defined as a standalone 
-    element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
-    headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
-    (e.g., <ol>, <ul>, etc.).
-    .. versionadded:: 1.0.0
-        Replaced the Element class
-    """
-    pass
-
-
 class InlineText:
     """
     The basic unit of text in markdown. All components which contain
@@ -453,6 +441,18 @@ class CheckBox(InlineText):
         """
         warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
         return str(self)
+    
+    
+class Block(Element):
+    """
+    A block element in Markdown. A block is defined as a standalone 
+    element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
+    headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
+    (e.g., <ol>, <ul>, etc.).
+    .. versionadded:: 1.0.0
+        Replaced the Element class
+    """
+    pass
 
 
 class HorizontalRule(Block):

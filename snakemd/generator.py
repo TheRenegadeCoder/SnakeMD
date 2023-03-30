@@ -1129,14 +1129,10 @@ class Document:
         
         .. deprecated:: 0.13.0
             parameter is now optional and will be removed in 1.0.0
-
-    :param str separator: 
-        the whitespace separator; defaults to -
     """
 
-    def __init__(self, name: str = None, separator: str = "-") -> None:
+    def __init__(self, name: str = None) -> None:
         self._name: str = name
-        self._separator: str = separator
         self._ext: str = ".md"
         self._contents: list[Element] = list()
         if name:
@@ -1478,7 +1474,7 @@ class Document:
         """
         A helper function for generating the file name.
         """
-        file_name = f"{self._separator.join(self._name.split())}{self._ext}"
+        file_name = f"{'-'.join(self._name.split())}{self._ext}"
         return file_name
     
     def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:

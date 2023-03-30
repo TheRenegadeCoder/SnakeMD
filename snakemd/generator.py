@@ -110,9 +110,6 @@ class InlineText:
         self._strikethrough = strikethrough
 
     def __str__(self) -> str:
-        return self.render()
-
-    def render(self) -> str:
         """
         Renders self as a string. In this case,
         inline text can represent many different types of data from
@@ -134,6 +131,20 @@ class InlineText:
         if self._code:
             text = f"`{text}`"
         return text
+
+    def render(self) -> str:
+        """
+        Renders self as a string. In this case,
+        inline text can represent many different types of data from
+        stylized text to inline code to links and images.
+        
+        .. deprecated:: 0.14.0
+            replaced with the default dunder method :func:`__str__`
+
+        :return: the InlineText object as a string
+        """
+        warnings.warn("render has been replaced by __str__ as of 0.14.0")
+        return str(self)
 
     def verify_url(self) -> bool:
         """
@@ -354,11 +365,13 @@ class CheckBox(InlineText):
             image=image
         )
         self.checked = checked
+        
+    def __str__(self) -> str:
+        checked_str = "X" if self.checked else " "
+        return f"[{checked_str}] {super().__str__()}"
 
     def render(self) -> str:
-        text = super().render()
-        checked_str = "X" if self.checked else " "
-        return f"[{checked_str}] {text}"
+        return str(self)
 
 
 class Element:

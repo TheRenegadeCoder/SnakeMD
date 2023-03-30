@@ -17,7 +17,7 @@ a handy function to create a new document:
 
 .. code-block:: Python
 
-    doc = snakemd.new_doc("README")
+    doc = snakemd.new_doc()
 
 This will create a new Document object. Alternatively, you can 
 import the Document class directly:
@@ -30,15 +30,14 @@ From here, you can instantiate the Document class:
 
 .. code-block:: Python
 
-    doc = Document("README")
+    doc = Document()
 
-The argument we pass to the constructor is the name of the 
-document, and we will use that name to reader a document
-called README.md:
+While there is nothing in our document currently, we can render
+an empty one as follows:
 
 .. code-block:: Python
 
-    doc.output_page()
+    doc.dump("README")
 
 This will create an empty README.md file in our working
 directory. Of course, if we want something more interesting,
@@ -98,5 +97,30 @@ And this is what we'll get:
     - SnakeMD makes it easy to create markdown files.
     - SnakeMD has been used to back of The Renegade Coder projects.
 
-As always, feel free to check out the Documentation for all
-of the ways you can make use of SnakeMD. 
+Feel completion, here is a complete working program to generate the document
+from above in a file called README.md:
+
+.. code-block:: Python
+
+    import snakemd
+
+    doc = snakemd.new_doc()
+
+    doc.add_heading("Why Use SnakeMD?")
+    p = doc.add_paragraph(
+      """
+      SnakeMD is a library for generating markdown, and here's
+      why you might choose to use it:
+      """
+    )
+    doc.add_unordered_list([
+        "SnakeMD makes it easy to create markdown files.",
+        "SnakeMD has been used to back of The Renegade Coder projects."
+    ])
+    p.insert_link("SnakeMD", "https://snakemd.therenegadecoder.com")
+
+    doc.dump("README")
+
+As always, feel free to check out the rest of the usage docs for all
+of the ways you can make use of SnakeMD. If you find an issues, make 
+sure to head over to the GitHub repo and let us know. 

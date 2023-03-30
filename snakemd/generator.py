@@ -430,7 +430,7 @@ class HorizontalRule(Element):
         return Verification()
 
 
-class Header(Element):
+class Heading(Element):
     """
     A header is a text element which serves as the title for a new
     section of a document. Headers come in six main sizes which
@@ -507,6 +507,14 @@ class Header(Element):
         """
         if self._level < 6:
             self._level += 1
+            
+
+class Header(Heading):
+    """
+    .. deprecated:: 0.13.0
+        renamed to :class:`Heading`
+    """
+    pass
 
 
 class Paragraph(Element):
@@ -873,7 +881,7 @@ class TableOfContents(Element):
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
 
-    def _get_headers(self) -> list[Header]:
+    def _get_headers(self) -> list[Heading]:
         """
         Retrieves the list of headers from the current document.
 
@@ -882,7 +890,7 @@ class TableOfContents(Element):
         return [
             header
             for header in self._contents
-            if isinstance(header, Header) and header._level in self._levels
+            if isinstance(header, Heading) and header._level in self._levels
         ]
 
     def _assemble_table_of_contents(self, headers: Iterable, position: int) -> tuple(MDList, int):
@@ -1174,7 +1182,7 @@ class Document:
         logger.debug(f"Added element to document\n{element}")
         return element
 
-    def add_header(self, text: str, level: int = 1) -> Header:
+    def add_header(self, text: str, level: int = 1) -> Heading:
         """
         A convenience method which adds a simple header to the document:
 
@@ -1190,7 +1198,7 @@ class Document:
         :return: the Header added to this Document
         """
         assert 1 <= level <= 6
-        header = Header(InlineText(text), level)
+        header = Heading(InlineText(text), level)
         self._contents.append(header)
         logger.debug(f"Added header to document\n{header}")
         return header

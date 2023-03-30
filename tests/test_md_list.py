@@ -66,3 +66,56 @@ def test_md_list_nested_ordered():
 def test_md_list_checkboxes():
     md_list = MDList([CheckBox("Deku"), CheckBox("Bakugo", checked=True), CheckBox("Uraraka")], ordered=False)
     assert str(md_list) == "- [ ] Deku\n- [X] Bakugo\n- [ ] Uraraka"
+
+
+def test_md_list_one_str_unchecked():
+    md_list = MDList(["Deku"], checked=False)
+    assert str(md_list) == "- [ ] Deku"
+
+
+def test_md_list_one_paragraph_unchecked():
+    md_list = MDList([Paragraph(["Deku"])], checked=False)
+    assert str(md_list) == "- [ ] Deku"
+
+
+def test_md_list_many_unchecked():
+    md_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=False)
+    assert str(md_list) == "- [ ] Deku\n- [ ] Bakugo\n- [ ] Uraraka"
+
+
+def test_md_list_many_mixed_syntax_unchecked():
+    md_list = MDList(["Deku", "Bakugo", Paragraph(["Uraraka"])], checked=False)
+    assert str(md_list) == "- [ ] Deku\n- [ ] Bakugo\n- [ ] Uraraka"
+
+
+def test_md_list_many_checked():
+    md_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=True)
+    assert str(md_list) == "- [X] Deku\n- [X] Bakugo\n- [X] Uraraka"
+
+
+def test_md_list_nested_unchecked():
+    inner_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=False)
+    outer_list = MDList(["Characters", inner_list, "Powers"], checked=False)
+    assert str(outer_list) == "- [ ] Characters\n  - [ ] Deku\n  - [ ] Bakugo\n  - [ ] Uraraka\n- [ ] Powers"
+
+
+def test_md_list_nested_checked():
+    inner_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=True)
+    outer_list = MDList(["Characters", inner_list, "Powers"], checked=True)
+    assert str(outer_list) == "- [X] Characters\n  - [X] Deku\n  - [X] Bakugo\n  - [X] Uraraka\n- [X] Powers"
+    
+    
+def test_md_list_many_checked_iterable():
+    md_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=[True, True, True])
+    assert str(md_list) == "- [X] Deku\n- [X] Bakugo\n- [X] Uraraka"
+
+
+def test_md_list_many_checked_iterable_mixed():
+    md_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=[True, False, True])
+    assert str(md_list) == "- [X] Deku\n- [ ] Bakugo\n- [X] Uraraka"
+    
+
+def test_md_list_nested_checked_iterable_mixed():
+    inner_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=[True, True, False])
+    outer_list = MDList(["Characters", inner_list, "Powers"], checked=[False, True])
+    assert str(outer_list) == "- [ ] Characters\n  - [X] Deku\n  - [X] Bakugo\n  - [ ] Uraraka\n- [X] Powers"

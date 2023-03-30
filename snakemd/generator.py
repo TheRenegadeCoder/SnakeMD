@@ -413,6 +413,7 @@ class Element:
 
         :return: the element as a markdown string
         """
+        warnings.warn("render has been replaced by __str__ as of 0.14.0")
         return str(self)
 
     def verify(self) -> Verification:
@@ -436,8 +437,8 @@ class HorizontalRule(Element):
 
     def __init__(self):
         super().__init__()
-
-    def render(self) -> str:
+        
+    def __str__(self) -> str:
         """
         Renders the horizontal rule using the three dash syntax.
 
@@ -587,8 +588,8 @@ class Paragraph(Element):
             else:
                 processed.append(item)
         return processed
-
-    def render(self) -> str:
+    
+    def __str__(self) -> str:
         """
         Renders the paragraph as markdown according to the settings provided.
         For example, if the code flag is enabled, the paragraph will be

@@ -99,7 +99,6 @@ class Inline(Element):
             logger.info(f"URL failed verification: {self._url}")
             return False
 
-
     def is_text(self) -> bool:
         """
         Checks if this Inline is a text-only element. If not, it must

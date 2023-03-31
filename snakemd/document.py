@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-
 import logging
 import os
 import pathlib
 import random
-import warnings
-from email.header import Header
 from typing import Iterable
 
 from .elements import *
@@ -37,22 +34,6 @@ class Document:
         :return: the document as a markdown string
         """
         return "\n\n".join(str(block) for block in self._contents)
-
-    def check_for_errors(self) -> None:
-        """
-        A convenience method which can be used to verify the
-        integrity of the document. Results will be printed to
-        standard out.
-
-        .. versionadded:: 0.2.0
-        """
-        verification = Verification()
-        for block in self._contents:
-            verification.absorb(block.verify())
-        if verification.passes_inspection():
-            print("No errors found!")
-        else:
-            print(verification)
     
     def add_block(self, block: Block) -> Block:
         """
@@ -70,7 +51,6 @@ class Document:
         :param Block block: a markdown block (e.g., Table, Heading, etc.)
         :return: the Block added to this Document
         """
-        assert isinstance(block, Block)
         self._contents.append(block)
         logger.debug(f"Added block to document\n{block}")
         return block
@@ -105,7 +85,6 @@ class Document:
         :param int level: the level of the heading from 1 to 6
         :return: the Heading added to this Document
         """
-        assert 1 <= level <= 6
         heading = Heading(Inline(text), level)
         self._contents.append(heading)
         logger.debug(f"Added heading to document\n{heading}")

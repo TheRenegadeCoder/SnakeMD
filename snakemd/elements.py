@@ -554,7 +554,10 @@ class Heading(Block):
 
         :return: a verification object from the violator
         """
-        return self._text.verify()
+        verification = Verification()
+        for item in self._text:
+            verification.absorb(item.verify())
+        return verification
 
     def promote(self) -> None:
         """

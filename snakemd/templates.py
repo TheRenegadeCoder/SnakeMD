@@ -11,8 +11,6 @@ class Template(Element):
     For example, Markdown has no feature for tables of contents, but a template
     could be created to generate one automatically for the user. In other words,
     templates are meant to be conviences objects for our users. 
-
-    .. versionadded:: 0.14.0
     """
     pass
 
@@ -23,11 +21,6 @@ class TableOfContents(Template):
     of all the `<h2>` headings in the document by default. A range can be
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
-
-    .. versionadded:: 0.2.0
-
-    .. versionchanged:: 0.8.0
-       Added optional levels parameter
 
     :param Document doc: a reference to the document containing this table of contents
     :param list[int] levels: a range of integers representing the sequence of heading levels

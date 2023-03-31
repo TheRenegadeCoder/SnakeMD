@@ -28,9 +28,6 @@ class Inline(Element):
     The basic unit of text in markdown. All components which contain
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
-    
-    .. versionadded:: 0.14.0
-        replaced the :class:`InlineText`
 
     :raises ValueError: when Inline is an image without a URL
     :param str text: the inline text to render
@@ -198,8 +195,6 @@ class Inline(Element):
         """
         Removes code style from self.
 
-        .. versionadded:: 0.7.0
-
         :return: self
         """
         self._code = False
@@ -208,8 +203,6 @@ class Inline(Element):
     def link(self, url: str) -> Inline:
         """
         Adds URL to self.
-
-        .. versionadded:: 0.7.0
 
         :param str url: the URL to apply to this Inline element
         :return: self
@@ -221,8 +214,6 @@ class Inline(Element):
         """
         Removes URL from self.
 
-        .. versionadded:: 0.7.0
-
         :return: self
         """
         self._url = None
@@ -232,8 +223,6 @@ class Inline(Element):
         """
         Removes all settings from self (e.g., bold, code, italics, url, etc.).
         All that will remain is the text itself.
-
-        .. versionadded:: 0.7.0
 
         :return: self
         """
@@ -251,9 +240,6 @@ class Block(Element):
     element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
     headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
     (e.g., <ol>, <ul>, etc.).
-    
-    .. versionadded:: 0.14.0
-        replaced the :class:`Element` class
     """
     pass
 
@@ -263,8 +249,6 @@ class HorizontalRule(Block):
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules really only come in one form,
     so there are no settings to adjust.
-
-    .. versionadded:: 0.2.0
     """
 
     def __init__(self):
@@ -273,8 +257,6 @@ class HorizontalRule(Block):
     def __str__(self) -> str:
         """
         Renders the horizontal rule using the three dash syntax.
-
-        .. versionadded:: 0.2.0
 
         :return: the horizontal rule as a markdown string
         """
@@ -348,8 +330,6 @@ class Heading(Block):
         """
         Returns the heading text free of any styling.
         
-        .. versionadded:: 0.15.0
-
         :return: the heading as a string
         """
         text_elements = [item._text for item in self._text]
@@ -361,8 +341,6 @@ class Code(Block):
     A code block is a standalone block of syntax-highlighted code.
     Code blocks can have generic highlighting or highlighting based
     on their language. 
-
-    .. versionadded:: 0.15.0
     """
     
     def __init__(self, code: str | Code, lang: str = "generic"):
@@ -442,8 +420,6 @@ class Paragraph(Block):
         Checks if this Paragraph is a text-only block. If not, it must
         be a quote.
 
-        .. versionadded:: 0.3.0
-
         :return: True if this is a text-only block; False otherwise
         """
         return not self._quote
@@ -490,8 +466,6 @@ class Paragraph(Block):
         :code:`str.replace()` of the standard library. As a result, a count
         can be provided to limit the number of strings replaced in the paragraph.
 
-        .. versionadded:: 0.5.0
-
         :param str target: the target string to replace
         :param str replacement: the Inline object to insert in place of the target
         :param int count: the number of links to insert; defaults to -1
@@ -512,11 +486,6 @@ class Paragraph(Block):
 
             paragraph.insert_link("Here", "https://therenegadecoder.com")
 
-        .. versionadded:: 0.2.0
-        .. versionchanged:: 0.5.0
-            Changed function to insert links at all instances of target
-            rather than just the first instance
-
         :param str target: the string to link
         :param str url: the url to link
         :param int count: the number of links to insert; defaults to -1 (all)
@@ -532,8 +501,6 @@ class Paragraph(Block):
         the number of links replaced in the paragraph. This method is useful
         if you want to replace existing URLs but don't necessarily care what
         the anchor text is.
-
-        .. versionadded:: 0.7.0
 
         :param str target: the string to link
         :param str url: the url to link
@@ -738,8 +705,6 @@ class Table(Block):
         """
         Align is an enum only used by the Table class to specify the alignment
         of various columns in the table.
-
-        .. versionadded:: 0.4.0
         """
         LEFT = auto()
         RIGHT = auto()
@@ -750,8 +715,6 @@ class Table(Block):
         """
         Processes the table inputs to ensure header and body only contain paragraph blocks.
         Also, this computes the max width of each row to ensure pretty print works every time.
-
-        .. versionadded:: 0.4.0
 
         :param header: the header row in its various forms
         :param body: the table body in its various forms
@@ -801,8 +764,6 @@ class Table(Block):
     def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """
         Adds a row to the end of table. 
-
-        .. versionadded:: 0.12.0
         """
         self._body.append(row)
     
@@ -812,8 +773,6 @@ class Raw(Block):
     Raw blocks allow a user to insert text into the Markdown
     document without an processing. Use this block to insert
     raw Markdown or other types of text (e.g., Jekyll frontmatter).
-    
-    .. versionadded:: 0.14.0
     """
     def __init__(self, text: str) -> None:
         super().__init__()

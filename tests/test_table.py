@@ -47,7 +47,12 @@ def test_table_one_col_align_center():
     
 def test_table_mismatch_header_rows_lengths_exception():
     with pytest.raises(ValueError):
-        table = Table(["Age"], [["2337", "342"]])
+        Table(["Age"], [["2337", "342"]])
+        
+        
+def test_table_mismatch_rows_lengths_exception():
+    with pytest.raises(ValueError):
+        Table(["Age"], [["2337"], ["321", "123"]])
 
 
 # Method tests

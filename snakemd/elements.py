@@ -839,7 +839,7 @@ class Table(Block):
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
         self._header, self._body = self._process_table(header, body)
-        if len(self._body) > 1 and all(len(self._body[0]) == len(x) for x in self._body[1:]):
+        if len(self._body) > 1 and not all(len(self._body[0]) == len(x) for x in self._body[1:]):
             raise ValueError("Table rows are not all the same length")
         elif body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")

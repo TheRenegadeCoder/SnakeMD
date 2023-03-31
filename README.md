@@ -84,7 +84,7 @@ Images can be added by embedding InlineText in a Paragraph.
 ```py
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([InlineText("Logo", url=logo, image=True)]))
+    doc.add_element(Paragraph([Inline("Logo", url=logo, image=True)]))
 ```
 
 *Markdown Source*
@@ -195,7 +195,7 @@ def _nested_list(doc: Document):
     doc.add_element(
         MDList([
             "Apples",
-            InlineText("Onions"),
+            Inline("Onions"),
             MDList([
                 "Sweet",
                 "Red"

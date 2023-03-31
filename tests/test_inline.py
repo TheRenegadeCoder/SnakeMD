@@ -31,6 +31,11 @@ def test_inline_italics():
     assert str(text) == "*Hello, World!*"
 
 
+def test_inline_strikethrough():
+    text = Inline("Hello, World!", strikethrough=True)
+    assert str(text) == "~~Hello, World!~~"
+
+
 def test_inline_url():
     text = Inline("Here", url="https://google.com")
     assert str(text) == "[Here](https://google.com)"
@@ -69,19 +74,19 @@ def test_inline_italics_method():
     assert str(text) == "*Hello, World!*"
 
 
-def test_inline_italics_method():
+def test_inline_unitalics_method():
     text = Inline("Hello, World!", italics=True).unitalicize()
     assert str(text) == "Hello, World!"
-
-
-def test_inline_strikethrough():
-    text = Inline("Hello, World!", strikethrough=True)
-    assert str(text) == "~~Hello, World!~~"
 
 
 def test_inline_strikethrough_method():
     text = Inline("Hello, World!").strikethrough()
     assert str(text) == "~~Hello, World!~~"
+
+
+def test_inline_unstrikethrough_method():
+    text = Inline("Hello, World!", strikethrough=True).unstrikethrough()
+    assert str(text) == "Hello, World!"
 
 
 def test_inline_bold_italics_methods():

@@ -38,17 +38,6 @@ class Document:
         """
         return "\n\n".join(str(block) for block in self._contents)
 
-    def render(self) -> str:
-        """
-        Renders the markdown document from a list of blocks.
-        
-        .. deprecated:: 0.14.0
-            removed in favor of __str__
-
-        :return: the document as a markdown string
-        """
-        return str(self)
-
     def check_for_errors(self) -> None:
         """
         A convenience method which can be used to verify the

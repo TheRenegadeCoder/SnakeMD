@@ -652,6 +652,8 @@ class Paragraph(Block):
         self._code = code
         self._lang = lang
         self._quote = quote
+        if self._code:
+            warnings.warn("code block feature of Paragraph is a duplicate of the Code class")
 
     @staticmethod
     def _process_content(content) -> None:

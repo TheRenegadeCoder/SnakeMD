@@ -83,21 +83,6 @@ class Inline(Element):
             text = f"`{text}`"
         return text
 
-    def verify_url(self) -> bool:
-        """
-        Verifies that a URL is a valid URL.
-
-        :return: True if the URL is valid; False otherwise
-        """
-        try:
-            req = request.Request(self._link)
-            req.get_method = lambda: 'HEAD'
-            request.urlopen(req)
-            logger.info(f"URL passed verification: {self._link}")
-            return True
-        except (HTTPError, ValueError):
-            logger.info(f"URL failed verification: {self._link}")
-            return False
 
     def is_text(self) -> bool:
         """
@@ -492,19 +477,6 @@ class Paragraph(Block):
                 text.link(url)
                 i += 1
         return self
-
-    def verify_urls(self) -> dict[str, bool]:
-        """
-        Verifies all URLs in the paragraph. Results are
-        returned in a dictionary where the URLs are
-        mapped to their validity.
-
-        :return: a dictionary of URLs mapped to their validity
-        """
-        result = {}
-        for item in self._content:
-            result[item._link] = item.is_url() and item.verify_url()
-        return result
 
 
 class MDList(Block):

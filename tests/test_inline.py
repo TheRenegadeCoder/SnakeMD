@@ -69,10 +69,10 @@ def test_inline_text_url():
 
 
 def test_inline_text_image():
-    text = Inline("Here", url="https://google.com", image=True)
-    assert str(text) == "![Here](https://google.com)"
+    text = Inline("Here", image="https://snakemd.io")
+    assert str(text) == "![Here](https://snakemd.io)"
 
 
-def test_inline_text_image_minus_url():
-    with pytest.raises(ValueError):
-        Inline("Here", image=True)
+def test_inline_text_image_linked():
+    text = Inline("Here", url="https://google.com", image="https://snakemd.io")
+    assert str(text) == "[![Here](https://snakemd.io)](https://google.com)"

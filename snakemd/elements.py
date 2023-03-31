@@ -29,20 +29,17 @@ class Inline(Element):
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
 
-    :raises ValueError: when Inline is an image without a URL
     :param str text: the inline text to render
-    :param str url: the link associated with the inline text
+    :param str url: the url associated with the inline element
     :param bool bold: the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
-    :param bool italics: the italics state of the inline text;
+    :param bool italics: the italics state of the inline element;
         set to True to render inline text in italics (i.e., True -> *italics*)
     :param bool strikethrough: the strikethrough state of the inline text;
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
-    :param bool image: the image state of the inline text;
-        set to True to render inline text as an image;
-        must include url parameter to render
+    :param str image: the url or path associated with an image
     """
 
     def __init__(
@@ -53,10 +50,8 @@ class Inline(Element):
         italics: bool = False,
         strikethrough: bool = False,
         code: bool = False,
-        image: bool = False
+        image: str = None
     ) -> None:
-        if image and not url:
-            raise ValueError("Image is missing url")
         self._text = text
         self._bold = bold
         self._italics = italics
@@ -80,10 +75,10 @@ class Inline(Element):
             text = f"*{text}*"
         if self._strikethrough:
             text = f"~~{text}~~"
+        if self._image:
+            text = f"![{text}]({self._image})"
         if self._url:
             text = f"[{text}]({self._url})"
-        if self._url and self._image:
-            text = f"!{text}"
         if self._code:
             text = f"`{text}`"
         return text

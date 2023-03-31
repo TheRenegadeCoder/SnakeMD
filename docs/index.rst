@@ -10,4 +10,5 @@ using Python. Use the links below to navigate the docs.
    install
    usage
    docs
+   resources
    version-history

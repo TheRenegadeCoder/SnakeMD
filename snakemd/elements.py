@@ -478,19 +478,6 @@ class Heading(Block):
         """
         text_elements = [item._text for item in self._text]
         return ''.join(text_elements)
-            
-
-class Header(Heading):
-    """
-    .. deprecated:: 0.13.0
-        renamed to :class:`Heading`
-    """
-    def __init__(self, text: Inline | str, level: int) -> None:
-        super().__init__(text, level)
-        warnings.warn(
-            "Header has been deprecated as of 0.13.0 and replaced with Heading", 
-            DeprecationWarning
-        )
 
 
 class Code(Block):

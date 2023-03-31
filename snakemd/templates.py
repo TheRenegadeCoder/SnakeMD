@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .elements import Element, Heading, Inline, MDList, Verification
+from .elements import Element, Heading, Inline, MDList
 
 
 class Template(Element):
@@ -86,15 +86,3 @@ class TableOfContents(Template):
                 table_of_contents.append(sublevel)
                 i += size
         return MDList(table_of_contents, ordered=True), i - position
-
-    def verify(self) -> Verification:
-        """
-        A Table of Contents is generated through a circular reference
-        to the Document it contains. There is no way to instantiate
-        this incorrectly.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        return Verification()

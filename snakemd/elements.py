@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import warnings
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import Iterable
@@ -9,60 +8,6 @@ from urllib import request
 from urllib.error import HTTPError
 
 logger = logging.getLogger(__name__)
-
-
-class Verification():
-    """
-    Verification is a helper object for storing errors generated
-    when creating a markdown document. This object is largely used
-    internally to verify the contents of a document, but can be
-    accessed through the various verify() methods throughout the
-    library by the user. A convenience method is provided in Document
-    for listing all of the errors. Otherwise, a handful of methods
-    are available here for interacting with the Verification object
-    directly.
-
-    .. versionadded:: 0.2.0
-    """
-
-    def __init__(self) -> None:
-        self._errors = list()
-
-    def __str__(self) -> str:
-        output = []
-        for error in self._errors:
-            output.append(
-                f"- {type(error[0]).__name__}: {error[1]}\n{error[0]}\n")
-        return "\n".join(output)
-
-    def add_error(self, violator: object, error: str) -> None:
-        """
-        Documents a verification error.
-
-        :param object violator: the object which produced the error
-        :param str error: the error message detailing the error
-        """
-        self._errors.append((violator, error))
-        logger.debug(f"Error logged: {self._errors[-1]}")
-
-    def absorb(self, verification: Verification) -> None:
-        """
-        Absorbs an existing verification object in self. This is
-        helpful when you have many verification objects that you'd
-        like to aggregate.
-
-        :param Verification verification: the verification object to absorb
-        """
-        self._errors.extend(verification._errors)
-
-    def passes_inspection(self) -> bool:
-        """
-        Assuming this object has already been used to verify something,
-        this function will determine if that verificatioc succeeded.
-
-        :return: True if there are no errors; False otherwise
-        """
-        return not bool(self._errors)
     
 
 class Element(ABC):
@@ -74,15 +19,6 @@ class Element(ABC):
     
     @abstractmethod
     def __str__(self) -> str:
-        pass
-    
-    @abstractmethod
-    def verify(self) -> Verification:
-        """
-        Verifies that the element is valid markdown.
-
-        :return: a verification object from the violator
-        """
         pass
 
 
@@ -170,20 +106,6 @@ class Inline(Element):
             logger.info(f"URL failed verification: {self._url}")
             return False
 
-    def verify(self) -> Verification:
-        """
-        Verifies that the Inline object is valid.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object containing any errors that may have occured
-        """
-        verification = Verification()
-        if self._url and not (self._url.startswith("#") or self.verify_url()):
-            verification.add_error(self, "Invalid URL")
-        if self._image and not self._url:
-            verification.add_error(self, "Image requested without URL")
-        return verification
 
     def is_text(self) -> bool:
         """
@@ -369,19 +291,6 @@ class HorizontalRule(Block):
         """
         return "---"
 
-    def verify(self) -> Verification:
-        """
-        Verifies the structure of the HorizontalRule block.
-        Because there is no way to customize this object,
-        it is always valid. Therefore, this method returns an
-        empty Verification object.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        return Verification()
-
 
 class Heading(Block):
     """
@@ -429,20 +338,6 @@ class Heading(Block):
                 for item in text
             ]
 
-    def verify(self) -> Verification:
-        """
-        Verifies that the provided heading is valid. This mainly
-        returns errors associated with the Inline element
-        provided during instantiation.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        verification = Verification()
-        for item in self._text:
-            verification.absorb(item.verify())
-        return verification
 
     def promote(self) -> None:
         """
@@ -491,9 +386,6 @@ class Code(Block):
         if isinstance(self._code, Code):
             ticks = '`' * 4
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
-    
-    def verify(self) -> Verification:
-        return Verification()
 
 
 class Paragraph(Block):
@@ -542,21 +434,6 @@ class Paragraph(Block):
         else:
             return " ".join(paragraph.split())
 
-    def verify(self) -> Verification:
-        """
-        Verifies that the Paragraph is valid.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        verification = Verification()
-
-        # Inline errors
-        for text in self._content:
-            verification.absorb(text.verify())
-
-        return verification
 
     def add(self, text: Inline | str) -> None:
         """
@@ -788,23 +665,6 @@ class MDList(Block):
             # Ordered items vary in length, so we adjust the result based on the index
             return 2 + len(str(item_index))
 
-    def verify(self) -> Verification:
-        """
-        Verifies that the markdown list is valid. Mainly, this checks the validity
-        of the containing Inline items. The MDList class has no way to
-        instantiate it incorrectly, beyond providing the wrong data types.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        verification = Verification()
-        for item in self._items:
-            verification.absorb(item.verify())
-            if isinstance(item, Paragraph) and not item.is_text():
-                verification.add_error(self, "Child paragraph is not text.")
-        return verification
-
 
 class Table(Block):
     """
@@ -956,35 +816,6 @@ class Table(Block):
         .. versionadded:: 0.12.0
         """
         self._body.append(row)
-
-    def verify(self):
-        """
-        Verifies the integrity of the markdown table. There are various ways
-        a user could instantiate this object improperly. For example, they may
-        provide a body with roes that are not all equal width. Likewise, the
-        header may not match the width of the body. Inline elements may also
-        be malformed.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        verification = Verification()
-
-        # Table errors
-        if len({len(row) for row in self._body}) != 1:
-            verification.add_error(
-                self, "Table body rows are not all the same width.")
-        elif len(self._header) != len(self._body[0]):
-            verification.add_error(self, "Header does not match width of body")
-
-        for item in self._header:
-            verification.absorb(item.verify())
-        for row in self._body:
-            for item in row:
-                verification.absorb(item.verify())
-
-        return verification
     
     
 class Raw(Block):
@@ -1001,7 +832,3 @@ class Raw(Block):
         
     def __str__(self) -> str:
         return self._text
-    
-    def verify(self) -> Verification:
-        return Verification()
-

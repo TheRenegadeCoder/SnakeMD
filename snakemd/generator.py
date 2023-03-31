@@ -1240,7 +1240,7 @@ class Document:
     def __init__(self, name: str = None) -> None:
         self._name: str = name
         self._ext: str = ".md"
-        self._contents: list[Element] = list()
+        self._contents: list[Block] = list()
         if name:
             warnings.warn(
                 "name parameter has been deprecated as of 0.13.0", 
@@ -1248,15 +1248,23 @@ class Document:
             )
 
     def __str__(self):
-        return self.render()
+        """
+        Renders the markdown document from a list of blocks.
+
+        :return: the document as a markdown string
+        """
+        return "\n\n".join(str(block) for block in self._contents)
 
     def render(self) -> str:
         """
         Renders the markdown document from a list of elements.
+        
+        .. deprecated:: 0.14.0
+            removed in favor of __str__
 
         :return: the document as a markdown string
         """
-        return "\n\n".join(str(element) for element in self._contents)
+        return str(self)
 
     def check_for_errors(self) -> None:
         """

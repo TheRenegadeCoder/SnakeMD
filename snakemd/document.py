@@ -34,22 +34,6 @@ class Document:
         :return: the document as a markdown string
         """
         return "\n\n".join(str(block) for block in self._contents)
-
-    def check_for_errors(self) -> None:
-        """
-        A convenience method which can be used to verify the
-        integrity of the document. Results will be printed to
-        standard out.
-
-        .. versionadded:: 0.2.0
-        """
-        verification = Verification()
-        for block in self._contents:
-            verification.absorb(block.verify())
-        if verification.passes_inspection():
-            print("No errors found!")
-        else:
-            print(verification)
     
     def add_block(self, block: Block) -> Block:
         """

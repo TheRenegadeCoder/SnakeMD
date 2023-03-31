@@ -84,20 +84,6 @@ class Element(ABC):
         :return: a verification object from the violator
         """
         pass
-    
-    def render(self) -> str:
-        """
-        Renders the element as a markdown string.
-        This function now just calls the __str__
-        method directly.
-        
-        .. deprecated:: 0.14.0
-            replaced with the default dunder method :func:`__str__`
-
-        :return: the element as a markdown string
-        """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
-        return str(self)
 
 
 class Inline(Element):

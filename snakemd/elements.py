@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 class Element(ABC):
     """
     A generic element interface which provides a framework for all
-    types of elements in the collection. In short, elements should
-    be able to be verified. 
+    types of elements in the collection. In short, elements must
+    be able to be converted to their markdown representation using
+    the built-in str() method. 
     """
     
     @abstractmethod

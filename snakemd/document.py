@@ -45,9 +45,6 @@ class Document:
 
             doc.add_block(Heading("Python is Cool!"), 2))
 
-        .. versionadded:: 0.14.0
-           replaces :func:`add_element`
-
         :param Block block: a markdown block (e.g., Table, Heading, etc.)
         :return: the Block added to this Document
         """
@@ -77,9 +74,6 @@ class Document:
         .. code-block:: Python
 
             doc.add_heading("Welcome to SnakeMD!")
-
-        .. versionadded:: 0.13.0
-           replaces :func:`add_header`
 
         :param str text: the text for the heading
         :param int level: the level of the heading from 1 to 6
@@ -154,8 +148,6 @@ class Document:
         .. code-block:: Python
 
             doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
-
-        .. versionadded:: 0.10.0
 
         :param Iterable[str] items: a "list" of strings
         :return: the MDCheckList added to this Document
@@ -257,8 +249,6 @@ class Document:
 
             doc.add_horizontal_rule()
 
-        .. versionadded:: 0.2.0
-
         :return: the HorizontalRule added to this Document
         """
         hr = HorizontalRule()
@@ -318,9 +308,6 @@ class Document:
         .. code-block:: Python
         
             doc.dump("README")
-            
-        .. versionadded:: 0.13.0
-            Replaces the :func:`output_page` method
             
         :param str name: the name of the markdown file to output without the file extension
         :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""

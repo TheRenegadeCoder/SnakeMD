@@ -113,8 +113,6 @@ class Inline(Element):
         Checks if this Inline is a text-only element. If not, it must
         be an image, a URL, or an inline code snippet.
 
-        .. versionadded:: 0.2.0
-
         :return: True if this is a text-only element; False otherwise
         """
         return not (self._code or self._image or self._url)
@@ -155,8 +153,6 @@ class Inline(Element):
         """
         Adds italics styling to self.
 
-        .. versionadded:: 0.7.0
-
         :return: self
         """
         self._italics = True
@@ -165,8 +161,6 @@ class Inline(Element):
     def unitalicize(self) -> Inline:
         """
         Removes italics styling from self.
-
-        .. versionadded:: 0.7.0
 
         :return: self
         """
@@ -177,8 +171,6 @@ class Inline(Element):
         """
         Adds strikethrough styling to self.
         
-        .. versionadded:: 0.12.0
-
         :return: self
         """
         self._strikethrough = True
@@ -188,8 +180,6 @@ class Inline(Element):
         """
         Remove strikethrough styling from self.
         
-        .. versionadded:: 0.12.0
-
         :return: self
         """
         self._strikethrough = False
@@ -198,8 +188,6 @@ class Inline(Element):
     def code(self) -> Inline:
         """
         Adds code style to self.
-
-        .. versionadded:: 0.7.0
 
         :return: self
         """

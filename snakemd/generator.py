@@ -1115,11 +1115,28 @@ class Table(Block):
                 verification.absorb(item.verify())
 
         return verification
-
+    
+    
+class Raw(Block):
+    """
+    Raw blocks allow a user to insert text into the Markdown
+    document without an processing. Use this block to insert
+    raw Markdown or other types of text (e.g., Jekyll frontmatter).
+    """
+    def __init__(self, text: str) -> None:
+        super().__init__()
+        self._text = text
+        
+    def __str__(self) -> str:
+        return self._text
+    
+    def verify(self) -> Verification:
+        return Verification()
+    
 
 class TableOfContents(Element):
     """
-    A Table of Contents is an element containing an ordered list
+    A Table of Contents is an block containing an ordered list
     of all the `<h2>` headings in the document by default. A range can be
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
@@ -1299,6 +1316,21 @@ class Document:
         self._contents.append(block)
         logger.debug(f"Added block to document\n{block}")
         return block
+    
+    def add_raw(self, text: str) -> Raw:
+        """
+        A convenience method which adds text as-is to the document:
+        
+        .. code-block:: Python
+
+            doc.add_raw("X: 5\nY: 4\nZ: 3")
+
+        :param str text: some text 
+        :return: the Raw block added to this Document
+        """
+        raw = Raw(text)
+        self._contents.append(raw)
+        return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
         """

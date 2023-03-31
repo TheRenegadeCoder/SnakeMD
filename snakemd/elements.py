@@ -512,31 +512,15 @@ class Paragraph(Block):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph
-    :param bool code: the code state of the paragraph;
-        set True to convert the paragraph to a code block (i.e., True -> ```code```)
-        
-        .. deprecated:: 0.15.0
-            replaced in favor of the :class:`Code` block
-        
-    :param str lang: the language of the code snippet;
-        invalid without the code flag set to True
-        
-        .. deprecated:: 0.15.0
-            replaced in favor of the :class:`Code` block
-        
+    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Inline | str], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[Inline | str], quote: bool = False):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
-        self._code = code
-        self._lang = lang
         self._quote = quote
-        if self._code:
-            warnings.warn("code block feature of Paragraph is a duplicate of the Code class")
 
     @staticmethod
     def _process_content(content) -> None:
@@ -561,10 +545,7 @@ class Paragraph(Block):
         :return: the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
-        if self._code:
-            code_block = Code(self._code, self._lang)
-            return str(code_block)
-        elif self._quote:
+        if self._quote:
             return f"> {paragraph}"
         else:
             return " ".join(paragraph.split())

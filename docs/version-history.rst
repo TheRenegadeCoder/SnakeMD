@@ -10,7 +10,7 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
-* v0.15.0 [:pr:`97`, :pr:`98`, :pr:`99`]
+* v0.15.0 [:pr:`97`, :pr:`98`, :pr:`99`, :pr:`101`]
     * Moved README generation code to repo root as a script
     * Expanded Heading constructor to support list of strings and Inline objects
     * Migrated code block support from Paragraph class into new Code class

@@ -244,7 +244,7 @@ class Document:
         logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
 
-    def add_checklist(self, items: Iterable[str]) -> MDCheckList:
+    def add_checklist(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds a simple checklist to the document.
 
@@ -257,7 +257,7 @@ class Document:
         :param Iterable[str] items: a "list" of strings
         :return: the MDCheckList added to this Document
         """
-        md_checklist = MDCheckList([Inline(item) for item in items], checked=False)
+        md_checklist = MDList([Inline(item) for item in items], checked=False)
         self._contents.append(md_checklist)
         logger.debug(f"Added checklist to document\n{md_checklist}")
         return md_checklist
@@ -280,7 +280,7 @@ class Document:
                     ["1st", "Robert"],
                     ["2nd", "Rae"]
                 ],
-                [Table.Align.CENTER, Table.Align.RIGHT],
+                [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT],
                 0
             )
 

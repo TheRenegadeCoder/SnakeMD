@@ -84,20 +84,6 @@ class Element(ABC):
         :return: a verification object from the violator
         """
         pass
-    
-    def render(self) -> str:
-        """
-        Renders the element as a markdown string.
-        This function now just calls the __str__
-        method directly.
-        
-        .. deprecated:: 0.14.0
-            replaced with the default dunder method :func:`__str__`
-
-        :return: the element as a markdown string
-        """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
-        return str(self)
 
 
 class Inline(Element):
@@ -164,20 +150,6 @@ class Inline(Element):
         if self._code:
             text = f"`{text}`"
         return text
-
-    def render(self) -> str:
-        """
-        Renders self as a string. In this case,
-        inline text can represent many different types of data from
-        stylized text to inline code to links and images.
-        
-        .. deprecated:: 0.14.0
-            replaced with the default dunder method :func:`__str__`
-
-        :return: the Inline object as a string
-        """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
-        return str(self)
 
     def verify_url(self) -> bool:
         """
@@ -357,87 +329,8 @@ class Inline(Element):
         self._bold = False
         self._image = False
         return self
-    
-    
-class InlineText(Inline):
-    """
-    .. versionchanged:: 0.12.0
-        Added strike parameter
-    .. deprecated:: 0.14.0
-        replaced with :class:`Inline`
-    """
-    pass
 
 
-class CheckBox(Inline):
-    """
-    A checkable box, based of Inline.
-    Supports all formats available via Inline (eg. url, bold, italics, etc.)
-    
-    .. deprecated:: 0.14.0
-        checkbox features have moved to the MDList object as the checked parameter
-
-    :param str text: the inline text to render
-    :param str url: the link associated with the inline text
-    :param bool bold: the bold state of the inline text;
-        set to True to render bold inline text (i.e., True -> **bold**)
-    :param bool italics: the italics state of the inline text;
-        set to True to render inline text in italics (i.e., True -> *italics*)
-    :param bool code: the italics state of the inline text;
-        set to True to render inline text as code (i.e., True -> `code`)
-    :param bool image: the image state of the inline text;
-        set to True to render inline text as an image;
-        must include url parameter to render
-    :param bool checked: the checkbox state, checked or not;
-        set to True to render checkbox as checked
-    """
-
-    def __init__(
-        self,
-        text: str,
-        url: str = None,
-        bold: bool = False,
-        italics: bool = False,
-        code: bool = False,
-        image: bool = False,
-        checked: bool = False
-    ) -> None:
-        super().__init__(
-            text,
-            url=url,
-            bold=bold,
-            italics=italics,
-            code=code,
-            image=image
-        )
-        self.checked = checked
-        warnings.warn(
-            "CheckBox is replaced by the MDList checked parameter", 
-            DeprecationWarning
-        )
-        
-    def __str__(self) -> str:
-        """
-        Renders the Checkbox.
-
-        :return: the checkbox as a string
-        """
-        checked_str = "X" if self.checked else " "
-        return f"[{checked_str}] {super().__str__()}"
-
-    def render(self) -> str:
-        """
-        Renders the Checkbox.
-        
-        .. deprecated:: 0.14.0
-            replaced with the default dunder method :func:`__str__`
-
-        :return: the checkbox as a string
-        """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
-        return str(self)
-    
-    
 class Block(Element):
     """
     A block element in Markdown. A block is defined as a standalone 
@@ -554,7 +447,10 @@ class Heading(Block):
 
         :return: a verification object from the violator
         """
-        return self._text.verify()
+        verification = Verification()
+        for item in self._text:
+            verification.absorb(item.verify())
+        return verification
 
     def promote(self) -> None:
         """
@@ -582,19 +478,6 @@ class Heading(Block):
         """
         text_elements = [item._text for item in self._text]
         return ''.join(text_elements)
-            
-
-class Header(Heading):
-    """
-    .. deprecated:: 0.13.0
-        renamed to :class:`Heading`
-    """
-    def __init__(self, text: Inline | str, level: int) -> None:
-        super().__init__(text, level)
-        warnings.warn(
-            "Header has been deprecated as of 0.13.0 and replaced with Heading", 
-            DeprecationWarning
-        )
 
 
 class Code(Block):
@@ -629,31 +512,15 @@ class Paragraph(Block):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph
-    :param bool code: the code state of the paragraph;
-        set True to convert the paragraph to a code block (i.e., True -> ```code```)
-        
-        .. deprecated:: 0.15.0
-            replaced in favor of the :class:`Code` block
-        
-    :param str lang: the language of the code snippet;
-        invalid without the code flag set to True
-        
-        .. deprecated:: 0.15.0
-            replaced in favor of the :class:`Code` block
-        
+    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Inline | str], code: bool = False, lang: str = "generic", quote: bool = False):
+    def __init__(self, content: Iterable[Inline | str], quote: bool = False):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
-        self._code = code
-        self._lang = lang
         self._quote = quote
-        if self._code:
-            warnings.warn("code block feature of Paragraph is a duplicate of the Code class")
 
     @staticmethod
     def _process_content(content) -> None:
@@ -678,10 +545,7 @@ class Paragraph(Block):
         :return: the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
-        if self._code:
-            code_block = Code(self._code, self._lang)
-            return str(code_block)
-        elif self._quote:
+        if self._quote:
             return f"> {paragraph}"
         else:
             return " ".join(paragraph.split())
@@ -953,50 +817,6 @@ class MDList(Block):
             if isinstance(item, Paragraph) and not item.is_text():
                 verification.add_error(self, "Child paragraph is not text.")
         return verification
-
-
-class MDCheckList(MDList):
-    """
-    A markdown CheckBox list has boxes that can be clicked.
-
-    .. versionadded:: 0.10.0
-    
-    .. deprecated:: 0.14.0
-        MDChecklist has been replaced with preference for the MDList checked parameter
-
-    :param Iterable[str | Inline | Paragraph | MDList] items:
-        a "list" of objects to be rendered as a Checkbox list
-    :param bool checked: the state of the checkbox;
-        set to True to render a checked box (i.e., True -> - [x] item)
-    """
-
-    def __init__(self,  items: Iterable[str | Inline | Paragraph | MDList], checked: bool = False) -> None:
-        super().__init__(items, False)
-        self.checked = checked
-        warnings.warn(
-            "MDChecklist is replaced by the MDList checked parameter", 
-            DeprecationWarning
-        )
-        
-    def __str__(self) -> str:
-        """
-        Renders the markdown Check Box list according to the settings provided.
-        For example, if the the checked flag is set, a checked list
-        will be rendered in markdown.
-
-        :return: the list as a markdown string
-        """
-        output = list()
-        i = 1
-        for item in self._items:
-            if isinstance(item, MDList):
-                item._space = self._space + " " * self._get_indent_size(i)
-                output.append(str(item))
-            else:
-                checked_str = "X" if self.checked else " "
-                output.append(f"{self._space}- [{checked_str}] {item}")
-
-        return "\n".join(output)
 
 
 class Table(Block):

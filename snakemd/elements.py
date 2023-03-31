@@ -819,50 +819,6 @@ class MDList(Block):
         return verification
 
 
-class MDCheckList(MDList):
-    """
-    A markdown CheckBox list has boxes that can be clicked.
-
-    .. versionadded:: 0.10.0
-    
-    .. deprecated:: 0.14.0
-        MDChecklist has been replaced with preference for the MDList checked parameter
-
-    :param Iterable[str | Inline | Paragraph | MDList] items:
-        a "list" of objects to be rendered as a Checkbox list
-    :param bool checked: the state of the checkbox;
-        set to True to render a checked box (i.e., True -> - [x] item)
-    """
-
-    def __init__(self,  items: Iterable[str | Inline | Paragraph | MDList], checked: bool = False) -> None:
-        super().__init__(items, False)
-        self.checked = checked
-        warnings.warn(
-            "MDChecklist is replaced by the MDList checked parameter", 
-            DeprecationWarning
-        )
-        
-    def __str__(self) -> str:
-        """
-        Renders the markdown Check Box list according to the settings provided.
-        For example, if the the checked flag is set, a checked list
-        will be rendered in markdown.
-
-        :return: the list as a markdown string
-        """
-        output = list()
-        i = 1
-        for item in self._items:
-            if isinstance(item, MDList):
-                item._space = self._space + " " * self._get_indent_size(i)
-                output.append(str(item))
-            else:
-                checked_str = "X" if self.checked else " "
-                output.append(f"{self._space}- [{checked_str}] {item}")
-
-        return "\n".join(output)
-
-
 class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered

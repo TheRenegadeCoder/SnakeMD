@@ -1115,11 +1115,30 @@ class Table(Block):
                 verification.absorb(item.verify())
 
         return verification
-
+    
+    
+class Raw(Block):
+    """
+    Raw blocks allow a user to insert text into the Markdown
+    document without an processing. Use this block to insert
+    raw Markdown or other types of text (e.g., Jekyll frontmatter).
+    
+    .. versionadded:: 0.14.0
+    """
+    def __init__(self, text: str) -> None:
+        super().__init__()
+        self._text = text
+        
+    def __str__(self) -> str:
+        return self._text
+    
+    def verify(self) -> Verification:
+        return Verification()
+    
 
 class TableOfContents(Element):
     """
-    A Table of Contents is an element containing an ordered list
+    A Table of Contents is an block containing an ordered list
     of all the `<h2>` headings in the document by default. A range can be
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
@@ -1221,7 +1240,7 @@ class Document:
     def __init__(self, name: str = None) -> None:
         self._name: str = name
         self._ext: str = ".md"
-        self._contents: list[Element] = list()
+        self._contents: list[Block] = list()
         if name:
             warnings.warn(
                 "name parameter has been deprecated as of 0.13.0", 
@@ -1229,15 +1248,23 @@ class Document:
             )
 
     def __str__(self):
-        return self.render()
+        """
+        Renders the markdown document from a list of blocks.
+
+        :return: the document as a markdown string
+        """
+        return "\n\n".join(str(block) for block in self._contents)
 
     def render(self) -> str:
         """
         Renders the markdown document from a list of elements.
+        
+        .. deprecated:: 0.14.0
+            removed in favor of __str__
 
         :return: the document as a markdown string
         """
-        return "\n\n".join(str(element) for element in self._contents)
+        return str(self)
 
     def check_for_errors(self) -> None:
         """
@@ -1299,6 +1326,21 @@ class Document:
         self._contents.append(block)
         logger.debug(f"Added block to document\n{block}")
         return block
+    
+    def add_raw(self, text: str) -> Raw:
+        """
+        A convenience method which adds text as-is to the document:
+        
+        .. code-block:: Python
+
+            doc.add_raw("X: 5\nY: 4\nZ: 3")
+
+        :param str text: some text 
+        :return: the Raw block added to this Document
+        """
+        raw = Raw(text)
+        self._contents.append(raw)
+        return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
         """

@@ -386,8 +386,9 @@ class Heading(Block):
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
 
+    :raises ValueError: when level < 1 or level > 6
     :param str | Inline | Iterable[Inline | str] text: the heading text
-    :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
+    :param int level: the heading level between 1 and 6
     """
 
     def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:

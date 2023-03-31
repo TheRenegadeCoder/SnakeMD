@@ -25,23 +25,10 @@ class Document:
     To get the full range of markdown functionality, you can
     take advantage of the :func:`add_block` function to provide
     custom markdown block.
-
-    :param str name: 
-        the file name of the document without the extension
-        
-        .. deprecated:: 0.13.0
-            parameter is now optional and will be removed in 1.0.0
     """
 
-    def __init__(self, name: str = None) -> None:
-        self._name: str = name
-        self._ext: str = ".md"
+    def __init__(self) -> None:
         self._contents: list[Block] = list()
-        if name:
-            warnings.warn(
-                "name parameter has been deprecated as of 0.13.0", 
-                DeprecationWarning
-            )
 
     def __str__(self):
         """

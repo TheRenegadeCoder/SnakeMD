@@ -329,16 +329,6 @@ class Inline(Element):
         self._bold = False
         self._image = False
         return self
-    
-    
-class InlineText(Inline):
-    """
-    .. versionchanged:: 0.12.0
-        Added strike parameter
-    .. deprecated:: 0.14.0
-        replaced with :class:`Inline`
-    """
-    pass
 
 
 class CheckBox(Inline):

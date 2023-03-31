@@ -1,3 +1,5 @@
+import pytest
+
 from snakemd import Heading, Inline
 
 
@@ -6,9 +8,9 @@ def test_heading_empty():
     assert str(heading) == "# "
 
 
-def test_heading_str_level_sub_one():
-    heading = Heading("Example heading", 0)
-    assert str(heading) == "# Example heading"
+def test_heading_str_level_zero_exception():
+    with pytest.raises(ValueError):
+        Heading("Example heading", 0)
 
 
 def test_heading_str_level_one():
@@ -46,9 +48,9 @@ def test_heading_str_level_six():
     assert str(heading) == "###### Example heading"
 
 
-def test_heading_str_level_sup_six():
-    heading = Heading("Example heading", 7)
-    assert str(heading) == "###### Example heading"
+def test_heading_str_level_seven_exception():
+    with pytest.raises(ValueError):
+        Heading("Example heading", 7)
 
 
 def test_heading_promote():

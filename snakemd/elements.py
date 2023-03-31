@@ -391,6 +391,8 @@ class Heading(Block):
     """
 
     def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:
+        if level < 1 or level > 6:
+            raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
         super().__init__()
         self._text: list[Inline] = self._process_text(text)
         self._level: int = self._process_level(level)

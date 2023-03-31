@@ -817,7 +817,10 @@ class Table(Block):
         Added optional indentation parameter for the whole table
     .. versionchanged:: 0.12.0
         Made body parameter optional
-
+        
+    :raises ValueError: 
+        when rows of table are of varying lengths or 
+        when lengths of header and rows of table do not match
     :param header: the header row of labels
     :param body: the collection of rows of data
     :param align: the column alignment
@@ -839,6 +842,10 @@ class Table(Block):
         self._header, self._body, self._widths = self._process_table(header, body)
         self._align = align
         self._indent = indent
+        if len(self._body) > 1 and all(len(self._body[0]) == len(x) for x in self._body[1:]):
+            raise ValueError("Table rows are not all the same length")
+        elif body and len(self._header) != len(self._body[0]):
+            raise ValueError("Table header and rows have different lengths")
         
     def __str__(self) -> str:
         """

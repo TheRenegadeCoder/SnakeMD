@@ -71,16 +71,16 @@ def test_insert_link_two_limit():
 
 
 def test_replace_link_one():
-    paragraph = Paragraph([Inline("Hello, World!", url="https://example.com")]) \
+    paragraph = Paragraph([Inline("Hello, World!", link="https://example.com")]) \
         .replace_link("https://example.com", "https://google.com")
     assert str(paragraph) == "[Hello, World!](https://google.com)"
 
 
 def test_replace_link_two_chained():
     paragraph = Paragraph([
-        Inline("Hello", url="https://example.com"),
+        Inline("Hello", link="https://example.com"),
         ", ",
-        Inline("World", url="https://example2.com"),
+        Inline("World", link="https://example2.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com") \
@@ -90,9 +90,9 @@ def test_replace_link_two_chained():
 
 def test_replace_link_two_same():
     paragraph = Paragraph([
-        Inline("Hello", url="https://example.com"),
+        Inline("Hello", link="https://example.com"),
         ", ",
-        Inline("World", url="https://example.com"),
+        Inline("World", link="https://example.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com")
@@ -101,9 +101,9 @@ def test_replace_link_two_same():
 
 def test_replace_link_two_limit():
     paragraph = Paragraph([
-        Inline("Hello", url="https://example.com"),
+        Inline("Hello", link="https://example.com"),
         ", ",
-        Inline("World", url="https://example.com"),
+        Inline("World", link="https://example.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com", count=1)

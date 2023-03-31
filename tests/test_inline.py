@@ -16,11 +16,6 @@ def test_inline_str():
     assert str(text) == "Hello, World!"
 
 
-def test_inline_code():
-    text = Inline("x = 7", code=True)
-    assert str(text) == "`x = 7`"
-
-
 def test_inline_bold():
     text = Inline("Hello, World!", bold=True)
     assert str(text) == "**Hello, World!**"
@@ -37,8 +32,18 @@ def test_inline_strikethrough():
 
 
 def test_inline_url():
-    text = Inline("Here", url="https://google.com")
+    text = Inline("Here", link="https://google.com")
     assert str(text) == "[Here](https://google.com)"
+
+
+def test_inline_code():
+    text = Inline("x = 7", code=True)
+    assert str(text) == "`x = 7`"
+
+
+def test_inline_link():
+    text = Inline("Here", link="https://snakemd.io")
+    assert str(text) == "[Here](https://snakemd.io)"
 
 
 def test_inline_image():
@@ -52,7 +57,7 @@ def test_inline_bold_italics():
 
 
 def test_inline_image_linked():
-    text = Inline("Here", url="https://google.com", image="https://snakemd.io")
+    text = Inline("Here", link="https://google.com", image="https://snakemd.io")
     assert str(text) == "[![Here](https://snakemd.io)](https://google.com)"
 
 
@@ -87,6 +92,11 @@ def test_inline_strikethrough_method():
 def test_inline_unstrikethrough_method():
     text = Inline("Hello, World!", strikethrough=True).unstrikethrough()
     assert str(text) == "Hello, World!"
+
+
+def test_inline_link_method():
+    text = Inline("Here").link("https://snakemd.io")
+    assert str(text) == "[Here](https://snakemd.io)"
 
 
 def test_inline_bold_italics_methods():

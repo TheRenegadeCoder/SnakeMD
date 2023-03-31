@@ -82,7 +82,7 @@ def _insert_link(doc: Document):
 
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([Inline("Logo", url=logo, image=True)]))
+    doc.add_element(Paragraph([Inline("Logo", link=logo, image=True)]))
 
 
 def _code(doc: Document):

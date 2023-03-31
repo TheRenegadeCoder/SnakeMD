@@ -30,7 +30,7 @@ class Inline(Element):
     way, those elements capture all styling information.
 
     :param str text: the inline text to render
-    :param str url: the url associated with the inline element
+    :param str link: the link (either url or path) associated with the inline element
     :param bool bold: the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
     :param bool italics: the italics state of the inline element;
@@ -39,13 +39,13 @@ class Inline(Element):
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
-    :param str image: the url or path associated with an image
+    :param str image: the source (either url or path) associated with an image
     """
 
     def __init__(
         self,
         text: str,
-        url: str = None,
+        link: str = None,
         bold: bool = False,
         italics: bool = False,
         strikethrough: bool = False,
@@ -55,7 +55,7 @@ class Inline(Element):
         self._text = text
         self._bold = bold
         self._italics = italics
-        self._url = url
+        self._link = link
         self._code = code
         self._image = image
         self._strikethrough = strikethrough
@@ -77,8 +77,8 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._image:
             text = f"![{text}]({self._image})"
-        if self._url:
-            text = f"[{text}]({self._url})"
+        if self._link:
+            text = f"[{text}]({self._link})"
         if self._code:
             text = f"`{text}`"
         return text
@@ -90,13 +90,13 @@ class Inline(Element):
         :return: True if the URL is valid; False otherwise
         """
         try:
-            req = request.Request(self._url)
+            req = request.Request(self._link)
             req.get_method = lambda: 'HEAD'
             request.urlopen(req)
-            logger.info(f"URL passed verification: {self._url}")
+            logger.info(f"URL passed verification: {self._link}")
             return True
         except (HTTPError, ValueError):
-            logger.info(f"URL failed verification: {self._url}")
+            logger.info(f"URL failed verification: {self._link}")
             return False
 
     def is_text(self) -> bool:
@@ -106,7 +106,7 @@ class Inline(Element):
 
         :return: True if this is a text-only element; False otherwise
         """
-        return not (self._code or self._image or self._url)
+        return not (self._code or self._image or self._link)
 
     def is_url(self) -> bool:
         """
@@ -114,7 +114,7 @@ class Inline(Element):
 
         :return: True if the object has a URL; False otherwise
         """
-        return bool(self._url)
+        return bool(self._link)
 
     def bold(self) -> Inline:
         """
@@ -188,23 +188,23 @@ class Inline(Element):
         self._code = False
         return self
 
-    def link(self, url: str) -> Inline:
+    def link(self, link: str) -> Inline:
         """
         Adds URL to self.
 
-        :param str url: the URL to apply to this Inline element
+        :param str link: the URL or path to apply to this Inline element
         :return: self
         """
-        self._url = url
+        self._link = link
         return self
 
     def unlink(self) -> Inline:
         """
-        Removes URL from self.
+        Removes link from self.
 
         :return: self
         """
-        self._url = None
+        self._link = None
         return self
 
     def reset(self) -> Inline:
@@ -214,7 +214,7 @@ class Inline(Element):
 
         :return: self
         """
-        self._url = None
+        self._link = None
         self._code = False
         self._italics = False
         self._bold = False
@@ -470,7 +470,7 @@ class Paragraph(Block):
         :param int count: the number of links to insert; defaults to -1 (all)
         :return: self
         """
-        return self._replace_any(target, Inline(target, url=url), count)
+        return self._replace_any(target, Inline(target, link=url), count)
 
     def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
@@ -488,7 +488,7 @@ class Paragraph(Block):
         """
         i = 0
         for text in self._content:
-            if (count == -1 or i < count) and text._url == target:
+            if (count == -1 or i < count) and text._link == target:
                 text.link(url)
                 i += 1
         return self
@@ -503,7 +503,7 @@ class Paragraph(Block):
         """
         result = {}
         for item in self._content:
-            result[item._url] = item.is_url() and item.verify_url()
+            result[item._link] = item.is_url() and item.verify_url()
         return result
 
 

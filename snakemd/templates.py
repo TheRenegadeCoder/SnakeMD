@@ -70,7 +70,7 @@ class TableOfContents(Template):
             if headings[i]._level == level:
                 line = Inline(
                     headings[i].get_text(),
-                    url=f"#{'-'.join(headings[i].get_text().lower().split())}"
+                    link=f"#{'-'.join(headings[i].get_text().lower().split())}"
                 )
                 table_of_contents.append(line)
                 i += 1

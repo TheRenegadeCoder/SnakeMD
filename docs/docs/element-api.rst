@@ -28,8 +28,9 @@ like the following Heading example:
 
 .. code-block:: Python 
 
-    from snakemd import Heading
-    doc.add_block(Heading("Hello, World!", 2))
+   from snakemd import Heading, new_doc
+   doc = new_doc()
+   doc.add_block(Heading("Hello, World!", 2))
 
 The remainder of this section introduces the Block interface
 as well as all of the Blocks currently available for use. 
@@ -43,30 +44,6 @@ All markdown blocks inherit from the Block interface.
    :members:
    :undoc-members:
    :show-inheritance:
-
-Verification
-^^^^^^^^^^^^
-
-.. warning::
-    The verification object and its implementation
-    throughout SnakeMD is in beta, and it should
-    not be used to verify production markdown. 
-
-Because of the increase in control granted to users
-by blocks, there are opportunities where invalid
-markdown can be generated. In an attempt to provide
-a method of verifying the structure of the markdown,
-a :func:`verify` method has been provided for all 
-elements. The result of a call to :func:`verify`
-is a verification object which is defined as folows:
-
-.. autoclass:: snakemd.Verification
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-The remainder of this page outlines the various
-elements that can be added to a markdown document.
 
 Code
 ^^^^

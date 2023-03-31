@@ -396,7 +396,7 @@ class Heading(Block):
             raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
         super().__init__()
         self._text: list[Inline] = self._process_text(text)
-        self._level: int = self._process_level(level)
+        self._level: int = level
         
     def __str__(self) -> str:
         """
@@ -425,20 +425,6 @@ class Heading(Block):
                 item if isinstance(item, Inline) else Inline(item) 
                 for item in text
             ]
-        
-    @staticmethod
-    def _process_level(level: int) -> int:
-        """
-        Restricts the range of possible levels to avoid issues with rendering.
-
-        :param int level: the heading level
-        :return: the heading level in the proper range
-        """
-        if level < 1:
-            level = 1
-        if level > 6:
-            level = 6
-        return level
 
     def verify(self) -> Verification:
         """

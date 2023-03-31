@@ -98,14 +98,6 @@ Table
    :undoc-members:
    :show-inheritance:
 
-TableOfContents
-^^^^^^^^^^^^^^^
-
-.. autoclass:: snakemd.generator.TableOfContents
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Inline Elements
 ---------------
 
@@ -129,7 +121,7 @@ The remainder of this section introduces the Inline class.
 Inline
 ^^^^^^
 
-.. autoclass:: snakemd.generator.Inline
+.. autoclass:: snakemd.Inline
    :members:
    :undoc-members:
    :show-inheritance:

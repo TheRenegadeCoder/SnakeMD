@@ -1343,7 +1343,7 @@ class Document:
         
         .. code-block:: Python
 
-            doc.add_raw("X: 5\nY: 4\nZ: 3")
+            doc.add_raw("X: 5\\nY: 4\\nZ: 3")
 
         :param str text: some text 
         :return: the Raw block added to this Document

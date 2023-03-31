@@ -447,7 +447,7 @@ class Block(Element):
     element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
     headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
     (e.g., <ol>, <ul>, etc.).
-    
+
     .. versionadded:: 0.14.0
         replaced the :class:`Element` class
     """
@@ -1131,8 +1131,22 @@ class Raw(Block):
     def verify(self) -> Verification:
         return Verification()
     
+    
+class Template(Element):
+    """
+    A template element in Markdown. A template can be thought of as a subdocument or
+    collection of blocks. The entire purpose of the Template interface is to provide
+    a superclass for a variety of abstractions over the typical markdown features.
+    For example, Markdown has no feature for tables of contents, but a template
+    could be created to generate one automatically for the user. In other words,
+    templates are meant to be conviences objects for our users. 
 
-class TableOfContents(Element):
+    .. versionadded:: 0.14.0
+    """
+    pass
+
+
+class TableOfContents(Template):
     """
     A Table of Contents is an block containing an ordered list
     of all the `<h2>` headings in the document by default. A range can be

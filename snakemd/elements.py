@@ -659,8 +659,8 @@ class Paragraph(Block):
         """
         paragraph = ''.join(str(item) for item in self._content)
         if self._code:
-            ticks = '`' * self._backticks
-            return f"{ticks}{self._lang}\n{paragraph}\n{ticks}"
+            code_block = Code(self._code, self._lang)
+            return str(code_block)
         elif self._quote:
             return f"> {paragraph}"
         else:

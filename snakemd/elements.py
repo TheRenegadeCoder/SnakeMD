@@ -608,6 +608,9 @@ class Code(Block):
         if isinstance(self._code, Code):
             ticks = '`' * 4
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+    
+    def verify(self) -> Verification:
+        return Verification()
 
 
 class Paragraph(Block):

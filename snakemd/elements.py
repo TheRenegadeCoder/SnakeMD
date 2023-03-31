@@ -493,13 +493,13 @@ class Heading(Block):
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
 
-    :param Inline | str text: the heading text
+    :param str | Inline | Iterable[Inline | str] text: the heading text
     :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
     """
 
-    def __init__(self, text: Inline | str, level: int) -> None:
+    def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:
         super().__init__()
-        self._text: Inline = self._process_text(text)
+        self._text: list[Inline] = self._process_text(text)
         self._level: int = self._process_level(level)
         
     def __str__(self) -> str:
@@ -509,10 +509,11 @@ class Heading(Block):
 
         :return: the heading as a markdown string
         """
-        return f"{'#' * self._level} {self._text}"
+        heading = [str(item) for item in self._text]
+        return f"{'#' * self._level} {''.join(heading)}"
 
     @staticmethod
-    def _process_text(text) -> Inline:
+    def _process_text(text: str | Inline | Iterable[Inline | str]) -> list[Inline]:
         """
         Ensures that Heading objects are composed of a single Inline object.
 
@@ -520,9 +521,15 @@ class Heading(Block):
         :return: the input text as an Inline
         """
         if isinstance(text, str):
-            return Inline(text)
-        return text
-
+            return [Inline(text)]
+        elif isinstance(text, Inline):
+            return [text]
+        else:
+            return [
+                item if isinstance(item, Inline) else Inline(item) 
+                for item in text
+            ]
+        
     @staticmethod
     def _process_level(level: int) -> int:
         """
@@ -564,6 +571,17 @@ class Heading(Block):
         """
         if self._level < 6:
             self._level += 1
+            
+    def get_text(self) -> str:
+        """
+        Returns the heading text free of any styling.
+        
+        .. versionadded:: 0.15.0
+
+        :return: the heading as a string
+        """
+        text_elements = [item._text for item in self._text]
+        return ''.join(text_elements)
             
 
 class Header(Heading):

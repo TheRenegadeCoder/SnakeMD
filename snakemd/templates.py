@@ -63,7 +63,7 @@ class TableOfContents(Template):
             if isinstance(heading, Heading) and heading._level in self._levels
         ]
 
-    def _assemble_table_of_contents(self, headings: Iterable, position: int) -> tuple(MDList, int):
+    def _assemble_table_of_contents(self, headings: list[Heading], position: int) -> tuple(MDList, int):
         """
         Assembles the table of contents from the headings in the document.
 
@@ -78,8 +78,8 @@ class TableOfContents(Template):
         while i < len(headings) and headings[i]._level >= level:
             if headings[i]._level == level:
                 line = Inline(
-                    headings[i]._text._text,
-                    url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
+                    headings[i].get_text(),
+                    url=f"#{'-'.join(headings[i].get_text().lower().split())}"
                 )
                 table_of_contents.append(line)
                 i += 1

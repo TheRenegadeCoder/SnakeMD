@@ -3,7 +3,14 @@ The SnakeMD Low-Level API
 
 For users who want a little more control over how
 their markdown is formatted, SnakeMD provides a low-level
-API, which can be broken down into two main sets of elements:
+API constructed from elements:
+
+.. autoclass:: snakemd.Element
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Elements are then broken down into two main types:
 block and inline. 
 
 Block Elements
@@ -12,7 +19,7 @@ Block Elements
 SnakeMD block elements borrow from the idea of block-level elements
 from HTML. And because Markdown documents are constructed from a
 series of blocks, users of SnakeMD can seemlessly append their own
-custom blocks using the :func:`add_block()` method. To make use
+custom blocks using the :func:`add_block` method. To make use
 of this method, blocks must be imported and constructed manually,
 like the following Heading example:
 
@@ -46,11 +53,11 @@ Because of the increase in control granted to users
 by blocks, there are opportunities where invalid
 markdown can be generated. In an attempt to provide
 a method of verifying the structure of the markdown,
-a :code:`verify()`` method has been provided for all 
-elements. The result of a call to :code:`verify`
+a :func:`verify` method has been provided for all 
+elements. The result of a call to :func:`verify`
 is a verification object which is defined as folows:
 
-.. autoclass:: snakemd.generator.Verification
+.. autoclass:: snakemd.Verification
    :members:
    :undoc-members:
    :show-inheritance:
@@ -86,6 +93,14 @@ Paragraph
 ^^^^^^^^^
 
 .. autoclass:: snakemd.Paragraph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Raw
+^^^
+
+.. autoclass:: snakemd.Raw
    :members:
    :undoc-members:
    :show-inheritance:

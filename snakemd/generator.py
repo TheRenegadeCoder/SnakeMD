@@ -1122,6 +1122,8 @@ class Raw(Block):
     Raw blocks allow a user to insert text into the Markdown
     document without an processing. Use this block to insert
     raw Markdown or other types of text (e.g., Jekyll frontmatter).
+    
+    .. versionadded:: 0.14.0
     """
     def __init__(self, text: str) -> None:
         super().__init__()

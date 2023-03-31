@@ -95,6 +95,7 @@ class Inline(Element):
     .. versionadded:: 0.14.0
         replaced the :class:`InlineText`
 
+    :raises ValueError: when Inline is an image without a URL
     :param str text: the inline text to render
     :param str url: the link associated with the inline text
     :param bool bold: the bold state of the inline text;
@@ -120,6 +121,8 @@ class Inline(Element):
         code: bool = False,
         image: bool = False
     ) -> None:
+        if image and not url:
+            raise ValueError("Image is missing url")
         self._text = text
         self._bold = bold
         self._italics = italics

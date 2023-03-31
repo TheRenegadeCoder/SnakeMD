@@ -23,6 +23,11 @@ def test_heading_inline_level_one():
     assert str(heading) == "# Example heading"
 
 
+def test_heading_inline_bold_level_one():
+    heading = Heading(Inline("Example heading", bold=True), 1)
+    assert str(heading) == "# **Example heading**"
+
+
 def test_heading_str_level_two():
     heading = Heading("Example heading", 2)
     assert str(heading) == "## Example heading"
@@ -75,3 +80,13 @@ def test_heading_demote_min():
     heading = Heading("Example heading", 6)
     heading.demote()
     assert str(heading) == "###### Example heading"
+
+
+def test_heading_list():
+    heading = Heading(["Example", " heading"], 1)
+    assert str(heading) == "# Example heading"
+
+
+def test_heading_list_styling():
+    heading = Heading([Inline("Example", bold=True), " heading"], 1)
+    assert str(heading) == "# **Example** heading"

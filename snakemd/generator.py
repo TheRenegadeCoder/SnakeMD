@@ -151,7 +151,7 @@ class Inline(Element):
         inline text can represent many different types of data from
         stylized text to inline code to links and images.
 
-        :return: the InlineText object as a string
+        :return: the Inline object as a string
         """
         text = self._text
         if self._bold:
@@ -177,7 +177,7 @@ class Inline(Element):
         .. deprecated:: 0.14.0
             replaced with the default dunder method :func:`__str__`
 
-        :return: the InlineText object as a string
+        :return: the Inline object as a string
         """
         warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
         return str(self)
@@ -200,7 +200,7 @@ class Inline(Element):
 
     def verify(self) -> Verification:
         """
-        Verifies that the InlineText object is valid.
+        Verifies that the Inline object is valid.
 
         .. versionadded:: 0.2.0
 
@@ -226,7 +226,7 @@ class Inline(Element):
 
     def is_url(self) -> bool:
         """
-        Checks if the InlineText object represents a URL.
+        Checks if the Inline object represents a URL.
 
         :return: True if the object has a URL; False otherwise
         """
@@ -374,8 +374,8 @@ class InlineText(Inline):
 
 class CheckBox(Inline):
     """
-    A checkable box, based of InlineText.
-    Supports all formats available via InlineText (eg. url, bold, italics, etc.)
+    A checkable box, based of Inline.
+    Supports all formats available via Inline (eg. url, bold, italics, etc.)
     
     .. deprecated:: 0.14.0
         checkbox features have moved to the MDList object as the checked parameter
@@ -496,7 +496,7 @@ class Heading(Block):
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
 
-    :param InlineText | str text: the heading text
+    :param Inline | str text: the heading text
     :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
     """
 
@@ -517,10 +517,10 @@ class Heading(Block):
     @staticmethod
     def _process_text(text) -> Inline:
         """
-        Ensures that Heading objects are composed of a single InlineText object.
+        Ensures that Heading objects are composed of a single Inline object.
 
-        :param text: an object to be forced to InlineText
-        :return: the input text as an InlineText
+        :param text: an object to be forced to Inline
+        :return: the input text as an Inline
         """
         if isinstance(text, str):
             return Inline(text)
@@ -590,7 +590,7 @@ class Paragraph(Block):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[InlineText | str] content: a "list" of text objects to render as a paragraph
+    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
     :param str lang: the language of the code snippet;
@@ -625,7 +625,7 @@ class Paragraph(Block):
         precedence.
 
         .. versionchanged:: 0.4.0
-            No longer assumes spaces between InlineText items
+            No longer assumes spaces between Inline items
 
         :return: the paragraph as a markdown string
         """
@@ -653,7 +653,7 @@ class Paragraph(Block):
             verification.add_error(
                 self, "Both code and quote are active. Choose one. ")
 
-        # InlineText errors
+        # Inline errors
         for text in self._content:
             verification.absorb(text.verify())
 
@@ -686,10 +686,10 @@ class Paragraph(Block):
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """
         Given a target string, this helper method replaces it with the specified
-        InlineText object. This method was created because insert_link and
+        Inline object. This method was created because insert_link and
         replace were literally one line different. This method serves as the
         mediator. Note that using this method will introduce several new
-        underlying InlineText objects even if they could be aggregated.
+        underlying Inline objects even if they could be aggregated.
         At some point, we may just expose this method because it seems handy.
         For example, I foresee a need for a function where all the person wants
         to do is add italics for every instance of a particular string.
@@ -697,7 +697,7 @@ class Paragraph(Block):
         method.
 
         :param str target: the target string to replace
-        :param InlineText text: the InlineText object to insert in place of the target
+        :param Inline text: the Inline object to insert in place of the target
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
@@ -728,7 +728,7 @@ class Paragraph(Block):
         .. versionadded:: 0.5.0
 
         :param str target: the target string to replace
-        :param str replacement: the InlineText object to insert in place of the target
+        :param str replacement: the Inline object to insert in place of the target
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
@@ -803,7 +803,7 @@ class MDList(Block):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[str | InlineText | Paragraph | MDList] items:
+    :param Iterable[str | Inline | Paragraph | MDList] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
@@ -892,7 +892,7 @@ class MDList(Block):
     def verify(self) -> Verification:
         """
         Verifies that the markdown list is valid. Mainly, this checks the validity
-        of the containing InlineText items. The MDList class has no way to
+        of the containing Inline items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types.
 
         .. versionadded:: 0.2.0
@@ -916,7 +916,7 @@ class MDCheckList(MDList):
     .. deprecated:: 0.14.0
         MDChecklist has been replaced with preference for the MDList checked parameter
 
-    :param Iterable[str | InlineText | Paragraph | MDList] items:
+    :param Iterable[str | Inline | Paragraph | MDList] items:
         a "list" of objects to be rendered as a Checkbox list
     :param bool checked: the state of the checkbox;
         set to True to render a checked box (i.e., True -> - [x] item)
@@ -954,7 +954,7 @@ class MDCheckList(MDList):
 class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered
-    according to underlying InlineText items.
+    according to underlying Inline items.
 
     .. versionchanged:: 0.4.0
         Added optional alignment parameter and expanded constructor to accept strings
@@ -1286,7 +1286,7 @@ class Document:
 
         .. code-block:: Python
 
-            doc.add_element(Heading(InlineText("Python is Cool!"), 2))
+            doc.add_element(Heading(Inline("Python is Cool!"), 2))
 
         .. versionchanged:: 0.2.0
             Returns Element generated by this method instead of None.

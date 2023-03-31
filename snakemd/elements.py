@@ -499,7 +499,7 @@ class Code(Block):
 class Paragraph(Block):
     """
     A paragraph is a standalone block of text. Paragraphs can be
-    formatted in a variety of ways including as code and blockquotes.
+    formatted in a variety of ways including as blockquotes.
 
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
@@ -552,11 +552,6 @@ class Paragraph(Block):
         """
         verification = Verification()
 
-        # Paragraph errors
-        if self._code and self._quote:
-            verification.add_error(
-                self, "Both code and quote are active. Choose one. ")
-
         # Inline errors
         for text in self._content:
             verification.absorb(text.verify())
@@ -579,13 +574,13 @@ class Paragraph(Block):
     def is_text(self) -> bool:
         """
         Checks if this Paragraph is a text-only block. If not, it must
-        be a quote or code block.
+        be a quote.
 
         .. versionadded:: 0.3.0
 
         :return: True if this is a text-only block; False otherwise
         """
-        return not (self._code or self._quote)
+        return not self._quote
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """

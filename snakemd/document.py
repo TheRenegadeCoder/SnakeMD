@@ -5,8 +5,6 @@ import logging
 import os
 import pathlib
 import random
-import warnings
-from email.header import Header
 from typing import Iterable
 
 from .elements import *
@@ -70,7 +68,6 @@ class Document:
         :param Block block: a markdown block (e.g., Table, Heading, etc.)
         :return: the Block added to this Document
         """
-        assert isinstance(block, Block)
         self._contents.append(block)
         logger.debug(f"Added block to document\n{block}")
         return block
@@ -105,7 +102,6 @@ class Document:
         :param int level: the level of the heading from 1 to 6
         :return: the Heading added to this Document
         """
-        assert 1 <= level <= 6
         heading = Heading(Inline(text), level)
         self._contents.append(heading)
         logger.debug(f"Added heading to document\n{heading}")

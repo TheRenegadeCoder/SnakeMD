@@ -1,9 +1,6 @@
 from __future__ import annotations
 
 import logging
-import os
-import pathlib
-import random
 import warnings
 from abc import ABC, abstractmethod
 from enum import Enum, auto
@@ -151,7 +148,7 @@ class Inline(Element):
         inline text can represent many different types of data from
         stylized text to inline code to links and images.
 
-        :return: the InlineText object as a string
+        :return: the Inline object as a string
         """
         text = self._text
         if self._bold:
@@ -177,7 +174,7 @@ class Inline(Element):
         .. deprecated:: 0.14.0
             replaced with the default dunder method :func:`__str__`
 
-        :return: the InlineText object as a string
+        :return: the Inline object as a string
         """
         warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
         return str(self)
@@ -200,7 +197,7 @@ class Inline(Element):
 
     def verify(self) -> Verification:
         """
-        Verifies that the InlineText object is valid.
+        Verifies that the Inline object is valid.
 
         .. versionadded:: 0.2.0
 
@@ -215,7 +212,7 @@ class Inline(Element):
 
     def is_text(self) -> bool:
         """
-        Checks if this InlineText is a text-only element. If not, it must
+        Checks if this Inline is a text-only element. If not, it must
         be an image, a URL, or an inline code snippet.
 
         .. versionadded:: 0.2.0
@@ -226,7 +223,7 @@ class Inline(Element):
 
     def is_url(self) -> bool:
         """
-        Checks if the InlineText object represents a URL.
+        Checks if the Inline object represents a URL.
 
         :return: True if the object has a URL; False otherwise
         """
@@ -328,7 +325,7 @@ class Inline(Element):
 
         .. versionadded:: 0.7.0
 
-        :param str url: the URL to apply to this text element
+        :param str url: the URL to apply to this Inline element
         :return: self
         """
         self._url = url
@@ -374,8 +371,8 @@ class InlineText(Inline):
 
 class CheckBox(Inline):
     """
-    A checkable box, based of InlineText.
-    Supports all formats available via InlineText (eg. url, bold, italics, etc.)
+    A checkable box, based of Inline.
+    Supports all formats available via Inline (eg. url, bold, italics, etc.)
     
     .. deprecated:: 0.14.0
         checkbox features have moved to the MDList object as the checked parameter
@@ -478,7 +475,7 @@ class HorizontalRule(Block):
 
     def verify(self) -> Verification:
         """
-        Verifies the structure of the HorizontalRule element.
+        Verifies the structure of the HorizontalRule block.
         Because there is no way to customize this object,
         it is always valid. Therefore, this method returns an
         empty Verification object.
@@ -492,11 +489,11 @@ class HorizontalRule(Block):
 
 class Heading(Block):
     """
-    A heading is a text element which serves as the title for a new
+    A heading is a text block which serves as the title for a new
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
 
-    :param InlineText | str text: the heading text
+    :param Inline | str text: the heading text
     :param int level: the heading level between 1 and 6 (rounds to closest bound if out of range)
     """
 
@@ -517,10 +514,10 @@ class Heading(Block):
     @staticmethod
     def _process_text(text) -> Inline:
         """
-        Ensures that Heading objects are composed of a single InlineText object.
+        Ensures that Heading objects are composed of a single Inline object.
 
-        :param text: an object to be forced to InlineText
-        :return: the input text as an InlineText
+        :param text: an object to be forced to Inline
+        :return: the input text as an Inline
         """
         if isinstance(text, str):
             return Inline(text)
@@ -543,7 +540,7 @@ class Heading(Block):
     def verify(self) -> Verification:
         """
         Verifies that the provided heading is valid. This mainly
-        returns errors associated with the InlineText element
+        returns errors associated with the Inline element
         provided during instantiation.
 
         .. versionadded:: 0.2.0
@@ -584,13 +581,13 @@ class Header(Heading):
 
 class Paragraph(Block):
     """
-    A paragraph is a standalone element of text. Paragraphs can be
+    A paragraph is a standalone block of text. Paragraphs can be
     formatted in a variety of ways including as code and blockquotes.
 
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[InlineText | str] content: a "list" of text objects to render as a paragraph
+    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
     :param str lang: the language of the code snippet;
@@ -625,11 +622,10 @@ class Paragraph(Block):
         precedence.
 
         .. versionchanged:: 0.4.0
-            No longer assumes spaces between InlineText items
+            No longer assumes spaces between Inline items
 
         :return: the paragraph as a markdown string
         """
-        # TODO: add support for nested code blocks
         paragraph = ''.join(str(item) for item in self._content)
         if self._code:
             ticks = '`' * self._backticks
@@ -654,7 +650,7 @@ class Paragraph(Block):
             verification.add_error(
                 self, "Both code and quote are active. Choose one. ")
 
-        # InlineText errors
+        # Inline errors
         for text in self._content:
             verification.absorb(text.verify())
 
@@ -667,7 +663,7 @@ class Paragraph(Block):
         .. versionchanged:: 0.4.0
             Allows adding of strings directly
 
-        :param text: a custom text element
+        :param text: a custom Inline element
         """
         if isinstance(text, str):
             text = Inline(text)
@@ -675,22 +671,22 @@ class Paragraph(Block):
 
     def is_text(self) -> bool:
         """
-        Checks if this Paragraph is a text-only element. If not, it must
+        Checks if this Paragraph is a text-only block. If not, it must
         be a quote or code block.
 
         .. versionadded:: 0.3.0
 
-        :return: True if this is a text-only element; False otherwise
+        :return: True if this is a text-only block; False otherwise
         """
         return not (self._code or self._quote)
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """
         Given a target string, this helper method replaces it with the specified
-        InlineText object. This method was created because insert_link and
+        Inline object. This method was created because insert_link and
         replace were literally one line different. This method serves as the
         mediator. Note that using this method will introduce several new
-        underlying InlineText objects even if they could be aggregated.
+        underlying Inline objects even if they could be aggregated.
         At some point, we may just expose this method because it seems handy.
         For example, I foresee a need for a function where all the person wants
         to do is add italics for every instance of a particular string.
@@ -698,7 +694,7 @@ class Paragraph(Block):
         method.
 
         :param str target: the target string to replace
-        :param InlineText text: the InlineText object to insert in place of the target
+        :param Inline text: the Inline object to insert in place of the target
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
@@ -729,7 +725,7 @@ class Paragraph(Block):
         .. versionadded:: 0.5.0
 
         :param str target: the target string to replace
-        :param str replacement: the InlineText object to insert in place of the target
+        :param str replacement: the Inline object to insert in place of the target
         :param int count: the number of links to insert; defaults to -1
         :return: self
         """
@@ -804,7 +800,7 @@ class MDList(Block):
     .. versionchanged:: 0.4.0
         Expanded constructor to accept strings directly
 
-    :param Iterable[str | InlineText | Paragraph | MDList] items:
+    :param Iterable[str | Inline | Paragraph | MDList] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
@@ -893,7 +889,7 @@ class MDList(Block):
     def verify(self) -> Verification:
         """
         Verifies that the markdown list is valid. Mainly, this checks the validity
-        of the containing InlineText items. The MDList class has no way to
+        of the containing Inline items. The MDList class has no way to
         instantiate it incorrectly, beyond providing the wrong data types.
 
         .. versionadded:: 0.2.0
@@ -917,7 +913,7 @@ class MDCheckList(MDList):
     .. deprecated:: 0.14.0
         MDChecklist has been replaced with preference for the MDList checked parameter
 
-    :param Iterable[str | InlineText | Paragraph | MDList] items:
+    :param Iterable[str | Inline | Paragraph | MDList] items:
         a "list" of objects to be rendered as a Checkbox list
     :param bool checked: the state of the checkbox;
         set to True to render a checked box (i.e., True -> - [x] item)
@@ -954,8 +950,8 @@ class MDCheckList(MDList):
 
 class Table(Block):
     """
-    A table is a standalone element of rows and columns. Data is rendered
-    according to underlying InlineText items.
+    A table is a standalone block of rows and columns. Data is rendered
+    according to underlying Inline items.
 
     .. versionchanged:: 0.4.0
         Added optional alignment parameter and expanded constructor to accept strings
@@ -1037,14 +1033,14 @@ class Table(Block):
     @staticmethod
     def _process_table(header, body) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
         """
-        Processes the table inputs to ensure header and body only contain paragraph elements.
+        Processes the table inputs to ensure header and body only contain paragraph blocks.
         Also, this computes the max width of each row to ensure pretty print works every time.
 
         .. versionadded:: 0.4.0
 
         :param header: the header row in its various forms
         :param body: the table body in its various forms
-        :return: the table containing only Paragraph elements and a list of the widest items in each row
+        :return: the table containing only Paragraph blocks and a list of the widest items in each row
         """
 
         processed_header = []
@@ -1089,7 +1085,7 @@ class Table(Block):
         Verifies the integrity of the markdown table. There are various ways
         a user could instantiate this object improperly. For example, they may
         provide a body with roes that are not all equal width. Likewise, the
-        header may not match the width of the body. InlineText elements may also
+        header may not match the width of the body. Inline elements may also
         be malformed.
 
         .. versionadded:: 0.2.0
@@ -1105,9 +1101,6 @@ class Table(Block):
         elif len(self._header) != len(self._body[0]):
             verification.add_error(self, "Header does not match width of body")
 
-        # InlineText errors
-        # TODO: pass information to verification that signals the location of each item
-        # TODO: Mainly we just want more information to help the user debug
         for item in self._header:
             verification.absorb(item.verify())
         for row in self._body:
@@ -1134,526 +1127,4 @@ class Raw(Block):
     
     def verify(self) -> Verification:
         return Verification()
-    
 
-class TableOfContents(Element):
-    """
-    A Table of Contents is an block containing an ordered list
-    of all the `<h2>` headings in the document by default. A range can be
-    specified to customize which headings (e.g., `<h3>`) are included in
-    the table of contents. This element can be placed anywhere in the document.
-
-    .. versionadded:: 0.2.0
-
-    .. versionchanged:: 0.8.0
-       Added optional levels parameter
-
-    :param Document doc: a reference to the document containing this table of contents
-    :param list[int] levels: a range of integers representing the sequence of heading levels
-        to include in the table of contents; defaults to range(2, 3)
-    """
-
-    def __init__(self, doc: Document, levels: range = range(2, 3)):
-        super().__init__()
-        self._contents = doc._contents  # DO NOT MODIFY
-        self._levels = levels
-        
-    def __str__(self) -> str:
-        """
-        Renders the table of contents using the Document reference.
-
-        :return: the table of contents as a markdown string
-        """
-        headings = self._get_headings()
-        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
-        return str(table_of_contents)
-
-    def _get_headings(self) -> list[Heading]:
-        """
-        Retrieves the list of headings from the current document.
-
-        :return: a list heading objects
-        """
-        return [
-            heading
-            for heading in self._contents
-            if isinstance(heading, Heading) and heading._level in self._levels
-        ]
-
-    def _assemble_table_of_contents(self, headings: Iterable, position: int) -> tuple(MDList, int):
-        """
-        Assembles the table of contents from the headings in the document.
-
-        :return: a list of strings representing the table of contents
-        """
-        if not headings:
-            return MDList([]), -1
-
-        i = position
-        level = headings[i]._level
-        table_of_contents = list()
-        while i < len(headings) and headings[i]._level >= level:
-            if headings[i]._level == level:
-                line = Inline(
-                    headings[i]._text._text,
-                    url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
-                )
-                table_of_contents.append(line)
-                i += 1
-            else:
-                sublevel, size = self._assemble_table_of_contents(headings, i)
-                table_of_contents.append(sublevel)
-                i += size
-        return MDList(table_of_contents, ordered=True), i - position
-
-    def verify(self) -> Verification:
-        """
-        A Table of Contents is generated through a circular reference
-        to the Document it contains. There is no way to instantiate
-        this incorrectly.
-
-        .. versionadded:: 0.2.0
-
-        :return: a verification object from the violator
-        """
-        return Verification()
-
-
-class Document:
-    """
-    A document represents a markdown file. Documents store
-    a collection of elements which are appended with new lines
-    between to generate the markdown document. Document methods
-    are intended to provided convenience when generating a
-    markdown file. However, the functionality is not exhaustive.
-    To get the full range of markdown functionality, you can
-    take advantage of the :func:`add_element` function to provide
-    custom markdown elements.
-
-    :param str name: 
-        the file name of the document without the extension
-        
-        .. deprecated:: 0.13.0
-            parameter is now optional and will be removed in 1.0.0
-    """
-
-    def __init__(self, name: str = None) -> None:
-        self._name: str = name
-        self._ext: str = ".md"
-        self._contents: list[Block] = list()
-        if name:
-            warnings.warn(
-                "name parameter has been deprecated as of 0.13.0", 
-                DeprecationWarning
-            )
-
-    def __str__(self):
-        """
-        Renders the markdown document from a list of blocks.
-
-        :return: the document as a markdown string
-        """
-        return "\n\n".join(str(block) for block in self._contents)
-
-    def render(self) -> str:
-        """
-        Renders the markdown document from a list of elements.
-        
-        .. deprecated:: 0.14.0
-            removed in favor of __str__
-
-        :return: the document as a markdown string
-        """
-        return str(self)
-
-    def check_for_errors(self) -> None:
-        """
-        A convenience method which can be used to verify the
-        integrity of the document. Results will be printed to
-        standard out.
-
-        .. versionadded:: 0.2.0
-        """
-        verification = Verification()
-        for element in self._contents:
-            verification.absorb(element.verify())
-        if verification.passes_inspection():
-            print("No errors found!")
-        else:
-            print(verification)
-
-    def add_element(self, element: Element) -> Element:
-        """
-        A generic function for appending elements to the document.
-        Use this function when you want a little more control over
-        what the output looks like.
-
-        .. code-block:: Python
-
-            doc.add_element(Heading(InlineText("Python is Cool!"), 2))
-
-        .. versionchanged:: 0.2.0
-            Returns Element generated by this method instead of None.
-        .. deprecated:: 0.14.0
-            replaced in favor of :func:`add_block`
-
-        :param Element element: a markdown object (e.g., Table, Heading, etc.)
-        :return: the Element added to this Document
-        """
-        warnings.warn("use add_block instead", DeprecationWarning)
-        assert isinstance(element, Element)
-        self._contents.append(element)
-        logger.debug(f"Added element to document\n{element}")
-        return element
-    
-    def add_block(self, block: Block) -> Block:
-        """
-        A generic function for appending blocks to the document.
-        Use this function when you want a little more control over
-        what the output looks like.
-
-        .. code-block:: Python
-
-            doc.add_block(Heading("Python is Cool!"), 2))
-
-        .. versionadded:: 0.14.0
-           replaces :func:`add_element`
-
-        :param Block block: a markdown block (e.g., Table, Heading, etc.)
-        :return: the Block added to this Document
-        """
-        assert isinstance(block, Block)
-        self._contents.append(block)
-        logger.debug(f"Added block to document\n{block}")
-        return block
-    
-    def add_raw(self, text: str) -> Raw:
-        """
-        A convenience method which adds text as-is to the document:
-        
-        .. code-block:: Python
-
-            doc.add_raw("X: 5\nY: 4\nZ: 3")
-
-        :param str text: some text 
-        :return: the Raw block added to this Document
-        """
-        raw = Raw(text)
-        self._contents.append(raw)
-        return raw
-
-    def add_heading(self, text: str, level: int = 1) -> Heading:
-        """
-        A convenience method which adds a simple heading to the document:
-
-        .. code-block:: Python
-
-            doc.add_heading("Welcome to SnakeMD!")
-
-        .. versionadded:: 0.13.0
-           replaces :func:`add_header`
-
-        :param str text: the text for the heading
-        :param int level: the level of the heading from 1 to 6
-        :return: the Heading added to this Document
-        """
-        assert 1 <= level <= 6
-        heading = Heading(Inline(text), level)
-        self._contents.append(heading)
-        logger.debug(f"Added heading to document\n{heading}")
-        return heading
-    
-    def add_header(self, text: str, level: int = 1) -> Header:
-        """
-        A convenience method which adds a simple header to the document:
-
-        .. code-block:: Python
-
-            doc.add_header("Welcome to SnakeMD!")
-
-        .. versionchanged:: 0.2.0
-           returns Header generated by this method instead of None.
-           
-        .. deprecated:: 0.13.0
-            use :func:`add_heading` instead
-
-        :param str text: the text for the header
-        :param int level: the level of the header from 1 to 6
-        :return: the Header added to this Document
-        """
-        warnings.warn(
-            "add_header has been deprecated as of 0.13.0 and replaced with add_heading", 
-            DeprecationWarning
-        )
-        assert 1 <= level <= 6
-        header = Header(Inline(text), level)
-        self._contents.append(header)
-        logger.debug(f"Added header to document\n{header}")
-        return header
-
-    def add_paragraph(self, text: str) -> Paragraph:
-        """
-        A convenience method which adds a simple paragraph of text to the document:
-
-        .. code-block:: Python
-
-            doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
-
-        .. versionchanged:: 0.2.0
-           Returns Paragraph generated by this method instead of None.
-
-        :param str text: any arbitrary text
-        :return: the Paragraph added to this Document
-        """
-        paragraph = Paragraph([Inline(text)])
-        self._contents.append(paragraph)
-        logger.debug(f"Added paragraph to document\n{paragraph}")
-        return paragraph
-
-    def add_ordered_list(self, items: Iterable[str]) -> MDList:
-        """
-        A convenience method which adds a simple ordered list to the document:
-
-        .. code-block:: Python
-
-            doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
-
-        .. versionchanged:: 0.2.0
-           Returns MDList generated by this method instead of None.
-
-        :param Iterable[str] items: a "list" of strings
-        :return: the MDList added to this Document
-        """
-        md_list = MDList([Inline(item) for item in items], ordered=True)
-        self._contents.append(md_list)
-        logger.debug(f"Added ordered list to document\n{md_list}")
-        return md_list
-
-    def add_unordered_list(self, items: Iterable[str]) -> MDList:
-        """
-        A convenience method which adds a simple unordered list to the document.
-
-        .. code-block:: Python
-
-            doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
-
-        .. versionchanged:: 0.2.0
-           Returns MDList generated by this method instead of None.
-
-        :param Iterable[str] items: a "list" of strings
-        :return: the MDList added to this Document
-        """
-        md_list = MDList([Inline(item) for item in items])
-        self._contents.append(md_list)
-        logger.debug(f"Added unordered list to document\n{md_list}")
-        return md_list
-
-    def add_checklist(self, items: Iterable[str]) -> MDCheckList:
-        """
-        A convenience method which adds a simple checklist to the document.
-
-        .. code-block:: Python
-
-            doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
-
-        .. versionadded:: 0.10.0
-
-        :param Iterable[str] items: a "list" of strings
-        :return: the MDCheckList added to this Document
-        """
-        md_checklist = MDCheckList([Inline(item)
-                                   for item in items], checked=False)
-        self._contents.append(md_checklist)
-        logger.debug(f"Added checklist to document\n{md_checklist}")
-        return md_checklist
-
-    def add_table(
-        self,
-        header: Iterable[str],
-        data: Iterable[Iterable[str]],
-        align: Iterable[Table.Align] = None,
-        indent: int = 0
-    ) -> Table:
-        """
-        A convenience method which adds a simple table to the document:
-
-        .. code-block:: Python
-
-            doc.add_table(
-                ["Place", "Name"],
-                [
-                    ["1st", "Robert"],
-                    ["2nd", "Rae"]
-                ],
-                [Table.Align.CENTER, Table.Align.RIGHT],
-                0
-            )
-
-        .. versionchanged:: 0.2.0
-            Returns Table generated by this method instead of None.
-        .. versionchanged:: 0.4.0
-            Added optional alignment parameter
-        .. versionchanged:: 0.11.0
-            Added optional indentation parameter
-
-        :param Iterable[str] header: a "list" of strings
-        :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
-        :param Iterable[Table.Align] align: a "list" of column alignment values;
-            defaults to None
-        :param int indent: indent size for the whole table
-        :return: the Table added to this Document
-        """
-        header = [Paragraph([text]) for text in header]
-        data = [[Paragraph([item]) for item in row] for row in data]
-        table = Table(header, data, align, indent)
-        self._contents.append(table)
-        logger.debug(f"Added table to document\n{table}")
-        return table
-
-    def add_code(self, code: str, lang: str = "generic") -> Paragraph:
-        """
-        A convenience method which adds a code block to the document:
-
-        .. code-block:: Python
-
-            doc.add_code("x = 5")
-
-        .. versionchanged:: 0.2.0
-           Returns Paragraph generated by this method instead of None.
-
-        :param str code: a preformatted code string
-        :param str lang: the language for syntax highlighting
-        :return: the Paragraph added to this Document
-        """
-        code = Paragraph([Inline(code)], code=True, lang=lang)
-        self._contents.append(code)
-        logger.debug(f"Added code block to document\n{code}")
-        return code
-
-    def add_quote(self, text: str) -> Paragraph:
-        """
-        A convenience method which adds a blockquote to the document:
-
-        .. code-block:: Python
-
-            doc.add_quote("Welcome to the Internet!")
-
-        .. versionchanged:: 0.2.0
-           Returns Paragraph generated by this method instead of None.
-
-        :param str text: the text to be quoted
-        :return: the Paragraph added to this Document
-        """
-        paragraph = Paragraph([Inline(text)], quote=True)
-        self._contents.append(paragraph)
-        logger.debug(f"Added code block to document\n{paragraph}")
-        return paragraph
-
-    def add_horizontal_rule(self) -> HorizontalRule:
-        """
-        A convenience method which adds a horizontal rule to the document:
-
-        .. code-block:: Python
-
-            doc.add_horizontal_rule()
-
-        .. versionadded:: 0.2.0
-
-        :return: the HorizontalRule added to this Document
-        """
-        hr = HorizontalRule()
-        self._contents.append(hr)
-        logger.debug(f"Added code block to document\n{hr}")
-        return hr
-
-    def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
-        """
-        A convenience method which creates a table of contents. This function
-        can be called where you want to add a table of contents to your
-        document. The table itself is lazy loaded, so it always captures
-        all of the heading elements regardless of where the table of contents
-        is added to the document.
-
-        .. code-block:: Python
-
-            doc.add_table_of_contents()
-
-        .. versionchanged:: 0.2.0
-           Fixed a bug where table of contents could only be rendered once.
-
-        .. versionchanged:: 0.8.0
-           Added optional levels parameter
-
-        :param range levels: a range of heading levels to be included in the table of contents
-        :return: the TableOfContents added to this Document
-        """
-        toc = TableOfContents(self, levels=levels)
-        self._contents.append(toc)
-        logger.debug(f"Added code block to document (unable to render until file is complete)")
-        return toc
-
-    def scramble(self) -> None:
-        """
-        A silly method which mixes all of the elements in this document in
-        a random order.
-        """
-        random.shuffle(self._contents)
-        logger.debug(f"Scrambled document")
-
-    def output_page(self, dump_dir: str = "", encoding: str = "utf-8") -> None:
-        """
-        Generates the markdown file. Assumes UTF-8 encoding.
-        
-        .. deprecated:: 0.13.0
-            Use :func:`dump` instead
-
-        :param str dump_dir: the path to where you want to dump the file
-        :param str encoding: the encoding to use
-        """
-        warnings.warn(
-            "output_page has been deprecated as of 0.13.0 and replaced with dump", 
-            DeprecationWarning
-        )
-        pathlib.Path(dump_dir).mkdir(parents=True, exist_ok=True)
-        output_file = open(
-            os.path.join(dump_dir, self._get_file_name()), 
-            "w+", 
-            encoding=encoding
-        )
-        output_file.write(str(self))
-        output_file.close()
-
-    def _get_file_name(self) -> str:
-        """
-        A helper function for generating the file name.
-        """
-        file_name = f"{'-'.join(self._name.split())}{self._ext}"
-        return file_name
-    
-    def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:
-        """
-        Outputs the markdown document to a file. This method assumes the output directory
-        is the current working directory. Any alternative directory provided will be
-        made if it does not already exist. This method also assumes a file extension of md
-        and a file encoding of utf-8, all of which are configurable through the method
-        parameters.
-        
-        .. code-block:: Python
-        
-            doc.dump("README")
-            
-        .. versionadded:: 0.13.0
-            Replaces the :func:`output_page` method
-            
-        :param str name: the name of the markdown file to output without the file extension
-        :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""
-        :param str ext: the output file extension; defaults to "md"
-        :param str encoding: the encoding to use; defaults to utf-8
-        """
-        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
-        with open(
-            os.path.join(dir, f"{name}.{ext}"),
-            "w+",
-            encoding=encoding
-        ) as output_file:
-            output_file.write(str(self))

@@ -1,4 +1,4 @@
-from .generator import *
+from .document import *
 
 def new_doc(name: str = None) -> Document:
     """

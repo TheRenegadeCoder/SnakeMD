@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import inspect
 import logging
 
-from generator import Document, Inline, MDList, Paragraph, Table
+from document import Document
+from elements import Inline, MDList, Paragraph, Table
 
 
 def _introduction(doc: Document):

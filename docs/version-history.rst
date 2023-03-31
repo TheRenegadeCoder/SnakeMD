@@ -10,6 +10,13 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+* v0.14.0 [:pr:`84`, :pr:`86`, :pr:`89`, :pr:`90`, :pr:`91`]
+    * Added Raw block for user formatted text 
+    * Replaced InlineText with Inline
+    * Added Block and Inline classes 
+    * Deprecated MDCheckList and CheckBox
+    * Replaced render with bulit-in str method
+
 * v0.13.0 [:pr:`71`, :pr:`74`, :pr:`76`, :pr:`78`, :pr:`80`, :pr:`82`]
     * Created a replacement method for output_page called dump
     * Renamed Header class to Heading

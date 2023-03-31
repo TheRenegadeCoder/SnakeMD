@@ -1,4 +1,5 @@
-from snakemd.generator import Document, TableOfContents
+from snakemd.templates import TableOfContents
+from snakemd.document import Document
 
 
 def test_table_of_contents_empty():

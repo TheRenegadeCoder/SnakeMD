@@ -1,0 +1,102 @@
+from __future__ import annotations
+
+from typing import Iterable
+
+from .elements import Element, Heading, Inline, MDList, Verification
+
+
+class Template(Element):
+    """
+    A template element in Markdown. A template can be thought of as a subdocument or
+    collection of blocks. The entire purpose of the Template interface is to provide
+    a superclass for a variety of abstractions over the typical markdown features.
+    For example, Markdown has no feature for tables of contents, but a template
+    could be created to generate one automatically for the user. In other words,
+    templates are meant to be conviences objects for our users. 
+
+    .. versionadded:: 0.14.0
+    """
+    pass
+
+
+class TableOfContents(Template):
+    """
+    A Table of Contents is an block containing an ordered list
+    of all the `<h2>` headings in the document by default. A range can be
+    specified to customize which headings (e.g., `<h3>`) are included in
+    the table of contents. This element can be placed anywhere in the document.
+
+    .. versionadded:: 0.2.0
+
+    .. versionchanged:: 0.8.0
+       Added optional levels parameter
+
+    :param Document doc: a reference to the document containing this table of contents
+    :param list[int] levels: a range of integers representing the sequence of heading levels
+        to include in the table of contents; defaults to range(2, 3)
+    """
+
+    def __init__(self, doc: "Document", levels: range = range(2, 3)):
+        super().__init__()
+        self._contents = doc._contents  # DO NOT MODIFY
+        self._levels = levels
+        
+    def __str__(self) -> str:
+        """
+        Renders the table of contents using the Document reference.
+
+        :return: the table of contents as a markdown string
+        """
+        headings = self._get_headings()
+        table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
+        return str(table_of_contents)
+
+    def _get_headings(self) -> list[Heading]:
+        """
+        Retrieves the list of headings from the current document.
+
+        :return: a list heading objects
+        """
+        return [
+            heading
+            for heading in self._contents
+            if isinstance(heading, Heading) and heading._level in self._levels
+        ]
+
+    def _assemble_table_of_contents(self, headings: Iterable, position: int) -> tuple(MDList, int):
+        """
+        Assembles the table of contents from the headings in the document.
+
+        :return: a list of strings representing the table of contents
+        """
+        if not headings:
+            return MDList([]), -1
+
+        i = position
+        level = headings[i]._level
+        table_of_contents = list()
+        while i < len(headings) and headings[i]._level >= level:
+            if headings[i]._level == level:
+                line = Inline(
+                    headings[i]._text._text,
+                    url=f"#{'-'.join(headings[i]._text._text.lower().split())}"
+                )
+                table_of_contents.append(line)
+                i += 1
+            else:
+                sublevel, size = self._assemble_table_of_contents(headings, i)
+                table_of_contents.append(sublevel)
+                i += size
+        return MDList(table_of_contents, ordered=True), i - position
+
+    def verify(self) -> Verification:
+        """
+        A Table of Contents is generated through a circular reference
+        to the Document it contains. There is no way to instantiate
+        this incorrectly.
+
+        .. versionadded:: 0.2.0
+
+        :return: a verification object from the violator
+        """
+        return Verification()

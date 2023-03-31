@@ -908,7 +908,6 @@ class Table(Block):
         :param body: the table body in its various forms
         :return: the table containing only Paragraph blocks and a list of the widest items in each row
         """
-
         processed_header = []
         processed_body = []
 
@@ -934,7 +933,15 @@ class Table(Block):
         return processed_header, processed_body
     
     @staticmethod
-    def _process_widths(header, body):
+    def _process_widths(header, body) -> list[int]:
+        """
+        Traverses the table looking to determine the appropriate
+        widths for each column. 
+
+        :param header: the header row
+        :param body: the rows of data
+        :return: a list of column widths
+        """
         widths = [len(str(word)) for word in header]
         for row in body:
             for i, item in enumerate(row):

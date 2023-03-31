@@ -126,9 +126,6 @@ class Inline(Element):
         """
         Adds bold styling to self.
 
-        .. versionchanged:: 0.7.0
-            Modified to return previous bold state
-
         :return: self
         """
         self._bold = True
@@ -137,9 +134,6 @@ class Inline(Element):
     def unbold(self) -> Inline:
         """
         Removes bold styling from self.
-
-        .. versionchanged:: 0.7.0
-            Modified to return previous bold state
 
         :return: self
         """
@@ -360,9 +354,6 @@ class Paragraph(Block):
     A paragraph is a standalone block of text. Paragraphs can be
     formatted in a variety of ways including as blockquotes.
 
-    .. versionchanged:: 0.4.0
-        Expanded constructor to accept strings directly
-
     :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
@@ -390,9 +381,6 @@ class Paragraph(Block):
         rendered as a code block. If both flags are enabled, code takes
         precedence.
 
-        .. versionchanged:: 0.4.0
-            No longer assumes spaces between Inline items
-
         :return: the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
@@ -405,9 +393,6 @@ class Paragraph(Block):
     def add(self, text: Inline | str) -> None:
         """
         Adds a text object to the paragraph.
-
-        .. versionchanged:: 0.4.0
-            Allows adding of strings directly
 
         :param text: a custom Inline element
         """
@@ -532,9 +517,6 @@ class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
-    .. versionchanged:: 0.4.0
-        Expanded constructor to accept strings directly
-
     :param Iterable[str | Inline | Paragraph | MDList] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
@@ -626,13 +608,6 @@ class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered
     according to underlying Inline items.
-
-    .. versionchanged:: 0.4.0
-        Added optional alignment parameter and expanded constructor to accept strings
-    .. versionchanged:: 0.11.0
-        Added optional indentation parameter for the whole table
-    .. versionchanged:: 0.12.0
-        Made body parameter optional
         
     :raises ValueError: 
         when rows of table are of varying lengths or 
@@ -668,9 +643,6 @@ class Table(Block):
         """
         Renders a markdown table from a header "list"
         and a data set.
-
-        .. versionchanged:: 0.4.0
-            Modified to support column alignment and pipes on both sides of the table
 
         :return: a table as a markdown string
         """

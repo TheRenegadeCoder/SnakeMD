@@ -1,3 +1,5 @@
+import pytest
+
 from snakemd import Inline
 
 
@@ -34,13 +36,13 @@ def test_inline_text_italics():
 def test_inline_text_italics_method():
     text = Inline("Hello, World!").italicize()
     assert str(text) == "*Hello, World!*"
-    
+
 
 def test_inline_text_strikethrough():
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"
-    
-    
+
+
 def test_inline_text_strikethrough_method():
     text = Inline("Hello, World!").strikethrough()
     assert str(text) == "~~Hello, World!~~"
@@ -72,20 +74,5 @@ def test_inline_text_image():
 
 
 def test_inline_text_image_minus_url():
-    text = Inline("Here", image=True)
-    assert str(text) == "Here"
-
-
-def test_inline_text_verify_empty():
-    text = Inline("")
-    assert text.verify().passes_inspection()
-
-
-def test_inline_text_verify_invalid_url():
-    text = Inline("Bad URL Test", url="adlsfhaisu")
-    assert not text.verify().passes_inspection()
-
-
-def test_inline_text_verify_no_image_url():
-    text = Inline("Bad URL Test", image=True)
-    assert not text.verify().passes_inspection()
+    with pytest.raises(ValueError):
+        Inline("Here", image=True)

@@ -108,3 +108,8 @@ def test_replace_link_two_limit():
     ]) \
         .replace_link("https://example.com", "https://google.com", count=1)
     assert str(paragraph) == "[Hello](https://google.com), [World](https://example.com)!"
+
+
+def test_paragraph_one_str_quote():
+    paragraph = Paragraph("Single Phrase", quote=True)
+    assert str(paragraph) == "> Single Phrase"

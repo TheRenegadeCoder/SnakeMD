@@ -116,8 +116,9 @@ standards:
 
 .. code-block:: Python 
 
-    from snakemd import Heading
-    doc.add_block(Heading(Inline("Hello, World!", "https://snakemd.io"), 2))
+   from snakemd import Heading, Inline, new_doc
+   doc = new_doc()    
+   doc.add_block(Heading(Inline("Hello, World!", "https://snakemd.io"), 2))
 
 The remainder of this section introduces the Inline class.
 

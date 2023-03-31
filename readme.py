@@ -3,8 +3,7 @@ from __future__ import annotations
 import inspect
 import logging
 
-from document import Document
-from elements import Inline, MDList, Paragraph, Table
+from snakemd import Document, Inline, MDList, Paragraph, Table
 
 
 def _introduction(doc: Document):
@@ -119,7 +118,7 @@ def main() -> None:
     """
     Generates the repo README.
     """
-    doc = Document("README")
+    doc = Document()
 
     # Introduction
     doc.add_heading("Welcome to SnakeMD")
@@ -273,7 +272,7 @@ def main() -> None:
     )
 
     doc.check_for_errors()
-    doc.output_page()
+    doc.dump("README")
 
 
 if __name__ == "__main__":

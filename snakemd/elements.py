@@ -822,9 +822,9 @@ class Table(Block):
         when rows of table are of varying lengths or 
         when lengths of header and rows of table do not match
     :param header: the header row of labels
-    :param body: the collection of rows of data
-    :param align: the column alignment
-    :param indent: indent size for the whole table
+    :param body: the collection of rows of data; defaults to an empty list
+    :param align: the column alignment; defaults to None
+    :param indent: indent size for the whole table; defaults to 0
     """
 
     def __init__(
@@ -838,14 +838,15 @@ class Table(Block):
         super().__init__()
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
-        self._widths: list[int]
-        self._header, self._body, self._widths = self._process_table(header, body)
-        self._align = align
-        self._indent = indent
+        self._header, self._body = self._process_table(header, body)
         if len(self._body) > 1 and all(len(self._body[0]) == len(x) for x in self._body[1:]):
             raise ValueError("Table rows are not all the same length")
         elif body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")
+        self._widths: list[int] = self._process_widths(self._header, self._body)
+        self._align = align
+        self._indent = indent
+        
         
     def __str__(self) -> str:
         """
@@ -910,7 +911,6 @@ class Table(Block):
 
         processed_header = []
         processed_body = []
-        widths = []
 
         # Process header
         for item in header:
@@ -918,24 +918,29 @@ class Table(Block):
                 processed_header.append(Paragraph([item]))
             else:
                 processed_header.append(item)
-            widths.append(len(str(item)))
         logger.debug(f"Processed header input\n{processed_header}")
-        logger.debug(f"Computed initial column widths\n{widths}")
 
         # Process body
         for row in body:
             processed_row = []
-            for i, item in enumerate(row):
+            for item in row:
                 if isinstance(item, (str, Inline)):
                     processed_row.append(Paragraph([item]))
                 else:
                     processed_row.append(item)
-                if (width := len(str(item))) > widths[i]:
-                    widths[i] = width
             processed_body.append(processed_row)
         logger.debug(f"Processed table body\n{processed_body}")
 
-        return processed_header, processed_body, widths
+        return processed_header, processed_body
+    
+    @staticmethod
+    def _process_widths(header, body):
+        widths = [len(str(word)) for word in header]
+        for row in body:
+            for i, item in enumerate(row):
+                if (width := len(str(item))) > widths[i]:
+                    widths[i] = width  
+        return widths
 
     def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """

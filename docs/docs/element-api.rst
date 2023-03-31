@@ -65,6 +65,14 @@ is a verification object which is defined as folows:
 The remainder of this page outlines the various
 elements that can be added to a markdown document.
 
+Code
+^^^^
+
+.. autoclass:: snakemd.Code
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Heading
 ^^^^^^^
 

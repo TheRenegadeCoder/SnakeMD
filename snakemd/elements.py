@@ -597,6 +597,22 @@ class Header(Heading):
         )
 
 
+class Code(Block):
+    def __init__(self, code: str | Code, lang: str = "generic"):
+        super().__init__()
+        self._code = code
+        self._lang = lang
+        
+    def __str__(self) -> str:
+        ticks = '`' * 3
+        if isinstance(self._code, Code):
+            ticks = '`' * 4
+        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+    
+    def verify(self) -> Verification:
+        return Verification()
+
+
 class Paragraph(Block):
     """
     A paragraph is a standalone block of text. Paragraphs can be
@@ -646,8 +662,8 @@ class Paragraph(Block):
         """
         paragraph = ''.join(str(item) for item in self._content)
         if self._code:
-            ticks = '`' * self._backticks
-            return f"{ticks}{self._lang}\n{paragraph}\n{ticks}"
+            code_block = Code(self._code, self._lang)
+            return str(code_block)
         elif self._quote:
             return f"> {paragraph}"
         else:

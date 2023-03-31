@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../'))
 # -- Project information -----------------------------------------------------
 
 project = 'SnakeMD'
-copyright = '2021, The Renegade Coder'
+copyright = '2021-2023, The Renegade Coder'
 author = 'The Renegade Coder'
 
 # -- General configuration ---------------------------------------------------

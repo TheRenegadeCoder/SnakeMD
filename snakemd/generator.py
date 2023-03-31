@@ -215,7 +215,7 @@ class Inline(Element):
 
     def is_text(self) -> bool:
         """
-        Checks if this InlineText is a text-only element. If not, it must
+        Checks if this Inline is a text-only element. If not, it must
         be an image, a URL, or an inline code snippet.
 
         .. versionadded:: 0.2.0
@@ -328,7 +328,7 @@ class Inline(Element):
 
         .. versionadded:: 0.7.0
 
-        :param str url: the URL to apply to this text element
+        :param str url: the URL to apply to this Inline element
         :return: self
         """
         self._url = url
@@ -478,7 +478,7 @@ class HorizontalRule(Block):
 
     def verify(self) -> Verification:
         """
-        Verifies the structure of the HorizontalRule element.
+        Verifies the structure of the HorizontalRule block.
         Because there is no way to customize this object,
         it is always valid. Therefore, this method returns an
         empty Verification object.
@@ -492,7 +492,7 @@ class HorizontalRule(Block):
 
 class Heading(Block):
     """
-    A heading is a text element which serves as the title for a new
+    A heading is a text block which serves as the title for a new
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
 
@@ -543,7 +543,7 @@ class Heading(Block):
     def verify(self) -> Verification:
         """
         Verifies that the provided heading is valid. This mainly
-        returns errors associated with the InlineText element
+        returns errors associated with the Inline element
         provided during instantiation.
 
         .. versionadded:: 0.2.0
@@ -584,7 +584,7 @@ class Header(Heading):
 
 class Paragraph(Block):
     """
-    A paragraph is a standalone element of text. Paragraphs can be
+    A paragraph is a standalone block of text. Paragraphs can be
     formatted in a variety of ways including as code and blockquotes.
 
     .. versionchanged:: 0.4.0
@@ -666,7 +666,7 @@ class Paragraph(Block):
         .. versionchanged:: 0.4.0
             Allows adding of strings directly
 
-        :param text: a custom text element
+        :param text: a custom Inline element
         """
         if isinstance(text, str):
             text = Inline(text)
@@ -674,12 +674,12 @@ class Paragraph(Block):
 
     def is_text(self) -> bool:
         """
-        Checks if this Paragraph is a text-only element. If not, it must
+        Checks if this Paragraph is a text-only block. If not, it must
         be a quote or code block.
 
         .. versionadded:: 0.3.0
 
-        :return: True if this is a text-only element; False otherwise
+        :return: True if this is a text-only block; False otherwise
         """
         return not (self._code or self._quote)
 
@@ -953,7 +953,7 @@ class MDCheckList(MDList):
 
 class Table(Block):
     """
-    A table is a standalone element of rows and columns. Data is rendered
+    A table is a standalone block of rows and columns. Data is rendered
     according to underlying InlineText items.
 
     .. versionchanged:: 0.4.0
@@ -1036,14 +1036,14 @@ class Table(Block):
     @staticmethod
     def _process_table(header, body) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
         """
-        Processes the table inputs to ensure header and body only contain paragraph elements.
+        Processes the table inputs to ensure header and body only contain paragraph blocks.
         Also, this computes the max width of each row to ensure pretty print works every time.
 
         .. versionadded:: 0.4.0
 
         :param header: the header row in its various forms
         :param body: the table body in its various forms
-        :return: the table containing only Paragraph elements and a list of the widest items in each row
+        :return: the table containing only Paragraph blocks and a list of the widest items in each row
         """
 
         processed_header = []
@@ -1088,7 +1088,7 @@ class Table(Block):
         Verifies the integrity of the markdown table. There are various ways
         a user could instantiate this object improperly. For example, they may
         provide a body with roes that are not all equal width. Likewise, the
-        header may not match the width of the body. InlineText elements may also
+        header may not match the width of the body. Inline elements may also
         be malformed.
 
         .. versionadded:: 0.2.0
@@ -1218,13 +1218,13 @@ class TableOfContents(Element):
 class Document:
     """
     A document represents a markdown file. Documents store
-    a collection of elements which are appended with new lines
+    a collection of blocks which are appended with new lines
     between to generate the markdown document. Document methods
     are intended to provided convenience when generating a
     markdown file. However, the functionality is not exhaustive.
     To get the full range of markdown functionality, you can
-    take advantage of the :func:`add_element` function to provide
-    custom markdown elements.
+    take advantage of the :func:`add_block` function to provide
+    custom markdown block.
 
     :param str name: 
         the file name of the document without the extension
@@ -1253,7 +1253,7 @@ class Document:
 
     def render(self) -> str:
         """
-        Renders the markdown document from a list of elements.
+        Renders the markdown document from a list of blocks.
         
         .. deprecated:: 0.14.0
             removed in favor of __str__
@@ -1271,8 +1271,8 @@ class Document:
         .. versionadded:: 0.2.0
         """
         verification = Verification()
-        for element in self._contents:
-            verification.absorb(element.verify())
+        for block in self._contents:
+            verification.absorb(block.verify())
         if verification.passes_inspection():
             print("No errors found!")
         else:
@@ -1567,7 +1567,7 @@ class Document:
         A convenience method which creates a table of contents. This function
         can be called where you want to add a table of contents to your
         document. The table itself is lazy loaded, so it always captures
-        all of the heading elements regardless of where the table of contents
+        all of the heading blocks regardless of where the table of contents
         is added to the document.
 
         .. code-block:: Python
@@ -1590,7 +1590,7 @@ class Document:
 
     def scramble(self) -> None:
         """
-        A silly method which mixes all of the elements in this document in
+        A silly method which mixes all of the blocks in this document in
         a random order.
         """
         random.shuffle(self._contents)

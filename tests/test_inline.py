@@ -69,6 +69,11 @@ def test_inline_italics_method():
     assert str(text) == "*Hello, World!*"
 
 
+def test_inline_italics_method():
+    text = Inline("Hello, World!", italics=True).unitalicize()
+    assert str(text) == "Hello, World!"
+
+
 def test_inline_strikethrough():
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"

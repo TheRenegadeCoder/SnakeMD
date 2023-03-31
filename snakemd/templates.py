@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Iterable
-
 from .elements import Element, Heading, Inline, MDList, Verification
 
 

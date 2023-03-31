@@ -1,11 +1,11 @@
-The SnakeMD High-Level API 
+The Document API 
 ==========================
 
 SnakeMD is designed with different types of users in mind.
 The main type of user is the person who wants to design
 and generate markdown quickly without worrying too much
 about the format or styling of their documents. To help
-this type of user, we've developed the high-level API
+this type of user, we've developed a high-level API
 which consists of a single function, :func:`snakemd.new_doc()`.
 This function returns a Document object that is ready to be
 modified using any of the convenience methods available

@@ -1,4 +1,4 @@
-The SnakeMD Low-Level API
+The Element API
 =========================
 
 For users who want a little more control over how

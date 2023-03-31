@@ -7,6 +7,6 @@ and functions for generating markdown documents in Python.
 .. toctree::
    :maxdepth: 2
 
-   docs/high-level-api
-   docs/low-level-api
+   docs/document-api
+   docs/element-api
    docs/template-api

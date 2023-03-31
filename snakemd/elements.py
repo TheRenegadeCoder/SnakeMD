@@ -151,20 +151,6 @@ class Inline(Element):
             text = f"`{text}`"
         return text
 
-    def render(self) -> str:
-        """
-        Renders self as a string. In this case,
-        inline text can represent many different types of data from
-        stylized text to inline code to links and images.
-        
-        .. deprecated:: 0.14.0
-            replaced with the default dunder method :func:`__str__`
-
-        :return: the Inline object as a string
-        """
-        warnings.warn("render has been replaced by __str__ as of 0.14.0", DeprecationWarning)
-        return str(self)
-
     def verify_url(self) -> bool:
         """
         Verifies that a URL is a valid URL.

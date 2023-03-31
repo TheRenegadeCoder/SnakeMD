@@ -259,13 +259,6 @@ class Document:
         """
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")
-
-    def _get_file_name(self) -> str:
-        """
-        A helper function for generating the file name.
-        """
-        file_name = f"{'-'.join(self._name.split())}{self._ext}"
-        return file_name
     
     def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:
         """

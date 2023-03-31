@@ -632,8 +632,16 @@ class Paragraph(Block):
     :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph
     :param bool code: the code state of the paragraph;
         set True to convert the paragraph to a code block (i.e., True -> ```code```)
+        
+        .. deprecated:: 0.15.0
+            replaced in favor of the :class:`Code` block
+        
     :param str lang: the language of the code snippet;
         invalid without the code flag set to True
+        
+        .. deprecated:: 0.15.0
+            replaced in favor of the :class:`Code` block
+        
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
@@ -644,7 +652,6 @@ class Paragraph(Block):
         self._code = code
         self._lang = lang
         self._quote = quote
-        self._backticks = 3
 
     @staticmethod
     def _process_content(content) -> None:

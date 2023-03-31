@@ -575,6 +575,8 @@ class Heading(Block):
     def get_text(self) -> str:
         """
         Returns the heading text free of any styling.
+        
+        .. versionadded:: 0.15.0
 
         :return: the heading as a string
         """

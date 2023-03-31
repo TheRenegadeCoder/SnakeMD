@@ -597,6 +597,19 @@ class Header(Heading):
         )
 
 
+class Code(Block):
+    def __init__(self, code: str | Code, lang: str = "generic"):
+        super().__init__()
+        self._code = code
+        self._lang = lang
+        
+    def __str__(self) -> str:
+        ticks = '`' * 3
+        if isinstance(self._code, Code):
+            ticks = '`' * 4
+        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+
+
 class Paragraph(Block):
     """
     A paragraph is a standalone block of text. Paragraphs can be

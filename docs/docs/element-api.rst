@@ -3,7 +3,10 @@ The Element API
 
 For users who want a little more control over how
 their markdown is formatted, SnakeMD provides a low-level
-API constructed from elements:
+API constructed of elements.
+
+Element Interface
+-----------------
 
 .. autoclass:: snakemd.Element
    :members:
@@ -31,8 +34,8 @@ like the following Heading example:
 The remainder of this section introduces the Block interface
 as well as all of the Blocks currently available for use. 
 
-Block
-^^^^^
+Block Interface
+^^^^^^^^^^^^^^^
 
 All markdown blocks inherit from the Block interface. 
 

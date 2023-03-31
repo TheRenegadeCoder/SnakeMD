@@ -629,7 +629,6 @@ class Paragraph(Block):
 
         :return: the paragraph as a markdown string
         """
-        # TODO: add support for nested code blocks
         paragraph = ''.join(str(item) for item in self._content)
         if self._code:
             ticks = '`' * self._backticks
@@ -1105,9 +1104,6 @@ class Table(Block):
         elif len(self._header) != len(self._body[0]):
             verification.add_error(self, "Header does not match width of body")
 
-        # InlineText errors
-        # TODO: pass information to verification that signals the location of each item
-        # TODO: Mainly we just want more information to help the user debug
         for item in self._header:
             verification.absorb(item.verify())
         for row in self._body:

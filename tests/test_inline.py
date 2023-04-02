@@ -182,56 +182,67 @@ def test_inline_image_bolded_italicized():
 
 def test_inline_bold_method():
     text = Inline("Hello, World!").bold()
+    assert isinstance(text, Inline)
     assert str(text) == "**Hello, World!**"
 
 
 def test_inline_unbold_method():
     text = Inline("Hello, World!", bold=True).unbold()
+    assert isinstance(text, Inline)
     assert str(text) == "Hello, World!"
 
 
 def test_inline_italics_method():
     text = Inline("Hello, World!").italicize()
+    assert isinstance(text, Inline)
     assert str(text) == "_Hello, World!_"
 
 
 def test_inline_unitalics_method():
     text = Inline("Hello, World!", italics=True).unitalicize()
+    assert isinstance(text, Inline)
     assert str(text) == "Hello, World!"
 
 
 def test_inline_strikethrough_method():
     text = Inline("Hello, World!").strikethrough()
+    assert isinstance(text, Inline)
     assert str(text) == "~~Hello, World!~~"
 
 
 def test_inline_unstrikethrough_method():
     text = Inline("Hello, World!", strikethrough=True).unstrikethrough()
+    assert isinstance(text, Inline)
     assert str(text) == "Hello, World!"
 
 
 def test_inline_code_method():
     text = Inline("x = 5").code()
+    assert isinstance(text, Inline)
     assert str(text) == "`x = 5`"
 
 
 def test_inline_uncode_method():
     text = Inline("x = 5", code=True).uncode()
+    assert isinstance(text, Inline)
     assert str(text) == "x = 5"
 
 
 def test_inline_link_method():
     text = Inline("Here").link("https://snakemd.io")
+    assert isinstance(text, Inline)
     assert str(text) == "[Here](https://snakemd.io)"
 
 
 def test_inline_link_method():
     text = Inline("Here").unlink()
+    assert isinstance(text, Inline)
     assert str(text) == "Here"
 
 
 def test_reset_method():
     text = Inline("Howdy").reset()
+    assert isinstance(text, Inline)
     assert not text._image
     assert not text._link
     assert not text._code
@@ -242,6 +253,7 @@ def test_reset_method():
 
 def test_reset_image_method():
     text = Inline("Howdy", image="https://snakemd.io").reset()
+    assert isinstance(text, Inline)
     assert not text._image
     assert not text._link
     assert not text._code

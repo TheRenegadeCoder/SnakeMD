@@ -101,9 +101,9 @@ class Inline(Element):
 
     def is_link(self) -> bool:
         """
-        Checks if the Inline object represents a URL.
+        Checks if the Inline object represents a link.
 
-        :return: True if the object has a URL; False otherwise
+        :return: True if the object has a link; False otherwise
         """
         return bool(self._link)
 

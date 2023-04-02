@@ -220,6 +220,26 @@ def test_inline_link_method():
     assert str(text) == "Here"
 
 
+def test_reset_method():
+    text = Inline("Howdy").reset()
+    assert not text._image
+    assert not text._link
+    assert not text._code
+    assert not text._bold
+    assert not text._italics
+    assert not text._strikethrough
+
+
+def test_reset_image_method():
+    text = Inline("Howdy", image="https://snakemd.io").reset()
+    assert not text._image
+    assert not text._link
+    assert not text._code
+    assert not text._bold
+    assert not text._italics
+    assert not text._strikethrough
+
+
 def test_inline_is_text_text_method():
     is_text = Inline("Here").is_text()
     assert is_text

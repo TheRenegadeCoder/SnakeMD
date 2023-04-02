@@ -104,9 +104,24 @@ def test_inline_bold_strikethroughed():
     assert str(text) == "~~**Hello, World!**~~"
 
 
-def test_inline_bold_strikethroughed():
+def test_inline_bold_coded():
     text = Inline("Hello, World!", bold=True, code=True)
     assert str(text) == "`**Hello, World!**`"
+
+
+def test_inline_italics_strikethroughed():
+    text = Inline("Hello, World!", italics=True, strikethrough=True)
+    assert str(text) == "~~*Hello, World!*~~"
+
+
+def test_inline_italics_coded():
+    text = Inline("Hello, World!", italics=True, code=True)
+    assert str(text) == "`*Hello, World!*`"
+
+
+def test_inline_strikethrough_coded():
+    text = Inline("Hello, World!", strikethrough=True, code=True)
+    assert str(text) == "`~~Hello, World!~~`"
 
 
 # Method tests

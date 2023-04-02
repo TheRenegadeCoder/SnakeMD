@@ -61,6 +61,7 @@ def test_inline_code():
 def test_inline_image_linked():
     text = Inline("Here", image="https://snakemd.io", link="https://google.com")
     assert str(text) == "[![Here](https://snakemd.io)](https://google.com)"
+    assert markdown.markdown(str(text)) == '<p><a href="https://google.com"><img alt="Here" src="https://snakemd.io" /></a></p>'
 
 
 def test_inline_image_bolded():

@@ -120,6 +120,12 @@ def test_document_add_table_of_contents_many_section():
         "3. [Section 3](#section-3)"
     
 
+def test_add_quote():
+    doc = Document()
+    doc.add_quote("Hello, World!")
+    assert str(doc) == "> Hello, World!"
+
+
 def test_scramble_empty(): 
     doc = Document()
     doc.scramble()

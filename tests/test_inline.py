@@ -39,7 +39,7 @@ def test_inline_bold():
 
 def test_inline_italics():
     text = Inline("Hello, World!", italics=True)
-    assert str(text) == "*Hello, World!*"
+    assert str(text) == "_Hello, World!_"
     assert markdown.markdown(str(text)) == '<p><em>Hello, World!</em></p>'
 
 
@@ -72,7 +72,7 @@ def test_inline_image_bolded():
 
 def test_inline_image_italicized():
     text = Inline("Here", image="https://snakemd.io", italics=True)
-    assert str(text) == "*![Here](https://snakemd.io)*"
+    assert str(text) == "_![Here](https://snakemd.io)_"
     assert markdown.markdown(str(text)) == '<p><em><img alt="Here" src="https://snakemd.io" /></em></p>'
 
 
@@ -96,7 +96,7 @@ def test_inline_link_bolded():
 
 def test_inline_link_italicized():
     text = Inline("Here", link="https://snakemd.io", italics=True)
-    assert str(text) == "*[Here](https://snakemd.io)*"
+    assert str(text) == "_[Here](https://snakemd.io)_"
     assert markdown.markdown(str(text)) == '<p><em><a href="https://snakemd.io">Here</a></em></p>'
 
 
@@ -114,7 +114,8 @@ def test_inline_link_coded():
 
 def test_inline_bold_italicized():
     text = Inline("Hello, World!", bold=True, italics=True)
-    assert str(text) == "***Hello, World!***"
+    assert str(text) == "_**Hello, World!**_"
+    assert markdown.markdown(str(text)) == '<p><em><strong>Hello, World!</strong></em></p>'
 
 
 def test_inline_bold_strikethroughed():
@@ -129,12 +130,12 @@ def test_inline_bold_coded():
 
 def test_inline_italics_strikethroughed():
     text = Inline("Hello, World!", italics=True, strikethrough=True)
-    assert str(text) == "~~*Hello, World!*~~"
+    assert str(text) == "~~_Hello, World!_~~"
 
 
 def test_inline_italics_coded():
     text = Inline("Hello, World!", italics=True, code=True)
-    assert str(text) == "`*Hello, World!*`"
+    assert str(text) == "`_Hello, World!_`"
 
 
 def test_inline_strikethrough_coded():
@@ -152,7 +153,7 @@ def test_inline_image_linked_bolded():
 
 def test_inline_image_linked_italicized():
     text = Inline("Here", image="https://snakemd.io", link="https://google.com", italics=True)
-    assert str(text) == "*[![Here](https://snakemd.io)](https://google.com)*"
+    assert str(text) == "_[![Here](https://snakemd.io)](https://google.com)_"
 
 
 def test_inline_image_linked_strikethroughed():
@@ -175,7 +176,7 @@ def test_inline_unbold_method():
 
 def test_inline_italics_method():
     text = Inline("Hello, World!").italicize()
-    assert str(text) == "*Hello, World!*"
+    assert str(text) == "_Hello, World!_"
 
 
 def test_inline_unitalics_method():
@@ -200,4 +201,4 @@ def test_inline_link_method():
 
 def test_inline_bold_italics_methods():
     text = Inline("Hello, World!").bold().italicize()
-    assert str(text) == "***Hello, World!***"
+    assert str(text) == "_**Hello, World!**_"

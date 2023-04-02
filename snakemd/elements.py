@@ -83,7 +83,7 @@ class Inline(Element):
         if self._bold:
             text = f"**{text}**"
         if self._italics:
-            text = f"*{text}*"
+            text = f"_{text}_"
         if self._strikethrough:
             text = f"~~{text}~~"
         if self._code:

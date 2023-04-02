@@ -121,26 +121,31 @@ def test_inline_bold_italicized():
 def test_inline_bold_strikethroughed():
     text = Inline("Hello, World!", bold=True, strikethrough=True)
     assert str(text) == "~~**Hello, World!**~~"
+    # Strikethrough not supported by python-markdown
 
 
 def test_inline_bold_coded():
     text = Inline("Hello, World!", bold=True, code=True)
     assert str(text) == "`**Hello, World!**`"
+    assert markdown.markdown(str(text)) == '<p><code>**Hello, World!**</code></p>'
 
 
 def test_inline_italics_strikethroughed():
     text = Inline("Hello, World!", italics=True, strikethrough=True)
     assert str(text) == "~~_Hello, World!_~~"
+    # Strikethrough not supported by python-markdown
 
 
 def test_inline_italics_coded():
     text = Inline("Hello, World!", italics=True, code=True)
     assert str(text) == "`_Hello, World!_`"
+    assert markdown.markdown(str(text)) == '<p><code>_Hello, World!_</code></p>'
 
 
 def test_inline_strikethrough_coded():
     text = Inline("Hello, World!", strikethrough=True, code=True)
     assert str(text) == "`~~Hello, World!~~`"
+    assert markdown.markdown(str(text)) == '<p><code>~~Hello, World!~~</code></p>'
 
 
 # Constructor tests (2-combos)

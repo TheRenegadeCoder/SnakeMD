@@ -46,7 +46,7 @@ def test_inline_code():
     assert str(text) == "`x = 7`"
 
 
-# Constructor tests (combos)
+# Constructor tests (2-combos)
 
 
 def test_inline_image_linked():
@@ -62,6 +62,16 @@ def test_inline_image_bolded():
 def test_inline_image_italicized():
     text = Inline("Here", image="https://snakemd.io", italics=True)
     assert str(text) == "*![Here](https://snakemd.io)*"
+
+
+def test_inline_image_strikethroughed():
+    text = Inline("Here", image="https://snakemd.io", strikethrough=True)
+    assert str(text) == "~~![Here](https://snakemd.io)~~"
+
+
+def test_inline_image_coded():
+    text = Inline("Here", image="https://snakemd.io", code=True)
+    assert str(text) == "`![Here](https://snakemd.io)`"
 
 
 def test_inline_link_bolded():
@@ -85,8 +95,18 @@ def test_inline_link_coded():
 
 
 def test_inline_bold_italicized():
-    text = Inline("Hello, World!", italics=True, bold=True)
+    text = Inline("Hello, World!", bold=True, italics=True)
     assert str(text) == "***Hello, World!***"
+
+
+def test_inline_bold_strikethroughed():
+    text = Inline("Hello, World!", bold=True, strikethrough=True)
+    assert str(text) == "~~**Hello, World!**~~"
+
+
+def test_inline_bold_strikethroughed():
+    text = Inline("Hello, World!", bold=True, code=True)
+    assert str(text) == "`**Hello, World!**`"
 
 
 # Method tests

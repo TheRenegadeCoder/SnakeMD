@@ -31,8 +31,8 @@ class Inline(Element):
     image markdown is applied to the text first while code markdown is
     applied last. Due to this design, some forms of inline text are not
     possible. For example, inline elements can be used to show inline 
-    markdown as an inline code element (e.g., ![here](https://example.com)).
-    However, inline elements cannot be used to style code (e.g., **`code`**).
+    markdown as an inline code element (e.g., `![here](https://example.com)`).
+    However, inline elements cannot be used to style inline code (e.g., **`code`**).
     If styled code is necessary, it's possible to render the inline element
     as a string and pass the result to another inline element. 
 

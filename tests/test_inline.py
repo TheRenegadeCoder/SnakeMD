@@ -40,16 +40,19 @@ def test_inline_bold():
 def test_inline_italics():
     text = Inline("Hello, World!", italics=True)
     assert str(text) == "*Hello, World!*"
+    assert markdown.markdown(str(text)) == '<p><em>Hello, World!</em></p>'
 
 
 def test_inline_strikethrough():
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"
+    # Strikethrough not supported in python-markdown
 
 
 def test_inline_code():
     text = Inline("x = 7", code=True)
     assert str(text) == "`x = 7`"
+    assert markdown.markdown(str(text)) == '<p><code>x = 7</code></p>'
 
 
 # Constructor tests (2-combos)

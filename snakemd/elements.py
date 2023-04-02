@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Iterable
+from typing import Iterable, Optional
 from urllib import request
 from urllib.error import HTTPError
 
@@ -51,25 +51,20 @@ class Inline(Element):
         set to True to render inline text as code (i.e., True -> `code`)
     """
 
+    # TODO: figure out how to get these parameters in order
     def __init__(
         self,
         text: str,
-        image: str = None,
-        link: str = None,
-        bold: bool = False,
-        italics: bool = False,
-        strikethrough: bool = False,
-        code: bool = False
+        **kwargs
     ) -> None:
-        self._argument_order = locals()
-        print(self._argument_order)
         self._text = text
-        self._image = image
-        self._link = link
-        self._bold = bold
-        self._italics = italics
-        self._strikethrough = strikethrough
-        self._code = code
+        self._kwargs = kwargs  # READ-ONLY
+        self._image: Optional[str] = kwargs.get("image", None)
+        self._link = kwargs.get("link", None)
+        self._bold = kwargs.get("bold", False)
+        self._italics = kwargs.get("italics", False)
+        self._strikethrough = kwargs.get("strikethrough", False)
+        self._code = kwargs.get("code", False)
 
     def __str__(self) -> str:
         """

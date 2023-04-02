@@ -210,6 +210,16 @@ def test_inline_unstrikethrough_method():
     assert str(text) == "Hello, World!"
 
 
+def test_inline_code_method():
+    text = Inline("x = 5").code()
+    assert str(text) == "`x = 5`"
+
+
+def test_inline_uncode_method():
+    text = Inline("x = 5", code=True).uncode()
+    assert str(text) == "x = 5"
+
+
 def test_inline_link_method():
     text = Inline("Here").link("https://snakemd.io")
     assert str(text) == "[Here](https://snakemd.io)"

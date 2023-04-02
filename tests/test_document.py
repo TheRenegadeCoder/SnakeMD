@@ -1,5 +1,6 @@
 import os
 from snakemd import Document
+from snakemd.elements import Heading
 
 
 # Method tests (singles)
@@ -12,7 +13,9 @@ def test_document_empty():
 
 def test_document_add_heading():
     doc = Document()
-    doc.add_heading("Test Document")
+    heading = doc.add_heading("Test Document")
+    assert isinstance(heading, Heading)
+    assert str(heading) == "# Test Document"
     assert str(doc) == "# Test Document"
 
 

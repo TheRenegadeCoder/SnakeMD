@@ -63,6 +63,24 @@ def test_add_unordered_list_many():
     assert str(doc) == "- Treat\n- Candy\n- Food"
 
 
+def test_add_checklist_empty():
+    doc = Document()
+    doc.add_checklist([])
+    assert str(doc) == ""
+
+
+def test_add_checklist_one():
+    doc = Document()
+    doc.add_checklist(["Treat"])
+    assert str(doc) == "- [ ] Treat"
+
+
+def test_add_checklist_many():
+    doc = Document()
+    doc.add_checklist(["Treat", "Candy", "Food"])
+    assert str(doc) == "- [ ] Treat\n- [ ] Candy\n- [ ] Food"
+
+
 def test_document_add_table_of_contents_empty():
     doc = Document()
     doc.add_table_of_contents()

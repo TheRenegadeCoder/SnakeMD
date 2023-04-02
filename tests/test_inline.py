@@ -16,6 +16,11 @@ def test_inline_text():
     assert str(text) == "Hello, World!"
 
 
+def test_inline_image():
+    text = Inline("Here", image="https://snakemd.io")
+    assert str(text) == "![Here](https://snakemd.io)"
+
+
 def test_inline_link():
     text = Inline("Here", link="https://snakemd.io")
     assert str(text) == "[Here](https://snakemd.io)"
@@ -41,37 +46,47 @@ def test_inline_code():
     assert str(text) == "`x = 7`"
 
 
-def test_inline_image():
-    text = Inline("Here", image="https://snakemd.io")
-    assert str(text) == "![Here](https://snakemd.io)"
-
-
 # Constructor tests (combos)
 
 
-def test_inline_link_bold():
+def test_inline_image_linked():
+    text = Inline("Here", image="https://snakemd.io", link="https://google.com")
+    assert str(text) == "[![Here](https://snakemd.io)](https://google.com)"
+
+
+def test_inline_image_bolded():
+    text = Inline("Here", image="https://snakemd.io", bold=True)
+    assert str(text) == "**![Here](https://snakemd.io)**"
+
+
+def test_inline_image_italicized():
+    text = Inline("Here", image="https://snakemd.io", italics=True)
+    assert str(text) == "*![Here](https://snakemd.io)*"
+
+
+def test_inline_link_bolded():
     text = Inline("Here", link="https://snakemd.io", bold=True)
     assert str(text) == "**[Here](https://snakemd.io)**"
 
 
-def test_inline_link_italics():
+def test_inline_link_italicized():
     text = Inline("Here", link="https://snakemd.io", italics=True)
     assert str(text) == "*[Here](https://snakemd.io)*"
 
 
-def test_inline_link_strikethrough():
+def test_inline_link_strikethroughed():
     text = Inline("Here", link="https://snakemd.io", strikethrough=True)
     assert str(text) == "~~[Here](https://snakemd.io)~~"
 
 
-def test_inline_bold_italics():
+def test_inline_link_coded():
+    text = Inline("Here", link="https://snakemd.io", code=True)
+    assert str(text) == "`[Here](https://snakemd.io)`"
+
+
+def test_inline_bold_italicized():
     text = Inline("Hello, World!", italics=True, bold=True)
     assert str(text) == "***Hello, World!***"
-
-
-def test_inline_image_linked():
-    text = Inline("Here", link="https://google.com", image="https://snakemd.io")
-    assert str(text) == "[![Here](https://snakemd.io)](https://google.com)"
 
 
 # Method tests

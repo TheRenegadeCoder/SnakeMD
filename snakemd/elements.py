@@ -61,6 +61,8 @@ class Inline(Element):
         strikethrough: bool = False,
         code: bool = False
     ) -> None:
+        self._argument_order = locals()
+        print(self._argument_order)
         self._text = text
         self._image = image
         self._link = link

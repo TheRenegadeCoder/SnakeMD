@@ -1,6 +1,9 @@
 from snakemd import Document
 
 
+# Method tests (singles)
+
+
 def test_document_empty():
     doc = Document()
     assert str(doc) == ""
@@ -18,11 +21,10 @@ def test_document_add_paragraph():
     assert str(doc) == "Test Document"
 
 
-def test_document_add_heading_and_paragraph():
+def test_add_raw():
     doc = Document()
-    doc.add_heading("Test Document")
-    doc.add_paragraph("This is a test document.")
-    assert str(doc) == "# Test Document\n\nThis is a test document."
+    doc.add_raw("x: 5\ny: 2")
+    assert str(doc) == "x: 5\ny: 2"
 
 
 def test_document_add_table_of_contents_empty():
@@ -51,3 +53,13 @@ def test_document_add_table_of_contents_many_section():
         "1. [Section 1](#section-1)\n" \
         "2. [Section 2](#section-2)\n" \
         "3. [Section 3](#section-3)"
+
+
+# Method tests (2-combos)
+
+
+def test_document_add_heading_and_paragraph():
+    doc = Document()
+    doc.add_heading("Test Document")
+    doc.add_paragraph("This is a test document.")
+    assert str(doc) == "# Test Document\n\nThis is a test document."

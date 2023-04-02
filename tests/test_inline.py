@@ -248,3 +248,13 @@ def test_inline_is_text_text_method():
 def test_inline_is_text_code_method():
     is_text = Inline("Here", code=True).is_text()
     assert not is_text
+
+
+def test_inline_is_link_method():
+    is_link = Inline("Hello", link="https://snakemd.io").is_link()
+    assert is_link
+
+
+def test_inline_is_link_method():
+    is_link = Inline("Hello").is_link()
+    assert not is_link

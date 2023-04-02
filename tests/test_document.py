@@ -27,6 +27,24 @@ def test_add_raw():
     assert str(doc) == "x: 5\ny: 2"
 
 
+def test_add_ordered_list_empty():
+    doc = Document()
+    doc.add_ordered_list([])
+    assert str(doc) == ""
+
+
+def test_add_ordered_list_one():
+    doc = Document()
+    doc.add_ordered_list(["Treat"])
+    assert str(doc) == "1. Treat"
+
+
+def test_add_ordered_list_many():
+    doc = Document()
+    doc.add_ordered_list(["Treat", "Candy", "Food"])
+    assert str(doc) == "1. Treat\n2. Candy\n3. Food"
+
+
 def test_document_add_table_of_contents_empty():
     doc = Document()
     doc.add_table_of_contents()

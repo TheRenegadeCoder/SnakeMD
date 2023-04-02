@@ -93,13 +93,13 @@ class Inline(Element):
     def is_text(self) -> bool:
         """
         Checks if this Inline is a text-only element. If not, it must
-        be an image, a URL, or an inline code snippet.
+        be an image, a link, or an inline code snippet.
 
         :return: True if this is a text-only element; False otherwise
         """
         return not (self._code or self._image or self._link)
 
-    def is_url(self) -> bool:
+    def is_link(self) -> bool:
         """
         Checks if the Inline object represents a URL.
 

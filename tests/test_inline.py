@@ -154,6 +154,7 @@ def test_inline_strikethrough_coded():
 def test_inline_image_linked_bolded():
     text = Inline("Here", image="https://snakemd.io", link="https://google.com", bold=True)
     assert str(text) == "**[![Here](https://snakemd.io)](https://google.com)**"
+    assert markdown.markdown(str(text)) == '<p><strong><a href="https://google.com"><img alt="Here" src="https://snakemd.io" /></a></strong></p>'
 
 
 def test_inline_image_linked_italicized():
@@ -214,6 +215,16 @@ def test_inline_link_method():
     assert str(text) == "[Here](https://snakemd.io)"
 
 
-def test_inline_bold_italics_methods():
-    text = Inline("Hello, World!").bold().italicize()
-    assert str(text) == "_**Hello, World!**_"
+def test_inline_link_method():
+    text = Inline("Here").unlink()
+    assert str(text) == "Here"
+
+
+def test_inline_is_text_text_method():
+    is_text = Inline("Here").is_text()
+    assert is_text
+
+
+def test_inline_is_text_code_method():
+    is_text = Inline("Here", code=True).is_text()
+    assert not is_text

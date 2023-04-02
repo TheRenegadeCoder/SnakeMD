@@ -1,4 +1,5 @@
 import pytest
+import markdown
 
 from snakemd import Inline
 
@@ -9,16 +10,19 @@ from snakemd import Inline
 def test_inline_empty():
     text = Inline("")
     assert str(text) == ""
+    assert markdown.markdown(str(text)) == ""
 
 
 def test_inline_text():
     text = Inline("Hello, World!")
     assert str(text) == "Hello, World!"
+    assert markdown.markdown(str(text)) == "<p>Hello, World!</p>"
 
 
 def test_inline_image():
     text = Inline("Here", image="https://snakemd.io")
     assert str(text) == "![Here](https://snakemd.io)"
+    assert markdown.markdown(str(text)) == '<p><img alt="Here" src="https://snakemd.io" /></p>'
 
 
 def test_inline_link():

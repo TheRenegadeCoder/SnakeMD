@@ -28,11 +28,13 @@ def test_inline_image():
 def test_inline_link():
     text = Inline("Here", link="https://snakemd.io")
     assert str(text) == "[Here](https://snakemd.io)"
+    assert markdown.markdown(str(text)) == '<p><a href="https://snakemd.io">Here</a></p>'
 
 
 def test_inline_bold():
     text = Inline("Hello, World!", bold=True)
     assert str(text) == "**Hello, World!**"
+    assert markdown.markdown(str(text)) == '<p><strong>Hello, World!</strong></p>'
 
 
 def test_inline_italics():

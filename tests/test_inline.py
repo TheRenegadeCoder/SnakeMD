@@ -67,21 +67,25 @@ def test_inline_image_linked():
 def test_inline_image_bolded():
     text = Inline("Here", image="https://snakemd.io", bold=True)
     assert str(text) == "**![Here](https://snakemd.io)**"
+    assert markdown.markdown(str(text)) == '<p><strong><img alt="Here" src="https://snakemd.io" /></strong></p>'
 
 
 def test_inline_image_italicized():
     text = Inline("Here", image="https://snakemd.io", italics=True)
     assert str(text) == "*![Here](https://snakemd.io)*"
+    assert markdown.markdown(str(text)) == '<p><em><img alt="Here" src="https://snakemd.io" /></em></p>'
 
 
 def test_inline_image_strikethroughed():
     text = Inline("Here", image="https://snakemd.io", strikethrough=True)
     assert str(text) == "~~![Here](https://snakemd.io)~~"
+    # Strikethrough not supported in python markdown
 
 
 def test_inline_image_coded():
     text = Inline("Here", image="https://snakemd.io", code=True)
     assert str(text) == "`![Here](https://snakemd.io)`"
+    assert markdown.markdown(str(text)) == '<p><code>![Here](https://snakemd.io)</code></p>'
 
 
 def test_inline_link_bolded():

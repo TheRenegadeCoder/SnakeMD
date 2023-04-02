@@ -148,7 +148,7 @@ def test_inline_strikethrough_coded():
     assert markdown.markdown(str(text)) == '<p><code>~~Hello, World!~~</code></p>'
 
 
-# Constructor tests (2-combos)
+# Constructor tests (3-combos)
 
 
 def test_inline_image_linked_bolded():
@@ -164,6 +164,16 @@ def test_inline_image_linked_italicized():
 def test_inline_image_linked_strikethroughed():
     text = Inline("Here", image="https://snakemd.io", link="https://google.com", strikethrough=True)
     assert str(text) == "~~[![Here](https://snakemd.io)](https://google.com)~~"
+
+
+def test_inline_image_linked_coded():
+    text = Inline("Here", image="https://snakemd.io", link="https://google.com", code=True)
+    assert str(text) == "`[![Here](https://snakemd.io)](https://google.com)`"
+
+
+def test_inline_image_bolded_italicized():
+    text = Inline("Here", image="https://snakemd.io", bold=True, italics=True)
+    assert str(text) == "_**![Here](https://snakemd.io)**_"
 
 
 # Method tests

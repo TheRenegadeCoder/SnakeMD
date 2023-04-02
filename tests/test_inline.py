@@ -124,6 +124,24 @@ def test_inline_strikethrough_coded():
     assert str(text) == "`~~Hello, World!~~`"
 
 
+# Constructor tests (2-combos)
+
+
+def test_inline_image_linked_bolded():
+    text = Inline("Here", image="https://snakemd.io", link="https://google.com", bold=True)
+    assert str(text) == "**[![Here](https://snakemd.io)](https://google.com)**"
+
+
+def test_inline_image_linked_italicized():
+    text = Inline("Here", image="https://snakemd.io", link="https://google.com", italics=True)
+    assert str(text) == "*[![Here](https://snakemd.io)](https://google.com)*"
+
+
+def test_inline_image_linked_strikethroughed():
+    text = Inline("Here", image="https://snakemd.io", link="https://google.com", strikethrough=True)
+    assert str(text) == "~~[![Here](https://snakemd.io)](https://google.com)~~"
+
+
 # Method tests
 
 

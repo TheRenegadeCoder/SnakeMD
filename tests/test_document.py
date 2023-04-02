@@ -1,6 +1,5 @@
 import os
-from snakemd import Document
-from snakemd.elements import Heading
+from snakemd import Document, Heading, Paragraph
 
 
 # Method tests (singles)
@@ -21,7 +20,9 @@ def test_document_add_heading():
 
 def test_document_add_paragraph():
     doc = Document()
-    doc.add_paragraph("Test Document")
+    paragraph = doc.add_paragraph("Test Document")
+    assert isinstance(paragraph, Paragraph)
+    assert str(paragraph) == "Test Document"
     assert str(doc) == "Test Document"
 
 
@@ -83,6 +84,12 @@ def test_add_checklist_many():
     doc = Document()
     doc.add_checklist(["Treat", "Candy", "Food"])
     assert str(doc) == "- [ ] Treat\n- [ ] Candy\n- [ ] Food"
+
+
+def test_add_horizontal_rule():
+    doc = Document()
+    doc.add_horizontal_rule()
+    assert str(doc) == "---"
 
 
 def test_document_add_table_of_contents_empty():

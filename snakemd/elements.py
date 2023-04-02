@@ -4,8 +4,6 @@ import logging
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import Iterable, Optional
-from urllib import request
-from urllib.error import HTTPError
 
 logger = logging.getLogger(__name__)
     
@@ -51,20 +49,21 @@ class Inline(Element):
         set to True to render inline text as code (i.e., True -> `code`)
     """
 
-    # TODO: figure out how to get these parameters in order
     def __init__(
         self,
         text: str,
         **kwargs
     ) -> None:
         self._text = text
-        self._kwargs = kwargs  # READ-ONLY
+        self._kwargs: dict = kwargs 
+        '''
         self._image: Optional[str] = kwargs.get("image", None)
-        self._link = kwargs.get("link", None)
-        self._bold = kwargs.get("bold", False)
-        self._italics = kwargs.get("italics", False)
-        self._strikethrough = kwargs.get("strikethrough", False)
-        self._code = kwargs.get("code", False)
+        self._link: Optional[str] = kwargs.get("link", None)
+        self._bold: Optional[bool] = kwargs.get("bold", False)
+        self._italics: Optional[bool] = kwargs.get("italics", False)
+        self._strikethrough: Optional[bool] = kwargs.get("strikethrough", False)
+        self._code: Optional[bool] = kwargs.get("code", False)
+        '''
 
     def __str__(self) -> str:
         """
@@ -75,18 +74,20 @@ class Inline(Element):
         :return: the Inline object as a string
         """
         text = self._text
-        if self._image:
-            text = f"![{text}]({self._image})"
-        if self._link:
-            text = f"[{text}]({self._link})"
-        if self._bold:
-            text = f"**{text}**"
-        if self._italics:
-            text = f"*{text}*"
-        if self._strikethrough:
-            text = f"~~{text}~~"
-        if self._code:
-            text = f"`{text}`"
+        for key, value in self._kwargs:
+            if value:
+                if key == "image":
+                    text = f"![{text}]({value})"
+                if key == "link":
+                    text = f"[{text}]({value})"
+                if key == "bold":
+                    text = f"**{text}**"
+                if key == "italics":
+                    text = f"*{text}*"
+                if key == "strikethrough":
+                    text = f"~~{text}~~"
+                if key == "code":
+                    text = f"`{text}`"
         return text
 
     def is_text(self) -> bool:
@@ -104,7 +105,7 @@ class Inline(Element):
 
         :return: True if the object has a URL; False otherwise
         """
-        return bool(self._link)
+        return bool(self._kwargs.get("link"))
 
     def bold(self) -> Inline:
         """
@@ -112,7 +113,7 @@ class Inline(Element):
 
         :return: self
         """
-        self._bold = True
+        self._kwargs["bold"] = True
         return self
 
     def unbold(self) -> Inline:
@@ -121,7 +122,7 @@ class Inline(Element):
 
         :return: self
         """
-        self._bold = False
+        self._kwargs["bold"] = False
         return self
 
     def italicize(self) -> Inline:

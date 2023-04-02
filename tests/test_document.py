@@ -1,3 +1,4 @@
+import os
 from snakemd import Document
 
 
@@ -107,6 +108,21 @@ def test_document_add_table_of_contents_many_section():
         "1. [Section 1](#section-1)\n" \
         "2. [Section 2](#section-2)\n" \
         "3. [Section 3](#section-3)"
+    
+
+def test_scramble_empty(): 
+    doc = Document()
+    doc.scramble()
+    assert str(doc) == ""
+
+
+def test_dump_empty():
+    doc = Document()
+    doc.dump("test")
+    with open("test.md") as f:
+        contents = "\n".join(f.readlines())
+        assert contents == str(doc)
+    os.remove("test.md")
 
 
 # Method tests (2-combos)

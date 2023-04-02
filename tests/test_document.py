@@ -45,6 +45,24 @@ def test_add_ordered_list_many():
     assert str(doc) == "1. Treat\n2. Candy\n3. Food"
 
 
+def test_add_unordered_list_empty():
+    doc = Document()
+    doc.add_unordered_list([])
+    assert str(doc) == ""
+
+
+def test_add_unordered_list_one():
+    doc = Document()
+    doc.add_unordered_list(["Treat"])
+    assert str(doc) == "- Treat"
+
+
+def test_add_unordered_list_many():
+    doc = Document()
+    doc.add_unordered_list(["Treat", "Candy", "Food"])
+    assert str(doc) == "- Treat\n- Candy\n- Food"
+
+
 def test_document_add_table_of_contents_empty():
     doc = Document()
     doc.add_table_of_contents()

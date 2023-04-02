@@ -3,7 +3,7 @@ import pytest
 from snakemd import Inline
 
 
-# Constructor tests
+# Constructor tests (singles)
 
 
 def test_inline_empty():
@@ -11,9 +11,14 @@ def test_inline_empty():
     assert str(text) == ""
 
 
-def test_inline_str():
+def test_inline_text():
     text = Inline("Hello, World!")
     assert str(text) == "Hello, World!"
+
+
+def test_inline_link():
+    text = Inline("Here", link="https://snakemd.io")
+    assert str(text) == "[Here](https://snakemd.io)"
 
 
 def test_inline_bold():
@@ -31,24 +36,32 @@ def test_inline_strikethrough():
     assert str(text) == "~~Hello, World!~~"
 
 
-def test_inline_url():
-    text = Inline("Here", link="https://google.com")
-    assert str(text) == "[Here](https://google.com)"
-
-
 def test_inline_code():
     text = Inline("x = 7", code=True)
     assert str(text) == "`x = 7`"
 
 
-def test_inline_link():
-    text = Inline("Here", link="https://snakemd.io")
-    assert str(text) == "[Here](https://snakemd.io)"
-
-
 def test_inline_image():
     text = Inline("Here", image="https://snakemd.io")
     assert str(text) == "![Here](https://snakemd.io)"
+
+
+# Constructor tests (combos)
+
+
+def test_inline_link_bold():
+    text = Inline("Here", link="https://snakemd.io", bold=True)
+    assert str(text) == "**[Here](https://snakemd.io)**"
+
+
+def test_inline_link_italics():
+    text = Inline("Here", link="https://snakemd.io", italics=True)
+    assert str(text) == "*[Here](https://snakemd.io)*"
+
+
+def test_inline_link_strikethrough():
+    text = Inline("Here", link="https://snakemd.io", strikethrough=True)
+    assert str(text) == "~~[Here](https://snakemd.io)~~"
 
 
 def test_inline_bold_italics():

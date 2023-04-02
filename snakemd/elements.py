@@ -29,7 +29,17 @@ class Inline(Element):
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
 
+    Inline element parameters are in order of precedence. In other words,
+    image markdown is applied to the text first while code markdown is
+    applied last. Due to this design, some forms of inline text are not
+    possible. For example, inline elements can be used to show inline 
+    markdown as an inline code element (e.g., ![here](https://example.com)).
+    However, inline elements cannot be used to style code (e.g., **`code`**).
+    If styled code is necessary, it's possible to render the inline element
+    as a string and pass the result to another inline element. 
+
     :param str text: the inline text to render
+    :param str image: the source (either url or path) associated with an image
     :param str link: the link (either url or path) associated with the inline element
     :param bool bold: the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
@@ -39,26 +49,25 @@ class Inline(Element):
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
-    :param str image: the source (either url or path) associated with an image
     """
 
     def __init__(
         self,
         text: str,
+        image: str = None,
         link: str = None,
         bold: bool = False,
         italics: bool = False,
         strikethrough: bool = False,
-        code: bool = False,
-        image: str = None
+        code: bool = False
     ) -> None:
         self._text = text
+        self._image = image
+        self._link = link
         self._bold = bold
         self._italics = italics
-        self._link = link
-        self._code = code
-        self._image = image
         self._strikethrough = strikethrough
+        self._code = code
 
     def __str__(self) -> str:
         """
@@ -69,20 +78,19 @@ class Inline(Element):
         :return: the Inline object as a string
         """
         text = self._text
+        if self._image:
+            text = f"![{text}]({self._image})"
+        if self._link:
+            text = f"[{text}]({self._link})"
         if self._bold:
             text = f"**{text}**"
         if self._italics:
             text = f"*{text}*"
         if self._strikethrough:
             text = f"~~{text}~~"
-        if self._image:
-            text = f"![{text}]({self._image})"
-        if self._link:
-            text = f"[{text}]({self._link})"
         if self._code:
             text = f"`{text}`"
         return text
-
 
     def is_text(self) -> bool:
         """
@@ -199,11 +207,12 @@ class Inline(Element):
 
         :return: self
         """
+        self._image = None
         self._link = None
         self._code = False
         self._italics = False
         self._bold = False
-        self._image = False
+        self._strikethrough = False
         return self
 
 

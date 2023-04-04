@@ -1,5 +1,5 @@
 import os
-from snakemd import Document, Heading, Paragraph
+from snakemd import Document, Heading, Paragraph, HorizontalRule
 
 
 # Method tests (singles)
@@ -136,6 +136,12 @@ def test_add_table_one_row():
     doc = Document()
     doc.add_table(["x", "y"], [["1", "2"]])
     assert str(doc) == "| x | y |\n| - | - |\n| 1 | 2 |"
+
+
+def test_add_block_horizontal_rule():
+    doc = Document()
+    doc.add_block(HorizontalRule())
+    assert str(doc) == "---"
 
 
 def test_scramble_empty(): 

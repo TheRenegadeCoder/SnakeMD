@@ -1,4 +1,5 @@
 from snakemd import Inline, MDList, Paragraph, HorizontalRule, Code
+import markdown
 
 
 # Constructor tests (Unordered)
@@ -63,6 +64,7 @@ def test_md_list_unordered_hr():
         "Rules"
     ])
     assert str(md_list) == "- This\n- ***\n- Rules"
+    assert markdown.markdown(str(md_list)) == "<ul>\n<li>This</li>\n<li>\n<hr />\n</li>\n<li>Rules</li>\n</ul>"
     
     
 def test_md_list_unordered_code():

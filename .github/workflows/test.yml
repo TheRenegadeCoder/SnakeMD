@@ -26,6 +26,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: PyTest
-      run: |
-        coverage run --source=snakemd -m pytest
-        coverage report
+      run: coverage run --source=snakemd -m pytest
+
+    - name: Coverage
+      run: coverage report

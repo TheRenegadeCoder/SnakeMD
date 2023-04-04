@@ -1,6 +1,6 @@
-from snakemd import Inline, MDList, Paragraph, HorizontalRule, Code
 import markdown
 
+from snakemd import Code, Heading, HorizontalRule, Inline, MDList, Paragraph
 
 # Constructor tests (Unordered)
 
@@ -74,6 +74,15 @@ def test_md_list_unordered_code():
         "Rules"
     ])
     assert str(md_list) == "- This\n- ```generic\ny = 5\nx = y + 1\n```\n- Rules"
+    
+
+def test_md_list_unordered_heading():
+    md_list = MDList([
+        "This",
+        Heading("Code", 1),
+        "Rules"
+    ])
+    assert str(md_list) == "- This\n- # Code\n- Rules"
 
 
 # Constructor tests (Ordered)

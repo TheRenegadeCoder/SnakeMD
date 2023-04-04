@@ -1,4 +1,4 @@
-from snakemd import Inline, MDList, Paragraph
+from snakemd import Inline, MDList, Paragraph, HorizontalRule, Code
 
 
 # Constructor tests (Unordered)
@@ -54,6 +54,24 @@ def test_md_list_nested_unordered():
         Inline("Powers")
     ])
     assert str(outer_list) == "- Characters\n  - Deku\n  - Bakugo\n  - Uraraka\n- Powers"
+    
+    
+def test_md_list_unordered_hr():
+    md_list = MDList([
+        "This",
+        HorizontalRule(),
+        "Rules"
+    ])
+    assert str(md_list) == "- This\n- ***\n- Rules"
+    
+    
+def test_md_list_unordered_code():
+    md_list = MDList([
+        "This",
+        Code("y = 5\nx = y + 1"),
+        "Rules"
+    ])
+    assert str(md_list) == "- This\n- ```generic\ny = 5\nx = y + 1\n```\n- Rules"
 
 
 # Constructor tests (Ordered)

@@ -89,7 +89,7 @@ def test_add_checklist_many():
 def test_add_horizontal_rule():
     doc = Document()
     doc.add_horizontal_rule()
-    assert str(doc) == "---"
+    assert str(doc) == "***"
 
 
 def test_document_add_table_of_contents_empty():
@@ -141,7 +141,7 @@ def test_add_table_one_row():
 def test_add_block_horizontal_rule():
     doc = Document()
     doc.add_block(HorizontalRule())
-    assert str(doc) == "---"
+    assert str(doc) == "***"
 
 
 def test_scramble_empty(): 

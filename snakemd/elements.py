@@ -240,7 +240,7 @@ class HorizontalRule(Block):
 
         :return: the horizontal rule as a markdown string
         """
-        return "---"
+        return "***"
 
 
 class Heading(Block):

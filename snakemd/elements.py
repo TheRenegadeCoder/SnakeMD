@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Iterable, Optional
+from typing import Iterable
 
 logger = logging.getLogger(__name__)
     
@@ -37,8 +37,8 @@ class Inline(Element):
     as a string and pass the result to another inline element. 
 
     :param str text: the inline text to render
-    :param Optional[str] image: the source (either url or path) associated with an image
-    :param Optional[str] link: the link (either url or path) associated with the inline element
+    :param None | str image: the source (either url or path) associated with an image
+    :param None | str link: the link (either url or path) associated with the inline element
     :param bool bold: the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
     :param bool italics: the italics state of the inline element;
@@ -52,8 +52,8 @@ class Inline(Element):
     def __init__(
         self,
         text: str,
-        image: Optional[str] = None,
-        link: Optional[str] = None,
+        image: None | str = None,
+        link: None | str = None,
         bold: bool = False,
         italics: bool = False,
         strikethrough: bool = False,
@@ -240,7 +240,7 @@ class HorizontalRule(Block):
 
         :return: the horizontal rule as a markdown string
         """
-        return "---"
+        return "***"
 
 
 class Heading(Block):
@@ -493,7 +493,7 @@ class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
-    :param Iterable[str | Inline | Paragraph | MDList] items:
+    :param Iterable[str | Inline | Block] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
@@ -503,12 +503,12 @@ class MDList(Block):
 
     def __init__(
         self, 
-        items: Iterable[str | Inline | Paragraph | MDList], 
+        items: Iterable[str | Inline | Block], 
         ordered: bool = False, 
         checked: None | bool | Iterable[bool] = None
     ) -> None:
         super().__init__()
-        self._items: MDList | Paragraph = self._process_items(items)
+        self._items: list[Block] = self._process_items(items)
         self._ordered = ordered
         self._checked = checked
         self._space = ""
@@ -549,13 +549,13 @@ class MDList(Block):
         return "\n".join(output)
 
     @staticmethod
-    def _process_items(items):
+    def _process_items(items) -> list[Block]:
         """
         Given the variety of data that MDList can accept, this function
-        forces all possible data types to be either MDLists or Paragraphs.
+        forces all possible data types to be Blocks.
 
         :param items: a list of items
-        :return: a list of paragraphs and MDLists
+        :return: a list of Blocks
         """
         processed = []
         for item in items:

@@ -12,7 +12,7 @@ def test_paragraph_one_inline():
 
 
 def test_paragraph_one_str():
-    paragraph = Paragraph("Single Phrase")
+    paragraph = Paragraph(["Single Phrase"])
     assert str(paragraph) == "Single Phrase"
 
 
@@ -111,23 +111,23 @@ def test_replace_link_two_limit():
 
 
 def test_paragraph_one_str_quote():
-    paragraph = Paragraph("Single Phrase", quote=True)
+    paragraph = Paragraph(["Single Phrase"], quote=True)
     assert str(paragraph) == "> Single Phrase"
 
 
 def test_paragraph_is_text_false():
-    paragraph = Paragraph("Single Phrase", quote=True)
+    paragraph = Paragraph(["Single Phrase"], quote=True)
     is_text = paragraph.is_text()
     assert not is_text
 
 
 def test_paragraph_is_text_true():
-    paragraph = Paragraph("Single Phrase")
+    paragraph = Paragraph(["Single Phrase"])
     is_text = paragraph.is_text()
     assert is_text   
 
 
 def test_paragraph_replace():
-    paragraph = Paragraph("Test Text")
+    paragraph = Paragraph(["Test Text"])
     paragraph.replace("Test", "Real")
     assert str(paragraph) == "Real Text"

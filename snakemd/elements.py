@@ -3,9 +3,7 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Iterable
-from urllib import request
-from urllib.error import HTTPError
+from typing import Iterable, Optional
 
 logger = logging.getLogger(__name__)
     
@@ -29,41 +27,45 @@ class Inline(Element):
     text are built using this class instead of strings directly. That
     way, those elements capture all styling information.
 
-    :raises ValueError: when Inline is an image without a URL
+    Inline element parameters are in order of precedence. In other words,
+    image markdown is applied to the text first while code markdown is
+    applied last. Due to this design, some forms of inline text are not
+    possible. For example, inline elements can be used to show inline 
+    markdown as an inline code element (e.g., `![here](https://example.com)`).
+    However, inline elements cannot be used to style inline code (e.g., **`code`**).
+    If styled code is necessary, it's possible to render the inline element
+    as a string and pass the result to another inline element. 
+
     :param str text: the inline text to render
-    :param str url: the link associated with the inline text
+    :param Optional[str] image: the source (either url or path) associated with an image
+    :param Optional[str] link: the link (either url or path) associated with the inline element
     :param bool bold: the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
-    :param bool italics: the italics state of the inline text;
+    :param bool italics: the italics state of the inline element;
         set to True to render inline text in italics (i.e., True -> *italics*)
     :param bool strikethrough: the strikethrough state of the inline text;
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
     :param bool code: the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
-    :param bool image: the image state of the inline text;
-        set to True to render inline text as an image;
-        must include url parameter to render
     """
 
     def __init__(
         self,
         text: str,
-        url: str = None,
+        image: Optional[str] = None,
+        link: Optional[str] = None,
         bold: bool = False,
         italics: bool = False,
         strikethrough: bool = False,
-        code: bool = False,
-        image: bool = False
+        code: bool = False
     ) -> None:
-        if image and not url:
-            raise ValueError("Image is missing url")
         self._text = text
+        self._image = image
+        self._link = link
         self._bold = bold
         self._italics = italics
-        self._url = url
-        self._code = code
-        self._image = image
         self._strikethrough = strikethrough
+        self._code = code
 
     def __str__(self) -> str:
         """
@@ -74,53 +76,36 @@ class Inline(Element):
         :return: the Inline object as a string
         """
         text = self._text
+        if self._image:
+            text = f"![{text}]({self._image})"
+        if self._link:
+            text = f"[{text}]({self._link})"
         if self._bold:
             text = f"**{text}**"
         if self._italics:
-            text = f"*{text}*"
+            text = f"_{text}_"
         if self._strikethrough:
             text = f"~~{text}~~"
-        if self._url:
-            text = f"[{text}]({self._url})"
-        if self._url and self._image:
-            text = f"!{text}"
         if self._code:
             text = f"`{text}`"
         return text
 
-    def verify_url(self) -> bool:
-        """
-        Verifies that a URL is a valid URL.
-
-        :return: True if the URL is valid; False otherwise
-        """
-        try:
-            req = request.Request(self._url)
-            req.get_method = lambda: 'HEAD'
-            request.urlopen(req)
-            logger.info(f"URL passed verification: {self._url}")
-            return True
-        except (HTTPError, ValueError):
-            logger.info(f"URL failed verification: {self._url}")
-            return False
-
-
     def is_text(self) -> bool:
         """
         Checks if this Inline is a text-only element. If not, it must
-        be an image, a URL, or an inline code snippet.
+        be an image, a link, or an inline code snippet.
 
         :return: True if this is a text-only element; False otherwise
         """
-        return not (self._code or self._image or self._url)
+        return not (self._code or self._image or self._link)
 
-    def is_url(self) -> bool:
+    def is_link(self) -> bool:
         """
-        Checks if the Inline object represents a URL.
+        Checks if the Inline object represents a link.
 
-        :return: True if the object has a URL; False otherwise
+        :return: True if the object has a link; False otherwise
         """
-        return bool(self._url)
+        return bool(self._link)
 
     def bold(self) -> Inline:
         """
@@ -194,23 +179,23 @@ class Inline(Element):
         self._code = False
         return self
 
-    def link(self, url: str) -> Inline:
+    def link(self, link: str) -> Inline:
         """
         Adds URL to self.
 
-        :param str url: the URL to apply to this Inline element
+        :param str link: the URL or path to apply to this Inline element
         :return: self
         """
-        self._url = url
+        self._link = link
         return self
 
     def unlink(self) -> Inline:
         """
-        Removes URL from self.
+        Removes link from self.
 
         :return: self
         """
-        self._url = None
+        self._link = None
         return self
 
     def reset(self) -> Inline:
@@ -220,11 +205,12 @@ class Inline(Element):
 
         :return: self
         """
-        self._url = None
+        self._image = None
+        self._link = None
         self._code = False
         self._italics = False
         self._bold = False
-        self._image = False
+        self._strikethrough = False
         return self
 
 
@@ -354,24 +340,27 @@ class Paragraph(Block):
     A paragraph is a standalone block of text. Paragraphs can be
     formatted in a variety of ways including as blockquotes.
 
-    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
+    :param str | Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Inline | str], quote: bool = False):
+    def __init__(self, content: str | Iterable[Inline | str], quote: bool = False):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
         self._quote = quote
 
     @staticmethod
-    def _process_content(content) -> None:
-        processed = []
-        for item in content:
-            if isinstance(item, str):
-                processed.append(Inline(item))
-            else:
-                processed.append(item)
+    def _process_content(content) -> list[Inline]:
+        if isinstance(content, str):
+            processed = [Inline(content)]
+        else:
+            processed = []
+            for item in content:
+                if isinstance(item, str):
+                    processed.append(Inline(item))
+                else:
+                    processed.append(item)
         return processed
     
     def __str__(self) -> str:
@@ -476,7 +465,7 @@ class Paragraph(Block):
         :param int count: the number of links to insert; defaults to -1 (all)
         :return: self
         """
-        return self._replace_any(target, Inline(target, url=url), count)
+        return self._replace_any(target, Inline(target, link=url), count)
 
     def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
@@ -494,23 +483,10 @@ class Paragraph(Block):
         """
         i = 0
         for text in self._content:
-            if (count == -1 or i < count) and text._url == target:
+            if (count == -1 or i < count) and text._link == target:
                 text.link(url)
                 i += 1
         return self
-
-    def verify_urls(self) -> dict[str, bool]:
-        """
-        Verifies all URLs in the paragraph. Results are
-        returned in a dictionary where the URLs are
-        mapped to their validity.
-
-        :return: a dictionary of URLs mapped to their validity
-        """
-        result = {}
-        for item in self._content:
-            result[item._url] = item.is_url() and item.verify_url()
-        return result
 
 
 class MDList(Block):

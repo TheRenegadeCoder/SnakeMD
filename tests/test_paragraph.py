@@ -1,3 +1,4 @@
+from types import GeneratorType
 from snakemd import Inline, Paragraph
 
 
@@ -6,8 +7,22 @@ def test_paragraph_empty():
     assert str(paragraph) == ""
 
 
-def test_paragraph_one_inline():
+def test_paragraph_one_inline_list():
     paragraph = Paragraph([Inline("Single Phrase")])
+    assert str(paragraph) == "Single Phrase"
+
+
+def test_paragraph_one_str_list():
+    word_list = ["Single Phrase"]
+    paragraph = Paragraph(word_list)
+    assert isinstance(word_list, list)
+    assert str(paragraph) == "Single Phrase"
+
+
+def test_paragraph_one_str_generator():
+    generator = (word for word in ["Single", " ", "Phrase"])
+    paragraph = Paragraph(generator)
+    assert isinstance(generator, GeneratorType)
     assert str(paragraph) == "Single Phrase"
 
 
@@ -17,10 +32,12 @@ def test_paragraph_one_str():
 
 
 def test_paragraph_many_inline():
-    paragraph = Paragraph(
-        [Inline("How"), Inline("Now"),
-         Inline("Brown"), Inline("Cow")]
-    )
+    paragraph = Paragraph([
+        Inline("How"), 
+        Inline("Now"),
+        Inline("Brown"), 
+        Inline("Cow")
+    ])
     assert str(paragraph) == "HowNowBrownCow"
 
 
@@ -30,9 +47,11 @@ def test_paragraph_many_str():
 
 
 def test_paragraph_add_inline():
-    paragraph = Paragraph(
-        [Inline("How"), Inline("Now"), Inline("Brown")]
-    )
+    paragraph = Paragraph([
+        Inline("How"), 
+        Inline("Now"), 
+        Inline("Brown")
+    ])
     paragraph.add(Inline("Cow"))
     assert str(paragraph) == "HowNowBrownCow"
 
@@ -71,16 +90,16 @@ def test_insert_link_two_limit():
 
 
 def test_replace_link_one():
-    paragraph = Paragraph([Inline("Hello, World!", url="https://example.com")]) \
+    paragraph = Paragraph([Inline("Hello, World!", link="https://example.com")]) \
         .replace_link("https://example.com", "https://google.com")
     assert str(paragraph) == "[Hello, World!](https://google.com)"
 
 
 def test_replace_link_two_chained():
     paragraph = Paragraph([
-        Inline("Hello", url="https://example.com"),
+        Inline("Hello", link="https://example.com"),
         ", ",
-        Inline("World", url="https://example2.com"),
+        Inline("World", link="https://example2.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com") \
@@ -90,9 +109,9 @@ def test_replace_link_two_chained():
 
 def test_replace_link_two_same():
     paragraph = Paragraph([
-        Inline("Hello", url="https://example.com"),
+        Inline("Hello", link="https://example.com"),
         ", ",
-        Inline("World", url="https://example.com"),
+        Inline("World", link="https://example.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com")
@@ -101,10 +120,39 @@ def test_replace_link_two_same():
 
 def test_replace_link_two_limit():
     paragraph = Paragraph([
-        Inline("Hello", url="https://example.com"),
+        Inline("Hello", link="https://example.com"),
         ", ",
-        Inline("World", url="https://example.com"),
+        Inline("World", link="https://example.com"),
         "!"
     ]) \
         .replace_link("https://example.com", "https://google.com", count=1)
     assert str(paragraph) == "[Hello](https://google.com), [World](https://example.com)!"
+
+
+def test_paragraph_one_str_quote():
+    paragraph = Paragraph(["Single Phrase"], quote=True)
+    assert str(paragraph) == "> Single Phrase"
+
+
+def test_paragraph_is_text_false():
+    paragraph = Paragraph(["Single Phrase"], quote=True)
+    is_text = paragraph.is_text()
+    assert not is_text
+
+
+def test_paragraph_is_text_true():
+    paragraph = Paragraph(["Single Phrase"])
+    is_text = paragraph.is_text()
+    assert is_text   
+
+
+def test_paragraph_replace_str_list():
+    paragraph = Paragraph(["Test Text"])
+    paragraph.replace("Test", "Real")
+    assert str(paragraph) == "Real Text"
+
+
+def test_paragraph_replace_str():
+    paragraph = Paragraph("Test Text")
+    paragraph.replace("Test", "Real")
+    assert str(paragraph) == "Real Text"

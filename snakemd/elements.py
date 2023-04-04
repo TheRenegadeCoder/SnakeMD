@@ -351,7 +351,7 @@ class Paragraph(Block):
         self._quote = quote
 
     @staticmethod
-    def _process_content(content) -> None:
+    def _process_content(content) -> list[Inline]:
         processed = []
         for item in content:
             if isinstance(item, str):

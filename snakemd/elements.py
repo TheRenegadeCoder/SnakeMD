@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Iterable
+from typing import Iterable, Optional
 
 logger = logging.getLogger(__name__)
     
@@ -37,8 +37,8 @@ class Inline(Element):
     as a string and pass the result to another inline element. 
 
     :param str text: the inline text to render
-    :param str image: the source (either url or path) associated with an image
-    :param str link: the link (either url or path) associated with the inline element
+    :param Optional[str] image: the source (either url or path) associated with an image
+    :param Optional[str] link: the link (either url or path) associated with the inline element
     :param bool bold: the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
     :param bool italics: the italics state of the inline element;
@@ -52,8 +52,8 @@ class Inline(Element):
     def __init__(
         self,
         text: str,
-        image: str = None,
-        link: str = None,
+        image: Optional[str] = None,
+        link: Optional[str] = None,
         bold: bool = False,
         italics: bool = False,
         strikethrough: bool = False,

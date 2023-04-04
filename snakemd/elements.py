@@ -340,24 +340,27 @@ class Paragraph(Block):
     A paragraph is a standalone block of text. Paragraphs can be
     formatted in a variety of ways including as blockquotes.
 
-    :param Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
+    :param str | Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
     :param bool quote: the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: Iterable[Inline | str], quote: bool = False):
+    def __init__(self, content: str | Iterable[Inline | str], quote: bool = False):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
         self._quote = quote
 
     @staticmethod
     def _process_content(content) -> list[Inline]:
-        processed = []
-        for item in content:
-            if isinstance(item, str):
-                processed.append(Inline(item))
-            else:
-                processed.append(item)
+        if isinstance(content, str):
+            processed = [Inline(content)]
+        else:
+            processed = []
+            for item in content:
+                if isinstance(item, str):
+                    processed.append(Inline(item))
+                else:
+                    processed.append(item)
         return processed
     
     def __str__(self) -> str:

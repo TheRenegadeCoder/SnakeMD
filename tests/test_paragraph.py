@@ -1,3 +1,4 @@
+from types import GeneratorType
 from snakemd import Inline, Paragraph
 
 
@@ -6,21 +7,37 @@ def test_paragraph_empty():
     assert str(paragraph) == ""
 
 
-def test_paragraph_one_inline():
+def test_paragraph_one_inline_list():
     paragraph = Paragraph([Inline("Single Phrase")])
     assert str(paragraph) == "Single Phrase"
 
 
+def test_paragraph_one_str_list():
+    word_list = ["Single Phrase"]
+    paragraph = Paragraph(word_list)
+    assert isinstance(word_list, list)
+    assert str(paragraph) == "Single Phrase"
+
+
+def test_paragraph_one_str_generator():
+    generator = (word for word in ["Single", " ", "Phrase"])
+    paragraph = Paragraph(generator)
+    assert isinstance(generator, GeneratorType)
+    assert str(paragraph) == "Single Phrase"
+
+
 def test_paragraph_one_str():
-    paragraph = Paragraph(["Single Phrase"])
+    paragraph = Paragraph("Single Phrase")
     assert str(paragraph) == "Single Phrase"
 
 
 def test_paragraph_many_inline():
-    paragraph = Paragraph(
-        [Inline("How"), Inline("Now"),
-         Inline("Brown"), Inline("Cow")]
-    )
+    paragraph = Paragraph([
+        Inline("How"), 
+        Inline("Now"),
+        Inline("Brown"), 
+        Inline("Cow")
+    ])
     assert str(paragraph) == "HowNowBrownCow"
 
 
@@ -30,9 +47,11 @@ def test_paragraph_many_str():
 
 
 def test_paragraph_add_inline():
-    paragraph = Paragraph(
-        [Inline("How"), Inline("Now"), Inline("Brown")]
-    )
+    paragraph = Paragraph([
+        Inline("How"), 
+        Inline("Now"), 
+        Inline("Brown")
+    ])
     paragraph.add(Inline("Cow"))
     assert str(paragraph) == "HowNowBrownCow"
 
@@ -127,7 +146,13 @@ def test_paragraph_is_text_true():
     assert is_text   
 
 
-def test_paragraph_replace():
+def test_paragraph_replace_str_list():
     paragraph = Paragraph(["Test Text"])
+    paragraph.replace("Test", "Real")
+    assert str(paragraph) == "Real Text"
+
+
+def test_paragraph_replace_str():
+    paragraph = Paragraph("Test Text")
     paragraph.replace("Test", "Real")
     assert str(paragraph) == "Real Text"

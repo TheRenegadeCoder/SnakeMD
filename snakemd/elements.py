@@ -310,6 +310,15 @@ class Heading(Block):
     A heading is a text block which serves as the title for a new
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
+    
+    All methods described in the Heading class include sample
+    code. Sample code assumes a generic :code:`heading` object exists,
+    which can be created as follows:
+    
+    .. code-block:: Python
+
+        from snakemd import Heading
+        heading = Heading("Sample Heading", 1)
 
     :raises ValueError: when level < 1 or level > 6
     :param str | Inline | Iterable[Inline | str] text: the heading text
@@ -356,6 +365,10 @@ class Heading(Block):
         """
         Promotes a heading up a level. Fails silently
         if the heading is already at the highest level (i.e., <h1>).
+        
+        .. code-block:: Python
+
+            heading.promote()
         """
         if self._level > 1:
             self._level -= 1
@@ -364,6 +377,10 @@ class Heading(Block):
         """
         Demotes a heading down a level. Fails silently if
         the heading is already at the lowest level (i.e., <h6>).
+        
+        .. code-block:: Python
+
+            heading.demote()
         """
         if self._level < 6:
             self._level += 1
@@ -371,6 +388,10 @@ class Heading(Block):
     def get_text(self) -> str:
         """
         Returns the heading text free of any styling.
+        
+        .. code-block:: Python
+
+            text: str = heading.get_text()
         
         :return: the heading as a string
         """

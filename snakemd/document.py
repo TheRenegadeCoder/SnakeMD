@@ -53,7 +53,7 @@ class Document:
 
         .. code-block:: Python
 
-            doc.add_block(Heading("Python is Cool!"), 2))
+            doc.add_block(Heading("Python is Cool!", 2))
 
         :param Block block: a markdown block (e.g., Table, Heading, etc.)
         :return: the Block added to this Document

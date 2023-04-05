@@ -8,12 +8,17 @@ API constructed of elements.
 Element Interface
 -----------------
 
+Broadly speaking, anything that can be rendered as markdown
+is known as an element. Below is the element interface. 
+
 .. autoclass:: snakemd.Element
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
-Elements are then broken down into two main types:
+For practical purposes, elements cannot be constructed directly.
+Instead, they are broken down into two main categories:
 block and inline. 
 
 Block Elements
@@ -22,11 +27,11 @@ Block Elements
 SnakeMD block elements borrow from the idea of block-level elements
 from HTML. And because Markdown documents are constructed from a
 series of blocks, users of SnakeMD can seemlessly append their own
-custom blocks using the :func:`add_block` method. To make use
+custom blocks using the :func:`snakemd.Document.add_block` method. To make use
 of this method, blocks must be imported and constructed manually,
-like the following Heading example:
+like the following :class:`snakemd.Heading` example:
 
-.. code-block:: Python 
+.. code-block:: python 
 
    from snakemd import Heading, new_doc
    doc = new_doc()
@@ -52,6 +57,7 @@ Code
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
 Heading
 ^^^^^^^
@@ -122,7 +128,7 @@ the returned Heading object has no support for linking. However,
 with Inline elements, we can create a custom Heading to our
 standards:
 
-.. code-block:: Python 
+.. code-block:: python 
 
    from snakemd import Heading, Inline, new_doc
    doc = new_doc()    

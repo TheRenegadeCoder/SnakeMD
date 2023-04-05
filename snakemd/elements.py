@@ -442,24 +442,33 @@ class Code(Block):
         super().__init__()
         self._code = code
         self._lang = lang
+        self._backticks = 3
 
     def __str__(self) -> str:
         """
-        Renders the code block as a string. Attempts to handle
-        nesting by applying 4 backticks rather than 3. It's
-        possible to have infinitely nested code blocks, but
-        that seems sort of silly. However, a single nested
-        code block seems valuable, especially for showing
-        how to share a code block. 
+        Renders the code block as a markdown string. Markdown code
+        blocks are rendered using typical fenced code block
+        format using backticks:
+        
+        .. code-block:: markdown
+        
+            ```python
+            x = 5
+            y = 2 + x
+            ```
+            
+        Code blocks can be nested and will be rendering with
+        increasing numbers of backticks.
 
         :return: 
             the code block as a markdown string
         """
-        ticks = '`' * 3
+        source_code = f"{self._code}"
         if isinstance(self._code, Code):
             logger.debug("Code block contains nested code block")
-            ticks = '`' * 4
-        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+            self._backticks = self._code._backticks + 1
+        ticks = '`' * self._backticks
+        return f"{ticks}{self._lang}\n{source_code}\n{ticks}"
 
 
 class Quote(Block):
@@ -532,7 +541,7 @@ class Paragraph(Block):
     code. Sample code assumes a generic :code:`paragraph` object exists,
     which can be created as follows:
 
-    .. code-block:: Python
+    .. code-block:: python
 
         from snakemd import Paragraph
         paragraph = Paragraph("Hello, World!")

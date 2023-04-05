@@ -742,7 +742,8 @@ class MDList(Block):
         For example, if the the ordered flag is set, an ordered list
         will be rendered in markdown.
 
-        :return: the list as a markdown string
+        :return: 
+            the list as a markdown string
         """
         output = list()
         i = 1
@@ -777,8 +778,10 @@ class MDList(Block):
         Given the variety of data that MDList can accept, this function
         forces all possible data types to be Blocks.
 
-        :param items: a list of items
-        :return: a list of Blocks
+        :param items: 
+            a list of items
+        :return: 
+            a list of Blocks
         """
         processed = []
         for item in items:
@@ -860,7 +863,8 @@ class Table(Block):
         Renders a markdown table from a header "list"
         and a data set.
 
-        :return: a table as a markdown string
+        :return: 
+            a table as a markdown string
         """
         rows = list()
         header = [
@@ -904,9 +908,12 @@ class Table(Block):
         Processes the table inputs to ensure header and body only contain paragraph blocks.
         Also, this computes the max width of each row to ensure pretty print works every time.
 
-        :param header: the header row in its various forms
-        :param body: the table body in its various forms
-        :return: the table containing only Paragraph blocks and a list of the widest items in each row
+        :param header: 
+            the header row in its various forms
+        :param body: 
+            the table body in its various forms
+        :return: 
+            the table containing only Paragraph blocks and a list of the widest items in each row
         """
         processed_header = []
         processed_body = []
@@ -938,9 +945,12 @@ class Table(Block):
         Traverses the table looking to determine the appropriate
         widths for each column. 
 
-        :param header: the header row
-        :param body: the rows of data
-        :return: a list of column widths
+        :param header: 
+            the header row
+        :param body: 
+            the rows of data
+        :return: 
+            a list of column widths
         """
         widths = [len(str(word)) for word in header]
         for row in body:
@@ -957,8 +967,10 @@ class Table(Block):
 
             table.add_row(["3rd", "Matthews"])
 
-        :raises ValueError: when row is not the same width as the table header
-        :param Iterable[str | Inline | Paragraph] row: a row of data
+        :raises ValueError: 
+            when row is not the same width as the table header
+        :param Iterable[str | Inline | Paragraph] row: 
+            a row of data
         """
         if len(row) != len(self._header):
             raise ValueError(

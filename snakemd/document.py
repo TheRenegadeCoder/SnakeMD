@@ -21,7 +21,7 @@ class Document:
     markdown file. However, the functionality is not exhaustive.
     To get the full range of markdown functionality, you can
     take advantage of the :func:`add_block` function to provide
-    custom markdown block.
+    custom markdown blocks.
     """
 
     def __init__(self) -> None:

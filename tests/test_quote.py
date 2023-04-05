@@ -1,5 +1,6 @@
 from snakemd import Quote
 
+
 def test_quote_one_str():
     quote = Quote("Single Phrase")
     assert str(quote) == "> Single Phrase"

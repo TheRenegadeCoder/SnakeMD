@@ -4,29 +4,29 @@ Usage
 =====
 
 SnakeMD is a Python library for building markdown documents. 
-You can use it by importing the SnakeMD module into your
+We can use it by importing the SnakeMD module into our
 program directly:
 
 .. code-block:: python
 
     import snakemd
 
-This way, you'll have access to all of the classes available
-in the SnakeMD module. From here, you can take advantage of
+This way, we'll have access to all of the classes available
+in the SnakeMD module. From here, we can take advantage of
 a handy function to create a new document:
 
 .. code-block:: python 
 
     doc = snakemd.new_doc()
 
-This will create a new :py:class:`snakemd.Document` object. Alternatively, you can 
+This will create a new :py:class:`snakemd.Document` object. Alternatively, we can 
 import the Document class directly:
 
 .. code-block:: python
 
     from snakemd import Document
 
-From here, you can instantiate the Document class:
+From here, we can instantiate the Document class:
 
 .. code-block:: python
 
@@ -50,7 +50,7 @@ we'll add a title to the document:
 
 From here, we can do pretty much anything we'd like. Some
 quick actions might be to include a paragraph about this 
-library as well as a list of reasons why you might use it:
+library as well as a list of reasons why we might use it:
 
 .. code-block:: python 
 
@@ -67,8 +67,8 @@ library as well as a list of reasons why you might use it:
 
 One thing that's really cool about using SnakeMD is that we can
 build out the structure of a document before we modify it to
-include any links. For example, you might have noticed that we
-saved the output of the add_paragraph() method from above. Well,
+include any links. For example, notice how we saved the output of the 
+:meth:`snakemd.Document.add_paragraph` method from above. Well,
 as it turns out, all of the document methods return the objects
 that are generated as a result of their use. In this case, the
 method returns a Paragraph object which we can modify. Here's

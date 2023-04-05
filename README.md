@@ -10,7 +10,7 @@ In the remainder of this document, we'll show you all of the things this library
 
 ## Table of Contents
 
-Below you'll find the table of contents, but these can also be generated programatically for every Markdown document. As of v0.8.0, you can also specify which types of headings are included in the table of contents.
+Below you'll find the table of contents, but these can also be generated programatically for every Markdown document as follows:
 
 ```py
 def _table_of_contents(doc: Document):
@@ -54,7 +54,7 @@ I think. Therefore, I am.
 
 ## Links
 
-Links are targets to files or web pages and can be embedded in a Paragraph in a variety of ways. As of v0.2.0, we're able to add links to existing paragraphs using the insert_link() method. Even better, in v0.4.0, we can chain these insert_link() calls.
+Links are targets to files or web pages and can be embedded in paragraphs in a variety of ways, such as with the insert_link() method.
 
 _SnakeMD Source_
 
@@ -77,7 +77,7 @@ Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@Rene
 
 ## Images
 
-Images can be added by embedding InlineText in a Paragraph.
+Images can be added by embedding Inline elements in a paragraph.
 
 _SnakeMD Source_
 
@@ -186,7 +186,7 @@ _Rendered Result_
 
 ### Nested List
 
-Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object. As of v0.4.0, you can forego the InlineText elements if you don't need them.
+Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
 
 _SnakeMD Source_
 
@@ -195,7 +195,7 @@ def _nested_list(doc: Document):
     doc.add_block(
         MDList([
             "Apples",
-            Inline("Onions"),
+            Inline("Onions", bold=True),
             MDList([
                 "Sweet",
                 "Red"
@@ -209,7 +209,7 @@ _Markdown Source_
 
 ```markdown
 - Apples
-- Onions
+- **Onions**
   - Sweet
   - Red
 - This is the end of the list!
@@ -218,14 +218,14 @@ _Markdown Source_
 _Rendered Result_
 
 - Apples
-- Onions
+- **Onions**
   - Sweet
   - Red
 - This is the end of the list!
 
 ## Tables
 
-Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or InlineText. As of v0.4.0, you can also align the columns of the table using the Table.Align enum.
+Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or Inline.
 
 _SnakeMD Source_
 

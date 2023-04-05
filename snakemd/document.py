@@ -22,6 +22,15 @@ class Document:
     To get the full range of markdown functionality, you can
     take advantage of the :func:`add_block` function to provide
     custom markdown blocks.
+    
+    All methods described in the Document class include sample
+    code. Sample code assumes a generic :code:`doc` object exists,
+    which can be created as follows:
+    
+    .. code-block:: Python
+
+        import snakemd
+        doc = snakemd.new_doc()
     """
 
     def __init__(self) -> None:
@@ -260,6 +269,10 @@ class Document:
         """
         A silly method which mixes all of the blocks in this document in
         a random order.
+        
+        .. code-block:: Python
+
+            doc.scramble()
         """
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")

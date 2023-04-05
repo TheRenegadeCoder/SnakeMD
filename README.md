@@ -25,7 +25,7 @@ def _table_of_contents(doc: Document):
    1. [Ordered List](#ordered-list)
    2. [Unordered List](#unordered-list)
    3. [Checklist](#checklist)
-   4. [Nested List](#nested-list)
+   4. [Nested Lists](#nested-lists)
 6. [Tables](#tables)
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)
@@ -185,7 +185,7 @@ _Rendered Result_
 - [ ] Shoot the puck
 - [ ] Score a goal
 
-### Nested List
+### Nested Lists
 
 Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
 

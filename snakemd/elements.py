@@ -324,7 +324,7 @@ class Code(Block):
     def __str__(self) -> str:
         """
         Renders the code block as a markdown string. Markdown code
-        blocks are returned with typical fenced code block
+        blocks are returned with the fenced code block
         format using backticks:
         
         .. code-block:: markdown
@@ -358,7 +358,7 @@ class Heading(Block):
     code. Sample code assumes a generic :code:`heading` object exists,
     which can be created as follows:
 
-    .. code-block:: Python
+    .. code-block:: python
 
         from snakemd import Heading
         heading = Heading("Sample Heading", 1)
@@ -471,74 +471,113 @@ class HorizontalRule(Block):
 
     def __str__(self) -> str:
         """
-        Renders the horizontal rule using the three dash syntax.
+        Renders the horizontal rule as a markdown string. Markdown
+        horizontal rules come in a variety of flavors, but the
+        format used in this repo is the triple asterisk 
+        (i.e., :code:`***`) to avoid clashes with list formatting.
 
         :return: 
             the horizontal rule as a markdown string
         """
         return "***"
-
-
-class Quote(Block):
+    
+    
+class MDList(Block):
     """
-    A quote is a standalone block of emphasized text. Quotes can be
-    nested and can contain other blocks. 
+    A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
-    :param str | Iterable[str | Inline | Block] lines: 
-        a single string or a "list" of text objects to be formatted as a quote
+    :param Iterable[str | Inline | Block] items:
+        a "list" of objects to be rendered as a list
+    :param bool ordered: 
+        the ordered state of the list;
+        set to True to render an ordered list (i.e., True -> 1. item)
+    :param None | bool | Iterable[bool] checked: 
+        the checked state of the list;
+        set to True, False, or an iterable of booleans to enable the checklist feature.
     """
 
-    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
+    def __init__(
+        self,
+        items: Iterable[str | Inline | Block],
+        ordered: bool = False,
+        checked: None | bool | Iterable[bool] = None
+    ) -> None:
         super().__init__()
-        self._lines: list[Block] = self._process_content(lines)
-        self._depth = 1
-
-    @staticmethod
-    def _process_content(lines) -> list[Block]:
-        """
-        Converts the raw input lines to something that is
-        a bit easier to work with. In this case, the lines
-        are converted to blocks.
-
-        :param lines: 
-            a "list" of text objects or a string
-        :return: 
-            a list of Blocks
-        """
-        logger.debug(f"Processing quote lines: {lines}")
-        if isinstance(lines, str):
-            processed_lines = [Paragraph(lines)]
-        else:
-            processed_lines = []
-            for line in lines:
-                if isinstance(line, (str, Inline)):
-                    processed_lines.append(Paragraph(line))
-                else:
-                    processed_lines.append(line)
-        return processed_lines
+        self._items: list[Block] = self._process_items(items)
+        self._ordered = ordered
+        self._checked = checked
+        self._space = ""
 
     def __str__(self) -> str:
         """
-        Formats the quote such that each line has the
-        correct depth and quote characters.
+        Renders the markdown list according to the settings provided.
+        For example, if the the ordered flag is set, an ordered list
+        will be rendered in markdown.
 
         :return: 
-            the quote formatted as a markdown string
+            the list as a markdown string
         """
-        formatted_lines: list[str] = []
-        quote_markers = f"{'> ' * self._depth}"
-        for line in self._lines:
-            if isinstance(line, Quote):
-                line._depth = self._depth + 1
-                formatted_lines.extend([
-                    quote_markers,
-                    str(line),
-                    quote_markers
-                ])
+        output = list()
+        i = 1
+        for item in self._items:
+            if isinstance(item, MDList):
+                item._space = self._space + " " * self._get_indent_size(i)
+                output.append(str(item))
             else:
-                split = f"\n{quote_markers}".join(str(line).splitlines())
-                formatted_lines.append(f"{quote_markers}{split}")
-        return "\n".join(formatted_lines)
+                # Create the start of the row based on `order` parameter
+                if self._ordered:
+                    row = f"{self._space}{i}."
+                else:
+                    row = f"{self._space}-"
+
+                # Add checkbox based on `checked` parameter
+                if isinstance(self._checked, bool):
+                    checked_str = "X" if self._checked else " "
+                    row = f"{row} [{checked_str}] {item}"
+                elif self._checked is not None:
+                    checked_str = "X" if self._checked[i - 1] else " "
+                    row = f"{row} [{checked_str}] {item}"
+                else:
+                    row = f"{row} {item}"
+
+                output.append(row)
+                i += 1
+        return "\n".join(output)
+
+    @staticmethod
+    def _process_items(items) -> list[Block]:
+        """
+        Given the variety of data that MDList can accept, this function
+        forces all possible data types to be Blocks.
+
+        :param items: 
+            a list of items
+        :return: 
+            a list of Blocks
+        """
+        processed = []
+        for item in items:
+            if isinstance(item, (str, Inline)):
+                processed.append(Paragraph([item]))
+            else:
+                processed.append(item)
+        return processed
+
+    def _get_indent_size(self, item_index: int = -1) -> int:
+        """
+        Returns the number of spaces that any sublists should be indented.
+
+        :param int item_index: 
+            the index of the item to check (only used for ordered lists);
+            defaults to -1
+        :return: 
+            the number of spaces
+        """
+        if not self._ordered:
+            return 2
+        else:
+            # Ordered items vary in length, so we adjust the result based on the index
+            return 2 + len(str(item_index))
 
 
 class Paragraph(Block):
@@ -725,104 +764,83 @@ class Paragraph(Block):
                 text.link(url)
                 i += 1
         return self
-
-
-class MDList(Block):
+    
+    
+class Quote(Block):
     """
-    A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
+    A quote is a standalone block of emphasized text. Quotes can be
+    nested and can contain other blocks. 
 
-    :param Iterable[str | Inline | Block] items:
-        a "list" of objects to be rendered as a list
-    :param bool ordered: 
-        the ordered state of the list;
-        set to True to render an ordered list (i.e., True -> 1. item)
-    :param None | bool | Iterable[bool] checked: 
-        the checked state of the list;
-        set to True, False, or an iterable of booleans to enable the checklist feature.
+    :param str | Iterable[str | Inline | Block] lines: 
+        a single string or a "list" of text objects to be formatted as a quote
     """
 
-    def __init__(
-        self,
-        items: Iterable[str | Inline | Block],
-        ordered: bool = False,
-        checked: None | bool | Iterable[bool] = None
-    ) -> None:
+    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
         super().__init__()
-        self._items: list[Block] = self._process_items(items)
-        self._ordered = ordered
-        self._checked = checked
-        self._space = ""
-
-    def __str__(self) -> str:
-        """
-        Renders the markdown list according to the settings provided.
-        For example, if the the ordered flag is set, an ordered list
-        will be rendered in markdown.
-
-        :return: 
-            the list as a markdown string
-        """
-        output = list()
-        i = 1
-        for item in self._items:
-            if isinstance(item, MDList):
-                item._space = self._space + " " * self._get_indent_size(i)
-                output.append(str(item))
-            else:
-                # Create the start of the row based on `order` parameter
-                if self._ordered:
-                    row = f"{self._space}{i}."
-                else:
-                    row = f"{self._space}-"
-
-                # Add checkbox based on `checked` parameter
-                if isinstance(self._checked, bool):
-                    checked_str = "X" if self._checked else " "
-                    row = f"{row} [{checked_str}] {item}"
-                elif self._checked is not None:
-                    checked_str = "X" if self._checked[i - 1] else " "
-                    row = f"{row} [{checked_str}] {item}"
-                else:
-                    row = f"{row} {item}"
-
-                output.append(row)
-                i += 1
-        return "\n".join(output)
+        self._lines: list[Block] = self._process_content(lines)
+        self._depth = 1
 
     @staticmethod
-    def _process_items(items) -> list[Block]:
+    def _process_content(lines) -> list[Block]:
         """
-        Given the variety of data that MDList can accept, this function
-        forces all possible data types to be Blocks.
+        Converts the raw input lines to something that is
+        a bit easier to work with. In this case, the lines
+        are converted to blocks.
 
-        :param items: 
-            a list of items
+        :param lines: 
+            a "list" of text objects or a string
         :return: 
             a list of Blocks
         """
-        processed = []
-        for item in items:
-            if isinstance(item, (str, Inline)):
-                processed.append(Paragraph([item]))
-            else:
-                processed.append(item)
-        return processed
-
-    def _get_indent_size(self, item_index: int = -1) -> int:
-        """
-        Returns the number of spaces that any sublists should be indented.
-
-        :param int item_index: 
-            the index of the item to check (only used for ordered lists);
-            defaults to -1
-        :return: 
-            the number of spaces
-        """
-        if not self._ordered:
-            return 2
+        logger.debug(f"Processing quote lines: {lines}")
+        if isinstance(lines, str):
+            processed_lines = [Paragraph(lines)]
         else:
-            # Ordered items vary in length, so we adjust the result based on the index
-            return 2 + len(str(item_index))
+            processed_lines = []
+            for line in lines:
+                if isinstance(line, (str, Inline)):
+                    processed_lines.append(Paragraph(line))
+                else:
+                    processed_lines.append(line)
+        return processed_lines
+
+    def __str__(self) -> str:
+        """
+        Formats the quote such that each line has the
+        correct depth and quote characters.
+
+        :return: 
+            the quote formatted as a markdown string
+        """
+        formatted_lines: list[str] = []
+        quote_markers = f"{'> ' * self._depth}"
+        for line in self._lines:
+            if isinstance(line, Quote):
+                line._depth = self._depth + 1
+                formatted_lines.extend([
+                    quote_markers,
+                    str(line),
+                    quote_markers
+                ])
+            else:
+                split = f"\n{quote_markers}".join(str(line).splitlines())
+                formatted_lines.append(f"{quote_markers}{split}")
+        return "\n".join(formatted_lines)
+
+
+class Raw(Block):
+    """
+    Raw blocks allow a user to insert text into the Markdown
+    document without an processing. Use this block to insert
+    raw Markdown or other types of text (e.g., Jekyll frontmatter).
+    """
+
+    def __init__(self, text: str) -> None:
+        super().__init__()
+        self._text = text
+
+    def __str__(self) -> str:
+        return self._text
 
 
 class Table(Block):
@@ -995,18 +1013,3 @@ class Table(Block):
             )
         logger.debug(f"Adding row to table: {row}")
         self._body.append(row)
-
-
-class Raw(Block):
-    """
-    Raw blocks allow a user to insert text into the Markdown
-    document without an processing. Use this block to insert
-    raw Markdown or other types of text (e.g., Jekyll frontmatter).
-    """
-
-    def __init__(self, text: str) -> None:
-        super().__init__()
-        self._text = text
-
-    def __str__(self) -> str:
-        return self._text

@@ -75,6 +75,7 @@ HorizontalRule
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
 MDList
 ^^^^^^

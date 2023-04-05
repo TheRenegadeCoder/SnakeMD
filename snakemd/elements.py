@@ -335,13 +335,50 @@ class Code(Block):
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
 
+class Quote(Block):
+    """
+    A quote is a standalone block of emphasized text.
+
+    :param lines: a single string or a "list" of text objects to be formatted as a quote
+    """
+    
+    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
+        super().__init__()
+        self._lines: list[Block] = self._process_content(lines)
+        self._depth = 1
+            
+    @staticmethod
+    def _process_content(lines) -> list[Block]:
+        if isinstance(lines, str):
+            processed_lines = [Paragraph(lines)]
+        else:
+            processed_lines = []
+            for line in lines:
+                if isinstance(line, (str, Inline)):
+                    processed_lines.append(Paragraph(line))
+                else:
+                    processed_lines.append(line)
+        return processed_lines
+    
+    def __str__(self) -> str:
+        formatted_lines: list[str] = []
+        for line in self._lines:
+            if isinstance(line, Quote):
+                line._depth = self._depth + 1
+                formatted_lines.append(str(line))
+            else:
+                formatted_lines.append(f"{'> ' * self._depth}{line}")
+        return "\n".join(formatted_lines)
+
+
 class Paragraph(Block):
     """
-    A paragraph is a standalone block of text. Paragraphs can be
-    formatted in a variety of ways including as blockquotes.
+    A paragraph is a standalone block of text. 
 
-    :param str | Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
-    :param bool quote: the quote state of the paragraph;
+    :param str | Iterable[Inline | str] content: 
+        a single string or a "list" of text objects to render as a paragraph        
+    :param bool quote: 
+        the quote state of the paragraph;
         set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 

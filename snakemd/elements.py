@@ -308,26 +308,46 @@ class Block(Element):
     pass
 
 
-class HorizontalRule(Block):
+class Code(Block):
     """
-    A horizontal rule is a line separating different sections of
-    a document. Horizontal rules really only come in one form,
-    so there are no settings to adjust.
+    A code block is a standalone block of syntax-highlighted code.
+    Code blocks can have generic highlighting or highlighting based
+    on their language. 
     """
 
-    def __init__(self):
+    def __init__(self, code: str | Code, lang: str = "generic"):
         super().__init__()
+        self._code = code
+        self._lang = lang
+        self._backticks = 3
 
     def __str__(self) -> str:
         """
-        Renders the horizontal rule using the three dash syntax.
+        Renders the code block as a markdown string. Markdown code
+        blocks are returned with typical fenced code block
+        format using backticks:
+        
+        .. code-block:: markdown
+        
+            ```python
+            x = 5
+            y = 2 + x
+            ```
+            
+        Code blocks can be nested and will be rendered with
+        increasing numbers of backticks.
 
         :return: 
-            the horizontal rule as a markdown string
+            the code block as a markdown string
         """
-        return "***"
-
-
+        source_code = f"{self._code}"
+        if isinstance(self._code, Code):
+            logger.debug("Code block contains nested code block")
+            self._backticks = self._code._backticks + 1
+        ticks = '`' * self._backticks
+        return f"{ticks}{self._lang}\n{source_code}\n{ticks}"
+    
+    
 class Heading(Block):
     """
     A heading is a text block which serves as the title for a new
@@ -362,8 +382,16 @@ class Heading(Block):
 
     def __str__(self) -> str:
         """
-        Renders the heading in markdown according to
-        the level provided.
+        Renders the heading as a markdown string. Markdown headings
+        are returned using the :code:`#` syntax where the number of
+        :code:`#` symbols corresponds to the heading level:
+        
+        .. code-block:: markdown
+        
+            ```python
+            # This is an H1
+            ## This is an H2
+            ```
 
         :return: 
             the heading as a markdown string
@@ -431,44 +459,24 @@ class Heading(Block):
         return ''.join(text_elements)
 
 
-class Code(Block):
+class HorizontalRule(Block):
     """
-    A code block is a standalone block of syntax-highlighted code.
-    Code blocks can have generic highlighting or highlighting based
-    on their language. 
+    A horizontal rule is a line separating different sections of
+    a document. Horizontal rules really only come in one form,
+    so there are no settings to adjust.
     """
 
-    def __init__(self, code: str | Code, lang: str = "generic"):
+    def __init__(self):
         super().__init__()
-        self._code = code
-        self._lang = lang
-        self._backticks = 3
 
     def __str__(self) -> str:
         """
-        Renders the code block as a markdown string. Markdown code
-        blocks are rendered using typical fenced code block
-        format using backticks:
-        
-        .. code-block:: markdown
-        
-            ```python
-            x = 5
-            y = 2 + x
-            ```
-            
-        Code blocks can be nested and will be rendering with
-        increasing numbers of backticks.
+        Renders the horizontal rule using the three dash syntax.
 
         :return: 
-            the code block as a markdown string
+            the horizontal rule as a markdown string
         """
-        source_code = f"{self._code}"
-        if isinstance(self._code, Code):
-            logger.debug("Code block contains nested code block")
-            self._backticks = self._code._backticks + 1
-        ticks = '`' * self._backticks
-        return f"{ticks}{self._lang}\n{source_code}\n{ticks}"
+        return "***"
 
 
 class Quote(Block):

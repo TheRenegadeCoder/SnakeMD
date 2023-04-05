@@ -1,4 +1,4 @@
-from snakemd import Quote, Heading
+from snakemd import Quote, Heading, Code
 
 
 def test_quote_one_str():
@@ -23,3 +23,8 @@ def test_quote_nested():
 def test_quote_heading():
     quote = Quote([Heading("Test", 1)])
     assert str(quote) == "> # Test"
+    
+
+def test_quote_heading():
+    quote = Quote([Code("x = 7")])
+    assert str(quote) == "> ```generic\n> x = 7\n> ```"

@@ -387,7 +387,8 @@ class Quote(Block):
                     quote_markers
                 ])
             else:
-                formatted_lines.append(f"{quote_markers}{line}")
+                split = f"\n{quote_markers}".join(str(line).splitlines())
+                formatted_lines.append(f"{quote_markers}{split}")
         return "\n".join(formatted_lines)
 
 

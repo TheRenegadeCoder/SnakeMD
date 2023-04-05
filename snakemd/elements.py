@@ -852,7 +852,7 @@ class Table(Block):
         elif body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")
         self._widths: list[int] = self._process_widths(
-            self._header, 
+            self._header,
             self._body
         )
         self._align = align

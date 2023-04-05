@@ -85,7 +85,7 @@ class Document:
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
         """
-        A convenience method which adds a simple heading to the document:
+        A convenience method which adds a heading to the document:
 
         .. code-block:: Python
 
@@ -105,7 +105,7 @@ class Document:
 
     def add_paragraph(self, text: str) -> Paragraph:
         """
-        A convenience method which adds a simple paragraph of text to the document:
+        A convenience method which adds a paragraph of text to the document:
 
         .. code-block:: Python
 
@@ -123,7 +123,7 @@ class Document:
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
         """
-        A convenience method which adds a simple ordered list to the document:
+        A convenience method which adds an ordered list to the document:
 
         .. code-block:: Python
 
@@ -141,7 +141,7 @@ class Document:
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
         """
-        A convenience method which adds a simple unordered list to the document.
+        A convenience method which adds an unordered list to the document.
 
         .. code-block:: Python
 
@@ -159,7 +159,7 @@ class Document:
 
     def add_checklist(self, items: Iterable[str]) -> MDList:
         """
-        A convenience method which adds a simple checklist to the document.
+        A convenience method which adds a checklist to the document.
 
         .. code-block:: Python
 
@@ -183,7 +183,7 @@ class Document:
         indent: int = 0
     ) -> Table:
         """
-        A convenience method which adds a simple table to the document:
+        A convenience method which adds a table to the document:
 
         .. code-block:: Python
 

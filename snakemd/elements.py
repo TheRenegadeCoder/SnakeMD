@@ -35,6 +35,15 @@ class Inline(Element):
     However, inline elements cannot be used to style inline code (e.g., **`code`**).
     If styled code is necessary, it's possible to render the inline element
     as a string and pass the result to another inline element. 
+    
+    All methods described in the Inline class include sample
+    code. Sample code assumes a generic :code:`inline` object exists,
+    which can be created as follows:
+    
+    .. code-block:: Python
+
+        from snakemd import Inline
+        inline = Inline("Sample Text")
 
     :param str text: the inline text to render
     :param None | str image: the source (either url or path) associated with an image
@@ -95,6 +104,10 @@ class Inline(Element):
         """
         Checks if this Inline element is a text-only element. If not, it must
         be an image, a link, or a code snippet.
+        
+        .. code-block:: Python
+
+            is_inline_text: bool = inline.is_text()
 
         :return: True if this is a text-only element; False otherwise
         """
@@ -103,6 +116,10 @@ class Inline(Element):
     def is_link(self) -> bool:
         """
         Checks if the Inline object represents a link.
+        
+        .. code-block:: Python
+
+            is_inline_link: bool = inline.is_link()
 
         :return: True if the object has a link; False otherwise
         """
@@ -111,6 +128,10 @@ class Inline(Element):
     def bold(self) -> Inline:
         """
         Adds bold styling to self.
+        
+        .. code-block:: Python
+
+            inline.bold()
 
         :return: self
         """
@@ -120,6 +141,10 @@ class Inline(Element):
     def unbold(self) -> Inline:
         """
         Removes bold styling from self.
+        
+        .. code-block:: Python
+
+            inline.unbold()
 
         :return: self
         """
@@ -129,6 +154,10 @@ class Inline(Element):
     def italicize(self) -> Inline:
         """
         Adds italics styling to self.
+        
+        .. code-block:: Python
+
+            inline.italicize()
 
         :return: self
         """
@@ -138,6 +167,10 @@ class Inline(Element):
     def unitalicize(self) -> Inline:
         """
         Removes italics styling from self.
+        
+        .. code-block:: Python
+
+            inline.unitalicize()
 
         :return: self
         """
@@ -148,6 +181,10 @@ class Inline(Element):
         """
         Adds strikethrough styling to self.
         
+        .. code-block:: Python
+
+            inline.strikethrough()
+        
         :return: self
         """
         self._strikethrough = True
@@ -157,6 +194,10 @@ class Inline(Element):
         """
         Remove strikethrough styling from self.
         
+        .. code-block:: Python
+
+            inline.unstrikethrough()
+        
         :return: self
         """
         self._strikethrough = False
@@ -165,6 +206,10 @@ class Inline(Element):
     def code(self) -> Inline:
         """
         Adds code style to self.
+        
+        .. code-block:: Python
+
+            inline.code()
 
         :return: self
         """
@@ -173,7 +218,11 @@ class Inline(Element):
 
     def uncode(self) -> Inline:
         """
-        Removes code style from self.
+        Removes code styling from self.
+        
+        .. code-block:: Python
+
+            inline.uncode()
 
         :return: self
         """
@@ -182,7 +231,11 @@ class Inline(Element):
 
     def link(self, link: str) -> Inline:
         """
-        Adds URL to self.
+        Adds link to self.
+        
+        .. code-block:: Python
+
+            inline.link("https://snakemd.io")
 
         :param str link: the URL or path to apply to this Inline element
         :return: self
@@ -193,6 +246,10 @@ class Inline(Element):
     def unlink(self) -> Inline:
         """
         Removes link from self.
+        
+        .. code-block:: Python
+
+            inline.unlink()
 
         :return: self
         """
@@ -203,6 +260,10 @@ class Inline(Element):
         """
         Removes all settings from self (e.g., bold, code, italics, url, etc.).
         All that will remain is the text itself.
+        
+        .. code-block:: Python
+
+            inline.reset()
 
         :return: self
         """

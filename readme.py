@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 import logging
+from typing import Callable
 
 from snakemd import Block, Code, Document, Inline, MDList, Paragraph, Table
 
@@ -101,7 +102,7 @@ def _horizontal_rule(doc: Document):
     doc.add_horizontal_rule()
 
 
-def _section(doc: Document, title: str, desc: str, func, level: int = 2):
+def _section(doc: Document, title: str, desc: str, func: Callable, level: int = 2):
     doc.add_heading(title, level=level)
     doc.add_paragraph(desc)
     doc.add_block(Paragraph([Inline("SnakeMD Source", italics=True)]))

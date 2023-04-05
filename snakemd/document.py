@@ -34,7 +34,7 @@ class Document:
         :return: the document as a markdown string
         """
         return "\n\n".join(str(block) for block in self._contents)
-    
+
     def add_block(self, block: Block) -> Block:
         """
         A generic function for appending blocks to the document.
@@ -51,11 +51,11 @@ class Document:
         self._contents.append(block)
         logger.debug(f"Added custom block to document\n{block}")
         return block
-    
+
     def add_raw(self, text: str) -> Raw:
         """
         A convenience method which adds text as-is to the document:
-        
+
         .. code-block:: Python
 
             doc.add_raw("X: 5\\nY: 4\\nZ: 3")
@@ -250,7 +250,9 @@ class Document:
         """
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
-        logger.debug(f"Added table of contents to document (unable to render until file is complete)")
+        logger.debug(
+            f"Added table of contents to document (unable to render until file is complete)"
+        )
         return toc
 
     def scramble(self) -> None:
@@ -260,7 +262,7 @@ class Document:
         """
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")
-    
+
     def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:
         """
         Outputs the markdown document to a file. This method assumes the output directory
@@ -268,11 +270,11 @@ class Document:
         made if it does not already exist. This method also assumes a file extension of md
         and a file encoding of utf-8, all of which are configurable through the method
         parameters.
-        
+
         .. code-block:: Python
-        
+
             doc.dump("README")
-            
+
         :param str name: the name of the markdown file to output without the file extension
         :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""
         :param str ext: the output file extension; defaults to "md"

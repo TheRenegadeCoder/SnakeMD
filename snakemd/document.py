@@ -49,7 +49,7 @@ class Document:
         :return: the Block added to this Document
         """
         self._contents.append(block)
-        logger.debug(f"Added block to document\n{block}")
+        logger.debug(f"Added custom block to document\n{block}")
         return block
     
     def add_raw(self, text: str) -> Raw:
@@ -65,6 +65,7 @@ class Document:
         """
         raw = Raw(text)
         self._contents.append(raw)
+        logger.debug(f"Added raw block to document\n{text}")
         return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
@@ -284,3 +285,4 @@ class Document:
             encoding=encoding
         ) as output_file:
             output_file.write(str(self))
+        logger.debug(f"Dumped document to {dir} with filename {name}.{ext}")

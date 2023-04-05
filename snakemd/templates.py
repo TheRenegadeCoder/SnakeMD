@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import logging
 
 from .elements import Element, Heading, Inline, MDList
@@ -34,8 +35,10 @@ class TableOfContents(Template):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
-        logger.debug(f"New table of contents initialized with levels in {range}")
-        
+        logger.debug(
+            f"New table of contents initialized with levels in {range}"
+        )
+
     def __str__(self) -> str:
         """
         Renders the table of contents using the Document reference.

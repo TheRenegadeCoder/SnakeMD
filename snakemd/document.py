@@ -41,7 +41,8 @@ class Document:
         """
         Renders the markdown document from a list of blocks.
 
-        :return: the document as a markdown string
+        :return: 
+            the document as a markdown string
         """
         return "\n\n".join(str(block) for block in self._contents)
 
@@ -55,8 +56,10 @@ class Document:
 
             doc.add_block(Heading("Python is Cool!", 2))
 
-        :param Block block: a markdown block (e.g., Table, Heading, etc.)
-        :return: the Block added to this Document
+        :param Block block: 
+            a markdown block (e.g., Table, Heading, etc.)
+        :return: 
+            the Block added to this Document
         """
         self._contents.append(block)
         logger.debug(f"Added custom block to document\n{block}")
@@ -70,8 +73,10 @@ class Document:
 
             doc.add_raw("X: 5\\nY: 4\\nZ: 3")
 
-        :param str text: some text 
-        :return: the Raw block added to this Document
+        :param str text: 
+            some text 
+        :return: 
+            the Raw block added to this Document
         """
         raw = Raw(text)
         self._contents.append(raw)
@@ -86,9 +91,12 @@ class Document:
 
             doc.add_heading("Welcome to SnakeMD!")
 
-        :param str text: the text for the heading
-        :param int level: the level of the heading from 1 to 6
-        :return: the Heading added to this Document
+        :param str text: 
+            the text for the heading
+        :param int level: 
+            the level of the heading from 1 to 6
+        :return: 
+            the Heading added to this Document
         """
         heading = Heading(Inline(text), level)
         self._contents.append(heading)
@@ -103,8 +111,10 @@ class Document:
 
             doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
 
-        :param str text: any arbitrary text
-        :return: the Paragraph added to this Document
+        :param str text: 
+            any arbitrary text
+        :return: 
+            the Paragraph added to this Document
         """
         paragraph = Paragraph([Inline(text)])
         self._contents.append(paragraph)
@@ -119,8 +129,10 @@ class Document:
 
             doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
 
-        :param Iterable[str] items: a "list" of strings
-        :return: the MDList added to this Document
+        :param Iterable[str] items: 
+            a "list" of strings
+        :return: 
+            the MDList added to this Document
         """
         md_list = MDList([Inline(item) for item in items], ordered=True)
         self._contents.append(md_list)
@@ -135,8 +147,10 @@ class Document:
 
             doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
 
-        :param Iterable[str] items: a "list" of strings
-        :return: the MDList added to this Document
+        :param Iterable[str] items: 
+            a "list" of strings
+        :return: 
+            the MDList added to this Document
         """
         md_list = MDList([Inline(item) for item in items])
         self._contents.append(md_list)
@@ -151,8 +165,10 @@ class Document:
 
             doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
 
-        :param Iterable[str] items: a "list" of strings
-        :return: the MDCheckList added to this Document
+        :param Iterable[str] items: 
+            a "list" of strings
+        :return: 
+            the MDCheckList added to this Document
         """
         md_checklist = MDList([Inline(item) for item in items], checked=False)
         self._contents.append(md_checklist)
@@ -181,12 +197,17 @@ class Document:
                 0
             )
 
-        :param Iterable[str] header: a "list" of strings
-        :param Iterable[Iterable[str]] data: a "list" of "lists" of strings
-        :param Iterable[Table.Align] align: a "list" of column alignment values;
+        :param Iterable[str] header: 
+            a "list" of strings
+        :param Iterable[Iterable[str]] data: 
+            a "list" of "lists" of strings
+        :param Iterable[Table.Align] align: 
+            a "list" of column alignment values;
             defaults to None
-        :param int indent: indent size for the whole table
-        :return: the Table added to this Document
+        :param int indent: 
+            indent size for the whole table
+        :return: 
+            the Table added to this Document
         """
         header = [Paragraph([text]) for text in header]
         data = [[Paragraph([item]) for item in row] for row in data]
@@ -203,9 +224,12 @@ class Document:
 
             doc.add_code("x = 5")
 
-        :param str code: a preformatted code string
-        :param str lang: the language for syntax highlighting
-        :return: the Code block added to this Document
+        :param str code: 
+            a preformatted code string
+        :param str lang: 
+            the language for syntax highlighting
+        :return: 
+            the Code block added to this Document
         """
         code_block = Code(code, lang=lang)
         self._contents.append(code_block)
@@ -220,8 +244,10 @@ class Document:
 
             doc.add_quote("Welcome to the Internet!")
 
-        :param str text: the text to be quoted
-        :return: the Quote added to this Document
+        :param str text: 
+            the text to be quoted
+        :return: 
+            the Quote added to this Document
         """
         quote = Quote(text)
         self._contents.append(quote)
@@ -236,7 +262,8 @@ class Document:
 
             doc.add_horizontal_rule()
 
-        :return: the HorizontalRule added to this Document
+        :return: 
+            the HorizontalRule added to this Document
         """
         hr = HorizontalRule()
         self._contents.append(hr)
@@ -255,8 +282,10 @@ class Document:
 
             doc.add_table_of_contents()
 
-        :param range levels: a range of heading levels to be included in the table of contents
-        :return: the TableOfContents added to this Document
+        :param range levels: 
+            a range of heading levels to be included in the table of contents
+        :return: 
+            the TableOfContents added to this Document
         """
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
@@ -289,10 +318,14 @@ class Document:
 
             doc.dump("README")
 
-        :param str name: the name of the markdown file to output without the file extension
-        :param str | os.PathLike dir: the output directory for the markdown file; defaults to ""
-        :param str ext: the output file extension; defaults to "md"
-        :param str encoding: the encoding to use; defaults to utf-8
+        :param str name: 
+            the name of the markdown file to output without the file extension
+        :param str | os.PathLike dir: 
+            the output directory for the markdown file; defaults to ""
+        :param str ext: 
+            the output file extension; defaults to "md"
+        :param str encoding: 
+            the encoding to use; defaults to utf-8
         """
         pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
         with open(

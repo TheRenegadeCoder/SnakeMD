@@ -15,6 +15,7 @@ def new_doc() -> Document:
 
     .. versionadded:: 0.9.0
          
-    :return: a new Document object
+    :return: 
+        a new Document object
     """
     return Document()

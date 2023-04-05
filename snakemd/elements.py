@@ -45,16 +45,23 @@ class Inline(Element):
         from snakemd import Inline
         inline = Inline("Sample Text")
 
-    :param str text: the inline text to render
-    :param None | str image: the source (either url or path) associated with an image
-    :param None | str link: the link (either url or path) associated with the inline element
-    :param bool bold: the bold state of the inline text;
+    :param str text: 
+        the inline text to render
+    :param None | str image: 
+        the source (either url or path) associated with an image
+    :param None | str link: 
+        the link (either url or path) associated with the inline element
+    :param bool bold: 
+        the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
-    :param bool italics: the italics state of the inline element;
+    :param bool italics: 
+        the italics state of the inline element;
         set to True to render inline text in italics (i.e., True -> *italics*)
-    :param bool strikethrough: the strikethrough state of the inline text;
+    :param bool strikethrough: 
+        the strikethrough state of the inline text;
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
-    :param bool code: the italics state of the inline text;
+    :param bool code: 
+        the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
     """
 
@@ -82,7 +89,8 @@ class Inline(Element):
         inline text can represent many different types of data from
         stylized text to inline code to links and images.
 
-        :return: the Inline object as a string
+        :return: 
+            the Inline object as a string
         """
         text = self._text
         if self._image:
@@ -109,7 +117,8 @@ class Inline(Element):
 
             is_inline_text: bool = inline.is_text()
 
-        :return: True if this is a text-only element; False otherwise
+        :return: 
+            True if this is a text-only element; False otherwise
         """
         return not (self._code or self._image or self._link)
 
@@ -121,7 +130,8 @@ class Inline(Element):
 
             is_inline_link: bool = inline.is_link()
 
-        :return: True if the object has a link; False otherwise
+        :return: 
+            True if the object has a link; False otherwise
         """
         return bool(self._link)
 
@@ -133,7 +143,8 @@ class Inline(Element):
 
             inline.bold()
 
-        :return: self
+        :return: 
+            self
         """
         self._bold = True
         return self
@@ -146,7 +157,8 @@ class Inline(Element):
 
             inline.unbold()
 
-        :return: self
+        :return: 
+            self
         """
         self._bold = False
         return self
@@ -159,7 +171,8 @@ class Inline(Element):
 
             inline.italicize()
 
-        :return: self
+        :return: 
+            self
         """
         self._italics = True
         return self
@@ -172,7 +185,8 @@ class Inline(Element):
 
             inline.unitalicize()
 
-        :return: self
+        :return: 
+            self
         """
         self._italics = False
         return self
@@ -185,7 +199,8 @@ class Inline(Element):
 
             inline.strikethrough()
 
-        :return: self
+        :return: 
+            self
         """
         self._strikethrough = True
         return self
@@ -198,7 +213,8 @@ class Inline(Element):
 
             inline.unstrikethrough()
 
-        :return: self
+        :return: 
+            self
         """
         self._strikethrough = False
         return self
@@ -211,7 +227,8 @@ class Inline(Element):
 
             inline.code()
 
-        :return: self
+        :return: 
+            self
         """
         self._code = True
         return self
@@ -224,7 +241,8 @@ class Inline(Element):
 
             inline.uncode()
 
-        :return: self
+        :return: 
+            self
         """
         self._code = False
         return self
@@ -237,8 +255,10 @@ class Inline(Element):
 
             inline.link("https://snakemd.io")
 
-        :param str link: the URL or path to apply to this Inline element
-        :return: self
+        :param str link: 
+            the URL or path to apply to this Inline element
+        :return: 
+            self
         """
         self._link = link
         return self
@@ -251,7 +271,8 @@ class Inline(Element):
 
             inline.unlink()
 
-        :return: self
+        :return: 
+            self
         """
         self._link = None
         return self
@@ -265,7 +286,8 @@ class Inline(Element):
 
             inline.reset()
 
-        :return: self
+        :return: 
+            self
         """
         self._image = None
         self._link = None
@@ -300,7 +322,8 @@ class HorizontalRule(Block):
         """
         Renders the horizontal rule using the three dash syntax.
 
-        :return: the horizontal rule as a markdown string
+        :return: 
+            the horizontal rule as a markdown string
         """
         return "***"
 
@@ -320,9 +343,12 @@ class Heading(Block):
         from snakemd import Heading
         heading = Heading("Sample Heading", 1)
 
-    :raises ValueError: when level < 1 or level > 6
-    :param str | Inline | Iterable[Inline | str] text: the heading text
-    :param int level: the heading level between 1 and 6
+    :raises ValueError: 
+        when level < 1 or level > 6
+    :param str | Inline | Iterable[Inline | str] text: 
+        the heading text
+    :param int level: 
+        the heading level between 1 and 6
     """
 
     def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:
@@ -339,7 +365,8 @@ class Heading(Block):
         Renders the heading in markdown according to
         the level provided.
 
-        :return: the heading as a markdown string
+        :return: 
+            the heading as a markdown string
         """
         heading = [str(item) for item in self._text]
         return f"{'#' * self._level} {''.join(heading)}"
@@ -349,8 +376,10 @@ class Heading(Block):
         """
         Ensures that Heading objects are composed of a single Inline object.
 
-        :param text: an object to be forced to Inline
-        :return: the input text as an Inline
+        :param str | Inline | Iterable[Inline | str] text: 
+            an object to be forced to Inline
+        :return: 
+            the input text as an Inline
         """
         logger.debug(f"Processing heading text: {text}")
         if isinstance(text, str):
@@ -395,7 +424,8 @@ class Heading(Block):
 
             text: str = heading.get_text()
 
-        :return: the heading as a string
+        :return: 
+            the heading as a string
         """
         text_elements = [item._text for item in self._text]
         return ''.join(text_elements)
@@ -422,7 +452,8 @@ class Code(Block):
         code block seems valuable, especially for showing
         how to share a code block. 
 
-        :return: the code block as a markdown string
+        :return: 
+            the code block as a markdown string
         """
         ticks = '`' * 3
         if isinstance(self._code, Code):
@@ -436,7 +467,8 @@ class Quote(Block):
     A quote is a standalone block of emphasized text. Quotes can be
     nested and can contain other blocks. 
 
-    :param lines: a single string or a "list" of text objects to be formatted as a quote
+    :param str | Iterable[str | Inline | Block] lines: 
+        a single string or a "list" of text objects to be formatted as a quote
     """
 
     def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
@@ -451,8 +483,10 @@ class Quote(Block):
         a bit easier to work with. In this case, the lines
         are converted to blocks.
 
-        :param lines: a "list" of text objects or a string
-        :return: a list of Blocks
+        :param lines: 
+            a "list" of text objects or a string
+        :return: 
+            a list of Blocks
         """
         logger.debug(f"Processing quote lines: {lines}")
         if isinstance(lines, str):
@@ -471,7 +505,8 @@ class Quote(Block):
         Formats the quote such that each line has the
         correct depth and quote characters.
 
-        :return: the quote formatted as a markdown string
+        :return: 
+            the quote formatted as a markdown string
         """
         formatted_lines: list[str] = []
         quote_markers = f"{'> ' * self._depth}"
@@ -515,8 +550,10 @@ class Paragraph(Block):
         """
         Processes the incoming content for the Paragraph.
 
-        :param content: an iterable of various text items
-        :return: the processed iterable as a list of Inline items
+        :param content: 
+            an iterable of various text items
+        :return: 
+            the processed iterable as a list of Inline items
         """
         logger.debug(f"Processing paragraph content: {content}")
         if isinstance(content, str):
@@ -537,7 +574,8 @@ class Paragraph(Block):
         rendered as a code block. If both flags are enabled, code takes
         precedence.
 
-        :return: the paragraph as a markdown string
+        :return: 
+            the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
         return " ".join(paragraph.split())
@@ -550,7 +588,8 @@ class Paragraph(Block):
 
             paragraph.add("I come in peace")
 
-        :param text: a custom Inline element
+        :param Inline | str text: 
+            a custom Inline element
         """
         if isinstance(text, str):
             text = Inline(text)
@@ -569,10 +608,14 @@ class Paragraph(Block):
         Though, I suppose we could include all of that in the default replace
         method.
 
-        :param str target: the target string to replace
-        :param Inline text: the Inline object to insert in place of the target
-        :param int count: the number of links to insert; defaults to -1
-        :return: self
+        :param str target: 
+            the target string to replace
+        :param Inline text: 
+            the Inline object to insert in place of the target
+        :param int count: 
+            the number of links to insert; defaults to -1
+        :return: 
+            self
         """
         i = 0
         content = []
@@ -602,10 +645,14 @@ class Paragraph(Block):
 
             paragraph.replace("Here", "There")
 
-        :param str target: the target string to replace
-        :param str replacement: the Inline object to insert in place of the target
-        :param int count: the number of links to insert; defaults to -1
-        :return: self
+        :param str target: 
+            the target string to replace
+        :param str replacement: 
+            the Inline object to insert in place of the target
+        :param int count: 
+            the number of links to insert; defaults to -1
+        :return: 
+            self
         """
         return self._replace_any(target, Inline(replacement), count)
 
@@ -622,10 +669,14 @@ class Paragraph(Block):
 
             paragraph.insert_link("Here", "https://therenegadecoder.com")
 
-        :param str target: the string to link
-        :param str url: the url to link
-        :param int count: the number of links to insert; defaults to -1 (all)
-        :return: self
+        :param str target: 
+            the string to link
+        :param str url: 
+            the url to link
+        :param int count: 
+            the number of links to insert; defaults to -1 (all)
+        :return: 
+            self
         """
         return self._replace_any(target, Inline(target, link=url), count)
 
@@ -642,10 +693,14 @@ class Paragraph(Block):
 
             paragraph.replace_link("Here", "https://therenegadecoder.com")
 
-        :param str target: the string to link
-        :param str url: the url to link
-        :param int count: the number of links to replace; defaults to -1 (all)
-        :return: self
+        :param str target: 
+            the string to link
+        :param str url: 
+            the url to link
+        :param int count: 
+            the number of links to replace; defaults to -1 (all)
+        :return: 
+            self
         """
         i = 0
         for text in self._content:

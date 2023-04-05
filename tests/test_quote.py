@@ -1,4 +1,4 @@
-from snakemd import Quote, Heading, Code
+from snakemd import Quote, Heading, Code, HorizontalRule
 
 
 def test_quote_one_str():
@@ -25,6 +25,11 @@ def test_quote_heading():
     assert str(quote) == "> # Test"
     
 
-def test_quote_heading():
+def test_quote_code():
     quote = Quote([Code("x = 7")])
     assert str(quote) == "> ```generic\n> x = 7\n> ```"
+    
+    
+def test_quote_hr():
+    quote = Quote([HorizontalRule()])
+    assert str(quote) == "> ***"

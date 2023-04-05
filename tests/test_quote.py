@@ -1,4 +1,4 @@
-from snakemd import Quote
+from snakemd import Quote, Heading
 
 
 def test_quote_one_str():
@@ -18,3 +18,8 @@ def test_quote_nested():
         "Third"
     ])
     assert str(quote) == "> First\n> \n> > Second Nested\n> \n> Third"
+    
+
+def test_quote_heading():
+    quote = Quote([Heading("Test", 1)])
+    assert str(quote) == "> # Test"

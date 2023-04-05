@@ -490,6 +490,15 @@ class Quote(Block):
 class Paragraph(Block):
     """
     A paragraph is a standalone block of text. 
+    
+    All methods described in the Paragraph class include sample
+    code. Sample code assumes a generic :code:`paragraph` object exists,
+    which can be created as follows:
+    
+    .. code-block:: Python
+
+        from snakemd import Paragraph
+        paragraph = Paragraph("Hello, World!")
 
     :param str | Iterable[Inline | str] content: 
         a single string or a "list" of text objects to render as a paragraph        
@@ -534,6 +543,10 @@ class Paragraph(Block):
     def add(self, text: Inline | str) -> None:
         """
         Adds a text object to the paragraph.
+        
+        .. code-block:: Python
+
+            paragraph.add("I come in peace")
 
         :param text: a custom Inline element
         """
@@ -735,21 +748,30 @@ class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered
     according to underlying Inline items.
+    
+    All methods described in the Table class include sample
+    code. Sample code assumes a generic :code:`table` object exists,
+    which can be created as follows:
+    
+    .. code-block:: Python
+
+        from snakemd import Table
+        table = Table(["Place", "Name"], [["1st", "Crosby"], ["2nd", "McDavid"]])
         
     :raises ValueError: 
         when rows of table are of varying lengths or 
         when lengths of header and rows of table do not match
-    :param header: the header row of labels
-    :param body: the collection of rows of data; defaults to an empty list
-    :param align: the column alignment; defaults to None
-    :param indent: indent size for the whole table; defaults to 0
+    :param Iterable[str | Inline | Paragraph] header: the header row of labels
+    :param Iterable[Iterable[str | Inline | Paragraph]] body: the collection of rows of data; defaults to an empty list
+    :param None | Iterable[Align] align: the column alignment; defaults to None
+    :param int indent: indent size for the whole table; defaults to 0
     """
 
     def __init__(
         self,
         header: Iterable[str | Inline | Paragraph],
         body: Iterable[Iterable[str | Inline | Paragraph]] = [],
-        align: Iterable[Align] = None,
+        align: None | Iterable[Align] = None,
         indent: int = 0
     ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
@@ -863,7 +885,19 @@ class Table(Block):
     def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """
         Adds a row to the end of table. 
+        
+        .. code-block:: Python
+
+            table.add_row(["3rd", "Matthews"])
+        
+        :raises ValueError: when row is not the same width as the table header
+        :param Iterable[str | Inline | Paragraph] row: a row of data
         """
+        if len(row) != len(self._header):
+            raise ValueError(
+                f"Unable to add row with width {len(row)} to table with header of width {len(self._header)}"
+            )
+        logger.debug(f"Adding row to table: {row}")
         self._body.append(row)
     
     

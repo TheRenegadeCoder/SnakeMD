@@ -1,5 +1,10 @@
 from snakemd import Quote
 
-def test_paragraph_one_str_quote():
-    paragraph = Quote("Single Phrase")
-    assert str(paragraph) == "> Single Phrase"
+def test_quote_one_str():
+    quote = Quote("Single Phrase")
+    assert str(quote) == "> Single Phrase"
+    
+
+def test_quote_multiple_lines():
+    quote = Quote(["First", "Second", "Third"])
+    assert str(quote) == "> First\n> Second\n> Third"

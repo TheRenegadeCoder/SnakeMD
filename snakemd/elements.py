@@ -377,15 +377,11 @@ class Paragraph(Block):
 
     :param str | Iterable[Inline | str] content: 
         a single string or a "list" of text objects to render as a paragraph        
-    :param bool quote: 
-        the quote state of the paragraph;
-        set True to convert the paragraph to a blockquote (i.e., True -> > quote)
     """
 
-    def __init__(self, content: str | Iterable[Inline | str], quote: bool = False):
+    def __init__(self, content: str | Iterable[Inline | str]):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
-        self._quote = quote
 
     @staticmethod
     def _process_content(content) -> list[Inline]:
@@ -410,11 +406,7 @@ class Paragraph(Block):
         :return: the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
-        if self._quote:
-            return f"> {paragraph}"
-        else:
-            return " ".join(paragraph.split())
-
+        return " ".join(paragraph.split())
 
     def add(self, text: Inline | str) -> None:
         """
@@ -425,15 +417,6 @@ class Paragraph(Block):
         if isinstance(text, str):
             text = Inline(text)
         self._content.append(text)
-
-    def is_text(self) -> bool:
-        """
-        Checks if this Paragraph is a text-only block. If not, it must
-        be a quote.
-
-        :return: True if this is a text-only block; False otherwise
-        """
-        return not self._quote
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """

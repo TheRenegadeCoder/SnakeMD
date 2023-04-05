@@ -6,7 +6,7 @@ SnakeMD is your ticket to generating Markdown in Python. To prove it to you, we'
 pip install snakemd
 ```
 
-In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the official documentation [here](https://snakemd.therenegadecoder.com).
+In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the official documentation [here](https://snakemd.io).
 
 ## Table of Contents
 

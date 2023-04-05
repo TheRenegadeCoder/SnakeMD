@@ -22,7 +22,7 @@ def _introduction(doc: Document):
         out the official documentation here.
         """
     )
-    p.insert_link("here", "https://snakemd.therenegadecoder.com")
+    p.insert_link("here", "https://snakemd.io")
 
 
 def _table_of_contents(doc: Document):

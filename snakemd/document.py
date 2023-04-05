@@ -26,6 +26,7 @@ class Document:
 
     def __init__(self) -> None:
         self._contents: list[Block] = list()
+        logger.debug("New document initialized")
 
     def __str__(self):
         """

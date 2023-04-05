@@ -1,6 +1,9 @@
 from __future__ import annotations
+import logging
 
 from .elements import Element, Heading, Inline, MDList
+
+logger = logging.getLogger(__name__)
 
 
 class Template(Element):
@@ -31,6 +34,7 @@ class TableOfContents(Template):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
+        logger.debug(f"New table of contents initialized with levels in {range}")
         
     def __str__(self) -> str:
         """

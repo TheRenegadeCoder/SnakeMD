@@ -100,6 +100,10 @@ def _quote(doc: Document):
 
 def _horizontal_rule(doc: Document):
     doc.add_horizontal_rule()
+    
+    
+def _raw(doc: Document):
+    doc.add_raw("4<sup>2</sup> = 16<br />How cool is that?")
 
 
 def _section(doc: Document, title: str, desc: str, func: Callable, level: int = 2):
@@ -266,6 +270,18 @@ def main() -> None:
         "Horizontal Rule",
         "Horizontal Rules are visible dividers in a document.",
         _horizontal_rule
+    )
+    
+    _section(
+        doc,
+        "Raw",
+        """
+        If at any time SnakeMD doesn't meet your needs, you can
+        always add your own text using a raw block. These can
+        be used to insert any preformatted text you like,
+        such as HTML tags, Jekyll frontmatter, and more.
+        """,
+        _raw
     )
 
     doc.dump("README")

@@ -30,6 +30,7 @@ def _table_of_contents(doc: Document):
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)
 9. [Horizontal Rule](#horizontal-rule)
+10. [Raw](#raw)
 
 ## Paragraphs
 
@@ -327,3 +328,24 @@ _Markdown Source_
 _Rendered Result_
 
 ***
+
+## Raw
+
+If at any time SnakeMD doesn't meet your needs, you can always add your own text using a raw block. These can be used to insert any preformatted text you like, such as HTML tags, Jekyll frontmatter, and more.
+
+_SnakeMD Source_
+
+```py
+def _raw(doc: Document):
+    doc.add_raw("4<sup>2</sup> = 16<br />How cool is that?")
+```
+
+_Markdown Source_
+
+```markdown
+4<sup>2</sup> = 16<br />How cool is that?
+```
+
+_Rendered Result_
+
+4<sup>2</sup> = 16<br />How cool is that?

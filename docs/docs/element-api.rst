@@ -85,6 +85,14 @@ Paragraph
    :undoc-members:
    :show-inheritance:
 
+Quote
+^^^^^
+
+.. autoclass:: snakemd.Quote
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Raw
 ^^^
 

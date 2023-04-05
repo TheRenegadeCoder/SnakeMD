@@ -335,20 +335,74 @@ class Code(Block):
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
 
+class Quote(Block):
+    """
+    A quote is a standalone block of emphasized text. Quotes can be
+    nested and can contain other blocks. 
+
+    :param lines: a single string or a "list" of text objects to be formatted as a quote
+    """
+    
+    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
+        super().__init__()
+        self._lines: list[Block] = self._process_content(lines)
+        self._depth = 1
+            
+    @staticmethod
+    def _process_content(lines) -> list[Block]:
+        """
+        Converts the raw input lines to something that is
+        a bit easier to work with. In this case, the lines
+        are converted to blocks.
+
+        :param lines: a "list" of text objects or a string
+        :return: a list of Blocks
+        """
+        if isinstance(lines, str):
+            processed_lines = [Paragraph(lines)]
+        else:
+            processed_lines = []
+            for line in lines:
+                if isinstance(line, (str, Inline)):
+                    processed_lines.append(Paragraph(line))
+                else:
+                    processed_lines.append(line)
+        return processed_lines
+    
+    def __str__(self) -> str:
+        """
+        Formats the quote such that each line has the
+        correct depth and quote characters.
+
+        :return: the quote formatted as a markdown string
+        """
+        formatted_lines: list[str] = []
+        quote_markers = f"{'> ' * self._depth}"
+        for line in self._lines:
+            if isinstance(line, Quote):
+                line._depth = self._depth + 1
+                formatted_lines.extend([
+                    quote_markers,
+                    str(line),
+                    quote_markers
+                ])
+            else:
+                split = f"\n{quote_markers}".join(str(line).splitlines())
+                formatted_lines.append(f"{quote_markers}{split}")
+        return "\n".join(formatted_lines)
+
+
 class Paragraph(Block):
     """
-    A paragraph is a standalone block of text. Paragraphs can be
-    formatted in a variety of ways including as blockquotes.
+    A paragraph is a standalone block of text. 
 
-    :param str | Iterable[Inline | str] content: a "list" of text objects to render as a paragraph        
-    :param bool quote: the quote state of the paragraph;
-        set True to convert the paragraph to a blockquote (i.e., True -> > quote)
+    :param str | Iterable[Inline | str] content: 
+        a single string or a "list" of text objects to render as a paragraph        
     """
 
-    def __init__(self, content: str | Iterable[Inline | str], quote: bool = False):
+    def __init__(self, content: str | Iterable[Inline | str]):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
-        self._quote = quote
 
     @staticmethod
     def _process_content(content) -> list[Inline]:
@@ -373,11 +427,7 @@ class Paragraph(Block):
         :return: the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
-        if self._quote:
-            return f"> {paragraph}"
-        else:
-            return " ".join(paragraph.split())
-
+        return " ".join(paragraph.split())
 
     def add(self, text: Inline | str) -> None:
         """
@@ -388,15 +438,6 @@ class Paragraph(Block):
         if isinstance(text, str):
             text = Inline(text)
         self._content.append(text)
-
-    def is_text(self) -> bool:
-        """
-        Checks if this Paragraph is a text-only block. If not, it must
-        be a quote.
-
-        :return: True if this is a text-only block; False otherwise
-        """
-        return not self._quote
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """

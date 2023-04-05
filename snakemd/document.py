@@ -201,7 +201,7 @@ class Document:
         logger.debug(f"Added code block to document\n{code_block}")
         return code_block
 
-    def add_quote(self, text: str) -> Paragraph:
+    def add_quote(self, text: str) -> Quote:
         """
         A convenience method which adds a blockquote to the document:
 
@@ -210,12 +210,12 @@ class Document:
             doc.add_quote("Welcome to the Internet!")
 
         :param str text: the text to be quoted
-        :return: the Paragraph added to this Document
+        :return: the Quote added to this Document
         """
-        paragraph = Paragraph([Inline(text)], quote=True)
-        self._contents.append(paragraph)
-        logger.debug(f"Added code block to document\n{paragraph}")
-        return paragraph
+        quote = Quote(text)
+        self._contents.append(quote)
+        logger.debug(f"Added quote to document\n{quote}")
+        return quote
 
     def add_horizontal_rule(self) -> HorizontalRule:
         """
@@ -229,7 +229,7 @@ class Document:
         """
         hr = HorizontalRule()
         self._contents.append(hr)
-        logger.debug(f"Added code block to document\n{hr}")
+        logger.debug(f"Added horizontal rule to document\n{hr}")
         return hr
 
     def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
@@ -249,7 +249,7 @@ class Document:
         """
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
-        logger.debug(f"Added code block to document (unable to render until file is complete)")
+        logger.debug(f"Added table of contents to document (unable to render until file is complete)")
         return toc
 
     def scramble(self) -> None:

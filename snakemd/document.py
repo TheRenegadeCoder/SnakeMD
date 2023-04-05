@@ -59,7 +59,7 @@ class Document:
         :param Block block: 
             a markdown block (e.g., Table, Heading, etc.)
         :return: 
-            the Block added to this Document
+            the :class:`Block` added to this Document
         """
         self._contents.append(block)
         logger.debug(f"Added custom block to document\n{block}")
@@ -76,7 +76,7 @@ class Document:
         :param str text: 
             some text 
         :return: 
-            the Raw block added to this Document
+            the :class:`Raw` block added to this Document
         """
         raw = Raw(text)
         self._contents.append(raw)
@@ -96,7 +96,7 @@ class Document:
         :param int level: 
             the level of the heading from 1 to 6
         :return: 
-            the Heading added to this Document
+            the :class:`Heading` added to this Document
         """
         heading = Heading(Inline(text), level)
         self._contents.append(heading)
@@ -114,7 +114,7 @@ class Document:
         :param str text: 
             any arbitrary text
         :return: 
-            the Paragraph added to this Document
+            the :class:`Paragraph` added to this Document
         """
         paragraph = Paragraph([Inline(text)])
         self._contents.append(paragraph)
@@ -132,7 +132,7 @@ class Document:
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
-            the MDList added to this Document
+            the :class:`MDList` added to this Document
         """
         md_list = MDList([Inline(item) for item in items], ordered=True)
         self._contents.append(md_list)
@@ -150,7 +150,7 @@ class Document:
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
-            the MDList added to this Document
+            the :class:`MDList` added to this Document
         """
         md_list = MDList([Inline(item) for item in items])
         self._contents.append(md_list)
@@ -168,7 +168,7 @@ class Document:
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
-            the MDList added to this Document
+            the :class:`MDList` added to this Document
         """
         md_checklist = MDList([Inline(item) for item in items], checked=False)
         self._contents.append(md_checklist)
@@ -207,7 +207,7 @@ class Document:
         :param int indent: 
             indent size for the whole table
         :return: 
-            the Table added to this Document
+            the :class:`Table` added to this Document
         """
         header = [Paragraph([text]) for text in header]
         data = [[Paragraph([item]) for item in row] for row in data]
@@ -229,7 +229,7 @@ class Document:
         :param str lang: 
             the language for syntax highlighting
         :return: 
-            the Code block added to this Document
+            the :class:`Code` block added to this Document
         """
         code_block = Code(code, lang=lang)
         self._contents.append(code_block)
@@ -247,7 +247,7 @@ class Document:
         :param str text: 
             the text to be quoted
         :return: 
-            the Quote added to this Document
+            the :class:`Quote` added to this Document
         """
         quote = Quote(text)
         self._contents.append(quote)
@@ -263,7 +263,7 @@ class Document:
             doc.add_horizontal_rule()
 
         :return: 
-            the HorizontalRule added to this Document
+            the :class:`HorizontalRule` added to this Document
         """
         hr = HorizontalRule()
         self._contents.append(hr)
@@ -285,7 +285,7 @@ class Document:
         :param range levels: 
             a range of heading levels to be included in the table of contents
         :return: 
-            the TableOfContents added to this Document
+            the :class:`TableOfContents` added to this Document
         """
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)

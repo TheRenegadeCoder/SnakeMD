@@ -362,12 +362,17 @@ class Quote(Block):
     
     def __str__(self) -> str:
         formatted_lines: list[str] = []
+        quote_markers = f"{'> ' * self._depth}"
         for line in self._lines:
             if isinstance(line, Quote):
                 line._depth = self._depth + 1
-                formatted_lines.append(str(line))
+                formatted_lines.extend([
+                    quote_markers,
+                    str(line),
+                    quote_markers
+                ])
             else:
-                formatted_lines.append(f"{'> ' * self._depth}{line}")
+                formatted_lines.append(f"{quote_markers}{line}")
         return "\n".join(formatted_lines)
 
 

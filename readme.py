@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 import logging
 
-from snakemd import Document, Inline, MDList, Paragraph, Table
+from snakemd import Document, Inline, MDList, Paragraph, Table, Code, Block
 
 
 def _introduction(doc: Document):
@@ -109,7 +109,11 @@ def _section(doc: Document, title: str, desc: str, func, level: int = 2):
     doc.add_block(Paragraph([Inline("Rendered Result", italics=True)]))
     func(doc)
     doc.add_block(Paragraph([Inline("Markdown Source", italics=True)]))
-    doc.add_code(str(doc._contents[-2]), lang="markdown")
+    block: Block = doc._contents[-2]
+    doc.add_block(Code(
+        block if isinstance(block, Code) else str(block), 
+        lang="markdown"
+    ))
     doc._contents.insert(-3, doc._contents.pop())
     doc._contents.insert(-3, doc._contents.pop())
 

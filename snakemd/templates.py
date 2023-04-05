@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+import logging
+
 from .elements import Element, Heading, Inline, MDList
+
+logger = logging.getLogger(__name__)
 
 
 class Template(Element):
@@ -22,8 +26,10 @@ class TableOfContents(Template):
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
 
-    :param Document doc: a reference to the document containing this table of contents
-    :param list[int] levels: a range of integers representing the sequence of heading levels
+    :param Document doc: 
+        a reference to the document containing this table of contents
+    :param list[int] levels: 
+        a range of integers representing the sequence of heading levels
         to include in the table of contents; defaults to range(2, 3)
     """
 
@@ -31,12 +37,16 @@ class TableOfContents(Template):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
-        
+        logger.debug(
+            f"New table of contents initialized with levels in {range}"
+        )
+
     def __str__(self) -> str:
         """
         Renders the table of contents using the Document reference.
 
-        :return: the table of contents as a markdown string
+        :return: 
+            the table of contents as a markdown string
         """
         headings = self._get_headings()
         table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
@@ -46,7 +56,8 @@ class TableOfContents(Template):
         """
         Retrieves the list of headings from the current document.
 
-        :return: a list heading objects
+        :return: 
+            a list heading objects
         """
         return [
             heading
@@ -58,7 +69,8 @@ class TableOfContents(Template):
         """
         Assembles the table of contents from the headings in the document.
 
-        :return: a list of strings representing the table of contents
+        :return: 
+            a list of strings representing the table of contents
         """
         if not headings:
             return MDList([]), -1

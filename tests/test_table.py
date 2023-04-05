@@ -74,3 +74,9 @@ def test_table_generator_body_add_row_one():
     table = Table(["Age"], ([x] for x in ("24",)))
     table.add_row(["25"])
     assert str(table) == "| Age |\n| --- |\n| 24  |\n| 25  |"
+    
+
+def test_table_add_row_exception():
+    with pytest.raises(ValueError):
+        table = Table(["Age"])
+        table.add_row(["25", "55"])

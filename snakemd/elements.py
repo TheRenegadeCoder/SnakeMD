@@ -6,7 +6,7 @@ from enum import Enum, auto
 from typing import Iterable
 
 logger = logging.getLogger(__name__)
-    
+
 
 class Element(ABC):
     """
@@ -15,7 +15,7 @@ class Element(ABC):
     be able to be converted to their markdown representation using
     the built-in str() method. 
     """
-    
+
     @abstractmethod
     def __str__(self) -> str:
         pass
@@ -36,16 +36,32 @@ class Inline(Element):
     If styled code is necessary, it's possible to render the inline element
     as a string and pass the result to another inline element. 
 
-    :param str text: the inline text to render
-    :param None | str image: the source (either url or path) associated with an image
-    :param None | str link: the link (either url or path) associated with the inline element
-    :param bool bold: the bold state of the inline text;
+    All methods described in the Inline class include sample
+    code. Sample code assumes a generic :code:`inline` object exists,
+    which can be created as follows:
+
+    .. code-block:: Python
+
+        from snakemd import Inline
+        inline = Inline("Sample Text")
+
+    :param str text: 
+        the inline text to render
+    :param None | str image: 
+        the source (either url or path) associated with an image
+    :param None | str link: 
+        the link (either url or path) associated with the inline element
+    :param bool bold: 
+        the bold state of the inline text;
         set to True to render bold inline text (i.e., True -> **bold**)
-    :param bool italics: the italics state of the inline element;
+    :param bool italics: 
+        the italics state of the inline element;
         set to True to render inline text in italics (i.e., True -> *italics*)
-    :param bool strikethrough: the strikethrough state of the inline text;
+    :param bool strikethrough: 
+        the strikethrough state of the inline text;
         set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
-    :param bool code: the italics state of the inline text;
+    :param bool code: 
+        the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
     """
 
@@ -73,7 +89,8 @@ class Inline(Element):
         inline text can represent many different types of data from
         stylized text to inline code to links and images.
 
-        :return: the Inline object as a string
+        :return: 
+            the Inline object as a string
         """
         text = self._text
         if self._image:
@@ -88,14 +105,20 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._code:
             text = f"`{text}`"
+        logger.debug(f"Rendered inline text: {text}")
         return text
 
     def is_text(self) -> bool:
         """
-        Checks if this Inline is a text-only element. If not, it must
-        be an image, a link, or an inline code snippet.
+        Checks if this Inline element is a text-only element. If not, it must
+        be an image, a link, or a code snippet.
 
-        :return: True if this is a text-only element; False otherwise
+        .. code-block:: Python
+
+            is_inline_text: bool = inline.is_text()
+
+        :return: 
+            True if this is a text-only element; False otherwise
         """
         return not (self._code or self._image or self._link)
 
@@ -103,7 +126,12 @@ class Inline(Element):
         """
         Checks if the Inline object represents a link.
 
-        :return: True if the object has a link; False otherwise
+        .. code-block:: Python
+
+            is_inline_link: bool = inline.is_link()
+
+        :return: 
+            True if the object has a link; False otherwise
         """
         return bool(self._link)
 
@@ -111,7 +139,12 @@ class Inline(Element):
         """
         Adds bold styling to self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.bold()
+
+        :return: 
+            self
         """
         self._bold = True
         return self
@@ -120,7 +153,12 @@ class Inline(Element):
         """
         Removes bold styling from self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.unbold()
+
+        :return: 
+            self
         """
         self._bold = False
         return self
@@ -129,7 +167,12 @@ class Inline(Element):
         """
         Adds italics styling to self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.italicize()
+
+        :return: 
+            self
         """
         self._italics = True
         return self
@@ -138,25 +181,40 @@ class Inline(Element):
         """
         Removes italics styling from self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.unitalicize()
+
+        :return: 
+            self
         """
         self._italics = False
         return self
-    
+
     def strikethrough(self) -> Inline:
         """
         Adds strikethrough styling to self.
-        
-        :return: self
+
+        .. code-block:: Python
+
+            inline.strikethrough()
+
+        :return: 
+            self
         """
         self._strikethrough = True
         return self
-    
+
     def unstrikethrough(self) -> Inline:
         """
         Remove strikethrough styling from self.
-        
-        :return: self
+
+        .. code-block:: Python
+
+            inline.unstrikethrough()
+
+        :return: 
+            self
         """
         self._strikethrough = False
         return self
@@ -165,26 +223,42 @@ class Inline(Element):
         """
         Adds code style to self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.code()
+
+        :return: 
+            self
         """
         self._code = True
         return self
 
     def uncode(self) -> Inline:
         """
-        Removes code style from self.
+        Removes code styling from self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.uncode()
+
+        :return: 
+            self
         """
         self._code = False
         return self
 
     def link(self, link: str) -> Inline:
         """
-        Adds URL to self.
+        Adds link to self.
 
-        :param str link: the URL or path to apply to this Inline element
-        :return: self
+        .. code-block:: Python
+
+            inline.link("https://snakemd.io")
+
+        :param str link: 
+            the URL or path to apply to this Inline element
+        :return: 
+            self
         """
         self._link = link
         return self
@@ -193,7 +267,12 @@ class Inline(Element):
         """
         Removes link from self.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.unlink()
+
+        :return: 
+            self
         """
         self._link = None
         return self
@@ -203,7 +282,12 @@ class Inline(Element):
         Removes all settings from self (e.g., bold, code, italics, url, etc.).
         All that will remain is the text itself.
 
-        :return: self
+        .. code-block:: Python
+
+            inline.reset()
+
+        :return: 
+            self
         """
         self._image = None
         self._link = None
@@ -233,12 +317,13 @@ class HorizontalRule(Block):
 
     def __init__(self):
         super().__init__()
-        
+
     def __str__(self) -> str:
         """
         Renders the horizontal rule using the three dash syntax.
 
-        :return: the horizontal rule as a markdown string
+        :return: 
+            the horizontal rule as a markdown string
         """
         return "***"
 
@@ -249,24 +334,39 @@ class Heading(Block):
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., <h1>).
 
-    :raises ValueError: when level < 1 or level > 6
-    :param str | Inline | Iterable[Inline | str] text: the heading text
-    :param int level: the heading level between 1 and 6
+    All methods described in the Heading class include sample
+    code. Sample code assumes a generic :code:`heading` object exists,
+    which can be created as follows:
+
+    .. code-block:: Python
+
+        from snakemd import Heading
+        heading = Heading("Sample Heading", 1)
+
+    :raises ValueError: 
+        when level < 1 or level > 6
+    :param str | Inline | Iterable[Inline | str] text: 
+        the heading text
+    :param int level: 
+        the heading level between 1 and 6
     """
 
     def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:
         if level < 1 or level > 6:
-            raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
+            raise ValueError(
+                f"Heading level must be between 1 and 6 but was {level}"
+            )
         super().__init__()
         self._text: list[Inline] = self._process_text(text)
         self._level: int = level
-        
+
     def __str__(self) -> str:
         """
         Renders the heading in markdown according to
         the level provided.
 
-        :return: the heading as a markdown string
+        :return: 
+            the heading as a markdown string
         """
         heading = [str(item) for item in self._text]
         return f"{'#' * self._level} {''.join(heading)}"
@@ -276,24 +376,30 @@ class Heading(Block):
         """
         Ensures that Heading objects are composed of a single Inline object.
 
-        :param text: an object to be forced to Inline
-        :return: the input text as an Inline
+        :param str | Inline | Iterable[Inline | str] text: 
+            an object to be forced to Inline
+        :return: 
+            the input text as an Inline
         """
+        logger.debug(f"Processing heading text: {text}")
         if isinstance(text, str):
             return [Inline(text)]
         elif isinstance(text, Inline):
             return [text]
         else:
             return [
-                item if isinstance(item, Inline) else Inline(item) 
+                item if isinstance(item, Inline) else Inline(item)
                 for item in text
             ]
-
 
     def promote(self) -> None:
         """
         Promotes a heading up a level. Fails silently
         if the heading is already at the highest level (i.e., <h1>).
+
+        .. code-block:: Python
+
+            heading.promote()
         """
         if self._level > 1:
             self._level -= 1
@@ -302,15 +408,24 @@ class Heading(Block):
         """
         Demotes a heading down a level. Fails silently if
         the heading is already at the lowest level (i.e., <h6>).
+
+        .. code-block:: Python
+
+            heading.demote()
         """
         if self._level < 6:
             self._level += 1
-            
+
     def get_text(self) -> str:
         """
         Returns the heading text free of any styling.
-        
-        :return: the heading as a string
+
+        .. code-block:: Python
+
+            text: str = heading.get_text()
+
+        :return: 
+            the heading as a string
         """
         text_elements = [item._text for item in self._text]
         return ''.join(text_elements)
@@ -322,15 +437,27 @@ class Code(Block):
     Code blocks can have generic highlighting or highlighting based
     on their language. 
     """
-    
+
     def __init__(self, code: str | Code, lang: str = "generic"):
         super().__init__()
         self._code = code
         self._lang = lang
-        
+
     def __str__(self) -> str:
+        """
+        Renders the code block as a string. Attempts to handle
+        nesting by applying 4 backticks rather than 3. It's
+        possible to have infinitely nested code blocks, but
+        that seems sort of silly. However, a single nested
+        code block seems valuable, especially for showing
+        how to share a code block. 
+
+        :return: 
+            the code block as a markdown string
+        """
         ticks = '`' * 3
         if isinstance(self._code, Code):
+            logger.debug("Code block contains nested code block")
             ticks = '`' * 4
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
@@ -340,14 +467,15 @@ class Quote(Block):
     A quote is a standalone block of emphasized text. Quotes can be
     nested and can contain other blocks. 
 
-    :param lines: a single string or a "list" of text objects to be formatted as a quote
+    :param str | Iterable[str | Inline | Block] lines: 
+        a single string or a "list" of text objects to be formatted as a quote
     """
-    
+
     def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
         super().__init__()
         self._lines: list[Block] = self._process_content(lines)
         self._depth = 1
-            
+
     @staticmethod
     def _process_content(lines) -> list[Block]:
         """
@@ -355,9 +483,12 @@ class Quote(Block):
         a bit easier to work with. In this case, the lines
         are converted to blocks.
 
-        :param lines: a "list" of text objects or a string
-        :return: a list of Blocks
+        :param lines: 
+            a "list" of text objects or a string
+        :return: 
+            a list of Blocks
         """
+        logger.debug(f"Processing quote lines: {lines}")
         if isinstance(lines, str):
             processed_lines = [Paragraph(lines)]
         else:
@@ -368,13 +499,14 @@ class Quote(Block):
                 else:
                     processed_lines.append(line)
         return processed_lines
-    
+
     def __str__(self) -> str:
         """
         Formats the quote such that each line has the
         correct depth and quote characters.
 
-        :return: the quote formatted as a markdown string
+        :return: 
+            the quote formatted as a markdown string
         """
         formatted_lines: list[str] = []
         quote_markers = f"{'> ' * self._depth}"
@@ -396,6 +528,15 @@ class Paragraph(Block):
     """
     A paragraph is a standalone block of text. 
 
+    All methods described in the Paragraph class include sample
+    code. Sample code assumes a generic :code:`paragraph` object exists,
+    which can be created as follows:
+
+    .. code-block:: Python
+
+        from snakemd import Paragraph
+        paragraph = Paragraph("Hello, World!")
+
     :param str | Iterable[Inline | str] content: 
         a single string or a "list" of text objects to render as a paragraph        
     """
@@ -406,6 +547,15 @@ class Paragraph(Block):
 
     @staticmethod
     def _process_content(content) -> list[Inline]:
+        """
+        Processes the incoming content for the Paragraph.
+
+        :param content: 
+            an iterable of various text items
+        :return: 
+            the processed iterable as a list of Inline items
+        """
+        logger.debug(f"Processing paragraph content: {content}")
         if isinstance(content, str):
             processed = [Inline(content)]
         else:
@@ -416,7 +566,7 @@ class Paragraph(Block):
                 else:
                     processed.append(item)
         return processed
-    
+
     def __str__(self) -> str:
         """
         Renders the paragraph as markdown according to the settings provided.
@@ -424,7 +574,8 @@ class Paragraph(Block):
         rendered as a code block. If both flags are enabled, code takes
         precedence.
 
-        :return: the paragraph as a markdown string
+        :return: 
+            the paragraph as a markdown string
         """
         paragraph = ''.join(str(item) for item in self._content)
         return " ".join(paragraph.split())
@@ -433,7 +584,12 @@ class Paragraph(Block):
         """
         Adds a text object to the paragraph.
 
-        :param text: a custom Inline element
+        .. code-block:: Python
+
+            paragraph.add("I come in peace")
+
+        :param Inline | str text: 
+            a custom Inline element
         """
         if isinstance(text, str):
             text = Inline(text)
@@ -452,10 +608,14 @@ class Paragraph(Block):
         Though, I suppose we could include all of that in the default replace
         method.
 
-        :param str target: the target string to replace
-        :param Inline text: the Inline object to insert in place of the target
-        :param int count: the number of links to insert; defaults to -1
-        :return: self
+        :param str target: 
+            the target string to replace
+        :param Inline text: 
+            the Inline object to insert in place of the target
+        :param int count: 
+            the number of links to insert; defaults to -1
+        :return: 
+            self
         """
         i = 0
         content = []
@@ -481,10 +641,18 @@ class Paragraph(Block):
         :code:`str.replace()` of the standard library. As a result, a count
         can be provided to limit the number of strings replaced in the paragraph.
 
-        :param str target: the target string to replace
-        :param str replacement: the Inline object to insert in place of the target
-        :param int count: the number of links to insert; defaults to -1
-        :return: self
+        .. code-block:: Python
+
+            paragraph.replace("Here", "There")
+
+        :param str target: 
+            the target string to replace
+        :param str replacement: 
+            the Inline object to insert in place of the target
+        :param int count: 
+            the number of links to insert; defaults to -1
+        :return: 
+            self
         """
         return self._replace_any(target, Inline(replacement), count)
 
@@ -501,10 +669,14 @@ class Paragraph(Block):
 
             paragraph.insert_link("Here", "https://therenegadecoder.com")
 
-        :param str target: the string to link
-        :param str url: the url to link
-        :param int count: the number of links to insert; defaults to -1 (all)
-        :return: self
+        :param str target: 
+            the string to link
+        :param str url: 
+            the url to link
+        :param int count: 
+            the number of links to insert; defaults to -1 (all)
+        :return: 
+            self
         """
         return self._replace_any(target, Inline(target, link=url), count)
 
@@ -517,10 +689,18 @@ class Paragraph(Block):
         if you want to replace existing URLs but don't necessarily care what
         the anchor text is.
 
-        :param str target: the string to link
-        :param str url: the url to link
-        :param int count: the number of links to replace; defaults to -1 (all)
-        :return: self
+        .. code-block:: Python
+
+            paragraph.replace_link("Here", "https://therenegadecoder.com")
+
+        :param str target: 
+            the string to link
+        :param str url: 
+            the url to link
+        :param int count: 
+            the number of links to replace; defaults to -1 (all)
+        :return: 
+            self
         """
         i = 0
         for text in self._content:
@@ -536,16 +716,18 @@ class MDList(Block):
 
     :param Iterable[str | Inline | Block] items:
         a "list" of objects to be rendered as a list
-    :param bool ordered: the ordered state of the list;
+    :param bool ordered: 
+        the ordered state of the list;
         set to True to render an ordered list (i.e., True -> 1. item)
-    :param None | bool | Iterable[bool] checked: the checked state of the list;
+    :param None | bool | Iterable[bool] checked: 
+        the checked state of the list;
         set to True, False, or an iterable of booleans to enable the checklist feature.
     """
 
     def __init__(
-        self, 
-        items: Iterable[str | Inline | Block], 
-        ordered: bool = False, 
+        self,
+        items: Iterable[str | Inline | Block],
+        ordered: bool = False,
         checked: None | bool | Iterable[bool] = None
     ) -> None:
         super().__init__()
@@ -553,14 +735,15 @@ class MDList(Block):
         self._ordered = ordered
         self._checked = checked
         self._space = ""
-        
+
     def __str__(self) -> str:
         """
         Renders the markdown list according to the settings provided.
         For example, if the the ordered flag is set, an ordered list
         will be rendered in markdown.
 
-        :return: the list as a markdown string
+        :return: 
+            the list as a markdown string
         """
         output = list()
         i = 1
@@ -574,7 +757,7 @@ class MDList(Block):
                     row = f"{self._space}{i}."
                 else:
                     row = f"{self._space}-"
-                    
+
                 # Add checkbox based on `checked` parameter
                 if isinstance(self._checked, bool):
                     checked_str = "X" if self._checked else " "
@@ -582,9 +765,9 @@ class MDList(Block):
                 elif self._checked is not None:
                     checked_str = "X" if self._checked[i - 1] else " "
                     row = f"{row} [{checked_str}] {item}"
-                else:    
+                else:
                     row = f"{row} {item}"
-                    
+
                 output.append(row)
                 i += 1
         return "\n".join(output)
@@ -595,8 +778,10 @@ class MDList(Block):
         Given the variety of data that MDList can accept, this function
         forces all possible data types to be Blocks.
 
-        :param items: a list of items
-        :return: a list of Blocks
+        :param items: 
+            a list of items
+        :return: 
+            a list of Blocks
         """
         processed = []
         for item in items:
@@ -610,9 +795,11 @@ class MDList(Block):
         """
         Returns the number of spaces that any sublists should be indented.
 
-        :param int item_index: the index of the item to check (only used for ordered lists);
+        :param int item_index: 
+            the index of the item to check (only used for ordered lists);
             defaults to -1
-        :return: the number of spaces
+        :return: 
+            the number of spaces
         """
         if not self._ordered:
             return 2
@@ -625,21 +812,34 @@ class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered
     according to underlying Inline items.
-        
+
+    All methods described in the Table class include sample
+    code. Sample code assumes a generic :code:`table` object exists,
+    which can be created as follows:
+
+    .. code-block:: Python
+
+        from snakemd import Table
+        table = Table(["Place", "Name"], [["1st", "Crosby"], ["2nd", "McDavid"]])
+
     :raises ValueError: 
         when rows of table are of varying lengths or 
         when lengths of header and rows of table do not match
-    :param header: the header row of labels
-    :param body: the collection of rows of data; defaults to an empty list
-    :param align: the column alignment; defaults to None
-    :param indent: indent size for the whole table; defaults to 0
+    :param Iterable[str | Inline | Paragraph] header: 
+        the header row of labels
+    :param Iterable[Iterable[str | Inline | Paragraph]] body: 
+        the collection of rows of data; defaults to an empty list
+    :param None | Iterable[Align] align: 
+        the column alignment; defaults to None
+    :param int indent: 
+        indent size for the whole table; defaults to 0
     """
 
     def __init__(
         self,
         header: Iterable[str | Inline | Paragraph],
         body: Iterable[Iterable[str | Inline | Paragraph]] = [],
-        align: Iterable[Align] = None,
+        align: None | Iterable[Align] = None,
         indent: int = 0
     ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
@@ -651,17 +851,20 @@ class Table(Block):
             raise ValueError("Table rows are not all the same length")
         elif body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")
-        self._widths: list[int] = self._process_widths(self._header, self._body)
+        self._widths: list[int] = self._process_widths(
+            self._header,
+            self._body
+        )
         self._align = align
         self._indent = indent
-        
-        
+
     def __str__(self) -> str:
         """
         Renders a markdown table from a header "list"
         and a data set.
 
-        :return: a table as a markdown string
+        :return: 
+            a table as a markdown string
         """
         rows = list()
         header = [
@@ -705,9 +908,12 @@ class Table(Block):
         Processes the table inputs to ensure header and body only contain paragraph blocks.
         Also, this computes the max width of each row to ensure pretty print works every time.
 
-        :param header: the header row in its various forms
-        :param body: the table body in its various forms
-        :return: the table containing only Paragraph blocks and a list of the widest items in each row
+        :param header: 
+            the header row in its various forms
+        :param body: 
+            the table body in its various forms
+        :return: 
+            the table containing only Paragraph blocks and a list of the widest items in each row
         """
         processed_header = []
         processed_body = []
@@ -732,40 +938,58 @@ class Table(Block):
         logger.debug(f"Processed table body\n{processed_body}")
 
         return processed_header, processed_body
-    
+
     @staticmethod
     def _process_widths(header, body) -> list[int]:
         """
         Traverses the table looking to determine the appropriate
         widths for each column. 
 
-        :param header: the header row
-        :param body: the rows of data
-        :return: a list of column widths
+        :param header: 
+            the header row
+        :param body: 
+            the rows of data
+        :return: 
+            a list of column widths
         """
         widths = [len(str(word)) for word in header]
         for row in body:
             for i, item in enumerate(row):
                 if (width := len(str(item))) > widths[i]:
-                    widths[i] = width  
+                    widths[i] = width
         return widths
 
     def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """
         Adds a row to the end of table. 
+
+        .. code-block:: Python
+
+            table.add_row(["3rd", "Matthews"])
+
+        :raises ValueError: 
+            when row is not the same width as the table header
+        :param Iterable[str | Inline | Paragraph] row: 
+            a row of data
         """
+        if len(row) != len(self._header):
+            raise ValueError(
+                f"Unable to add row with width {len(row)} to table with header of width {len(self._header)}"
+            )
+        logger.debug(f"Adding row to table: {row}")
         self._body.append(row)
-    
-    
+
+
 class Raw(Block):
     """
     Raw blocks allow a user to insert text into the Markdown
     document without an processing. Use this block to insert
     raw Markdown or other types of text (e.g., Jekyll frontmatter).
     """
+
     def __init__(self, text: str) -> None:
         super().__init__()
         self._text = text
-        
+
     def __str__(self) -> str:
         return self._text

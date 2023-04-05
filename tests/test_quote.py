@@ -1,4 +1,4 @@
-from snakemd import Quote, Heading, Code, HorizontalRule
+from snakemd import Quote, Heading, Code, HorizontalRule, MDList
 
 
 def test_quote_one_str():
@@ -33,3 +33,8 @@ def test_quote_code():
 def test_quote_hr():
     quote = Quote([HorizontalRule()])
     assert str(quote) == "> ***"
+    
+
+def test_quote_mdlist():
+    quote = Quote([MDList(["How", "Now", "Brown"])])
+    assert str(quote) == "> - How\n> - Now\n> - Brown"

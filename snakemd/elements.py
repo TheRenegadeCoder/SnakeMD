@@ -337,7 +337,8 @@ class Code(Block):
 
 class Quote(Block):
     """
-    A quote is a standalone block of emphasized text.
+    A quote is a standalone block of emphasized text. Quotes can be
+    nested and can contain other blocks. 
 
     :param lines: a single string or a "list" of text objects to be formatted as a quote
     """
@@ -349,6 +350,14 @@ class Quote(Block):
             
     @staticmethod
     def _process_content(lines) -> list[Block]:
+        """
+        Converts the raw input lines to something that is
+        a bit easier to work with. In this case, the lines
+        are converted to blocks.
+
+        :param lines: a "list" of text objects or a string
+        :return: a list of Blocks
+        """
         if isinstance(lines, str):
             processed_lines = [Paragraph(lines)]
         else:
@@ -361,6 +370,12 @@ class Quote(Block):
         return processed_lines
     
     def __str__(self) -> str:
+        """
+        Formats the quote such that each line has the
+        correct depth and quote characters.
+
+        :return: the quote formatted as a markdown string
+        """
         formatted_lines: list[str] = []
         quote_markers = f"{'> ' * self._depth}"
         for line in self._lines:

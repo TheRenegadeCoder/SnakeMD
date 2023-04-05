@@ -122,6 +122,6 @@ from above in a file called README.md:
 
     doc.dump("README")
 
-As always, feel free to check out the rest of the usage docs for all
+As always, feel free to check out the rest of the documentation for all
 of the ways you can make use of SnakeMD. If you find an issues, make 
 sure to head over to the GitHub repo and let us know. 

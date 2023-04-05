@@ -6,11 +6,11 @@ SnakeMD is your ticket to generating Markdown in Python. To prove it to you, we'
 pip install snakemd
 ```
 
-In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the official documentation [here](https://snakemd.therenegadecoder.com).
+In the remainder of this document, we'll show you all of the things this library can do. For more information, check out the official documentation [here](https://snakemd.io).
 
 ## Table of Contents
 
-Below you'll find the table of contents, but these can also be generated programatically for every Markdown document. As of v0.8.0, you can also specify which types of headings are included in the table of contents.
+Below you'll find the table of contents, but these can also be generated programatically for every Markdown document as follows:
 
 ```py
 def _table_of_contents(doc: Document):
@@ -25,38 +25,39 @@ def _table_of_contents(doc: Document):
    1. [Ordered List](#ordered-list)
    2. [Unordered List](#unordered-list)
    3. [Checklist](#checklist)
-   4. [Nested List](#nested-list)
+   4. [Nested Lists](#nested-lists)
 6. [Tables](#tables)
 7. [Code Blocks](#code-blocks)
 8. [Quotes](#quotes)
 9. [Horizontal Rule](#horizontal-rule)
+10. [Raw](#raw)
 
 ## Paragraphs
 
 Paragraphs are the most basic feature of any Markdown file. As a result, they are very easy to create using SnakeMD.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _paragraph(doc: Document):
     doc.add_paragraph("I think. Therefore, I am.")
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 I think. Therefore, I am.
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 I think. Therefore, I am.
 
 ## Links
 
-Links are targets to files or web pages and can be embedded in a Paragraph in a variety of ways. As of v0.2.0, we're able to add links to existing paragraphs using the insert_link() method. Even better, in v0.4.0, we can chain these insert_link() calls.
+Links are targets to files or web pages and can be embedded in paragraphs in a variety of ways, such as with the insert_link() method.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _insert_link(doc: Document):
@@ -65,35 +66,35 @@ def _insert_link(doc: Document):
         .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 Learn to program with [The Renegade Coder](https://therenegadecoder.com) ([@RenegadeCoder94](https://twitter.com/RenegadeCoder94)).
 
 ## Images
 
-Images can be added by embedding InlineText in a Paragraph.
+Images can be added by embedding Inline elements in a paragraph.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([Inline("Logo", url=logo, image=True)]))
+    doc.add_block(Paragraph([Inline("Logo", image=logo)]))
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 ![Logo](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 ![Logo](https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png)
 
@@ -105,14 +106,14 @@ SnakeMD can make a variety of Markdown lists. The three main types of lists are 
 
 Ordered lists are lists in which the order of the items matters. As a result, we number them.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _ordered_list(doc: Document):
     doc.add_ordered_list(["Deku", "Bakugo", "Uraraka", "Tsuyu"])
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 1. Deku
@@ -121,7 +122,7 @@ def _ordered_list(doc: Document):
 4. Tsuyu
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 1. Deku
 2. Bakugo
@@ -132,14 +133,14 @@ def _ordered_list(doc: Document):
 
 Unordered lists are lists in which the order of the items does not matter. As a result, we bullet them.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _unordered_list(doc: Document):
     doc.add_unordered_list(["Crosby", "Malkin", "Lemieux"])
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 - Crosby
@@ -147,7 +148,7 @@ def _unordered_list(doc: Document):
 - Lemieux
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 - Crosby
 - Malkin
@@ -157,7 +158,7 @@ def _unordered_list(doc: Document):
 
 Checklists are lists in which the items themselves can be checked on and off. This feature is new as of v0.10.0.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _checklist(doc: Document):
@@ -170,7 +171,7 @@ def _checklist(doc: Document):
     )
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 - [ ] Pass the puck
@@ -178,24 +179,24 @@ def _checklist(doc: Document):
 - [ ] Score a goal
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 - [ ] Pass the puck
 - [ ] Shoot the puck
 - [ ] Score a goal
 
-### Nested List
+### Nested Lists
 
-Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object. As of v0.4.0, you can forego the InlineText elements if you don't need them.
+Nested lists are complex lists that contain lists. Currently, SnakeMD does not support any convenience methods to generate nested lists, but they can be created manually using the MDList object.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _nested_list(doc: Document):
-    doc.add_element(
+    doc.add_block(
         MDList([
             "Apples",
-            Inline("Onions"),
+            Inline("Onions", bold=True),
             MDList([
                 "Sweet",
                 "Red"
@@ -205,29 +206,29 @@ def _nested_list(doc: Document):
     )
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 - Apples
-- Onions
+- **Onions**
   - Sweet
   - Red
 - This is the end of the list!
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 - Apples
-- Onions
+- **Onions**
   - Sweet
   - Red
 - This is the end of the list!
 
 ## Tables
 
-Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or InlineText. As of v0.4.0, you can also align the columns of the table using the Table.Align enum.
+Tables are sets of rows and columns which can display text in a grid. To style any of the contents of a table, consider using Paragraph or Inline.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _table(doc: Document):
@@ -243,7 +244,7 @@ def _table(doc: Document):
     )
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 | Height (cm) | Weight (kg) | Age (y) |
@@ -253,7 +254,7 @@ def _table(doc: Document):
 | 181         | 87          | 40      |
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 | Height (cm) | Weight (kg) | Age (y) |
 | :---------- | :---------: | ------: |
@@ -265,14 +266,14 @@ def _table(doc: Document):
 
 Code blocks are a form of structured text for sharing code snippets with syntax highlighting.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _code(doc: Document):
     doc.add_code("x = 5", lang="py")
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ````markdown
 ```py
@@ -280,7 +281,7 @@ x = 5
 ```
 ````
 
-*Rendered Result*
+_Rendered Result_
 
 ```py
 x = 5
@@ -290,20 +291,20 @@ x = 5
 
 Quotes are blocks of text that represent quotes from people.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _quote(doc: Document):
     doc.add_quote("How Now Brown Cow")
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
 > How Now Brown Cow
 ```
 
-*Rendered Result*
+_Rendered Result_
 
 > How Now Brown Cow
 
@@ -311,19 +312,40 @@ def _quote(doc: Document):
 
 Horizontal Rules are visible dividers in a document.
 
-*SnakeMD Source*
+_SnakeMD Source_
 
 ```py
 def _horizontal_rule(doc: Document):
     doc.add_horizontal_rule()
 ```
 
-*Markdown Source*
+_Markdown Source_
 
 ```markdown
----
+***
 ```
 
-*Rendered Result*
+_Rendered Result_
 
----
+***
+
+## Raw
+
+If at any time SnakeMD doesn't meet your needs, you can always add your own text using a raw block. These can be used to insert any preformatted text you like, such as HTML tags, Jekyll frontmatter, and more.
+
+_SnakeMD Source_
+
+```py
+def _raw(doc: Document):
+    doc.add_raw("4<sup>2</sup> = 16<br />How cool is that?")
+```
+
+_Markdown Source_
+
+```markdown
+4<sup>2</sup> = 16<br />How cool is that?
+```
+
+_Rendered Result_
+
+4<sup>2</sup> = 16<br />How cool is that?

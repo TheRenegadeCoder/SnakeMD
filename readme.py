@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import inspect
 import logging
+from typing import Callable
 
-from snakemd import Document, Inline, MDList, Paragraph, Table
+from snakemd import Block, Code, Document, Inline, MDList, Paragraph, Table
 
 
 def _introduction(doc: Document):
@@ -22,7 +23,7 @@ def _introduction(doc: Document):
         out the official documentation here.
         """
     )
-    p.insert_link("here", "https://snakemd.therenegadecoder.com")
+    p.insert_link("here", "https://snakemd.io")
 
 
 def _table_of_contents(doc: Document):
@@ -48,10 +49,10 @@ def _checklist(doc: Document):
 
 
 def _nested_list(doc: Document):
-    doc.add_element(
+    doc.add_block(
         MDList([
             "Apples",
-            Inline("Onions"),
+            Inline("Onions", bold=True),
             MDList([
                 "Sweet",
                 "Red"
@@ -82,7 +83,7 @@ def _insert_link(doc: Document):
 
 def _image(doc: Document):
     logo = "https://therenegadecoder.com/wp-content/uploads/2020/05/header-logo-without-tag-300x75.png"
-    doc.add_element(Paragraph([Inline("Logo", link=logo, image=True)]))
+    doc.add_block(Paragraph([Inline("Logo", image=logo)]))
 
 
 def _code(doc: Document):
@@ -99,17 +100,25 @@ def _quote(doc: Document):
 
 def _horizontal_rule(doc: Document):
     doc.add_horizontal_rule()
+    
+    
+def _raw(doc: Document):
+    doc.add_raw("4<sup>2</sup> = 16<br />How cool is that?")
 
 
-def _section(doc: Document, title: str, desc: str, func, level: int = 2):
+def _section(doc: Document, title: str, desc: str, func: Callable, level: int = 2):
     doc.add_heading(title, level=level)
     doc.add_paragraph(desc)
-    doc.add_element(Paragraph([Inline("SnakeMD Source", italics=True)]))
+    doc.add_block(Paragraph([Inline("SnakeMD Source", italics=True)]))
     doc.add_code(inspect.getsource(func).strip(), lang="py")
-    doc.add_element(Paragraph([Inline("Rendered Result", italics=True)]))
+    doc.add_block(Paragraph([Inline("Rendered Result", italics=True)]))
     func(doc)
-    doc.add_element(Paragraph([Inline("Markdown Source", italics=True)]))
-    doc.add_code(str(doc._contents[-2]), lang="markdown")
+    doc.add_block(Paragraph([Inline("Markdown Source", italics=True)]))
+    block: Block = doc._contents[-2]
+    doc.add_block(Code(
+        block if isinstance(block, Code) else str(block),
+        lang="markdown"
+    ))
     doc._contents.insert(-3, doc._contents.pop())
     doc._contents.insert(-3, doc._contents.pop())
 
@@ -130,8 +139,7 @@ def main() -> None:
         """
         Below you'll find the table of contents, but
         these can also be generated programatically for every Markdown
-        document. As of v0.8.0, you can also specify which
-        types of headings are included in the table of contents.
+        document as follows: 
         """
     )
     doc.add_code(inspect.getsource(_table_of_contents).strip(), lang="py")
@@ -154,9 +162,8 @@ def main() -> None:
         "Links",
         """
         Links are targets to files or web pages and can be embedded 
-        in a Paragraph in a variety of ways. As of v0.2.0, we're able to 
-        add links to existing paragraphs using the insert_link() method. 
-        Even better, in v0.4.0, we can chain these insert_link() calls. 
+        in paragraphs in a variety of ways, such as with the insert_link()
+        method. 
         """,
         _insert_link
     )
@@ -165,7 +172,7 @@ def main() -> None:
     _section(
         doc,
         "Images",
-        "Images can be added by embedding InlineText in a Paragraph.",
+        "Images can be added by embedding Inline elements in a paragraph.",
         _image
     )
 
@@ -217,13 +224,11 @@ def main() -> None:
     # Nested lists
     _section(
         doc,
-        "Nested List",
+        "Nested Lists",
         """
         Nested lists are complex lists that contain lists. Currently, 
         SnakeMD does not support any convenience methods to generate nested 
-        lists, but they can be created manually using the MDList object. As
-        of v0.4.0, you can forego the InlineText elements if you don't
-        need them. 
+        lists, but they can be created manually using the MDList object.
         """,
         _nested_list,
         level=3
@@ -236,8 +241,7 @@ def main() -> None:
         """
         Tables are sets of rows and columns which can display text in a 
         grid. To style any of the contents of a table, consider using 
-        Paragraph or InlineText. As of v0.4.0, you can also align the 
-        columns of the table using the Table.Align enum. 
+        Paragraph or Inline.
         """,
         _table
     )
@@ -253,9 +257,6 @@ def main() -> None:
         _code
     )
 
-    # ERROR: patch code block
-    doc._contents[-3]._backticks = 4
-
     # Quote
     _section(
         doc,
@@ -270,8 +271,19 @@ def main() -> None:
         "Horizontal Rules are visible dividers in a document.",
         _horizontal_rule
     )
+    
+    _section(
+        doc,
+        "Raw",
+        """
+        If at any time SnakeMD doesn't meet your needs, you can
+        always add your own text using a raw block. These can
+        be used to insert any preformatted text you like,
+        such as HTML tags, Jekyll frontmatter, and more.
+        """,
+        _raw
+    )
 
-    doc.check_for_errors()
     doc.dump("README")
 
 

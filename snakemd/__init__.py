@@ -14,8 +14,6 @@ def new_doc() -> Document:
 
         doc = snakemd.new_doc()
 
-    .. versionadded:: 0.9.0
-
     :return: 
         a new Document object
     """

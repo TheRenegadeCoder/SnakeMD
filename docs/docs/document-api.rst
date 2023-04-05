@@ -27,10 +27,10 @@ Document
 --------
 
 .. note:: 
-   All of the methods described in the Document class
+   All of the methods described in the :class:`snakemd.Document` class 
    are assumed to work without any :class:`snakemd.Element` imports.
    In circumstances where methods may make use of Elements, such as 
-   in :meth:`snakemd.Document.add_table` the snakemd module will be 
+   in :meth:`snakemd.Document.add_table`, the snakemd module will be 
    referenced directly in the sample source code. 
 
 For the average user, the document object is the only

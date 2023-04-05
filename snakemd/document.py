@@ -168,7 +168,7 @@ class Document:
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
-            the MDCheckList added to this Document
+            the MDList added to this Document
         """
         md_checklist = MDList([Inline(item) for item in items], checked=False)
         self._contents.append(md_checklist)

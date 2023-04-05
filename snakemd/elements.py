@@ -88,12 +88,13 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._code:
             text = f"`{text}`"
+        logger.debug(f"Rendered inline text: {text}")
         return text
 
     def is_text(self) -> bool:
         """
-        Checks if this Inline is a text-only element. If not, it must
-        be an image, a link, or an inline code snippet.
+        Checks if this Inline element is a text-only element. If not, it must
+        be an image, a link, or a code snippet.
 
         :return: True if this is a text-only element; False otherwise
         """
@@ -279,6 +280,7 @@ class Heading(Block):
         :param text: an object to be forced to Inline
         :return: the input text as an Inline
         """
+        logger.debug(f"Processing heading text: {text}")
         if isinstance(text, str):
             return [Inline(text)]
         elif isinstance(text, Inline):
@@ -288,7 +290,6 @@ class Heading(Block):
                 item if isinstance(item, Inline) else Inline(item) 
                 for item in text
             ]
-
 
     def promote(self) -> None:
         """
@@ -329,8 +330,19 @@ class Code(Block):
         self._lang = lang
         
     def __str__(self) -> str:
+        """
+        Renders the code block as a string. Attempts to handle
+        nesting by applying 4 backticks rather than 3. It's
+        possible to have infinitely nested code blocks, but
+        that seems sort of silly. However, a single nested
+        code block seems valuable, especially for showing
+        how to share a code block. 
+
+        :return: the code block as a markdown string
+        """
         ticks = '`' * 3
         if isinstance(self._code, Code):
+            logger.debug("Code block contains nested code block")
             ticks = '`' * 4
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
@@ -358,6 +370,7 @@ class Quote(Block):
         :param lines: a "list" of text objects or a string
         :return: a list of Blocks
         """
+        logger.debug(f"Processing quote lines: {lines}")
         if isinstance(lines, str):
             processed_lines = [Paragraph(lines)]
         else:
@@ -406,6 +419,13 @@ class Paragraph(Block):
 
     @staticmethod
     def _process_content(content) -> list[Inline]:
+        """
+        Processes the incoming content for the Paragraph.
+
+        :param content: an iterable of various text items
+        :return: the processed iterable as a list of Inline items
+        """
+        logger.debug(f"Processing paragraph content: {content}")
         if isinstance(content, str):
             processed = [Inline(content)]
         else:
@@ -480,6 +500,10 @@ class Paragraph(Block):
         the users choice. Like insert_link, this method is modeled after
         :code:`str.replace()` of the standard library. As a result, a count
         can be provided to limit the number of strings replaced in the paragraph.
+        
+        .. code-block:: Python
+
+            paragraph.replace("Here", "There")
 
         :param str target: the target string to replace
         :param str replacement: the Inline object to insert in place of the target
@@ -516,6 +540,10 @@ class Paragraph(Block):
         the number of links replaced in the paragraph. This method is useful
         if you want to replace existing URLs but don't necessarily care what
         the anchor text is.
+        
+        .. code-block:: Python
+
+            paragraph.replace_link("Here", "https://therenegadecoder.com")
 
         :param str target: the string to link
         :param str url: the url to link

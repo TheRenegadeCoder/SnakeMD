@@ -224,7 +224,7 @@ def main() -> None:
     # Nested lists
     _section(
         doc,
-        "Nested List",
+        "Nested Lists",
         """
         Nested lists are complex lists that contain lists. Currently, 
         SnakeMD does not support any convenience methods to generate nested 

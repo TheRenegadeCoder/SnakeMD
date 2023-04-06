@@ -763,7 +763,7 @@ class Paragraph(Block):
         """
         return self._replace_any(target, Inline(target, link=url), count)
 
-    def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
+    def replace_link(self, target_link: str, replacement_link: str, count: int = -1) -> Paragraph:
         """
         A convenience method which replaces matching URLs in the paragraph with
         a new url. Like :meth:`insert_link` and :meth:`replace`, this method is also
@@ -776,10 +776,10 @@ class Paragraph(Block):
 
             paragraph.replace_link("https://stackoverflow.com", "https://therenegadecoder.com")
 
-        :param str target: 
-            the string to link
-        :param str url: 
-            the url to link
+        :param str target_link: 
+            the link to replace
+        :param str replacement_link: 
+            the link to swap in
         :param int count: 
             the number of links to replace; defaults to -1 (all)
         :return: 
@@ -787,8 +787,8 @@ class Paragraph(Block):
         """
         i = 0
         for text in self._content:
-            if (count == -1 or i < count) and text._link == target:
-                text.link(url)
+            if (count == -1 or i < count) and text._link == target_link:
+                text.link(replacement_link)
                 i += 1
         return self
     

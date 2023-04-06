@@ -13,19 +13,30 @@ as follows:
 v2.x
 ----
 
-* v2.0.0
+* v2.0.0 [:pr:`104`]
 
-  * Removed several deprecated symbols
+  * Removed several deprecated classes
 
-    * Header
-    * InlineText
+    * :code:`Header`
+    * :code:`InlineText`
+
+  * Removed several deprecated parameters
+
+    * :code:`name` from :code:`new_doc` and :code:`Document`
+
+  * Removed several deprecated methods
+
+    * :code:`render()` from the entire repository
+    * :code:`Document.add_element()`
+    * :code:`Document.add_header()`
+    * :code:`Document.output_page()`
 
   * Removed quote support from Paragaph and created new class called Quote
 
 .. note:: 
 
     The gap between v0.x and v2.x is not a mistake. Initial
-    development of SnakeMD used v1.x versions contaminating
+    development of SnakeMD used v1.x versions, which contaminated
     the PyPI repository. To avoid failed releases due to
     version clashes, all v1.x versions have been deleted,
     and the project has jumped straight to v2.x. Consider 

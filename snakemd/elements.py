@@ -13,7 +13,7 @@ class Element(ABC):
     A generic element interface which provides a framework for all
     types of elements in the collection. In short, elements must
     be able to be converted to their markdown representation using
-    the built-in str() method. 
+    the built-in :py:class:`str` constructor. 
     """
 
     @abstractmethod
@@ -301,9 +301,9 @@ class Inline(Element):
 class Block(Element):
     """
     A block element in Markdown. A block is defined as a standalone 
-    element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
-    headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
-    (e.g., <ol>, <ul>, etc.).
+    element starting on a newline. Examples of blocks include paragraphs 
+    (i.e., :code:`<p>`), headings (e.g., :code:`<h1>`, :code:`<h2>`, etc.), 
+    tables (i.e., :code:`<table>`), and lists (e.g., :code:`<ol>`, :code:`<ul>`, etc.).
     """
     pass
 

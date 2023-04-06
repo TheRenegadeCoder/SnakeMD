@@ -54,7 +54,7 @@ html_logo = "_static/icon.png"
 html_favicon = '_static/favicon.ico'
 issues_github_path = "TheRenegadeCoder/SnakeMD"
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3.11', None)}
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
 html_theme_options = {
     "display_version": True

@@ -13,32 +13,53 @@ as follows:
 v2.x
 ----
 
-* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`]
+* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`]
 
-  * Removed several deprecated classes
+  * Removed several deprecated items:
+  
+    * Classes
 
-    * :code:`Header`
-    * :code:`InlineText`
-    * :code:`MDCheckList`
-    * :code:`CheckBox`
-    * :code:`Verification`
+      * :code:`MDCheckList`
+      * :code:`CheckBox`
+      * :code:`Verification`
 
-  * Removed several deprecated parameters
+    * Methods
 
-    * :code:`name` from :code:`new_doc` and :code:`Document`
-    * :code:`code` and :code:`lang` from :code:`Paragraph`
+      * :code:`Document.add_element()`
+      * :code:`Document.add_header()`
+      * :code:`Document.check_for_errors()`
+      * :code:`Inline.verify_url()`
 
-  * Removed several deprecated methods
+    * Parameters
 
-    * :code:`render()` and :code:`verify()` from the entire repository
-    * :code:`Document.add_element()`
-    * :code:`Document.add_header()`
-    * :code:`Document.output_page()`
-    * :code:`Document.check_for_errors()`
+      * :code:`name` from :code:`new_doc` and :code:`Document`
+      * :code:`code` and :code:`lang` from :code:`Paragraph`
+      * :code:`quote` from :code:`Paragaph`
+      * :code:`render()` and :code:`verify()` from the entire repository
 
-  * Removed quote support from Paragaph and created new class called Quote
+  * Replaced several deprecated items:
+
+    * Classes
+
+      * :code:`Inline` replaces :code:`InlineText`
+      * :code:`Heading` replaces :code:`Header`
+
+    * Methods
+
+      * :code:`Inline.is_link()` replaces :code:`Inline.is_url()`
+      * :code:`Document.dump()` replaces :code:`Document.output_page()`
+
+    * Parameters
+
+      * :code:`link` replaces :code:`url` in :code:`Inline`
+
+  * Removed all pre-release version directives from documentation
+  * Added new class called :code:`Quote`
   * Added a respources page to the documentation
   * Added support for ValueError exceptions in various classes to aid in development
+  * Added a proper requirements file for folks who want to help with development
+  * Improved testing across all facets of the repo with 163 tests
+  * Improved design and documentation of :code:`Inline` to highlight precedence
 
 .. note:: 
 

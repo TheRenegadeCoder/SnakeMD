@@ -319,7 +319,8 @@ class Code(Block):
         super().__init__()
         self._code = code
         self._lang = lang
-        self._backticks = 3
+        self._backticks = self._process_backticks(code)
+        
 
     def __str__(self) -> str:
         """
@@ -340,12 +341,22 @@ class Code(Block):
         :return: 
             the code block as a markdown string
         """
-        source_code = f"{self._code}"
-        if isinstance(self._code, Code):
-            logger.debug("Code block contains nested code block")
-            self._backticks = self._code._backticks + 1
         ticks = '`' * self._backticks
-        return f"{ticks}{self._lang}\n{source_code}\n{ticks}"
+        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+    
+    @staticmethod
+    def _process_backticks(code: str | Code) -> int:
+        """
+        A helper method which processes the potential hierarchy
+        that exists for code.
+
+        :param code: code to render
+        :return: the number of appropriate backticks for this code block
+        """
+        if isinstance(code, Code):
+            return code._backticks + 1
+        else:
+            return 3
     
     
 class Heading(Block):

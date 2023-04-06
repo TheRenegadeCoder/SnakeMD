@@ -10,6 +10,25 @@ In an effort to keep history of all the documentation
 for SnakeMD, we've included all old versions below
 as follows:
 
+v2.x
+----
+
+* v2.0.0
+    * 
+
+.. note:: 
+
+    The gap between v0.x and v2.x is not a mistake. Initial
+    development of SnakeMD used v1.x versions contaminating
+    the PyPI repository. To avoid failed releases due to
+    version clashes, all v1.x versions have been deleted,
+    and the project has jumped straight to v2.x. Consider 
+    v2.x to be the official release of the module. Anything 
+    prior to v2.x is considered a pre-release.
+
+v0.x
+----
+
 * v0.15.0 [:pr:`97`, :pr:`98`, :pr:`99`, :pr:`101`]
     * Moved README generation code to repo root as a script
     * Expanded Heading constructor to support list of strings and Inline objects

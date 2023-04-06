@@ -13,25 +13,32 @@ as follows:
 v2.x
 ----
 
-* v2.0.0 [:pr:`104`]
+* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`]
 
   * Removed several deprecated classes
 
     * :code:`Header`
     * :code:`InlineText`
+    * :code:`MDCheckList`
+    * :code:`CheckBox`
+    * :code:`Verification`
 
   * Removed several deprecated parameters
 
     * :code:`name` from :code:`new_doc` and :code:`Document`
+    * :code:`code` and :code:`lang` from :code:`Paragraph`
 
   * Removed several deprecated methods
 
-    * :code:`render()` from the entire repository
+    * :code:`render()` and :code:`verify()` from the entire repository
     * :code:`Document.add_element()`
     * :code:`Document.add_header()`
     * :code:`Document.output_page()`
+    * :code:`Document.check_for_errors()`
 
   * Removed quote support from Paragaph and created new class called Quote
+  * Added a respources page to the documentation
+  * Added support for ValueError exceptions in various classes to aid in development
 
 .. note:: 
 

@@ -710,7 +710,7 @@ class Paragraph(Block):
         """
         A convenience method which replaces a target string with a string of
         the users choice. Like insert_link, this method is modeled after
-        :code:`str.replace()` of the standard library. As a result, a count
+        :py:meth:`str.replace` of the standard library. As a result, a count
         can be provided to limit the number of strings replaced in the paragraph.
 
         .. code-block:: Python
@@ -756,7 +756,7 @@ class Paragraph(Block):
         """
         A convenience method which replaces matching URLs in the paragraph with
         a new url. Like insert_link() and replace(), this method is also
-        modeled after :code:`str.replace()`, so a count can be provided to limit
+        modeled after :py:meth:`str.replace`, so a count can be provided to limit
         the number of links replaced in the paragraph. This method is useful
         if you want to replace existing URLs but don't necessarily care what
         the anchor text is.
@@ -822,8 +822,33 @@ class Quote(Block):
 
     def __str__(self) -> str:
         """
-        Formats the quote such that each line has the
-        correct depth and quote characters.
+        Renders the quote as a markdown string. Markdown quotes
+        vary in syntax, but the general approach in this repo is
+        to apply the quote symbol (i.e., :code:`>`) to the front
+        of each line in the quote:
+        
+        .. code-block:: markdown
+        
+            > this
+            > is
+            > a quote
+            
+        Quotes can also be nested. To make this possible, nested
+        quotes are padded by empty quote lines from higher 
+        quotes:
+        
+        .. code-block:: markdown
+        
+            > Outer quote
+            > 
+            > > Inner quote
+            >
+            > Outer quote
+            
+        It's unclear what is the correct way to handle nested
+        quotes, but this format seems to be the most friendly
+        for GitHub markdown. Future work may involve including
+        the option to pad with empty lines. 
 
         :return: 
             the quote formatted as a markdown string

@@ -102,6 +102,7 @@ Quote
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
 Raw
 ^^^

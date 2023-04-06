@@ -84,6 +84,7 @@ MDList
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
 Paragraph
 ^^^^^^^^^

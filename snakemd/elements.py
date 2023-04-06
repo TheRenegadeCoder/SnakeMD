@@ -388,10 +388,8 @@ class Heading(Block):
         
         .. code-block:: markdown
         
-            ```python
             # This is an H1
             ## This is an H2
-            ```
 
         :return: 
             the heading as a markdown string
@@ -510,9 +508,24 @@ class MDList(Block):
 
     def __str__(self) -> str:
         """
-        Renders the markdown list according to the settings provided.
-        For example, if the the ordered flag is set, an ordered list
-        will be rendered in markdown.
+        Renders the markdown list as a markdown string. Markdown lists
+        come in a variety of flavors and are customized according to 
+        the settings provided. For example, if the the ordered flag is 
+        set, an ordered list will be rendered in markdown. Unordered
+        lists and checklists both use the hyphen syntax for markdown
+        (i.e., :code:`-`) to avoid clashes with horizontal rules. 
+        
+        .. code-block:: markdown
+        
+            - This is an unordered list item
+            - So, is this
+        
+        Ordered lists use numbers for each list item.
+        
+        .. code-block:: markdown
+        
+            1. This is an ordered list item
+            2. So, is this
 
         :return: 
             the list as a markdown string

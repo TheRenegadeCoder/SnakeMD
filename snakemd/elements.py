@@ -513,14 +513,14 @@ class MDList(Block):
         the settings provided. For example, if the the ordered flag is 
         set, an ordered list will be rendered in markdown. Unordered
         lists and checklists both use the hyphen syntax for markdown
-        (i.e., :code:`-`) to avoid clashes with horizontal rules. 
+        (i.e., :code:`-`) to avoid clashes with horizontal rules: 
         
         .. code-block:: markdown
         
             - This is an unordered list item
             - So, is this
         
-        Ordered lists use numbers for each list item.
+        Ordered lists use numbers for each list item:
         
         .. code-block:: markdown
         
@@ -638,10 +638,13 @@ class Paragraph(Block):
 
     def __str__(self) -> str:
         """
-        Renders the paragraph as markdown according to the settings provided.
-        For example, if the code flag is enabled, the paragraph will be
-        rendered as a code block. If both flags are enabled, code takes
-        precedence.
+        Renders the paragraph as a markdown string. Markdown paragraphs
+        are returned as a singular line of text with all of the
+        underlying elements rendered as expected:
+        
+        .. code-block:: markdown
+        
+            This is an example of a **paragraph** with _formatting_
 
         :return: 
             the paragraph as a markdown string
@@ -729,10 +732,10 @@ class Paragraph(Block):
         """
         A convenience method which inserts links in the paragraph
         for all matching instances of a target string. This method
-        is modeled after :code:`str.replace()`, so a count can be
+        is modeled after :py:meth:`str.replace`, so a count can be
         provided to limit the number of insertions. This method
         will not replace links of text that have already been linked.
-        See replace_link() for that behavior.
+        See :meth:`snakemd.Paragraph.replace_link` for that behavior.
 
         .. code-block:: Python
 

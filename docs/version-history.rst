@@ -13,7 +13,7 @@ as follows:
 v2.x
 ----
 
-* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`]
+* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`, :pr:`118`, :pr:`120`]
 
   * Removed several deprecated items:
   
@@ -29,6 +29,8 @@ v2.x
       * :code:`Document.add_header()`
       * :code:`Document.check_for_errors()`
       * :code:`Inline.verify_url()`
+      * :code:`Paragraph.verify_urls()`
+      * :code:`Paragaph.is_text()`
 
     * Parameters
 
@@ -65,6 +67,8 @@ v2.x
     * Expanded testing to 163 tests for 100% coverage
     * Clarified design of :code:`Inline` to highlight precedence
     * Cleaned up documentation of pre-release version directives
+    * Expanded types of inputs on various classes for quality of life
+    * Changed behavior of horizontal rule to avoid clashes with list items
 
 .. note:: 
 

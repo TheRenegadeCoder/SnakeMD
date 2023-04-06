@@ -13,7 +13,7 @@ class Element(ABC):
     A generic element interface which provides a framework for all
     types of elements in the collection. In short, elements must
     be able to be converted to their markdown representation using
-    the built-in str() method. 
+    the built-in :py:class:`str` constructor. 
     """
 
     @abstractmethod
@@ -31,8 +31,8 @@ class Inline(Element):
     image markdown is applied to the text first while code markdown is
     applied last. Due to this design, some forms of inline text are not
     possible. For example, inline elements can be used to show inline 
-    markdown as an inline code element (e.g., `![here](https://example.com)`).
-    However, inline elements cannot be used to style inline code (e.g., **`code`**).
+    markdown as an inline code element (e.g., :code:`![here](https://example.com)`).
+    However, inline elements cannot be used to style inline code (e.g., :code:`**`code`**`).
     If styled code is necessary, it's possible to render the inline element
     as a string and pass the result to another inline element. 
 
@@ -301,44 +301,74 @@ class Inline(Element):
 class Block(Element):
     """
     A block element in Markdown. A block is defined as a standalone 
-    element starting on a newline. Examples of blocks include paragraphs (i.e., <p>), 
-    headings (e.g., <h1>, <h2>, etc.), tables (i.e., <table>), and lists
-    (e.g., <ol>, <ul>, etc.).
+    element starting on a newline. Examples of blocks include paragraphs 
+    (i.e., :code:`<p>`), headings (e.g., :code:`<h1>`, :code:`<h2>`, etc.), 
+    tables (i.e., :code:`<table>`), and lists (e.g., :code:`<ol>`, :code:`<ul>`, etc.).
     """
     pass
 
 
-class HorizontalRule(Block):
+class Code(Block):
     """
-    A horizontal rule is a line separating different sections of
-    a document. Horizontal rules really only come in one form,
-    so there are no settings to adjust.
+    A code block is a standalone block of syntax-highlighted code.
+    Code blocks can have generic highlighting or highlighting based
+    on their language. 
     """
 
-    def __init__(self):
+    def __init__(self, code: str | Code, lang: str = "generic"):
         super().__init__()
-
+        self._code = code
+        self._lang = lang
+        self._backticks = self._process_backticks(code)
+        
     def __str__(self) -> str:
         """
-        Renders the horizontal rule using the three dash syntax.
+        Renders the code block as a markdown string. Markdown code
+        blocks are returned with the fenced code block
+        format using backticks:
+        
+        .. code-block:: markdown
+        
+            ```python
+            x = 5
+            y = 2 + x
+            ```
+            
+        Code blocks can be nested and will be rendered with
+        increasing numbers of backticks.
 
         :return: 
-            the horizontal rule as a markdown string
+            the code block as a markdown string
         """
-        return "***"
+        ticks = '`' * self._backticks
+        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+    
+    @staticmethod
+    def _process_backticks(code: str | Code) -> int:
+        """
+        A helper method which processes the potential hierarchy
+        that exists for code.
 
-
+        :param code: code to render
+        :return: the number of appropriate backticks for this code block
+        """
+        if isinstance(code, Code):
+            return code._backticks + 1
+        else:
+            return 3
+    
+    
 class Heading(Block):
     """
     A heading is a text block which serves as the title for a new
     section of a document. Headings come in six main sizes which
-    correspond to the six headings sizes in HTML (e.g., <h1>).
+    correspond to the six headings sizes in HTML (e.g., :code:`<h1>`).
 
     All methods described in the Heading class include sample
     code. Sample code assumes a generic :code:`heading` object exists,
     which can be created as follows:
 
-    .. code-block:: Python
+    .. code-block:: python
 
         from snakemd import Heading
         heading = Heading("Sample Heading", 1)
@@ -362,8 +392,15 @@ class Heading(Block):
 
     def __str__(self) -> str:
         """
-        Renders the heading in markdown according to
-        the level provided.
+        Renders the heading as a markdown string. Markdown headings
+        are returned using the :code:`#` syntax where the number of
+        :code:`#` symbols corresponds to the heading level:
+        
+        .. code-block:: markdown
+        
+            # This is an H1
+            ## This is an H2
+            ### This is an H3
 
         :return: 
             the heading as a markdown string
@@ -395,7 +432,7 @@ class Heading(Block):
     def promote(self) -> None:
         """
         Promotes a heading up a level. Fails silently
-        if the heading is already at the highest level (i.e., <h1>).
+        if the heading is already at the highest level (i.e., :code:`<h1>`).
 
         .. code-block:: Python
 
@@ -407,7 +444,7 @@ class Heading(Block):
     def demote(self) -> None:
         """
         Demotes a heading down a level. Fails silently if
-        the heading is already at the lowest level (i.e., <h6>).
+        the heading is already at the lowest level (i.e., :code:`<h6>`).
 
         .. code-block:: Python
 
@@ -431,285 +468,29 @@ class Heading(Block):
         return ''.join(text_elements)
 
 
-class Code(Block):
+class HorizontalRule(Block):
     """
-    A code block is a standalone block of syntax-highlighted code.
-    Code blocks can have generic highlighting or highlighting based
-    on their language. 
+    A horizontal rule is a line separating different sections of
+    a document. Horizontal rules only come in one form,
+    so there are no settings to adjust.
     """
 
-    def __init__(self, code: str | Code, lang: str = "generic"):
+    def __init__(self):
         super().__init__()
-        self._code = code
-        self._lang = lang
 
     def __str__(self) -> str:
         """
-        Renders the code block as a string. Attempts to handle
-        nesting by applying 4 backticks rather than 3. It's
-        possible to have infinitely nested code blocks, but
-        that seems sort of silly. However, a single nested
-        code block seems valuable, especially for showing
-        how to share a code block. 
+        Renders the horizontal rule as a markdown string. Markdown
+        horizontal rules come in a variety of flavors, but the
+        format used in this repo is the triple asterisk 
+        (i.e., :code:`***`) to avoid clashes with list formatting.
 
         :return: 
-            the code block as a markdown string
+            the horizontal rule as a markdown string
         """
-        ticks = '`' * 3
-        if isinstance(self._code, Code):
-            logger.debug("Code block contains nested code block")
-            ticks = '`' * 4
-        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
-
-
-class Quote(Block):
-    """
-    A quote is a standalone block of emphasized text. Quotes can be
-    nested and can contain other blocks. 
-
-    :param str | Iterable[str | Inline | Block] lines: 
-        a single string or a "list" of text objects to be formatted as a quote
-    """
-
-    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
-        super().__init__()
-        self._lines: list[Block] = self._process_content(lines)
-        self._depth = 1
-
-    @staticmethod
-    def _process_content(lines) -> list[Block]:
-        """
-        Converts the raw input lines to something that is
-        a bit easier to work with. In this case, the lines
-        are converted to blocks.
-
-        :param lines: 
-            a "list" of text objects or a string
-        :return: 
-            a list of Blocks
-        """
-        logger.debug(f"Processing quote lines: {lines}")
-        if isinstance(lines, str):
-            processed_lines = [Paragraph(lines)]
-        else:
-            processed_lines = []
-            for line in lines:
-                if isinstance(line, (str, Inline)):
-                    processed_lines.append(Paragraph(line))
-                else:
-                    processed_lines.append(line)
-        return processed_lines
-
-    def __str__(self) -> str:
-        """
-        Formats the quote such that each line has the
-        correct depth and quote characters.
-
-        :return: 
-            the quote formatted as a markdown string
-        """
-        formatted_lines: list[str] = []
-        quote_markers = f"{'> ' * self._depth}"
-        for line in self._lines:
-            if isinstance(line, Quote):
-                line._depth = self._depth + 1
-                formatted_lines.extend([
-                    quote_markers,
-                    str(line),
-                    quote_markers
-                ])
-            else:
-                split = f"\n{quote_markers}".join(str(line).splitlines())
-                formatted_lines.append(f"{quote_markers}{split}")
-        return "\n".join(formatted_lines)
-
-
-class Paragraph(Block):
-    """
-    A paragraph is a standalone block of text. 
-
-    All methods described in the Paragraph class include sample
-    code. Sample code assumes a generic :code:`paragraph` object exists,
-    which can be created as follows:
-
-    .. code-block:: Python
-
-        from snakemd import Paragraph
-        paragraph = Paragraph("Hello, World!")
-
-    :param str | Iterable[Inline | str] content: 
-        a single string or a "list" of text objects to render as a paragraph        
-    """
-
-    def __init__(self, content: str | Iterable[Inline | str]):
-        super().__init__()
-        self._content: list[Inline] = self._process_content(content)
-
-    @staticmethod
-    def _process_content(content) -> list[Inline]:
-        """
-        Processes the incoming content for the Paragraph.
-
-        :param content: 
-            an iterable of various text items
-        :return: 
-            the processed iterable as a list of Inline items
-        """
-        logger.debug(f"Processing paragraph content: {content}")
-        if isinstance(content, str):
-            processed = [Inline(content)]
-        else:
-            processed = []
-            for item in content:
-                if isinstance(item, str):
-                    processed.append(Inline(item))
-                else:
-                    processed.append(item)
-        return processed
-
-    def __str__(self) -> str:
-        """
-        Renders the paragraph as markdown according to the settings provided.
-        For example, if the code flag is enabled, the paragraph will be
-        rendered as a code block. If both flags are enabled, code takes
-        precedence.
-
-        :return: 
-            the paragraph as a markdown string
-        """
-        paragraph = ''.join(str(item) for item in self._content)
-        return " ".join(paragraph.split())
-
-    def add(self, text: Inline | str) -> None:
-        """
-        Adds a text object to the paragraph.
-
-        .. code-block:: Python
-
-            paragraph.add("I come in peace")
-
-        :param Inline | str text: 
-            a custom Inline element
-        """
-        if isinstance(text, str):
-            text = Inline(text)
-        self._content.append(text)
-
-    def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
-        """
-        Given a target string, this helper method replaces it with the specified
-        Inline object. This method was created because insert_link and
-        replace were literally one line different. This method serves as the
-        mediator. Note that using this method will introduce several new
-        underlying Inline objects even if they could be aggregated.
-        At some point, we may just expose this method because it seems handy.
-        For example, I foresee a need for a function where all the person wants
-        to do is add italics for every instance of a particular string.
-        Though, I suppose we could include all of that in the default replace
-        method.
-
-        :param str target: 
-            the target string to replace
-        :param Inline text: 
-            the Inline object to insert in place of the target
-        :param int count: 
-            the number of links to insert; defaults to -1
-        :return: 
-            self
-        """
-        i = 0
-        content = []
-        for inline_text in self._content:
-            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
-                for item in items:
-                    content.append(Inline(item))
-                    if count == -1 or i < count:
-                        content.append(text)
-                        i += 1
-                    else:
-                        content.append(Inline(target))
-                content.pop()
-            else:
-                content.append(inline_text)
-        self._content = content
-        return self
-
-    def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
-        """
-        A convenience method which replaces a target string with a string of
-        the users choice. Like insert_link, this method is modeled after
-        :code:`str.replace()` of the standard library. As a result, a count
-        can be provided to limit the number of strings replaced in the paragraph.
-
-        .. code-block:: Python
-
-            paragraph.replace("Here", "There")
-
-        :param str target: 
-            the target string to replace
-        :param str replacement: 
-            the Inline object to insert in place of the target
-        :param int count: 
-            the number of links to insert; defaults to -1
-        :return: 
-            self
-        """
-        return self._replace_any(target, Inline(replacement), count)
-
-    def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
-        """
-        A convenience method which inserts links in the paragraph
-        for all matching instances of a target string. This method
-        is modeled after :code:`str.replace()`, so a count can be
-        provided to limit the number of insertions. This method
-        will not replace links of text that have already been linked.
-        See replace_link() for that behavior.
-
-        .. code-block:: Python
-
-            paragraph.insert_link("Here", "https://therenegadecoder.com")
-
-        :param str target: 
-            the string to link
-        :param str url: 
-            the url to link
-        :param int count: 
-            the number of links to insert; defaults to -1 (all)
-        :return: 
-            self
-        """
-        return self._replace_any(target, Inline(target, link=url), count)
-
-    def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
-        """
-        A convenience method which replaces matching URLs in the paragraph with
-        a new url. Like insert_link() and replace(), this method is also
-        modeled after :code:`str.replace()`, so a count can be provided to limit
-        the number of links replaced in the paragraph. This method is useful
-        if you want to replace existing URLs but don't necessarily care what
-        the anchor text is.
-
-        .. code-block:: Python
-
-            paragraph.replace_link("Here", "https://therenegadecoder.com")
-
-        :param str target: 
-            the string to link
-        :param str url: 
-            the url to link
-        :param int count: 
-            the number of links to replace; defaults to -1 (all)
-        :return: 
-            self
-        """
-        i = 0
-        for text in self._content:
-            if (count == -1 or i < count) and text._link == target:
-                text.link(url)
-                i += 1
-        return self
-
-
+        return "***"
+    
+    
 class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
@@ -738,9 +519,24 @@ class MDList(Block):
 
     def __str__(self) -> str:
         """
-        Renders the markdown list according to the settings provided.
-        For example, if the the ordered flag is set, an ordered list
-        will be rendered in markdown.
+        Renders the markdown list as a markdown string. Markdown lists
+        come in a variety of flavors and are customized according to 
+        the settings provided. For example, if the the ordered flag is 
+        set, an ordered list will be rendered in markdown. Unordered
+        lists and checklists both use the hyphen syntax for markdown
+        (i.e., :code:`-`) to avoid clashes with horizontal rules: 
+        
+        .. code-block:: markdown
+        
+            - This is an unordered list item
+            - So, is this
+        
+        Ordered lists use numbers for each list item:
+        
+        .. code-block:: markdown
+        
+            1. This is an ordered list item
+            2. So, is this
 
         :return: 
             the list as a markdown string
@@ -808,6 +604,306 @@ class MDList(Block):
             return 2 + len(str(item_index))
 
 
+class Paragraph(Block):
+    """
+    A paragraph is a standalone block of text. 
+
+    All methods described in the Paragraph class include sample
+    code. Sample code assumes a generic :code:`paragraph` object exists,
+    which can be created as follows:
+
+    .. code-block:: python
+
+        from snakemd import Paragraph
+        paragraph = Paragraph("Hello, World!")
+
+    :param str | Iterable[Inline | str] content: 
+        a single string or a "list" of text objects to render as a paragraph        
+    """
+
+    def __init__(self, content: str | Iterable[Inline | str]):
+        super().__init__()
+        self._content: list[Inline] = self._process_content(content)
+
+    @staticmethod
+    def _process_content(content) -> list[Inline]:
+        """
+        Processes the incoming content for the Paragraph.
+
+        :param content: 
+            an iterable of various text items
+        :return: 
+            the processed iterable as a list of Inline items
+        """
+        logger.debug(f"Processing paragraph content: {content}")
+        if isinstance(content, str):
+            processed = [Inline(content)]
+        else:
+            processed = []
+            for item in content:
+                if isinstance(item, str):
+                    processed.append(Inline(item))
+                else:
+                    processed.append(item)
+        return processed
+
+    def __str__(self) -> str:
+        """
+        Renders the paragraph as a markdown string. Markdown paragraphs
+        are returned as a singular line of text with all of the
+        underlying elements rendered as expected:
+        
+        .. code-block:: markdown
+        
+            This is an example of a **paragraph** with _formatting_
+
+        :return: 
+            the paragraph as a markdown string
+        """
+        paragraph = ''.join(str(item) for item in self._content)
+        return " ".join(paragraph.split())
+
+    def add(self, text: Inline | str) -> None:
+        """
+        Adds a text object to the paragraph.
+
+        .. code-block:: Python
+
+            paragraph.add("I come in peace")
+
+        :param Inline | str text: 
+            a custom Inline element
+        """
+        if isinstance(text, str):
+            text = Inline(text)
+        self._content.append(text)
+
+    def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
+        """
+        Given a target string, this helper method replaces it with the specified
+        Inline object. This method was created because insert_link and
+        replace were literally one line different. This method serves as the
+        mediator. Note that using this method will introduce several new
+        underlying Inline objects even if they could be aggregated.
+        At some point, we may just expose this method because it seems handy.
+        For example, I foresee a need for a function where all the person wants
+        to do is add italics for every instance of a particular string.
+        Though, I suppose we could include all of that in the default replace
+        method.
+
+        :param str target: 
+            the target string to replace
+        :param Inline text: 
+            the Inline object to insert in place of the target
+        :param int count: 
+            the number of links to insert; defaults to -1
+        :return: 
+            self
+        """
+        i = 0
+        content = []
+        for inline_text in self._content:
+            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
+                for item in items:
+                    content.append(Inline(item))
+                    if count == -1 or i < count:
+                        content.append(text)
+                        i += 1
+                    else:
+                        content.append(Inline(target))
+                content.pop()
+            else:
+                content.append(inline_text)
+        self._content = content
+        return self
+
+    def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which replaces a target string with a string of
+        the users choice. Like :meth:`insert_link`, this method is modeled after
+        :py:meth:`str.replace` of the standard library. As a result, a count
+        can be provided to limit the number of strings replaced in the paragraph.
+
+        .. code-block:: Python
+
+            paragraph.replace("Here", "There")
+
+        :param str target: 
+            the target string to replace
+        :param str replacement: 
+            the Inline object to insert in place of the target
+        :param int count: 
+            the number of links to insert; defaults to -1
+        :return: 
+            self
+        """
+        return self._replace_any(target, Inline(replacement), count)
+
+    def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which inserts links in the paragraph
+        for all matching instances of a target string. This method
+        is modeled after :py:meth:`str.replace`, so a count can be
+        provided to limit the number of insertions. This method
+        will not replace links of text that have already been linked.
+        See :meth:`snakemd.Paragraph.replace_link` for that behavior.
+
+        .. code-block:: Python
+
+            paragraph.insert_link("Here", "https://therenegadecoder.com")
+
+        :param str target: 
+            the string to link
+        :param str url: 
+            the url to link
+        :param int count: 
+            the number of links to insert; defaults to -1 (all)
+        :return: 
+            self
+        """
+        return self._replace_any(target, Inline(target, link=url), count)
+
+    def replace_link(self, target_link: str, replacement_link: str, count: int = -1) -> Paragraph:
+        """
+        A convenience method which replaces matching URLs in the paragraph with
+        a new url. Like :meth:`insert_link` and :meth:`replace`, this method is also
+        modeled after :py:meth:`str.replace`, so a count can be provided to limit
+        the number of links replaced in the paragraph. This method is useful
+        if you want to replace existing URLs but don't necessarily care what
+        the anchor text is.
+
+        .. code-block:: Python
+
+            paragraph.replace_link("https://stackoverflow.com", "https://therenegadecoder.com")
+
+        :param str target_link: 
+            the link to replace
+        :param str replacement_link: 
+            the link to swap in
+        :param int count: 
+            the number of links to replace; defaults to -1 (all)
+        :return: 
+            self
+        """
+        i = 0
+        for text in self._content:
+            if (count == -1 or i < count) and text._link == target_link:
+                text.link(replacement_link)
+                i += 1
+        return self
+    
+    
+class Quote(Block):
+    """
+    A quote is a standalone block of emphasized text. Quotes can be
+    nested and can contain other blocks. 
+
+    :param str | Iterable[str | Inline | Block] lines: 
+        a single string or a "list" of text objects to be formatted as a quote
+    """
+
+    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
+        super().__init__()
+        self._lines: list[Block] = self._process_content(lines)
+        self._depth = 1
+
+    @staticmethod
+    def _process_content(lines) -> list[Block]:
+        """
+        Converts the raw input lines to something that is
+        a bit easier to work with. In this case, the lines
+        are converted to blocks.
+
+        :param lines: 
+            a "list" of text objects or a string
+        :return: 
+            a list of Blocks
+        """
+        logger.debug(f"Processing quote lines: {lines}")
+        if isinstance(lines, str):
+            processed_lines = [Paragraph(lines)]
+        else:
+            processed_lines = []
+            for line in lines:
+                if isinstance(line, (str, Inline)):
+                    processed_lines.append(Paragraph(line))
+                else:
+                    processed_lines.append(line)
+        return processed_lines
+
+    def __str__(self) -> str:
+        """
+        Renders the quote as a markdown string. Markdown quotes
+        vary in syntax, but the general approach in this repo is
+        to apply the quote symbol (i.e., :code:`>`) to the front
+        of each line in the quote:
+        
+        .. code-block:: markdown
+        
+            > this
+            > is
+            > a quote
+            
+        Quotes can also be nested. To make this possible, nested
+        quotes are padded by empty quote lines:
+        
+        .. code-block:: markdown
+        
+            > Outer quote
+            > 
+            > > Inner quote
+            >
+            > Outer quote
+            
+        It's unclear what is the correct way to handle nested
+        quotes, but this format seems to be the most friendly
+        for GitHub markdown. Future work may involve including
+        the option to removing the padding. 
+
+        :return: 
+            the quote formatted as a markdown string
+        """
+        formatted_lines: list[str] = []
+        quote_markers = f"{'> ' * self._depth}"
+        for line in self._lines:
+            if isinstance(line, Quote):
+                line._depth = self._depth + 1
+                formatted_lines.extend([
+                    quote_markers,
+                    str(line),
+                    quote_markers
+                ])
+            else:
+                split = f"\n{quote_markers}".join(str(line).splitlines())
+                formatted_lines.append(f"{quote_markers}{split}")
+        return "\n".join(formatted_lines)
+
+
+class Raw(Block):
+    """
+    Raw blocks allow a user to insert text into a Markdown
+    document without any processing. Use this block to insert
+    raw Markdown or other types of text (e.g., Jekyll frontmatter)
+    into a document.
+    
+    :param str text: the raw text to append to a Document
+    """
+
+    def __init__(self, text: str) -> None:
+        super().__init__()
+        self._text = text
+
+    def __str__(self) -> str:
+        """
+        Renders the raw block as a markdown string. 
+        Raw markdown is unprocessed and passes directly
+        through to the document. 
+
+        :return: the raw block as a markdown string
+        """
+        return self._text
+
+
 class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered
@@ -860,8 +956,19 @@ class Table(Block):
 
     def __str__(self) -> str:
         """
-        Renders a markdown table from a header "list"
-        and a data set.
+        Renders the table as a markdown string. Table markdown
+        follows the standard pipe syntax:
+        
+        .. code-block:: 
+
+            | Header 1 | Header 2 |
+            | -------- | -------- |
+            | Item 1A  | Item 2A  |
+            | Item 1B  | Item 2B  |
+            
+        Alignment code adds colons in the appropriate locations.
+        Final tables are rendered according to the widest
+        items in each column for readability.
 
         :return: 
             a table as a markdown string
@@ -961,7 +1068,9 @@ class Table(Block):
 
     def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """
-        Adds a row to the end of table. 
+        A convenience method which adds a row to the end of table.
+        Use this method to build a table row-by-row rather than constructing
+        the table rows upfront.  
 
         .. code-block:: Python
 
@@ -978,18 +1087,3 @@ class Table(Block):
             )
         logger.debug(f"Adding row to table: {row}")
         self._body.append(row)
-
-
-class Raw(Block):
-    """
-    Raw blocks allow a user to insert text into the Markdown
-    document without an processing. Use this block to insert
-    raw Markdown or other types of text (e.g., Jekyll frontmatter).
-    """
-
-    def __init__(self, text: str) -> None:
-        super().__init__()
-        self._text = text
-
-    def __str__(self) -> str:
-        return self._text

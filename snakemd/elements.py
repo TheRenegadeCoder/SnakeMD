@@ -834,8 +834,7 @@ class Quote(Block):
             > a quote
             
         Quotes can also be nested. To make this possible, nested
-        quotes are padded by empty quote lines from higher 
-        quotes:
+        quotes are padded by empty quote lines:
         
         .. code-block:: markdown
         
@@ -872,7 +871,7 @@ class Quote(Block):
 class Raw(Block):
     """
     Raw blocks allow a user to insert text into the Markdown
-    document without an processing. Use this block to insert
+    document without any processing. Use this block to insert
     raw Markdown or other types of text (e.g., Jekyll frontmatter).
     """
 
@@ -881,6 +880,13 @@ class Raw(Block):
         self._text = text
 
     def __str__(self) -> str:
+        """
+        Renders the raw block as a markdown string. 
+        Raw markdown is unprocessed and passed directly
+        through to the document. 
+
+        :return: the raw block as a markdown string
+        """
         return self._text
 
 

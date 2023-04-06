@@ -93,6 +93,7 @@ Paragraph
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
 Quote
 ^^^^^

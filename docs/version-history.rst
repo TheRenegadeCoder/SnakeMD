@@ -13,7 +13,7 @@ as follows:
 v2.x
 ----
 
-* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`, :pr:`118`, :pr:`120`]
+* v2.0.0 [:pr:`104`. :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`, :pr:`118`, :pr:`120`, :pr:`122`, :pr:`123`]
 
   * Removed several deprecated items:
   
@@ -69,6 +69,9 @@ v2.x
     * Cleaned up documentation of pre-release version directives
     * Expanded types of inputs on various classes for quality of life
     * Changed behavior of horizontal rule to avoid clashes with list items
+    * Fixed bugs in logs and expanded logging capabilities
+    * Standardized docstring formatting
+    * Updated README automation to use latest features
 
 .. note:: 
 

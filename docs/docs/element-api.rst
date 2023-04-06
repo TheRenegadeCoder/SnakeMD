@@ -120,6 +120,7 @@ Table
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__
 
 Inline Elements
 ---------------

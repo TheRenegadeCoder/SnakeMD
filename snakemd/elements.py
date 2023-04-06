@@ -945,8 +945,19 @@ class Table(Block):
 
     def __str__(self) -> str:
         """
-        Renders a markdown table from a header "list"
-        and a data set.
+        Renders the table as a markdown string. Table markdown
+        follows the standard pipe syntax:
+        
+        .. code-block:: 
+
+            | Header 1 | Header 2 |
+            | -------- | -------- |
+            | Item 1A  | Item 2A  |
+            | Item 1B  | Item 2B  |
+            
+        Alignment code adds colons in the appropriate locations.
+        Final tables are rendered according to the widest
+        items in each column for readability.
 
         :return: 
             a table as a markdown string

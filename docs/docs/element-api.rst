@@ -125,11 +125,11 @@ Table
 Inline Elements
 ---------------
 
-One of the benefits of creating the Block elements directly
-over using the Document methods is the control users now have
-over the underlying structure and style. Now, instead of being
+One of the benefits of creating Block elements over using the 
+Document methods is the control users now have
+over the underlying structure and style. Instead of being
 bound to the string inputs, users can provide Inline elements
-directly. For example, maybe we want to be able to link a Heading.
+directly. For example, there is often a need to link Headings.
 This is not exactly possible through the Document methods as even
 the returned Heading object has no support for linking. However,
 with Inline elements, we can create a custom Heading to our

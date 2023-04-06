@@ -31,8 +31,8 @@ class Inline(Element):
     image markdown is applied to the text first while code markdown is
     applied last. Due to this design, some forms of inline text are not
     possible. For example, inline elements can be used to show inline 
-    markdown as an inline code element (e.g., `![here](https://example.com)`).
-    However, inline elements cannot be used to style inline code (e.g., **`code`**).
+    markdown as an inline code element (e.g., :code:`![here](https://example.com)`).
+    However, inline elements cannot be used to style inline code (e.g., :code:`**`code`**`).
     If styled code is necessary, it's possible to render the inline element
     as a string and pass the result to another inline element. 
 
@@ -858,7 +858,7 @@ class Quote(Block):
         It's unclear what is the correct way to handle nested
         quotes, but this format seems to be the most friendly
         for GitHub markdown. Future work may involve including
-        the option to pad with empty lines. 
+        the option to removing the padding. 
 
         :return: 
             the quote formatted as a markdown string
@@ -1068,7 +1068,9 @@ class Table(Block):
 
     def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
         """
-        Adds a row to the end of table. 
+        A convenience method which adds a row to the end of table.
+        Use this method to build a table row-by-row rather than constructing
+        the table rows upfront.  
 
         .. code-block:: Python
 

@@ -321,7 +321,6 @@ class Code(Block):
         self._lang = lang
         self._backticks = self._process_backticks(code)
         
-
     def __str__(self) -> str:
         """
         Renders the code block as a markdown string. Markdown code
@@ -363,7 +362,7 @@ class Heading(Block):
     """
     A heading is a text block which serves as the title for a new
     section of a document. Headings come in six main sizes which
-    correspond to the six headings sizes in HTML (e.g., <h1>).
+    correspond to the six headings sizes in HTML (e.g., :code:`<h1>`).
 
     All methods described in the Heading class include sample
     code. Sample code assumes a generic :code:`heading` object exists,
@@ -401,6 +400,7 @@ class Heading(Block):
         
             # This is an H1
             ## This is an H2
+            ### This is an H3
 
         :return: 
             the heading as a markdown string
@@ -432,7 +432,7 @@ class Heading(Block):
     def promote(self) -> None:
         """
         Promotes a heading up a level. Fails silently
-        if the heading is already at the highest level (i.e., <h1>).
+        if the heading is already at the highest level (i.e., :code:`<h1>`).
 
         .. code-block:: Python
 
@@ -444,7 +444,7 @@ class Heading(Block):
     def demote(self) -> None:
         """
         Demotes a heading down a level. Fails silently if
-        the heading is already at the lowest level (i.e., <h6>).
+        the heading is already at the lowest level (i.e., :code:`<h6>`).
 
         .. code-block:: Python
 
@@ -471,7 +471,7 @@ class Heading(Block):
 class HorizontalRule(Block):
     """
     A horizontal rule is a line separating different sections of
-    a document. Horizontal rules really only come in one form,
+    a document. Horizontal rules only come in one form,
     so there are no settings to adjust.
     """
 
@@ -720,7 +720,7 @@ class Paragraph(Block):
     def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
         """
         A convenience method which replaces a target string with a string of
-        the users choice. Like insert_link, this method is modeled after
+        the users choice. Like :meth:`insert_link`, this method is modeled after
         :py:meth:`str.replace` of the standard library. As a result, a count
         can be provided to limit the number of strings replaced in the paragraph.
 
@@ -766,7 +766,7 @@ class Paragraph(Block):
     def replace_link(self, target: str, url: str, count: int = -1) -> Paragraph:
         """
         A convenience method which replaces matching URLs in the paragraph with
-        a new url. Like insert_link() and replace(), this method is also
+        a new url. Like :meth:`insert_link` and :meth:`replace`, this method is also
         modeled after :py:meth:`str.replace`, so a count can be provided to limit
         the number of links replaced in the paragraph. This method is useful
         if you want to replace existing URLs but don't necessarily care what
@@ -774,7 +774,7 @@ class Paragraph(Block):
 
         .. code-block:: Python
 
-            paragraph.replace_link("Here", "https://therenegadecoder.com")
+            paragraph.replace_link("https://stackoverflow.com", "https://therenegadecoder.com")
 
         :param str target: 
             the string to link

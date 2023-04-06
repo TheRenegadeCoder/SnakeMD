@@ -53,13 +53,18 @@ v2.x
 
       * :code:`link` replaces :code:`url` in :code:`Inline`
 
-  * Removed all pre-release version directives from documentation
-  * Added new class called :code:`Quote`
-  * Added a respources page to the documentation
-  * Added support for ValueError exceptions in various classes to aid in development
-  * Added a proper requirements file for folks who want to help with development
-  * Improved testing across all facets of the repo with 163 tests
-  * Improved design and documentation of :code:`Inline` to highlight precedence
+  * Added several new features:
+  
+    * Included a :code:`Quote` block which allows for quote nesting
+    * Incorporated :code:`ValueError` exceptions in various class constructors
+    * Started a resources page in documentation
+    * Created a requirements file at the root of the repo to aid in development
+
+  * Improved various aspects of the repo:
+  
+    * Expanded testing to 163 tests for 100% coverage
+    * Clarified design of :code:`Inline` to highlight precedence
+    * Cleaned up documentation of pre-release version directives
 
 .. note:: 
 

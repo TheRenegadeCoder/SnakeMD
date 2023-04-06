@@ -870,9 +870,12 @@ class Quote(Block):
 
 class Raw(Block):
     """
-    Raw blocks allow a user to insert text into the Markdown
+    Raw blocks allow a user to insert text into a Markdown
     document without any processing. Use this block to insert
-    raw Markdown or other types of text (e.g., Jekyll frontmatter).
+    raw Markdown or other types of text (e.g., Jekyll frontmatter)
+    into a document.
+    
+    :param str text: the raw text to append to a Document
     """
 
     def __init__(self, text: str) -> None:
@@ -882,7 +885,7 @@ class Raw(Block):
     def __str__(self) -> str:
         """
         Renders the raw block as a markdown string. 
-        Raw markdown is unprocessed and passed directly
+        Raw markdown is unprocessed and passes directly
         through to the document. 
 
         :return: the raw block as a markdown string

@@ -17,7 +17,7 @@ PATCH = 0
 
 name = "SnakeMD"
 version = f"{MAJOR}.{MINOR}"
-release = f"{MAJOR}.{MINOR}.{PATCH}"
+release = f"{MAJOR}.{MINOR}.{PATCH}b1"
 setuptools.setup(
     name=name,
     version=release,

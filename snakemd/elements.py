@@ -1164,7 +1164,8 @@ class Table(Block):
         
         .. doctest:: table
         
-            >>> table = Table(["Rank", "Player"], [["1st", "Crosby"], ["2nd", "McDavid"]]).add_row(["3rd", "Matthews"])
+            >>> table = Table(["Rank", "Player"], [["1st", "Crosby"], ["2nd", "McDavid"]])
+            >>> _ = table.add_row(["3rd", "Matthews"])
             >>> str(table)
             '| Rank | Player   |\\n| ---- | -------- |\\n| 1st  | Crosby   |\\n| 2nd  | McDavid  |\\n| 3rd  | Matthews |'
 
@@ -1189,7 +1190,7 @@ class Table(Block):
         # Add it to table
         self._body.append(row_list)
         
-        # Updating widths as needed
+        # Update widths as needed
         for i, item in enumerate(row_list):
             item_width = len(str(item))
             if item_width > self._widths[i]:

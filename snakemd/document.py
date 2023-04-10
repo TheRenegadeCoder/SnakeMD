@@ -23,14 +23,9 @@ class Document:
     take advantage of the :func:`add_block` function to provide
     custom markdown blocks.
 
-    All methods described in the Document class include sample
-    code. Sample code assumes a generic :code:`doc` object exists,
-    which can be created as follows:
-
-    .. code-block:: Python
-
+    .. testsetup:: document
+    
         import snakemd
-        doc = snakemd.new_doc()
     """
 
     def __init__(self) -> None:
@@ -51,10 +46,13 @@ class Document:
         A generic function for appending blocks to the document.
         Use this function when you want a little more control over
         what the output looks like.
-
-        .. code-block:: Python
-
-            doc.add_block(Heading("Python is Cool!", 2))
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_block(snakemd.Heading("Python is Cool!", 2)) 
+            >>> str(doc)
+            '## Python is Cool!'
 
         :param Block block: 
             a markdown block (e.g., Table, Heading, etc.)
@@ -68,10 +66,13 @@ class Document:
     def add_raw(self, text: str) -> Raw:
         """
         A convenience method which adds text as-is to the document:
-
-        .. code-block:: Python
-
-            doc.add_raw("X: 5\\nY: 4\\nZ: 3")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_raw("X: 5\\nY: 4\\nZ: 3")
+            >>> str(doc)
+            'X: 5\\nY: 4\\nZ: 3'
 
         :param str text: 
             some text 
@@ -86,6 +87,13 @@ class Document:
     def add_heading(self, text: str, level: int = 1) -> Heading:
         """
         A convenience method which adds a heading to the document:
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_heading("Welcome to SnakeMD!")
+            >>> str(doc)
+            '# Welcome to SnakeMD!'
 
         .. code-block:: Python
 
@@ -106,10 +114,13 @@ class Document:
     def add_paragraph(self, text: str) -> Paragraph:
         """
         A convenience method which adds a paragraph of text to the document:
-
-        .. code-block:: Python
-
-            doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+            >>> str(doc)
+            'Mitochondria is the powerhouse of the cell.'
 
         :param str text: 
             any arbitrary text

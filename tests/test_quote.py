@@ -5,6 +5,11 @@ def test_quote_one_str():
     quote = Quote("Single Phrase")
     assert str(quote) == "> Single Phrase"
     
+    
+def test_quote_one_str_formatted():
+    quote = Quote("Single Phrase\n\tLet's go!")
+    assert str(quote) == "> Single Phrase\n> \tLet's go!"
+    
 
 def test_quote_multiple_lines():
     quote = Quote(["First", "Second", "Third"])

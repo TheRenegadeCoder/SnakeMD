@@ -55,7 +55,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_block(snakemd.Heading("Python is Cool!", 2)) 
+            >>> doc.add_block(snakemd.Heading("Python is Cool!", 2)) 
+            <snakemd.elements.Heading object at ...>
             >>> str(doc)
             '## Python is Cool!'
 
@@ -75,7 +76,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_raw("X: 5\\nY: 4\\nZ: 3")
+            >>> doc.add_raw("X: 5\\nY: 4\\nZ: 3")
+            <snakemd.elements.Raw object at ...>
             >>> str(doc)
             'X: 5\\nY: 4\\nZ: 3'
 
@@ -96,7 +98,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_heading("Welcome to SnakeMD!")
+            >>> doc.add_heading("Welcome to SnakeMD!")
+            <snakemd.elements.Heading object at ...>
             >>> str(doc)
             '# Welcome to SnakeMD!'
 
@@ -123,7 +126,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+            >>> doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+            <snakemd.elements.Paragraph object at ...>
             >>> str(doc)
             'Mitochondria is the powerhouse of the cell.'
 
@@ -144,7 +148,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+            >>> doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+            <snakemd.elements.MDList object at ...>
             >>> str(doc)
             '1. Goku\\n2. Piccolo\\n3. Vegeta'
 
@@ -165,7 +170,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+            >>> doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+            <snakemd.elements.MDList object at ...>
             >>> str(doc)
             '- Deku\\n- Bakugo\\n- Kirishima'
 
@@ -186,7 +192,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+            >>> doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+            <snakemd.elements.MDList object at ...>
             >>> str(doc)
             '- [ ] Okabe\\n- [ ] Mayuri\\n- [ ] Kurisu'
 
@@ -216,7 +223,8 @@ class Document:
             >>> header = ["Place", "Name"]
             >>> rows = [["1st", "Robert"], ["2nd", "Rae"]]
             >>> align = [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT]
-            >>> _ = doc.add_table(header, rows, align=align)
+            >>> doc.add_table(header, rows, align=align)
+            <snakemd.elements.Table object at ...>
             >>> str(doc)
             '| Place | Name   |\\n| :---: | -----: |\\n| 1st   | Robert |\\n| 2nd   | Rae    |'
 
@@ -246,7 +254,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_code("x = 5")
+            >>> doc.add_code("x = 5")
+            <snakemd.elements.Code object at ...>
             >>> str(doc)
             '```generic\\nx = 5\\n```'
 
@@ -269,7 +278,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_quote("Welcome to the Internet!")
+            >>> doc.add_quote("Welcome to the Internet!")
+            <snakemd.elements.Quote object at ...>
             >>> str(doc)
             '> Welcome to the Internet!'
 
@@ -290,7 +300,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_horizontal_rule()
+            >>> doc.add_horizontal_rule()
+            <snakemd.elements.HorizontalRule object at ...>
             >>> str(doc)
             '***'
 
@@ -313,9 +324,12 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_table_of_contents()
-            >>> _ = doc.add_heading("First Item", 2)
-            >>> _ = doc.add_heading("Second Item", 2) 
+            >>> doc.add_table_of_contents()
+            <snakemd.templates.TableOfContents object at ...>
+            >>> doc.add_heading("First Item", 2)
+            <snakemd.elements.Heading object at ...>
+            >>> doc.add_heading("Second Item", 2) 
+            <snakemd.elements.Heading object at ...>
             >>> str(doc)
             '1. [First Item](#first-item)\\n2. [Second Item](#second-item)\\n\\n## First Item\\n\\n## Second Item'
 
@@ -339,7 +353,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_horizontal_rule()
+            >>> doc.add_horizontal_rule()
+            <snakemd.elements.HorizontalRule object at ...>
             >>> doc.scramble()
             >>> str(doc)
             '***'
@@ -358,7 +373,8 @@ class Document:
         .. doctest:: document
         
             >>> doc = snakemd.new_doc()
-            >>> _ = doc.add_horizontal_rule()
+            >>> doc.add_horizontal_rule()
+            <snakemd.elements.HorizontalRule object at ...>
             >>> doc.dump("README")
 
         :param str name: 

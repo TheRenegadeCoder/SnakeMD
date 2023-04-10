@@ -1188,7 +1188,8 @@ class Table(Block):
         .. doctest:: table
         
             >>> table = Table(["Rank", "Player"], [["1st", "Crosby"], ["2nd", "McDavid"]])
-            >>> _ = table.add_row(["3rd", "Matthews"])
+            >>> table.add_row(["3rd", "Matthews"])
+            <snakemd.elements.Table object at ...>
             >>> str(table)
             '| Rank | Player   |\\n| ---- | -------- |\\n| 1st  | Crosby   |\\n| 2nd  | McDavid  |\\n| 3rd  | Matthews |'
 

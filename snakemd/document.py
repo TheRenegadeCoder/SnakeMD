@@ -237,10 +237,13 @@ class Document:
     def add_code(self, code: str, lang: str = "generic") -> Code:
         """
         A convenience method which adds a code block to the document:
-
-        .. code-block:: Python
-
-            doc.add_code("x = 5")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_code("x = 5")
+            >>> str(doc)
+            '```generic\\nx = 5\\n```'
 
         :param str code: 
             a preformatted code string

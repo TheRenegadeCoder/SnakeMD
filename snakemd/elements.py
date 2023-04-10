@@ -72,7 +72,7 @@ class Inline(Element):
         the code state of the inline text
         
         - defaults to :code:`False`
-        - set to :code:`True` to render text as code (i.e., :code:`\`text\``)
+        - set to :code:`True` to render text as code (i.e., ```text```)
     """
 
     def __init__(

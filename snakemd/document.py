@@ -26,6 +26,11 @@ class Document:
     .. testsetup:: document
     
         import snakemd
+        
+    .. testcleanup:: document
+    
+        import os
+        os.remove("README.md")
     """
 
     def __init__(self) -> None:
@@ -260,10 +265,13 @@ class Document:
     def add_quote(self, text: str) -> Quote:
         """
         A convenience method which adds a blockquote to the document:
-
-        .. code-block:: Python
-
-            doc.add_quote("Welcome to the Internet!")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_quote("Welcome to the Internet!")
+            >>> str(doc)
+            '> Welcome to the Internet!'
 
         :param str text: 
             the text to be quoted
@@ -278,10 +286,13 @@ class Document:
     def add_horizontal_rule(self) -> HorizontalRule:
         """
         A convenience method which adds a horizontal rule to the document:
-
-        .. code-block:: Python
-
-            doc.add_horizontal_rule()
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_horizontal_rule()
+            >>> str(doc)
+            '***'
 
         :return: 
             the :class:`HorizontalRule` added to this Document
@@ -298,10 +309,15 @@ class Document:
         document. The table itself is lazy loaded, so it always captures
         all of the heading blocks regardless of where the table of contents
         is added to the document.
-
-        .. code-block:: Python
-
-            doc.add_table_of_contents()
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_table_of_contents()
+            >>> _ = doc.add_heading("First Item", 2)
+            >>> _ = doc.add_heading("Second Item", 2) 
+            >>> str(doc)
+            '1. [First Item](#first-item)\\n2. [Second Item](#second-item)\\n\\n## First Item\\n\\n## Second Item'
 
         :param range levels: 
             a range of heading levels to be included in the table of contents
@@ -319,10 +335,14 @@ class Document:
         """
         A silly method which mixes all of the blocks in this document in
         a random order.
-
-        .. code-block:: Python
-
-            doc.scramble()
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_horizontal_rule()
+            >>> doc.scramble()
+            >>> str(doc)
+            '***'
         """
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")
@@ -334,10 +354,12 @@ class Document:
         made if it does not already exist. This method also assumes a file extension of md
         and a file encoding of utf-8, all of which are configurable through the method
         parameters.
-
-        .. code-block:: Python
-
-            doc.dump("README")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_horizontal_rule()
+            >>> doc.dump("README")
 
         :param str name: 
             the name of the markdown file to output without the file extension

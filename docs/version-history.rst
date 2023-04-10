@@ -13,6 +13,10 @@ as follows:
 v2.x
 ----
 
+* v2.0.0 [:pr:`131`]
+
+  * Setup code for 2023-04-14 release
+
 * v2.0.0b2 [:pr:`129`, :pr:`130`]
 
   * Converted all code snippets in docs to doctests

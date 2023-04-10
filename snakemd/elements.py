@@ -49,26 +49,35 @@ class Inline(Element):
         the inline text to render
     :param None | str image: 
         the source (either url or path) associated with an image
+        
+        - defaults to :code:`None`
+        - set to a string representing a URL or path to render an image (i.e., :code:`![text](image)`)
     :param None | str link: 
         the link (either url or path) associated with the inline element
+        
+        - defaults to :code:`None`
+        - set to a string representing a URL or path to render a link (i.e., :code:`[text](link)`)
     :param bool bold: 
         the bold state of the inline text
         
         - defaults to :code:`False`
-        - set to :code:`True` to render bold inline text (i.e., :code:`**bold**`)
+        - set to :code:`True` to render bold text (i.e., :code:`**text**`)
     :param bool italics: 
         the italics state of the inline element
         
         - defaults to :code:`False`
-        - set to :code:`True` to render inline text in italics (i.e., :code:`_italics_`)
+        - set to :code:`True` to render text in italics (i.e., :code:`_text_`)
     :param bool strikethrough: 
         the strikethrough state of the inline text
         
         - defaults to :code:`False`
-        - set to :code:`True` to render inline text with a strikethrough (i.e., :code:`~~strikethrough~~`)
+        - set to :code:`True` to render text with a strikethrough 
+          (i.e., :code:`~~text~~`)
     :param bool code: 
-        the italics state of the inline text;
-        set to True to render inline text as code (i.e., True -> `code`)
+        the code state of the inline text
+        
+        - defaults to :code:`False`
+        - set to :code:`True` to render text as code (i.e., :code:`\`text\``)
     """
 
     def __init__(

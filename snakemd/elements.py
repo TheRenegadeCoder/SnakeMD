@@ -1002,15 +1002,10 @@ class Table(Block):
     """
     A table is a standalone block of rows and columns. Data is rendered
     according to underlying Inline items.
-
-    All methods described in the Table class include sample
-    code. Sample code assumes a generic :code:`table` object exists,
-    which can be created as follows:
-
-    .. code-block:: Python
-
+    
+    .. testsetup:: table
+    
         from snakemd import Table
-        table = Table(["Place", "Name"], [["1st", "Crosby"], ["2nd", "McDavid"]])
 
     :raises ValueError: 
     
@@ -1161,24 +1156,43 @@ class Table(Block):
                     widths[i] = width
         return widths
 
-    def add_row(self, row: Iterable[str | Inline | Paragraph]) -> None:
+    def add_row(self, row: Iterable[str | Inline | Paragraph]) -> Table:
         """
         A convenience method which adds a row to the end of table.
         Use this method to build a table row-by-row rather than constructing
         the table rows upfront.  
-
-        .. code-block:: Python
-
-            table.add_row(["3rd", "Matthews"])
+        
+        .. doctest:: table
+        
+            >>> table = Table(["Rank", "Player"], [["1st", "Crosby"], ["2nd", "McDavid"]]).add_row(["3rd", "Matthews"])
+            >>> str(table)
+            '| Rank | Player   |\\n| ---- | -------- |\\n| 1st  | Crosby   |\\n| 2nd  | McDavid  |\\n| 3rd  | Matthews |'
 
         :raises ValueError: 
             when row is not the same width as the table header
         :param Iterable[str | Inline | Paragraph] row: 
             a row of data
+        :return:
+            self
         """
+
+        # Consume row
+        row_list = [_ for _ in row]
+        logger.debug(f"Adding row to table: {row_list}")
+        
+        # Verify that it's safe to add
         if len(row) != len(self._header):
             raise ValueError(
-                f"Unable to add row with width {len(row)} to table with header of width {len(self._header)}"
+                f"Unable to add row with width {len(row_list)} to table with header of width {len(self._header)}"
             )
-        logger.debug(f"Adding row to table: {row}")
-        self._body.append(row)
+        
+        # Add it to table
+        self._body.append(row_list)
+        
+        # Updating widths as needed
+        for i, item in enumerate(row_list):
+            item_width = len(str(item))
+            if item_width > self._widths[i]:
+                self._widths[i] = item_width
+
+        return self

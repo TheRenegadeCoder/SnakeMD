@@ -278,3 +278,23 @@ def test_md_list_checked_exception_iterable():
             ], 
             checked=(x for x in [True, True])
         )
+
+    
+def test_md_list_nested_checked_nested_exception_list():
+    with pytest.raises(ValueError):
+        inner_list = MDList(
+            [
+                "Deku", 
+                "Bakugo", 
+                "Uraraka"
+            ], 
+            checked=[True, True, False]
+        )
+        MDList(
+            [
+                "Characters", 
+                inner_list, 
+                "Powers"
+            ], 
+            checked=[False, True, False]
+        )

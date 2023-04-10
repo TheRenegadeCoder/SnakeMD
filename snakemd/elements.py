@@ -359,8 +359,8 @@ class Code(Block):
     :param str | Code code:
         the sourcecode to format as a Markdown code block
         
-        - set to a string which represents preformatted code (i.e., whitespace is respected)
-        - set to a Code object to nest an existing code block
+        - set to a string for a preformatted code block (i.e., whitespace is respected)
+        - set to a Code object for a nested code block
     :param str lang:
         the programming language for the code block; defaults to 'generic'
     """

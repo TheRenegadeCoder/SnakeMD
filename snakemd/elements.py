@@ -255,9 +255,11 @@ class Inline(Element):
         """
         Adds code style to self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.code()
+            >>> inline = Inline("x = 5").code()
+            >>> str(inline)
+            '`x = 5`'
 
         :return: 
             self
@@ -269,9 +271,11 @@ class Inline(Element):
         """
         Removes code styling from self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.uncode()
+            >>> inline = Inline("This is normal text", code=True).uncode()
+            >>> str(inline)
+            'This is normal text'
 
         :return: 
             self
@@ -283,9 +287,11 @@ class Inline(Element):
         """
         Adds link to self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.link("https://snakemd.io")
+            >>> inline = Inline("here").link("https://snakemd.io")
+            >>> str(inline)
+            '[here](https://snakemd.io)'
 
         :param str link: 
             the URL or path to apply to this Inline element
@@ -299,9 +305,11 @@ class Inline(Element):
         """
         Removes link from self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.unlink()
+            >>> inline = Inline("This is normal text", link="https://snakemd.io").unlink()
+            >>> str(inline)
+            'This is normal text'
 
         :return: 
             self
@@ -314,9 +322,11 @@ class Inline(Element):
         Removes all settings from self (e.g., bold, code, italics, url, etc.).
         All that will remain is the text itself.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.reset()
+            >>> inline = Inline("This is normal text", link="https://snakemd.io", bold=True).reset()
+            >>> str(inline)
+            'This is normal text'
 
         :return: 
             self

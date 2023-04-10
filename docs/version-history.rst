@@ -18,6 +18,7 @@ v2.x
   * Converted all code snippets in docs to doctests
   * Reworked string input for :code:`Quote` to pass directly through raw
   * Updated language around parameters in documentation to provide a list of possible inputs and their effects
+  * Replaced :code:`url` parameter with :code:`link` parameter in :code:`insert_link()` method of :code:`Paragraph`
 
 * v2.0.0b1 [:pr:`104`, :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`, :pr:`118`, :pr:`120`, :pr:`122`, :pr:`123`, :pr:`125`, :pr:`126`]
 

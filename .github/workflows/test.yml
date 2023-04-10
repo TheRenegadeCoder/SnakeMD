@@ -1,4 +1,4 @@
-name: PyTest
+name: PyTest & Doctest
 
 on:
   pull_request:
@@ -30,3 +30,8 @@ jobs:
 
     - name: Coverage
       run: coverage report
+
+    - name: Doctest
+      run: |
+        cd docs
+        make doctest    

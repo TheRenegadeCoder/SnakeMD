@@ -484,25 +484,35 @@ class Heading(Block):
             self._level -= 1
         return self
 
-    def demote(self) -> None:
+    def demote(self) -> Heading:
         """
         Demotes a heading down a level. Fails silently if
         the heading is already at the lowest level (i.e., :code:`<h6>`).
 
-        .. code-block:: Python
+        .. doctest:: heading
 
-            heading.demote()
+            >>> heading = Heading("This is an H2 heading", 1).demote()
+            >>> str(heading)
+            '## This is an H2 heading'
+            
+        :return:
+            self
         """
         if self._level < 6:
             self._level += 1
+        return self
 
     def get_text(self) -> str:
         """
-        Returns the heading text free of any styling.
+        Returns the heading text free of any styling. Useful
+        when the heading is composed of various Inline elements,
+        and the raw text is needed without styling or linking.
 
-        .. code-block:: Python
+        .. doctest:: heading
 
-            text: str = heading.get_text()
+            >>> heading = Heading("This is the heading text", 1)
+            >>> heading.get_text()
+            'This is the heading text'
 
         :return: 
             the heading as a string

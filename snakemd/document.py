@@ -148,7 +148,7 @@ class Document:
         :return: 
             the :class:`MDList` added to this Document
         """
-        md_list = MDList([Inline(item) for item in items], ordered=True)
+        md_list = MDList(items, ordered=True)
         self._contents.append(md_list)
         logger.debug(f"Added ordered list to document\n{md_list}")
         return md_list
@@ -156,17 +156,20 @@ class Document:
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds an unordered list to the document.
-
-        .. code-block:: Python
-
-            doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+            >>> str(doc)
+            '- Deku\\n- Bakugo\\n- Kirishima'
 
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
             the :class:`MDList` added to this Document
         """
-        md_list = MDList([Inline(item) for item in items])
+        md_list = MDList(items)
         self._contents.append(md_list)
         logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
@@ -174,17 +177,20 @@ class Document:
     def add_checklist(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds a checklist to the document.
-
-        .. code-block:: Python
-
-            doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+            >>> str(doc)
+            '- [ ] Okabe\\n- [ ] Mayuri\\n- [ ] Kurisu'
 
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
             the :class:`MDList` added to this Document
         """
-        md_checklist = MDList([Inline(item) for item in items], checked=False)
+        md_checklist = MDList(items, checked=False)
         self._contents.append(md_checklist)
         logger.debug(f"Added checklist to document\n{md_checklist}")
         return md_checklist
@@ -198,18 +204,16 @@ class Document:
     ) -> Table:
         """
         A convenience method which adds a table to the document:
-
-        .. code-block:: Python
-
-            doc.add_table(
-                ["Place", "Name"],
-                [
-                    ["1st", "Robert"],
-                    ["2nd", "Rae"]
-                ],
-                [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT],
-                0
-            )
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> header = ["Place", "Name"]
+            >>> rows = [["1st", "Robert"], ["2nd", "Rae"]]
+            >>> align = [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT]
+            >>> _ = doc.add_table(header, rows, align=align)
+            >>> str(doc)
+            '| Place | Name   |\\n| :---: | -----: |\\n| 1st   | Robert |\\n| 2nd   | Rae    |'
 
         :param Iterable[str] header: 
             a "list" of strings

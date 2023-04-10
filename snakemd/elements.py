@@ -549,7 +549,7 @@ class MDList(Block):
     A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
     :raises ValueError: 
-        when the checked parameter is provided an Iterable[bool] that does not 
+        when the checked argument is an Iterable[bool] that does not 
         match the number of top-level elements in the list
     :param Iterable[str | Inline | Block] items:
         a "list" of objects to be rendered as a list
@@ -699,10 +699,15 @@ class Paragraph(Block):
         from snakemd import Paragraph
 
     :param str | Iterable[Inline | str] content: 
-        a single string or a "list" of text objects to render as a paragraph        
+        the text to be rendered as a paragraph where whitespace is not respected
+        (see :class:`snakemd.Raw` for whitespace sensitive applications)
+        
+        - set to a string for a single line of unformatted text
+        - set to a "list" of text objects for a single line of
+          custom formatted text     
     """
 
-    def __init__(self, content: str | Iterable[Inline | str]):
+    def __init__(self, content: str | Iterable[str | Inline]):
         super().__init__()
         self._content: list[Inline] = self._process_content(content)
 
@@ -892,8 +897,11 @@ class Quote(Block):
     A quote is a standalone block of emphasized text. Quotes can be
     nested and can contain other blocks. 
 
-    :param str | Iterable[str | Inline | Block] lines: 
-        a single string or a "list" of text objects to be formatted as a quote
+    :param str | Iterable[str | Inline | Block] lines:
+        the text to be formatted as a Markdown quote
+         
+        - set to a string where whitespace is respected (similar to :class:`snakemd.Code`)
+        - set to a "list" of text objects which serve as individual lines of a quote
     """
 
     def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:

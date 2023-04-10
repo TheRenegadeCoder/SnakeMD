@@ -523,6 +523,8 @@ class MDList(Block):
         self._ordered = ordered
         self._checked = checked
         self._space = ""
+        if isinstance(self._checked, list) and self._top_level_count() != len(self._checked):
+            raise ValueError(f"Number of top-level elements in checklist does not match number of booleans supplied by checked parameter: {self._checked}")
 
     def __str__(self) -> str:
         """
@@ -593,6 +595,23 @@ class MDList(Block):
             else:
                 processed.append(item)
         return processed
+    
+    def _top_level_count(self) -> int:
+        """
+        Given that MDList can accept a variety of blocks,
+        we need to know how many items in the provided list
+        are top-level elements (i.e., not nested list elements).
+        We use this number to throw errors if this count does
+        not match up with the checklist count.
+
+        :return: 
+            a count of top-level elements
+        """
+        count = 0
+        for item in self._items:
+            if not isinstance(item, MDList):
+                count += 1
+        return count
 
     def _get_indent_size(self, item_index: int = -1) -> int:
         """

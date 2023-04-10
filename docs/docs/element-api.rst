@@ -17,6 +17,16 @@ is known as an element. Below is the element interface.
    :show-inheritance:
    :special-members: __str__
 
+For consistency, element mutators all return self to allow
+for method chaining. This is sometimes referred to as the
+fluent interface pattern, and it's particularly useful
+for applying a series of changes to a single element. This
+design choice most obviously shines in both :class:`snakemd.Paragraph`, 
+which allows different aspects of the text to be replaced
+over a series of chained methods, and :class:`snakemd.Inline`,
+which allows inline elements to be styled over a series of
+chained methods. 
+
 For practical purposes, elements cannot be constructed directly.
 Instead, they are broken down into two main categories:
 block and inline. 

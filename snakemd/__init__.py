@@ -9,10 +9,10 @@ def new_doc() -> Document:
     wants to take advantage of the procedural interface of SnakeMD.
     For those looking for a bit more control, each element class
     will need to be imported as needed.
-
-    .. code-block:: Python
-
-        doc = snakemd.new_doc()
+    
+    .. doctest:: document
+        
+        >>> doc = snakemd.new_doc()
 
     :return: 
         a new Document object

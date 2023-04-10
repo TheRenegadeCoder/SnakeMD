@@ -359,8 +359,8 @@ class Code(Block):
     :param str | Code code:
         the sourcecode to format as a Markdown code block
         
-        - set to a string for a preformatted code block (i.e., whitespace is respected)
-        - set to a Code object for a nested code block
+        - set to a string to render a preformatted code block (i.e., whitespace is respected)
+        - set to a Code object to render a nested code block
     :param str lang:
         the programming language for the code block; defaults to 'generic'
     """
@@ -423,11 +423,10 @@ class Heading(Block):
     :param str | Inline | Iterable[Inline | str] text: 
         the heading text
         
-        - set to a string for unformatted heading text
-        - set to an Inline object to customize the overall styling of the 
-          heading (e.g., bold, link, code, etc.)
-        - set to a "list" of the prior options to provide more granular 
-          control over the individual inline elements in the heading
+        - set to a string to render raw heading text
+        - set to an Inline object to render a styled heading (e.g., bold, link, code, etc.)
+        - set to a "list" of the prior options to render a header with more granular 
+          control over the individual inline elements
     :param int level: 
         the heading level between 1 and 6
     """
@@ -576,9 +575,9 @@ class MDList(Block):
         the checked state of the list
         
         - defaults to :code:`None` which excludes checkboxes from being rendered
-        - set to :code:`False` for a series of unchecked boxes (i.e., :code:`- [ ]`)
-        - set to :code:`True` for a series of checked boxes (i.e., :code:`- [x]`)
-        - set to :code:`Iterable[bool]` to configure the checked 
+        - set to :code:`False` to render a series of unchecked boxes (i.e., :code:`- [ ]`)
+        - set to :code:`True` to render a series of checked boxes (i.e., :code:`- [x]`)
+        - set to :code:`Iterable[bool]` to render the checked 
           status of the top-level list elements directly
     """
 
@@ -712,13 +711,13 @@ class Paragraph(Block):
     
         from snakemd import Paragraph
 
-    :param str | Iterable[Inline | str] content: 
+    :param str | Iterable[str | Inline] content: 
         the text to be rendered as a paragraph where whitespace is not respected
         (see :class:`snakemd.Raw` for whitespace sensitive applications)
         
-        - set to a string for a single line of unformatted text
-        - set to a "list" of text objects for more granular control of
-          the individual text objects within the paragraph (e.g., linking,
+        - set to a string to render a single line of unformatted text
+        - set to a "list" of text objects to render a paragraph with more 
+          granular control over the individual text objects (e.g., linking,
           styling, etc.)     
     """
 
@@ -915,8 +914,8 @@ class Quote(Block):
     :param str | Iterable[str | Inline | Block] content:
         the text to be formatted as a Markdown quote
          
-        - set to a string for a whitespace respected quote (similar to :class:`snakemd.Code`)
-        - set to a "list" of text objects for a document-like quote
+        - set to a string to render a whitespace respected quote (similar to :class:`snakemd.Code`)
+        - set to a "list" of text objects to render a document-like quote
           (i.e., all items will be separated by newlines)
     """
 

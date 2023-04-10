@@ -135,10 +135,13 @@ class Document:
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds an ordered list to the document:
-
-        .. code-block:: Python
-
-            doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+            >>> str(doc)
+            '1. Goku\\n2. Piccolo\\n3. Vegeta'
 
         :param Iterable[str] items: 
             a "list" of strings

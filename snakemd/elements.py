@@ -405,15 +405,10 @@ class Heading(Block):
     A heading is a text block which serves as the title for a new
     section of a document. Headings come in six main sizes which
     correspond to the six headings sizes in HTML (e.g., :code:`<h1>`).
-
-    All methods described in the Heading class include sample
-    code. Sample code assumes a generic :code:`heading` object exists,
-    which can be created as follows:
-
-    .. code-block:: python
-
+    
+    .. testsetup:: heading
+    
         from snakemd import Heading
-        heading = Heading("Sample Heading", 1)
 
     :raises ValueError: 
         when level < 1 or level > 6
@@ -471,17 +466,23 @@ class Heading(Block):
                 for item in text
             ]
 
-    def promote(self) -> None:
+    def promote(self) -> Heading:
         """
         Promotes a heading up a level. Fails silently
         if the heading is already at the highest level (i.e., :code:`<h1>`).
+        
+        .. doctest:: heading
 
-        .. code-block:: Python
-
-            heading.promote()
+            >>> heading = Heading("This is an H2 heading", 3).promote()
+            >>> str(heading)
+            '## This is an H2 heading'
+            
+        :return:
+            self
         """
         if self._level > 1:
             self._level -= 1
+        return self
 
     def demote(self) -> None:
         """

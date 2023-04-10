@@ -495,6 +495,9 @@ class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
 
+    :raises ValueError: 
+        when the checked parameter is provided an Iterable[bool] that does not 
+        match the number of top-level elements in the list
     :param Iterable[str | Inline | Block] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: 
@@ -520,7 +523,7 @@ class MDList(Block):
     ) -> None:
         super().__init__()
         self._items: list[Block] = self._process_items(items)
-        self._ordered = ordered
+        self._ordered: bool = ordered
         self._checked = checked
         self._space = ""
         if isinstance(self._checked, list) and self._top_level_count() != len(self._checked):

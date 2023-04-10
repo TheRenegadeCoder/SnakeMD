@@ -159,9 +159,11 @@ class Inline(Element):
         """
         Adds bold styling to self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.bold()
+            >>> inline = Inline("This is bold text").bold()
+            >>> str(inline)
+            '**This is bold text**'
 
         :return: 
             self
@@ -173,9 +175,11 @@ class Inline(Element):
         """
         Removes bold styling from self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.unbold()
+            >>> inline = Inline("This is normal text", bold=True).unbold()
+            >>> str(inline)
+            'This is normal text'
 
         :return: 
             self
@@ -187,9 +191,11 @@ class Inline(Element):
         """
         Adds italics styling to self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.italicize()
+            >>> inline = Inline("This is italicized text").italicize()
+            >>> str(inline)
+            '_This is italicized text_'
 
         :return: 
             self
@@ -201,9 +207,11 @@ class Inline(Element):
         """
         Removes italics styling from self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.unitalicize()
+            >>> inline = Inline("This is normal text", italics=True).unitalicize()
+            >>> str(inline)
+            'This is normal text'
 
         :return: 
             self

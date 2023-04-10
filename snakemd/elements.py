@@ -355,6 +355,14 @@ class Code(Block):
     A code block is a standalone block of syntax-highlighted code.
     Code blocks can have generic highlighting or highlighting based
     on their language. 
+    
+    :param str | Code code:
+        the sourcecode to format as a Markdown code block
+        
+        - set to a string which represented preformatted code (i.e., whitespace is respected)
+        - set to a Code object to nest an existing code block
+    :param str lang:
+        the programming language for the code block; defaults to 'generic'
     """
 
     def __init__(self, code: str | Code, lang: str = "generic"):
@@ -897,16 +905,16 @@ class Quote(Block):
     A quote is a standalone block of emphasized text. Quotes can be
     nested and can contain other blocks. 
 
-    :param str | Iterable[str | Inline | Block] lines:
+    :param str | Iterable[str | Inline | Block] content:
         the text to be formatted as a Markdown quote
          
         - set to a string where whitespace is respected (similar to :class:`snakemd.Code`)
         - set to a "list" of text objects which serve as individual lines of a quote
     """
 
-    def __init__(self, lines: str | Iterable[str | Inline | Block]) -> None:
+    def __init__(self, content: str | Iterable[str | Inline | Block]) -> None:
         super().__init__()
-        self._lines: list[Block] = self._process_content(lines)
+        self._lines: list[Block] = self._process_content(content)
         self._depth = 1
 
     @staticmethod

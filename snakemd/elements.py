@@ -36,14 +36,9 @@ class Inline(Element):
     If styled code is necessary, it's possible to render the inline element
     as a string and pass the result to another inline element. 
 
-    All methods described in the Inline class include sample
-    code. Sample code assumes a generic :code:`inline` object exists,
-    which can be created as follows:
-
-    .. doctest:: Python
-
-        >>> from snakemd import Inline
-        >>> inline = Inline("Sample Text")
+    .. testsetup:: inline
+    
+        from snakemd import Inline
 
     :param str text: 
         the inline text to render
@@ -128,9 +123,11 @@ class Inline(Element):
         Checks if this Inline element is a text-only element. If not, it must
         be an image, a link, or a code snippet.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            is_inline_text: bool = inline.is_text()
+            >>> inline = Inline("This is text")
+            >>> inline.is_text()
+            True
 
         :return: 
             True if this is a text-only element; False otherwise

@@ -23,14 +23,14 @@ class Document:
     take advantage of the :func:`add_block` function to provide
     custom markdown blocks.
 
-    All methods described in the Document class include sample
-    code. Sample code assumes a generic :code:`doc` object exists,
-    which can be created as follows:
-
-    .. code-block:: Python
-
+    .. testsetup:: document
+    
         import snakemd
-        doc = snakemd.new_doc()
+        
+    .. testcleanup:: document
+    
+        import os
+        os.remove("README.md")
     """
 
     def __init__(self) -> None:
@@ -51,10 +51,13 @@ class Document:
         A generic function for appending blocks to the document.
         Use this function when you want a little more control over
         what the output looks like.
-
-        .. code-block:: Python
-
-            doc.add_block(Heading("Python is Cool!", 2))
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_block(snakemd.Heading("Python is Cool!", 2)) 
+            >>> str(doc)
+            '## Python is Cool!'
 
         :param Block block: 
             a markdown block (e.g., Table, Heading, etc.)
@@ -68,10 +71,13 @@ class Document:
     def add_raw(self, text: str) -> Raw:
         """
         A convenience method which adds text as-is to the document:
-
-        .. code-block:: Python
-
-            doc.add_raw("X: 5\\nY: 4\\nZ: 3")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_raw("X: 5\\nY: 4\\nZ: 3")
+            >>> str(doc)
+            'X: 5\\nY: 4\\nZ: 3'
 
         :param str text: 
             some text 
@@ -86,6 +92,13 @@ class Document:
     def add_heading(self, text: str, level: int = 1) -> Heading:
         """
         A convenience method which adds a heading to the document:
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_heading("Welcome to SnakeMD!")
+            >>> str(doc)
+            '# Welcome to SnakeMD!'
 
         .. code-block:: Python
 
@@ -106,10 +119,13 @@ class Document:
     def add_paragraph(self, text: str) -> Paragraph:
         """
         A convenience method which adds a paragraph of text to the document:
-
-        .. code-block:: Python
-
-            doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
+            >>> str(doc)
+            'Mitochondria is the powerhouse of the cell.'
 
         :param str text: 
             any arbitrary text
@@ -124,17 +140,20 @@ class Document:
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds an ordered list to the document:
-
-        .. code-block:: Python
-
-            doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
+            >>> str(doc)
+            '1. Goku\\n2. Piccolo\\n3. Vegeta'
 
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
             the :class:`MDList` added to this Document
         """
-        md_list = MDList([Inline(item) for item in items], ordered=True)
+        md_list = MDList(items, ordered=True)
         self._contents.append(md_list)
         logger.debug(f"Added ordered list to document\n{md_list}")
         return md_list
@@ -142,17 +161,20 @@ class Document:
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds an unordered list to the document.
-
-        .. code-block:: Python
-
-            doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
+            >>> str(doc)
+            '- Deku\\n- Bakugo\\n- Kirishima'
 
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
             the :class:`MDList` added to this Document
         """
-        md_list = MDList([Inline(item) for item in items])
+        md_list = MDList(items)
         self._contents.append(md_list)
         logger.debug(f"Added unordered list to document\n{md_list}")
         return md_list
@@ -160,17 +182,20 @@ class Document:
     def add_checklist(self, items: Iterable[str]) -> MDList:
         """
         A convenience method which adds a checklist to the document.
-
-        .. code-block:: Python
-
-            doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
+            >>> str(doc)
+            '- [ ] Okabe\\n- [ ] Mayuri\\n- [ ] Kurisu'
 
         :param Iterable[str] items: 
             a "list" of strings
         :return: 
             the :class:`MDList` added to this Document
         """
-        md_checklist = MDList([Inline(item) for item in items], checked=False)
+        md_checklist = MDList(items, checked=False)
         self._contents.append(md_checklist)
         logger.debug(f"Added checklist to document\n{md_checklist}")
         return md_checklist
@@ -184,18 +209,16 @@ class Document:
     ) -> Table:
         """
         A convenience method which adds a table to the document:
-
-        .. code-block:: Python
-
-            doc.add_table(
-                ["Place", "Name"],
-                [
-                    ["1st", "Robert"],
-                    ["2nd", "Rae"]
-                ],
-                [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT],
-                0
-            )
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> header = ["Place", "Name"]
+            >>> rows = [["1st", "Robert"], ["2nd", "Rae"]]
+            >>> align = [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT]
+            >>> _ = doc.add_table(header, rows, align=align)
+            >>> str(doc)
+            '| Place | Name   |\\n| :---: | -----: |\\n| 1st   | Robert |\\n| 2nd   | Rae    |'
 
         :param Iterable[str] header: 
             a "list" of strings
@@ -219,10 +242,13 @@ class Document:
     def add_code(self, code: str, lang: str = "generic") -> Code:
         """
         A convenience method which adds a code block to the document:
-
-        .. code-block:: Python
-
-            doc.add_code("x = 5")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_code("x = 5")
+            >>> str(doc)
+            '```generic\\nx = 5\\n```'
 
         :param str code: 
             a preformatted code string
@@ -239,10 +265,13 @@ class Document:
     def add_quote(self, text: str) -> Quote:
         """
         A convenience method which adds a blockquote to the document:
-
-        .. code-block:: Python
-
-            doc.add_quote("Welcome to the Internet!")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_quote("Welcome to the Internet!")
+            >>> str(doc)
+            '> Welcome to the Internet!'
 
         :param str text: 
             the text to be quoted
@@ -257,10 +286,13 @@ class Document:
     def add_horizontal_rule(self) -> HorizontalRule:
         """
         A convenience method which adds a horizontal rule to the document:
-
-        .. code-block:: Python
-
-            doc.add_horizontal_rule()
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_horizontal_rule()
+            >>> str(doc)
+            '***'
 
         :return: 
             the :class:`HorizontalRule` added to this Document
@@ -277,10 +309,15 @@ class Document:
         document. The table itself is lazy loaded, so it always captures
         all of the heading blocks regardless of where the table of contents
         is added to the document.
-
-        .. code-block:: Python
-
-            doc.add_table_of_contents()
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_table_of_contents()
+            >>> _ = doc.add_heading("First Item", 2)
+            >>> _ = doc.add_heading("Second Item", 2) 
+            >>> str(doc)
+            '1. [First Item](#first-item)\\n2. [Second Item](#second-item)\\n\\n## First Item\\n\\n## Second Item'
 
         :param range levels: 
             a range of heading levels to be included in the table of contents
@@ -298,10 +335,14 @@ class Document:
         """
         A silly method which mixes all of the blocks in this document in
         a random order.
-
-        .. code-block:: Python
-
-            doc.scramble()
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_horizontal_rule()
+            >>> doc.scramble()
+            >>> str(doc)
+            '***'
         """
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")
@@ -313,10 +354,12 @@ class Document:
         made if it does not already exist. This method also assumes a file extension of md
         and a file encoding of utf-8, all of which are configurable through the method
         parameters.
-
-        .. code-block:: Python
-
-            doc.dump("README")
+        
+        .. doctest:: document
+        
+            >>> doc = snakemd.new_doc()
+            >>> _ = doc.add_horizontal_rule()
+            >>> doc.dump("README")
 
         :param str name: 
             the name of the markdown file to output without the file extension

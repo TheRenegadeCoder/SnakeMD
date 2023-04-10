@@ -14,10 +14,11 @@ with open("README.md", "r") as fh:
 MAJOR = 2
 MINOR = 0
 PATCH = 0
+PRE = "b2"
 
 name = "SnakeMD"
 version = f"{MAJOR}.{MINOR}"
-release = f"{MAJOR}.{MINOR}.{PATCH}b1"
+release = f"{MAJOR}.{MINOR}.{PATCH}{PRE}"
 setuptools.setup(
     name=name,
     version=release,

@@ -51,7 +51,7 @@ we'll add a title to the document:
 
 .. doctest:: usage
 
-    >>> doc.add_heading("Why Use SnakeMD?") #doctest:+ELLIPSIS
+    >>> doc.add_heading("Why Use SnakeMD?") 
     <snakemd.elements.Heading object at ...>
 
 From here, we can do pretty much anything we'd like. Some
@@ -70,7 +70,7 @@ library as well as a list of reasons why we might use it:
     >>> doc.add_unordered_list([
     ...     "SnakeMD makes it easy to create markdown files.",
     ...     "SnakeMD has been used to automate documentation for The Renegade Coder projects."
-    ... ]) #doctest:+ELLIPSIS
+    ... ]) 
     <snakemd.elements.MDList object at ...>
 
 One thing that's really cool about using SnakeMD is that we can
@@ -84,7 +84,7 @@ how we might insert a link to the docs:
 
 .. doctest:: usage
 
-    >>> p.insert_link("SnakeMD", "https://snakemd.therenegadecoder.com") #doctest:+ELLIPSIS
+    >>> p.insert_link("SnakeMD", "https://snakemd.therenegadecoder.com") 
     <snakemd.elements.Paragraph object at ...>
 
 And if all goes well, we can output the results by outputting the

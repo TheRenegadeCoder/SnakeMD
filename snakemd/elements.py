@@ -96,8 +96,14 @@ class Inline(Element):
     def __str__(self) -> str:
         """
         Renders self as a string. In this case,
-        inline text can represent many different types of data from
-        stylized text to inline code to links and images.
+        inline can represent many different types of data from
+        stylized text to code, links, and images.
+        
+        .. doctest:: inline
+
+            >>> inline = Inline("This is text", bold=True, italics=True)
+            >>> str(inline)
+            '_**This is text**_'
 
         :return: 
             the Inline object as a string

@@ -40,10 +40,10 @@ class Inline(Element):
     code. Sample code assumes a generic :code:`inline` object exists,
     which can be created as follows:
 
-    .. code-block:: Python
+    .. doctest:: Python
 
-        from snakemd import Inline
-        inline = Inline("Sample Text")
+        >>> from snakemd import Inline
+        >>> inline = Inline("Sample Text")
 
     :param str text: 
         the inline text to render

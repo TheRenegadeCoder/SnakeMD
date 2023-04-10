@@ -13,7 +13,13 @@ as follows:
 v2.x
 ----
 
-* v2.0.0b [:pr:`104`, :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`, :pr:`118`, :pr:`120`, :pr:`122`, :pr:`123`, :pr:`125`, :pr:`126`]
+* v2.0.0b2 [:pr:`129`, :pr:`130`]
+
+  * Converted all code snippets in docs to doctests
+  * Reworked string input for :code:`Quote` to pass directly through raw
+  * Updated language around parameters in documentation to provide a list of possible inputs and their effects
+
+* v2.0.0b1 [:pr:`104`, :pr:`107`, :pr:`108`, :pr:`110`, :pr:`113`, :pr:`115`, :pr:`118`, :pr:`120`, :pr:`122`, :pr:`123`, :pr:`125`, :pr:`126`]
 
   * Removed several deprecated items:
   

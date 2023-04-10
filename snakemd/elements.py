@@ -498,11 +498,18 @@ class MDList(Block):
     :param Iterable[str | Inline | Block] items:
         a "list" of objects to be rendered as a list
     :param bool ordered: 
-        the ordered state of the list;
-        set to True to render an ordered list (i.e., True -> 1. item)
+        the ordered state of the list
+        
+        - defaults to :code:`False` which renders an unordered list
+        - set to :code:`True` to render an ordered list
     :param None | bool | Iterable[bool] checked: 
-        the checked state of the list;
-        set to True, False, or an iterable of booleans to enable the checklist feature.
+        the checked state of the list
+        
+        - defaults to :code:`None` which excludes checkboxes from being rendered
+        - set to :code:`False` for a series of unchecked boxes (e.g., :code:`- [ ]`)
+        - set to :code:`True` for a series of checked boxes (e.g., :code:`- [x]`)
+        - set to :code:`Iterable[bool]` to configure the checked 
+          status of the top-level list elements directly
     """
 
     def __init__(

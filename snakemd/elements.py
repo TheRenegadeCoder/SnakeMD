@@ -915,8 +915,9 @@ class Quote(Block):
     :param str | Iterable[str | Inline | Block] content:
         the text to be formatted as a Markdown quote
          
-        - set to a string where whitespace is respected (similar to :class:`snakemd.Code`)
-        - set to a "list" of text objects which serve as individual lines of a quote
+        - set to a string for a whitespace respected quote (similar to :class:`snakemd.Code`)
+        - set to a "list" of text objects for a document-like quote
+          (i.e., all items will be separated by newlines)
     """
 
     def __init__(self, content: str | Iterable[str | Inline | Block]) -> None:
@@ -938,12 +939,12 @@ class Quote(Block):
         """
         logger.debug(f"Processing quote lines: {lines}")
         if isinstance(lines, str):
-            processed_lines = [Paragraph(lines)]
+            processed_lines = [Raw(lines)]
         else:
             processed_lines = []
             for line in lines:
                 if isinstance(line, (str, Inline)):
-                    processed_lines.append(Paragraph(line))
+                    processed_lines.append(Raw(line))
                 else:
                     processed_lines.append(line)
         return processed_lines

@@ -101,9 +101,9 @@ class Inline(Element):
         
         .. doctest:: inline
 
-            >>> inline = Inline("This is text", bold=True, italics=True)
+            >>> inline = Inline("This is formatted text", bold=True, italics=True)
             >>> str(inline)
-            '_**This is text**_'
+            '_**This is formatted text**_'
 
         :return: 
             the Inline object as a string
@@ -144,9 +144,11 @@ class Inline(Element):
         """
         Checks if the Inline object represents a link.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            is_inline_link: bool = inline.is_link()
+            >>> inline = Inline("This is not a link")
+            >>> inline.is_link()
+            False
 
         :return: 
             True if the object has a link; False otherwise

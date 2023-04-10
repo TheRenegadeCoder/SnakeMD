@@ -359,7 +359,7 @@ class Code(Block):
     :param str | Code code:
         the sourcecode to format as a Markdown code block
         
-        - set to a string which represented preformatted code (i.e., whitespace is respected)
+        - set to a string which represents preformatted code (i.e., whitespace is respected)
         - set to a Code object to nest an existing code block
     :param str lang:
         the programming language for the code block; defaults to 'generic'
@@ -422,6 +422,12 @@ class Heading(Block):
         when level < 1 or level > 6
     :param str | Inline | Iterable[Inline | str] text: 
         the heading text
+        
+        - set to a string for unformatted heading text
+        - set to an Inline object to customize the overall styling of the 
+          heading (e.g., bold, link, code, etc.)
+        - set to a "list" of the prior options to provide more granular 
+          control over the individual inline elements in the heading
     :param int level: 
         the heading level between 1 and 6
     """
@@ -711,8 +717,9 @@ class Paragraph(Block):
         (see :class:`snakemd.Raw` for whitespace sensitive applications)
         
         - set to a string for a single line of unformatted text
-        - set to a "list" of text objects for a single line of
-          custom formatted text     
+        - set to a "list" of text objects for more granular control of
+          the individual text objects within the paragraph (e.g., linking,
+          styling, etc.)     
     """
 
     def __init__(self, content: str | Iterable[str | Inline]):

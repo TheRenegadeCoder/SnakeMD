@@ -52,14 +52,20 @@ class Inline(Element):
     :param None | str link: 
         the link (either url or path) associated with the inline element
     :param bool bold: 
-        the bold state of the inline text;
-        set to True to render bold inline text (i.e., True -> **bold**)
+        the bold state of the inline text
+        
+        - defaults to :code:`False`
+        - set to :code:`True` to render bold inline text (i.e., :code:`**bold**`)
     :param bool italics: 
-        the italics state of the inline element;
-        set to True to render inline text in italics (i.e., True -> *italics*)
+        the italics state of the inline element
+        
+        - defaults to :code:`False`
+        - set to :code:`True` to render inline text in italics (i.e., :code:`_italics_`)
     :param bool strikethrough: 
-        the strikethrough state of the inline text;
-        set to True to render inline text with a strikethrough (i.e., True -> ~~strikethrough~~)
+        the strikethrough state of the inline text
+        
+        - defaults to :code:`False`
+        - set to :code:`True` to render inline text with a strikethrough (i.e., :code:`~~strikethrough~~`)
     :param bool code: 
         the italics state of the inline text;
         set to True to render inline text as code (i.e., True -> `code`)
@@ -952,8 +958,9 @@ class Table(Block):
         table = Table(["Place", "Name"], [["1st", "Crosby"], ["2nd", "McDavid"]])
 
     :raises ValueError: 
-        when rows of table are of varying lengths or 
-        when lengths of header and rows of table do not match
+    
+        - when rows of table are of varying lengths
+        - when lengths of header and rows of table do not match
     :param Iterable[str | Inline | Paragraph] header: 
         the header row of labels
     :param Iterable[Iterable[str | Inline | Paragraph]] body: 

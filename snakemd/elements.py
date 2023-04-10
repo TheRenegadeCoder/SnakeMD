@@ -223,9 +223,11 @@ class Inline(Element):
         """
         Adds strikethrough styling to self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.strikethrough()
+            >>> inline = Inline("This is striked text").strikethrough()
+            >>> str(inline)
+            '~~This is striked text~~'
 
         :return: 
             self
@@ -237,9 +239,11 @@ class Inline(Element):
         """
         Remove strikethrough styling from self.
 
-        .. code-block:: Python
+        .. doctest:: inline
 
-            inline.unstrikethrough()
+            >>> inline = Inline("This is normal text", strikethrough=True).unstrikethrough()
+            >>> str(inline)
+            'This is normal text'
 
         :return: 
             self

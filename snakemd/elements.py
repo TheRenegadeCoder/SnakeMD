@@ -524,10 +524,14 @@ class MDList(Block):
         super().__init__()
         self._items: list[Block] = self._process_items(items)
         self._ordered: bool = ordered
-        self._checked = checked
+        self._checked: bool | list[bool] = checked \
+            if checked is None or isinstance(checked, bool) \
+            else [_ for _ in checked]
         self._space = ""
         if isinstance(self._checked, list) and self._top_level_count() != len(self._checked):
-            raise ValueError(f"Number of top-level elements in checklist does not match number of booleans supplied by checked parameter: {self._checked}")
+            raise ValueError(
+                f"Number of top-level elements in checklist does not match number of booleans supplied by checked parameter: {self._checked}"
+            )
 
     def __str__(self) -> str:
         """

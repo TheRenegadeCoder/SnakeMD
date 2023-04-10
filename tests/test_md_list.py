@@ -1,4 +1,5 @@
 import markdown
+import pytest
 
 from snakemd import Code, Heading, HorizontalRule, Inline, MDList, Paragraph
 
@@ -253,3 +254,27 @@ def test_md_list_nested_checked_iterable_mixed():
         checked=[False, True]
     )
     assert str(outer_list) == "- [ ] Characters\n  - [X] Deku\n  - [X] Bakugo\n  - [ ] Uraraka\n- [X] Powers"
+    
+    
+def test_md_list_checked_exception_list():
+    with pytest.raises(ValueError):
+        MDList(
+            [
+                "Deku", 
+                "Bakugo", 
+                "Uraraka"
+            ], 
+            checked=[True, True]
+        )
+        
+
+def test_md_list_checked_exception_iterable():
+    with pytest.raises(ValueError):
+        MDList(
+            [
+                "Deku", 
+                "Bakugo", 
+                "Uraraka"
+            ], 
+            checked=(x for x in [True, True])
+        )

@@ -693,15 +693,10 @@ class MDList(Block):
 class Paragraph(Block):
     """
     A paragraph is a standalone block of text. 
-
-    All methods described in the Paragraph class include sample
-    code. Sample code assumes a generic :code:`paragraph` object exists,
-    which can be created as follows:
-
-    .. code-block:: python
-
+    
+    .. testsetup:: paragraph
+    
         from snakemd import Paragraph
-        paragraph = Paragraph("Hello, World!")
 
     :param str | Iterable[Inline | str] content: 
         a single string or a "list" of text objects to render as a paragraph        
@@ -749,20 +744,25 @@ class Paragraph(Block):
         paragraph = ''.join(str(item) for item in self._content)
         return " ".join(paragraph.split())
 
-    def add(self, text: Inline | str) -> None:
+    def add(self, text: str | Inline) -> Paragraph:
         """
         Adds a text object to the paragraph.
+        
+        .. doctest:: paragraph
+        
+            >>> paragraph = Paragraph("Hello! ").add("I come in peace")
+            >>> str(paragraph)
+            'Hello! I come in peace'
 
-        .. code-block:: Python
-
-            paragraph.add("I come in peace")
-
-        :param Inline | str text: 
+        :param str | Inline text: 
             a custom Inline element
+        :return:
+            self
         """
         if isinstance(text, str):
             text = Inline(text)
         self._content.append(text)
+        return self
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """
@@ -809,23 +809,25 @@ class Paragraph(Block):
         the users choice. Like :meth:`insert_link`, this method is modeled after
         :py:meth:`str.replace` of the standard library. As a result, a count
         can be provided to limit the number of strings replaced in the paragraph.
-
-        .. code-block:: Python
-
-            paragraph.replace("Here", "There")
+        
+        .. doctest:: paragraph
+        
+            >>> paragraph = Paragraph("I come in piece").replace("piece", "peace")
+            >>> str(paragraph)
+            'I come in peace'
 
         :param str target: 
             the target string to replace
         :param str replacement: 
             the Inline object to insert in place of the target
         :param int count: 
-            the number of links to insert; defaults to -1
+            the number of targets to replace; defaults to -1 (all)
         :return: 
             self
         """
         return self._replace_any(target, Inline(replacement), count)
 
-    def insert_link(self, target: str, url: str, count: int = -1) -> Paragraph:
+    def insert_link(self, target: str, link: str, count: int = -1) -> Paragraph:
         """
         A convenience method which inserts links in the paragraph
         for all matching instances of a target string. This method
@@ -833,21 +835,23 @@ class Paragraph(Block):
         provided to limit the number of insertions. This method
         will not replace links of text that have already been linked.
         See :meth:`snakemd.Paragraph.replace_link` for that behavior.
-
-        .. code-block:: Python
-
-            paragraph.insert_link("Here", "https://therenegadecoder.com")
+        
+        .. doctest:: paragraph
+        
+            >>> paragraph = Paragraph("Go here for docs").insert_link("here", "https://snakemd.io")
+            >>> str(paragraph)
+            'Go [here](https://snakemd.io) for docs'
 
         :param str target: 
             the string to link
-        :param str url: 
-            the url to link
+        :param str link: 
+            the url or path
         :param int count: 
             the number of links to insert; defaults to -1 (all)
         :return: 
             self
         """
-        return self._replace_any(target, Inline(target, link=url), count)
+        return self._replace_any(target, Inline(target, link=link), count)
 
     def replace_link(self, target_link: str, replacement_link: str, count: int = -1) -> Paragraph:
         """
@@ -857,10 +861,14 @@ class Paragraph(Block):
         the number of links replaced in the paragraph. This method is useful
         if you want to replace existing URLs but don't necessarily care what
         the anchor text is.
-
-        .. code-block:: Python
-
-            paragraph.replace_link("https://stackoverflow.com", "https://therenegadecoder.com")
+        
+        .. doctest:: paragraph
+        
+            >>> old = "https://therenegadecoder.com"
+            >>> new = "https://snakemd.io"
+            >>> paragraph = Paragraph("Go here for docs").insert_link("here", old).replace_link(old, new) 
+            >>> str(paragraph)
+            'Go [here](https://snakemd.io) for docs'
 
         :param str target_link: 
             the link to replace

@@ -838,7 +838,7 @@ class Paragraph(Block):
         :param str target: 
             the target string to replace
         :param str replacement: 
-            the Inline object to insert in place of the target
+            the string to insert in place of the target
         :param int count: 
             the number of targets to replace; defaults to -1 (all)
         :return: 

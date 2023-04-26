@@ -100,9 +100,9 @@ that.
 
     (.venv) C:\Users\example>
 
-If all goes well, you should see the name of the
+If all goes well, we should see the name of the
 virtual environment appended to the front of
-your system path. 
+the system path. 
 
 5. Update Pip
 ^^^^^^^^^^^^^
@@ -159,8 +159,8 @@ in the requirements.txt file.
     Installing collected packages: pluggy, packaging, markdown, iniconfig, coverage, colorama, attrs, pytest
     Successfully installed attrs-23.1.0 colorama-0.4.6 coverage-7.2.2 iniconfig-2.0.0 markdown-3.4.3 packaging-23.1 pluggy-1.0.0 pytest-7.2.0
 
-And if you want to build the documentation, you
-can install the dependencies for that as well.
+And to build the documentation, we can install 
+the dependencies for that as well.
 
 .. code-block:: batch
 

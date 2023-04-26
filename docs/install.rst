@@ -232,12 +232,12 @@ docs can be constructed:
 
 .. code-block:: batch
 
-    (.venv) C:\Users\example\SnakeMD>python setup.py build_sphinx
-    running build_sphinx
-    Running Sphinx v5.3.0
+    (.venv) C:\Users\example\SnakeMD>./docs/make.bat dirhtml
+    Running Sphinx v6.2.1
     making output directory... done
     loading intersphinx inventory from https://docs.python.org/3/objects.inv...
     building [mo]: targets for 0 po files that are out of date
+    writing output... 
     building [dirhtml]: targets for 9 source files that are out of date
     updating environment: [new config] 9 added, 0 changed, 0 removed
     reading sources... [100%] version-history

@@ -1,13 +1,5 @@
 import setuptools
 
-cmdclass = {}
-
-try:
-    from sphinx.setup_command import BuildDoc
-    cmdclass['build_sphinx'] = BuildDoc
-except ImportError:
-    print("WARNING: sphinx not available")
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -39,16 +31,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
         "Topic :: Documentation :: Sphinx",
-    ],
-    cmdclass=cmdclass,
-    command_options={
-        'build_sphinx': {
-            'project': ('setup.py', name),
-            'version': ('setup.py', version),
-            'release': ('setup.py', release),
-            'source_dir': ('setup.py', 'docs'),
-            'build_dir': ('setup.py', 'docs/_build'),
-            'builder': ("setup.py", "dirhtml")
-        }
-    },
+    ]
 )

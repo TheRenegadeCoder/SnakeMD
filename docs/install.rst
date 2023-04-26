@@ -46,12 +46,19 @@ Building From Source
 For folks who want to help with development, we generally recommend
 the following workflow on Windows:
 
-1. Update pip
+Update Pip
+^^^^^^^^^^
+
+A common first step in building from source is to
+ensure your dependency manager is up to date. In this
+case, pip is typically already on systems that have
+Python, so it's worth it to dust off the cobwebs with
+a quick update. 
 
 .. code-block:: batch
 
     C:\Users\example>python -m pip install --upgrade pip
-    Requirement already satisfied: pip in c:\users\example\appdata\local\programs\python\python311\lib\site-packages (23.1)
+    Requirement already satisfied: pip in ...
     Collecting pip
     Using cached pip-23.1.1-py3-none-any.whl (2.1 MB)
     Installing collected packages: pip
@@ -61,7 +68,11 @@ the following workflow on Windows:
         Successfully uninstalled pip-23.1
     Successfully installed pip-23.1.1
 
-2. Clone the sourcecode from GitHub
+Clone the Sourcecode From GitHub
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+From there, we can download the sourcecode by
+running a git clone command. 
 
 .. code-block:: batch
 
@@ -74,15 +85,19 @@ the following workflow on Windows:
     Receiving objects: 100% (1477/1477), 6.43 MiB | 5.68 MiB/s, done.
     Resolving deltas: 100% (814/814), done.git clone https://github.com/TheRenegadeCoder/SnakeMD.git
 
-3. Change directories
+Change Directories
+^^^^^^^^^^^^^^^^^^
+
+With the sourcecode downloaded, we can now navigate to
+the project folder. 
 
 .. code-block:: batch
 
-    cd SnakeMD
+    C:\Users\example>cd SnakeMD
 
     C:\Users\example\SnakeMD>     
 
-4. Create a virtual environment
+1. Create a virtual environment
 
 .. code-block:: batch
 
@@ -95,3 +110,5 @@ the following workflow on Windows:
     C:\Users\example>.\.venv\Scripts\activate
 
     (.venv) C:\Users\example>
+
+6. Install dependencies

@@ -9,11 +9,10 @@ PATCH = 0
 PRE = ""
 
 name = "SnakeMD"
-version = f"{MAJOR}.{MINOR}"
-release = f"{MAJOR}.{MINOR}.{PATCH}{PRE}"
+version = f"{MAJOR}.{MINOR}.{PATCH}{PRE}"
 setuptools.setup(
     name=name,
-    version=release,
+    version=version,
     author="The Renegade Coder",
     author_email="jeremy.grifski@therenegadecoder.com",
     description="A markdown generation library for Python.",

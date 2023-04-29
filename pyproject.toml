@@ -48,6 +48,9 @@ testpaths = [
 # Coverage settings
 [tool.coverage.run]
 branch = true
+source = [
+    "snakemd"
+]
 
 [tool.coverage.report]
 fail_under = 100

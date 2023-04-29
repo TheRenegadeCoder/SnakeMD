@@ -1,3 +1,4 @@
+# Poetry settings
 [tool.poetry]
 name = "SnakeMD"
 description = "A markdown generation library for Python."
@@ -37,6 +38,14 @@ sphinx = "^6.2"
 sphinx_rtd_theme = "^1.2"
 sphinx-issues = "^3.0"
 
+# Pytest settings
+[tool.pytest.ini_options]
+minversion = "7.3"
+testpaths = [
+    "tests"
+]
+
+# Build system settings
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

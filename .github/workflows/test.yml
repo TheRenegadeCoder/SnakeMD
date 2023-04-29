@@ -1,4 +1,4 @@
-name: PyTest & Doctest
+name: Poetry Testing
 
 on:
   pull_request:
@@ -26,6 +26,9 @@ jobs:
       uses: abatilo/actions-poetry@v2
       with:
         poetry-version: ${{ matrix.poetry-version }}
+
+    - name: Install Dependencies
+      run: poetry install
 
     - name: PyTest
       run: poetry run coverage run -m pytest

@@ -37,4 +37,6 @@ jobs:
       run: poetry run coverage report
 
     - name: Doctest
-      run: poetry run docs/make doctest   
+      run: |
+        cd docs
+        poetry run make doctest   

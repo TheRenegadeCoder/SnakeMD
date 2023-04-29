@@ -25,6 +25,9 @@ classifiers=[
     "Topic :: Documentation :: Sphinx",
 ]
 
+[tool.poetry.urls]
+changelog = "https://www.snakemd.io/en/latest/version-history/"
+
 [tool.poetry.dependencies]
 python = "^3.8"
 

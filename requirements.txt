@@ -1,3 +1,0 @@
-pytest~=7.3
-coverage~=7.2
-markdown~=3.4

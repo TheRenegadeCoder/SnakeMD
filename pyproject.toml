@@ -45,6 +45,13 @@ testpaths = [
     "tests"
 ]
 
+# Coverage settings
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+fail_under = 100
+
 # Build system settings
 [build-system]
 requires = ["poetry-core"]

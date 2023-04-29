@@ -18,7 +18,12 @@ class Element(ABC):
 
     @abstractmethod
     def __str__(self) -> str:
-        pass
+        """
+        The default string method to be implemented by all inheriting
+        classes. 
+
+        :return: a string representation of the element
+        """
 
 
 class Inline(Element):

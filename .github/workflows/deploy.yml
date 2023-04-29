@@ -1,32 +1,38 @@
-name: Deploy
+name: Poetry Deployment
 
 on:
   release:
     types: [published]
 
 jobs:
-  deploy:
+  all:
 
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ["3.8"]
+        poetry-version: ["1.4"]
+        os: ["ubuntu-latest"]
 
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.x'
+        python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install build
+    - name: Run Poetry Image
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: ${{ matrix.poetry-version }}
 
-    - name: Build package
-      run: python -m build
+    - name: Install Dependencies
+      run: poetry install
+
+    - name: Configure PyPI
+      run: poetry config pypi-token.pypi ${{ secrets.PYPI_API_TOKEN }}
 
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      run: poetry publish --build --no-interaction

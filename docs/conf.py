@@ -30,7 +30,8 @@ extensions = [
     'sphinx.ext.autodoc', 
     'sphinx_issues', 
     'sphinx.ext.intersphinx', 
-    'sphinx.ext.doctest'
+    'sphinx.ext.doctest',
+    "sphinxcontrib.jquery",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

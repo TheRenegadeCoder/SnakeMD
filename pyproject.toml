@@ -1,0 +1,64 @@
+# Poetry settings
+[tool.poetry]
+name = "SnakeMD"
+description = "A markdown generation library for Python."
+version = "2.1.0"
+license = "MIT"
+
+authors = [
+    "Jeremy Grifski <jeremy.grifski@therenegadecoder.com>"
+]
+
+readme = "README.md"
+homepage = "https://www.snakemd.io"
+repository = "https://github.com/TheRenegadeCoder/SnakeMD"
+documentation = "https://www.snakemd.io/en/latest/docs/"
+
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Documentation :: Sphinx",
+]
+
+[tool.poetry.urls]
+changelog = "https://www.snakemd.io/en/latest/version-history/"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3"
+coverage = "^7.2"
+markdown = "^3.4"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^6.2"
+sphinx_rtd_theme = "^1.2"
+sphinx-issues = "^3.0"
+
+# Pytest settings
+[tool.pytest.ini_options]
+minversion = "7.3"
+testpaths = [
+    "tests"
+]
+
+# Coverage settings
+[tool.coverage.run]
+branch = true
+source = [
+    "snakemd"
+]
+
+[tool.coverage.report]
+fail_under = 100
+
+# Build system settings
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

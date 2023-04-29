@@ -68,6 +68,12 @@ def test_table_list_body_add_row_one():
     table = Table(["Age"], [["24"]])
     table.add_row(["25"])
     assert str(table) == "| Age |\n| --- |\n| 24  |\n| 25  |"
+    
+    
+def test_table_list_body_add_row_one_wider():
+    table = Table(["Age"], [["24"]])
+    table.add_row(["2567"])
+    assert str(table) == "| Age  |\n| ---- |\n| 24   |\n| 2567 |"
 
 
 def test_table_generator_body_add_row_one():

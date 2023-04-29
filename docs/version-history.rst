@@ -13,6 +13,10 @@ as follows:
 v2.x
 ----
 
+* v2.1.0 [:pr:`136`]
+
+  * Migrated build system from setup.py to poetry
+
 * v2.0.0 [:pr:`131`]
 
   * Setup code for 2023-04-14 release

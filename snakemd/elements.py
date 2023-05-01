@@ -353,8 +353,6 @@ class Block(Element):
     tables (i.e., :code:`<table>`), and lists (e.g., :code:`<ol>`, :code:`<ul>`, etc.).
     """
 
-    pass
-
 
 class Code(Block):
     """
@@ -628,7 +626,7 @@ class MDList(Block):
         :return:
             the list as a markdown string
         """
-        output = list()
+        output = []
         i = 1
         for item in self._items:
             if isinstance(item, MDList):
@@ -1057,7 +1055,7 @@ class Table(Block):
         align: None | Iterable[Align] = None,
         indent: int = 0,
     ) -> None:
-        logger.debug(f"Initializing table\n{(header, body, align)}")
+        logger.debug("Initializing table\n(%s, %s, %s)", header, body, align)
         super().__init__()
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
@@ -1066,7 +1064,7 @@ class Table(Block):
             [len(self._body[0]) == len(x) for x in self._body[1:]]
         ):
             raise ValueError("Table rows are not all the same length")
-        elif body and len(self._header) != len(self._body[0]):
+        if body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")
         self._widths: list[int] = self._process_widths(self._header, self._body)
         self._align = align
@@ -1091,7 +1089,7 @@ class Table(Block):
         :return:
             a table as a markdown string
         """
-        rows = list()
+        rows = []
         header = [
             str(item).ljust(self._widths[i]) for i, item in enumerate(self._header)
         ]

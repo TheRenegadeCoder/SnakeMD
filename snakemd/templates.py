@@ -22,8 +22,6 @@ class Template(Element):
     templates are meant to be conviences objects for our users.
     """
 
-    pass
-
 
 class TableOfContents(Template):
     """
@@ -83,7 +81,7 @@ class TableOfContents(Template):
 
         i = position
         level = headings[i]._level
-        table_of_contents = list()
+        table_of_contents = []
         while i < len(headings) and headings[i]._level >= level:
             if headings[i]._level == level:
                 line = Inline(

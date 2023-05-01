@@ -11,8 +11,8 @@ import pathlib
 import random
 from typing import Iterable
 
-from .elements import *
-from .templates import *
+from .elements import Block, Code, Heading, HorizontalRule, Inline, MDList, Paragraph, Quote, Raw, Table
+from .templates import TableOfContents
 
 logger = logging.getLogger(__name__)
 
@@ -273,7 +273,7 @@ class Document:
         """
         code_block = Code(code, lang=lang)
         self._contents.append(code_block)
-        logger.debug(f"Added code block to document\n{code_block}")
+        logger.debug("Added code block to document\n%s", code_block)
         return code_block
 
     def add_quote(self, text: str) -> Quote:
@@ -295,7 +295,7 @@ class Document:
         """
         quote = Quote(text)
         self._contents.append(quote)
-        logger.debug(f"Added quote to document\n{quote}")
+        logger.debug("Added quote to document\n%s", quote)
         return quote
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -346,7 +346,7 @@ class Document:
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
         logger.debug(
-            f"Added table of contents to document (unable to render until file is complete)"
+            "Added table of contents to document (unable to render until file is complete)"
         )
         return toc
 
@@ -365,7 +365,7 @@ class Document:
             '***'
         """
         random.shuffle(self._contents)
-        logger.debug(f"Scrambled document")
+        logger.debug("Scrambled document")
 
     def dump(
         self,

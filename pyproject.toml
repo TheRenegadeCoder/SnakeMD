@@ -32,19 +32,20 @@ Changelog = "https://www.snakemd.io/en/latest/version-history/"
 python = "^3.8"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.3"
 coverage = "^7.2"
 markdown = "^3.4"
+pytest = "^7.3"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^6.2"
-sphinx_rtd_theme = "^1.2"
 sphinx-issues = "^3.0"
+sphinx_rtd_theme = "^1.2"
 
 [tool.poetry.group.analysis.dependencies]
 black = "^23.3"
-pylint = "^2.17"
+docformatter = "^1.6"
 isort = "^5.12"
+pylint = "^2.17"
 
 # Pytest settings
 [tool.pytest.ini_options]
@@ -66,15 +67,22 @@ fail_under = 100
 # Black formatting settings
 [tool.black]
 line-length = 88
+target-version = [
+    'py311'
+]
 
 # Pylint settings
 [tool.pylint.format]
-max-line-length = "88"
+max-line-length = 88
 
 # isort setttings
 [tool.isort]
 profile = "black"
 py_version = 311
+
+[tool.docformatter]
+black = true
+non-strict = false
 
 # Build system settings
 [build-system]

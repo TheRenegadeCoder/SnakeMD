@@ -73,8 +73,8 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_block(snakemd.Heading("Python is Cool!", 2))
             <snakemd.elements.Heading object at ...>
-            >>> str(doc)
-            '## Python is Cool!'
+            >>> print(doc)
+            ## Python is Cool!
 
         :param Block block:
             a markdown block (e.g., Table, Heading, etc.)
@@ -94,8 +94,10 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_raw("X: 5\\nY: 4\\nZ: 3")
             <snakemd.elements.Raw object at ...>
-            >>> str(doc)
-            'X: 5\\nY: 4\\nZ: 3'
+            >>> print(doc)
+            X: 5
+            Y: 4
+            Z: 3
 
         :param str text:
             some text
@@ -116,12 +118,8 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_heading("Welcome to SnakeMD!")
             <snakemd.elements.Heading object at ...>
-            >>> str(doc)
-            '# Welcome to SnakeMD!'
-
-        .. code-block:: Python
-
-            doc.add_heading("Welcome to SnakeMD!")
+            >>> print(doc)
+            # Welcome to SnakeMD!
 
         :param str text:
             the text for the heading
@@ -144,8 +142,8 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
             <snakemd.elements.Paragraph object at ...>
-            >>> str(doc)
-            'Mitochondria is the powerhouse of the cell.'
+            >>> print(doc)
+            Mitochondria is the powerhouse of the cell.
 
         :param str text:
             any arbitrary text
@@ -166,8 +164,10 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
             <snakemd.elements.MDList object at ...>
-            >>> str(doc)
-            '1. Goku\\n2. Piccolo\\n3. Vegeta'
+            >>> print(doc)
+            1. Goku
+            2. Piccolo
+            3. Vegeta
 
         :param Iterable[str] items:
             a "list" of strings
@@ -188,8 +188,10 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
             <snakemd.elements.MDList object at ...>
-            >>> str(doc)
-            '- Deku\\n- Bakugo\\n- Kirishima'
+            >>> print(doc)
+            - Deku
+            - Bakugo
+            - Kirishima
 
         :param Iterable[str] items:
             a "list" of strings
@@ -210,8 +212,10 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
             <snakemd.elements.MDList object at ...>
-            >>> str(doc)
-            '- [ ] Okabe\\n- [ ] Mayuri\\n- [ ] Kurisu'
+            >>> print(doc)
+            - [ ] Okabe
+            - [ ] Mayuri
+            - [ ] Kurisu
 
         :param Iterable[str] items:
             a "list" of strings
@@ -241,8 +245,11 @@ class Document:
             >>> align = [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT]
             >>> doc.add_table(header, rows, align=align)
             <snakemd.elements.Table object at ...>
-            >>> str(doc)
-            '| Place | Name   |\\n| :---: | -----: |\\n| 1st   | Robert |\\n| 2nd   | Rae    |'
+            >>> print(doc) # doctest: +NORMALIZE_WHITESPACE
+            | Place | Name   |
+            | :---: | -----: |
+            | 1st   | Robert |
+            | 2nd   | Rae    |
 
         :param Iterable[str] header:
             a "list" of strings
@@ -272,8 +279,10 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_code("x = 5")
             <snakemd.elements.Code object at ...>
-            >>> str(doc)
-            '```generic\\nx = 5\\n```'
+            >>> print(doc)
+            ```generic
+            x = 5
+            ```
 
         :param str code:
             a preformatted code string
@@ -296,8 +305,8 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_quote("Welcome to the Internet!")
             <snakemd.elements.Quote object at ...>
-            >>> str(doc)
-            '> Welcome to the Internet!'
+            >>> print(doc)
+            > Welcome to the Internet!
 
         :param str text:
             the text to be quoted
@@ -318,8 +327,8 @@ class Document:
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
             <snakemd.elements.HorizontalRule object at ...>
-            >>> str(doc)
-            '***'
+            >>> print(doc)
+            ***
 
         :return:
             the :class:`HorizontalRule` added to this Document
@@ -346,8 +355,13 @@ class Document:
             <snakemd.elements.Heading object at ...>
             >>> doc.add_heading("Second Item", 2)
             <snakemd.elements.Heading object at ...>
-            >>> str(doc)
-            '1. [First Item](#first-item)\\n2. [Second Item](#second-item)\\n\\n## First Item\\n\\n## Second Item'
+            >>> print(doc)
+            1. [First Item](#first-item)
+            2. [Second Item](#second-item)
+            <BLANKLINE>
+            ## First Item
+            <BLANKLINE>
+            ## Second Item
 
         :param range levels:
             a range of heading levels to be included in the table of contents
@@ -357,7 +371,8 @@ class Document:
         toc = TableOfContents(self, levels=levels)
         self._contents.append(toc)
         logger.debug(
-            "Added table of contents to document (unable to render until file is complete)"
+            "Added table of contents to document "
+            "(unable to render until file is complete)"
         )
         return toc
 
@@ -372,8 +387,8 @@ class Document:
             >>> doc.add_horizontal_rule()
             <snakemd.elements.HorizontalRule object at ...>
             >>> doc.scramble()
-            >>> str(doc)
-            '***'
+            >>> print(doc)
+            ***
         """
         random.shuffle(self._contents)
         logger.debug("Scrambled document")
@@ -387,12 +402,10 @@ class Document:
     ) -> None:
         """
         Outputs the markdown document to a file. This method assumes the output
-        directory
-        is the current working directory. Any alternative directory provided will be
-        made if it does not already exist. This method also assumes a file extension of
-        md
-        and a file encoding of utf-8, all of which are configurable through the method
-        parameters.
+        directory is the current working directory. Any alternative directory provided
+        will be made if it does not already exist. This method also assumes a file
+        extension of md and a file encoding of utf-8, all of which are configurable
+        through the method parameters.
 
         .. doctest:: document
 

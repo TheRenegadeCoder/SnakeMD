@@ -70,9 +70,7 @@ fail_under = 100
 # Black formatting settings
 [tool.black]
 line-length = 88
-target-version = [
-    'py311'
-]
+target-version = ['py38', 'py39', 'py310', 'py311']
 
 # Pylint settings
 [tool.pylint.format]

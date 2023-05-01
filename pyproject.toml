@@ -42,7 +42,7 @@ sphinx_rtd_theme = "^1.2"
 sphinx-issues = "^3.0"
 
 [tool.poetry.group.formatting.dependencies]
-autopep8 = "^2.0"
+black = "23.3"
 
 # Pytest settings
 [tool.pytest.ini_options]
@@ -67,6 +67,9 @@ max_line_length = 120
 in-place = true
 recursive = true
 aggressive = 3
+
+[tool.black]
+line-length = 100
 
 # Build system settings
 [build-system]

@@ -742,7 +742,7 @@ class Paragraph(Block):
         :return:
             the processed iterable as a list of Inline items
         """
-        logger.debug(f"Processing paragraph content: {content}")
+        logger.debug("Processing paragraph content:%s", content)
         if isinstance(content, str):
             processed = [Inline(content)]
         else:
@@ -1065,7 +1065,7 @@ class Table(Block):
         self._body: list[list[Paragraph]]
         self._header, self._body = self._process_table(header, body)
         if len(self._body) > 1 and not all(
-            [len(self._body[0]) == len(x) for x in self._body[1:]]
+            len(self._body[0]) == len(x) for x in self._body[1:]
         ):
             raise ValueError("Table rows are not all the same length")
         if body and len(self._header) != len(self._body[0]):

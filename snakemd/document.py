@@ -11,7 +11,18 @@ import pathlib
 import random
 from typing import Iterable
 
-from .elements import Block, Code, Heading, HorizontalRule, Inline, MDList, Paragraph, Quote, Raw, Table
+from .elements import (
+    Block,
+    Code,
+    Heading,
+    HorizontalRule,
+    Inline,
+    MDList,
+    Paragraph,
+    Quote,
+    Raw,
+    Table,
+)
 from .templates import TableOfContents
 
 logger = logging.getLogger(__name__)

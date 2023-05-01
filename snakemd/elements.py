@@ -1151,7 +1151,7 @@ class Table(Block):
                 processed_header.append(Paragraph([item]))
             else:
                 processed_header.append(item)
-        logger.debug(f"Processed header input\n{processed_header}")
+        logger.debug("Processed header input\n%s", processed_header)
 
         # Process body
         for row in body:
@@ -1162,7 +1162,7 @@ class Table(Block):
                 else:
                     processed_row.append(item)
             processed_body.append(processed_row)
-        logger.debug(f"Processed table body\n{processed_body}")
+        logger.debug("Processed table body\n%s", processed_body)
 
         return processed_header, processed_body
 
@@ -1210,7 +1210,7 @@ class Table(Block):
 
         # Consume row
         row_list = [_ for _ in row]
-        logger.debug(f"Adding row to table: {row_list}")
+        logger.debug("Adding row to table: %s", row_list)
 
         # Verify that it's safe to add
         if len(row) != len(self._header):

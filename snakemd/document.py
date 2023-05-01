@@ -165,7 +165,7 @@ class Document:
         """
         md_list = MDList(items, ordered=True)
         self._contents.append(md_list)
-        logger.debug(f"Added ordered list to document\n{md_list}")
+        logger.debug("Added ordered list to document\n%s", md_list)
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -187,7 +187,7 @@ class Document:
         """
         md_list = MDList(items)
         self._contents.append(md_list)
-        logger.debug(f"Added unordered list to document\n{md_list}")
+        logger.debug("Added unordered list to document\n%s", md_list)
         return md_list
 
     def add_checklist(self, items: Iterable[str]) -> MDList:
@@ -209,7 +209,7 @@ class Document:
         """
         md_checklist = MDList(items, checked=False)
         self._contents.append(md_checklist)
-        logger.debug(f"Added checklist to document\n{md_checklist}")
+        logger.debug("Added checklist to document\n%s", md_checklist)
         return md_checklist
 
     def add_table(
@@ -249,7 +249,7 @@ class Document:
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
         self._contents.append(table)
-        logger.debug(f"Added table to document\n{table}")
+        logger.debug("Added table to document\n%s", table)
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Code:

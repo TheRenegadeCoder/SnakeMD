@@ -9,7 +9,7 @@ Element Interface
 -----------------
 
 Broadly speaking, anything that can be rendered as markdown
-is known as an element. Below is the element interface. 
+is known as an element. Below is the element interface.
 
 .. autoclass:: snakemd.Element
    :members:
@@ -21,15 +21,15 @@ For consistency, element mutators all return self to allow
 for method chaining. This is sometimes referred to as the
 fluent interface pattern, and it's particularly useful
 for applying a series of changes to a single element. This
-design choice most obviously shines in both :class:`snakemd.Paragraph`, 
+design choice most obviously shines in both :class:`snakemd.Paragraph`,
 which allows different aspects of the text to be replaced
 over a series of chained methods, and :class:`snakemd.Inline`,
 which allows inline elements to be styled over a series of
-chained methods. 
+chained methods.
 
 For practical purposes, elements cannot be constructed directly.
 Instead, they are broken down into two main categories:
-block and inline. 
+block and inline.
 
 Block Elements
 --------------
@@ -48,12 +48,12 @@ like the following :class:`snakemd.Heading` example:
    >>> heading = doc.add_block(Heading("Hello, World!", 2))
 
 The remainder of this section introduces the Block interface
-as well as all of the Blocks currently available for use. 
+as well as all of the Blocks currently available for use.
 
 Block Interface
 ^^^^^^^^^^^^^^^
 
-All markdown blocks inherit from the Block interface. 
+All markdown blocks inherit from the Block interface.
 
 .. autoclass:: snakemd.Block
    :members:
@@ -135,7 +135,7 @@ Table
 Inline Elements
 ---------------
 
-One of the benefits of creating Block elements over using the 
+One of the benefits of creating Block elements over using the
 Document methods is the control users now have
 over the underlying structure and style. Instead of being
 bound to the string inputs, users can provide Inline elements
@@ -148,7 +148,7 @@ standards:
 .. doctest:: inline
 
    >>> from snakemd import Heading, Inline, new_doc
-   >>> doc = new_doc()    
+   >>> doc = new_doc()
    >>> heading = doc.add_block(Heading(Inline("Hello, World!", "https://snakemd.io"), 2))
 
 The remainder of this section introduces the Inline class.

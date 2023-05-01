@@ -10,7 +10,7 @@ from snakemd import Block, Code, Document, Inline, MDList, Paragraph, Table
 def _introduction(doc: Document):
     doc.add_paragraph(
         """
-        SnakeMD is your ticket to generating Markdown in Python. 
+        SnakeMD is your ticket to generating Markdown in Python.
         To prove it to you, we've generated this entire README using SnakeMD.
         See readme.py for how it was done. To get started, download and install SnakeMD:
         """
@@ -76,8 +76,8 @@ def _table(doc: Document):
 
 
 def _insert_link(doc: Document):
-    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).") \
-        .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
+    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).")\
+        .insert_link("The Renegade Coder", "https://therenegadecoder.com")\
         .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
 
 
@@ -100,8 +100,8 @@ def _quote(doc: Document):
 
 def _horizontal_rule(doc: Document):
     doc.add_horizontal_rule()
-    
-    
+
+
 def _raw(doc: Document):
     doc.add_raw("4<sup>2</sup> = 16<br />How cool is that?")
 
@@ -124,9 +124,7 @@ def _section(doc: Document, title: str, desc: str, func: Callable, level: int = 
 
 
 def main() -> None:
-    """
-    Generates the repo README.
-    """
+    """Generates the repo README."""
     doc = Document()
 
     # Introduction
@@ -139,7 +137,7 @@ def main() -> None:
         """
         Below you'll find the table of contents, but
         these can also be generated programatically for every Markdown
-        document as follows: 
+        document as follows:
         """
     )
     doc.add_code(inspect.getsource(_table_of_contents).strip(), lang="py")
@@ -150,7 +148,7 @@ def main() -> None:
         doc,
         "Paragraphs",
         """
-        Paragraphs are the most basic feature of any Markdown file. 
+        Paragraphs are the most basic feature of any Markdown file.
         As a result, they are very easy to create using SnakeMD.
         """,
         _paragraph
@@ -161,9 +159,9 @@ def main() -> None:
         doc,
         "Links",
         """
-        Links are targets to files or web pages and can be embedded 
+        Links are targets to files or web pages and can be embedded
         in paragraphs in a variety of ways, such as with the insert_link()
-        method. 
+        method.
         """,
         _insert_link
     )
@@ -180,7 +178,7 @@ def main() -> None:
     doc.add_heading("Lists", level=2)
     doc.add_paragraph(
         """
-        SnakeMD can make a variety of Markdown lists. The three main types 
+        SnakeMD can make a variety of Markdown lists. The three main types
         of lists are ordered, unordered, and checked.
         """
     )
@@ -190,7 +188,7 @@ def main() -> None:
         doc,
         "Ordered List",
         """
-        Ordered lists are lists in which the order of the items 
+        Ordered lists are lists in which the order of the items
         matters. As a result, we number them.
         """,
         _ordered_list,
@@ -202,7 +200,7 @@ def main() -> None:
         doc,
         "Unordered List",
         """
-        Unordered lists are lists in which the order of the items 
+        Unordered lists are lists in which the order of the items
         does not matter. As a result, we bullet them.
         """,
         _unordered_list,
@@ -215,7 +213,7 @@ def main() -> None:
         "Checklist",
         """
         Checklists are lists in which the items themselves can be
-        checked on and off. This feature is new as of v0.10.0. 
+        checked on and off. This feature is new as of v0.10.0.
         """,
         _checklist,
         level=3
@@ -226,8 +224,8 @@ def main() -> None:
         doc,
         "Nested Lists",
         """
-        Nested lists are complex lists that contain lists. Currently, 
-        SnakeMD does not support any convenience methods to generate nested 
+        Nested lists are complex lists that contain lists. Currently,
+        SnakeMD does not support any convenience methods to generate nested
         lists, but they can be created manually using the MDList object.
         """,
         _nested_list,
@@ -239,8 +237,8 @@ def main() -> None:
         doc,
         "Tables",
         """
-        Tables are sets of rows and columns which can display text in a 
-        grid. To style any of the contents of a table, consider using 
+        Tables are sets of rows and columns which can display text in a
+        grid. To style any of the contents of a table, consider using
         Paragraph or Inline.
         """,
         _table
@@ -251,7 +249,7 @@ def main() -> None:
         doc,
         "Code Blocks",
         """
-        Code blocks are a form of structured text for sharing code 
+        Code blocks are a form of structured text for sharing code
         snippets with syntax highlighting.
         """,
         _code
@@ -271,7 +269,7 @@ def main() -> None:
         "Horizontal Rules are visible dividers in a document.",
         _horizontal_rule
     )
-    
+
     _section(
         doc,
         "Raw",

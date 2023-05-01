@@ -40,4 +40,4 @@ jobs:
     - name: Doctest
       run: |
         cd docs
-        poetry run make doctest   
+        poetry run make doctest

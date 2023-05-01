@@ -33,9 +33,9 @@ def test_paragraph_one_str():
 
 def test_paragraph_many_inline():
     paragraph = Paragraph([
-        Inline("How"), 
+        Inline("How"),
         Inline("Now"),
-        Inline("Brown"), 
+        Inline("Brown"),
         Inline("Cow")
     ])
     assert str(paragraph) == "HowNowBrownCow"
@@ -48,8 +48,8 @@ def test_paragraph_many_str():
 
 def test_paragraph_add_inline():
     paragraph = Paragraph([
-        Inline("How"), 
-        Inline("Now"), 
+        Inline("How"),
+        Inline("Now"),
         Inline("Brown")
     ])
     paragraph.add(Inline("Cow"))

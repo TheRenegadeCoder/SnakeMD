@@ -254,9 +254,11 @@ class Inline(Element):
 
         .. doctest:: inline
 
-            >>> inline = Inline("This is normal text", strikethrough=True).unstrikethrough()
-            >>> str(inline)
-            'This is normal text'
+            >>> inline = Inline("This is normal text", strikethrough=True)
+            >>> inline.unstrikethrough()
+            <snakemd.elements.Inline object at ...>
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -320,7 +322,9 @@ class Inline(Element):
 
         .. doctest:: inline
 
-            >>> inline = Inline("This is normal text", link="https://snakemd.io").unlink()
+            >>> inline = Inline("This is normal text", link="https://snakemd.io")
+            >>> inline.unlink()
+            <snakemd.element.Inline object at ...>
             >>> str(inline)
             'This is normal text'
 
@@ -337,7 +341,13 @@ class Inline(Element):
 
         .. doctest:: inline
 
-            >>> inline = Inline("This is normal text", link="https://snakemd.io", bold=True).reset()
+            >>> inline = Inline(
+            ... "This is normal text", 
+            ... link="https://snakemd.io", 
+            ... bold=True
+            ... )
+            >>> inline.reset()
+            <snakemd.elements.Inline object at ...>
             >>> str(inline)
             'This is normal text'
 
@@ -436,8 +446,10 @@ class Heading(Block):
         the heading text
 
         - set to a string to render raw heading text
-        - set to an Inline object to render a styled heading (e.g., bold, link, code, etc.)
-        - set to a "list" of the prior options to render a header with more granular
+        - set to an Inline object to render a styled heading 
+          (e.g., bold, link, code, etc.)
+        - set to a "list" of the prior options to render a 
+          header with more granular
           control over the individual inline elements
     :param int level:
         the heading level between 1 and 6
@@ -581,9 +593,12 @@ class MDList(Block):
     :param None | bool | Iterable[bool] checked:
         the checked state of the list
 
-        - defaults to :code:`None` which excludes checkboxes from being rendered
-        - set to :code:`False` to render a series of unchecked boxes (i.e., :code:`- [ ]`)
-        - set to :code:`True` to render a series of checked boxes (i.e., :code:`- [x]`)
+        - defaults to :code:`None` which excludes checkboxes from 
+          being rendered
+        - set to :code:`False` to render a series of unchecked boxes 
+          (i.e., :code:`- [ ]`)
+        - set to :code:`True` to render a series of checked boxes 
+          (i.e., :code:`- [x]`)
         - set to :code:`Iterable[bool]` to render the checked
           status of the top-level list elements directly
     """
@@ -873,7 +888,9 @@ class Paragraph(Block):
 
         .. doctest:: paragraph
 
-            >>> paragraph = Paragraph("Go here for docs").insert_link("here", "https://snakemd.io")
+            >>> paragraph = Paragraph("Go here for docs")
+            >>> paragraph.insert_link("here", "https://snakemd.io")
+            <snakemd.elements.Paragraph object at ...>
             >>> str(paragraph)
             'Go [here](https://snakemd.io) for docs'
 
@@ -1204,11 +1221,18 @@ class Table(Block):
 
         .. doctest:: table
 
-            >>> table = Table(["Rank", "Player"], [["1st", "Crosby"], ["2nd", "McDavid"]])
+            >>> table = Table(
+            ... ["Rank", "Player"], 
+            ... [["1st", "Crosby"], ["2nd", "McDavid"]]
+            ... )
             >>> table.add_row(["3rd", "Matthews"])
             <snakemd.elements.Table object at ...>
-            >>> str(table)
-            '| Rank | Player   |\\n| ---- | -------- |\\n| 1st  | Crosby   |\\n| 2nd  | McDavid  |\\n| 3rd  | Matthews |'
+            >>> print(table)
+            | Rank | Player   |
+            | ---- | -------- |
+            | 1st  | Crosby   |
+            | 2nd  | McDavid  |
+            | 3rd  | Matthews |
 
         :raises ValueError:
             when row is not the same width as the table header

@@ -126,7 +126,7 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._code:
             text = f"`{text}`"
-        logger.debug(f"Rendered inline text: {text}")
+        logger.debug("Rendered inline text: %s", text)
         return text
 
     def is_text(self) -> bool:
@@ -472,7 +472,7 @@ class Heading(Block):
         :return:
             the input text as an Inline
         """
-        logger.debug(f"Processing heading text: {text}")
+        logger.debug("Processing heading text: %s", text)
         if isinstance(text, str):
             return [Inline(text)]
         elif isinstance(text, Inline):
@@ -946,7 +946,7 @@ class Quote(Block):
         :return:
             a list of Blocks
         """
-        logger.debug(f"Processing quote lines: {lines}")
+        logger.debug("Processing quote lines: %s", lines)
         if isinstance(lines, str):
             processed_lines = [Raw(lines)]
         else:

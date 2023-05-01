@@ -43,7 +43,7 @@ class TableOfContents(Template):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
-        logger.debug(f"New table of contents initialized with levels in {range}")
+        logger.debug("New table of contents initialized with levels in %s", levels)
 
     def __str__(self) -> str:
         """

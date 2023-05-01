@@ -37,6 +37,9 @@ jobs:
     - name: Coverage
       run: poetry run coverage report
 
+    - name: PyLint
+      run: poetry run pylint snakemd
+
     - name: Doctest
       run: |
         cd docs

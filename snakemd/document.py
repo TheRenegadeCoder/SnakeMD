@@ -143,7 +143,7 @@ class Document:
         """
         paragraph = Paragraph([Inline(text)])
         self._contents.append(paragraph)
-        logger.debug(f"Added paragraph to document\n{paragraph}")
+        logger.debug("Added paragraph to document\n%s", paragraph)
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:

@@ -39,7 +39,7 @@ class Document:
     """
 
     def __init__(self) -> None:
-        self._contents: list[Block] = list()
+        self._contents: list[Block] = []
         logger.debug("New document initialized")
 
     def __str__(self):
@@ -93,7 +93,7 @@ class Document:
         """
         raw = Raw(text)
         self._contents.append(raw)
-        logger.debug(f"Added raw block to document\n{text}")
+        logger.debug("Added raw block to document\n%s", text)
         return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
@@ -121,7 +121,7 @@ class Document:
         """
         heading = Heading(Inline(text), level)
         self._contents.append(heading)
-        logger.debug(f"Added heading to document\n{heading}")
+        logger.debug("Added heading to document\n%s", heading)
         return heading
 
     def add_paragraph(self, text: str) -> Paragraph:

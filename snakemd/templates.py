@@ -1,3 +1,8 @@
+"""
+The template module houses the Template class
+and all of it's children.
+"""
+
 from __future__ import annotations
 
 import logging

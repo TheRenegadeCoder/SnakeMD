@@ -42,9 +42,10 @@ class Inline(Element):
     applied last. Due to this design, some forms of inline text are not
     possible. For example, inline elements can be used to show inline
     markdown as an inline code element (e.g., :code:`![here](https://example.com)`).
-    However, inline elements cannot be used to style inline code (e.g., :code:`**`code`**`).
-    If styled code is necessary, it's possible to render the inline element
-    as a string and pass the result to another inline element.
+    However, inline elements cannot be used to style inline code 
+    (e.g., :code:`**`code`**`). If styled code is necessary, it's 
+    possible to render the inline element as a string and pass the 
+    result to another inline element.
 
     .. testsetup:: inline
 
@@ -56,12 +57,14 @@ class Inline(Element):
         the source (either url or path) associated with an image
 
         - defaults to :code:`None`
-        - set to a string representing a URL or path to render an image (i.e., :code:`![text](image)`)
+        - set to a string representing a URL or path to render 
+          an image (i.e., :code:`![text](image)`)
     :param None | str link:
         the link (either url or path) associated with the inline element
 
         - defaults to :code:`None`
-        - set to a string representing a URL or path to render a link (i.e., :code:`[text](link)`)
+        - set to a string representing a URL or path to render a link 
+          (i.e., :code:`[text](link)`)
     :param bool bold:
         the bold state of the inline text
 
@@ -368,7 +371,8 @@ class Code(Block):
     :param str | Code code:
         the sourcecode to format as a Markdown code block
 
-        - set to a string to render a preformatted code block (i.e., whitespace is respected)
+        - set to a string to render a preformatted code block 
+          (i.e., whitespace is respected)
         - set to a Code object to render a nested code block
     :param str lang:
         the programming language for the code block; defaults to 'generic'
@@ -561,7 +565,8 @@ class HorizontalRule(Block):
 
 class MDList(Block):
     """
-    A markdown list is a standalone list that comes in three varieties: ordered, unordered, and checked.
+    A markdown list is a standalone list that comes in three varieties: ordered,
+    unordered, and checked.
 
     :raises ValueError:
         when the checked argument is an Iterable[bool] that does not
@@ -602,7 +607,9 @@ class MDList(Block):
             self._checked
         ):
             raise ValueError(
-                f"Number of top-level elements in checklist does not match number of booleans supplied by checked parameter: {self._checked}"
+                "Number of top-level elements in checklist does not "
+                "match number of booleans supplied by checked parameter: "
+                f"{self._checked}"
             )
 
     def __str__(self) -> str:
@@ -1133,8 +1140,10 @@ class Table(Block):
         header, body
     ) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
         """
-        Processes the table inputs to ensure header and body only contain paragraph blocks.
-        Also, this computes the max width of each row to ensure pretty print works every time.
+        Processes the table inputs to ensure header and body only contain paragraph
+        blocks.
+        Also, this computes the max width of each row to ensure pretty print works every
+        time.
 
         :param header:
             the header row in its various forms
@@ -1216,7 +1225,8 @@ class Table(Block):
         # Verify that it's safe to add
         if len(row) != len(self._header):
             raise ValueError(
-                f"Unable to add row with width {len(row_list)} to table with header of width {len(self._header)}"
+                f"Unable to add row with width {len(row_list)} "
+                f"to table with header of width {len(self._header)}"
             )
 
         # Add it to table

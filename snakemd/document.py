@@ -386,9 +386,11 @@ class Document:
         encoding: str = "utf-8",
     ) -> None:
         """
-        Outputs the markdown document to a file. This method assumes the output directory
+        Outputs the markdown document to a file. This method assumes the output
+        directory
         is the current working directory. Any alternative directory provided will be
-        made if it does not already exist. This method also assumes a file extension of md
+        made if it does not already exist. This method also assumes a file extension of
+        md
         and a file encoding of utf-8, all of which are configurable through the method
         parameters.
 

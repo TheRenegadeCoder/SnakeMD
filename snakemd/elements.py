@@ -342,8 +342,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline(
-            ... "This is normal text", 
-            ... link="https://snakemd.io", 
+            ... "This is normal text",
+            ... link="https://snakemd.io",
             ... bold=True
             ... )
             >>> inline.reset()
@@ -446,9 +446,9 @@ class Heading(Block):
         the heading text
 
         - set to a string to render raw heading text
-        - set to an Inline object to render a styled heading 
+        - set to an Inline object to render a styled heading
           (e.g., bold, link, code, etc.)
-        - set to a "list" of the prior options to render a 
+        - set to a "list" of the prior options to render a
           header with more granular
           control over the individual inline elements
     :param int level:
@@ -590,11 +590,11 @@ class MDList(Block):
     :param None | bool | Iterable[bool] checked:
         the checked state of the list
 
-        - defaults to :code:`None` which excludes checkboxes from 
+        - defaults to :code:`None` which excludes checkboxes from
           being rendered
-        - set to :code:`False` to render a series of unchecked boxes 
+        - set to :code:`False` to render a series of unchecked boxes
           (i.e., :code:`- [ ]`)
-        - set to :code:`True` to render a series of checked boxes 
+        - set to :code:`True` to render a series of checked boxes
           (i.e., :code:`- [x]`)
         - set to :code:`Iterable[bool]` to render the checked
           status of the top-level list elements directly
@@ -610,9 +610,7 @@ class MDList(Block):
         self._items: list[Block] = self._process_items(items)
         self._ordered: bool = ordered
         self._checked: bool | list[bool] = (
-            checked
-            if checked is None or isinstance(checked, bool)
-            else list(checked)
+            checked if checked is None or isinstance(checked, bool) else list(checked)
         )
         self._space = ""
         if isinstance(self._checked, list) and self._top_level_count() != len(
@@ -947,7 +945,7 @@ class Quote(Block):
     :param str | Iterable[str | Inline | Block] content:
         the text to be formatted as a Markdown quote
 
-        - set to a string to render a whitespace respected quote 
+        - set to a string to render a whitespace respected quote
           (similar to :class:`snakemd.Code`)
         - set to a "list" of text objects to render a document-like quote
           (i.e., all items will be separated by newlines)
@@ -1125,7 +1123,7 @@ class Table(Block):
         ]
         rows.append(f"{' ' * self._indent}| {' | '.join(header)} |")
         if not self._align:
-            dashes = ' | '.join('-' * width for width in self._widths)
+            dashes = " | ".join("-" * width for width in self._widths)
             rows.append(f"{' ' * self._indent}| {dashes} |")
         else:
             meta = []
@@ -1165,7 +1163,7 @@ class Table(Block):
         :param body:
             the table body in its various forms
         :return:
-            the table containing only Paragraph blocks and 
+            the table containing only Paragraph blocks and
             a list of the widest items in each row
         """
         processed_header = []
@@ -1221,7 +1219,7 @@ class Table(Block):
         .. doctest:: table
 
             >>> table = Table(
-            ... ["Rank", "Player"], 
+            ... ["Rank", "Player"],
             ... [["1st", "Crosby"], ["2nd", "McDavid"]]
             ... )
             >>> table.add_row(["3rd", "Matthews"])

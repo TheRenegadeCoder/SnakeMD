@@ -313,10 +313,10 @@ class Document:
         :return:
             the :class:`HorizontalRule` added to this Document
         """
-        hr = HorizontalRule()
-        self._contents.append(hr)
-        logger.debug(f"Added horizontal rule to document\n{hr}")
-        return hr
+        horizontal_rule = HorizontalRule()
+        self._contents.append(horizontal_rule)
+        logger.debug("Added horizontal rule to document\n%s", horizontal_rule)
+        return horizontal_rule
 
     def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
         """

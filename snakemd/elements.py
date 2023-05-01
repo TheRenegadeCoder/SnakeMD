@@ -592,10 +592,14 @@ class MDList(Block):
         self._items: list[Block] = self._process_items(items)
         self._ordered: bool = ordered
         self._checked: bool | list[bool] = (
-            checked if checked is None or isinstance(checked, bool) else [_ for _ in checked]
+            checked
+            if checked is None or isinstance(checked, bool)
+            else [_ for _ in checked]
         )
         self._space = ""
-        if isinstance(self._checked, list) and self._top_level_count() != len(self._checked):
+        if isinstance(self._checked, list) and self._top_level_count() != len(
+            self._checked
+        ):
             raise ValueError(
                 f"Number of top-level elements in checklist does not match number of booleans supplied by checked parameter: {self._checked}"
             )
@@ -809,7 +813,10 @@ class Paragraph(Block):
         i = 0
         content = []
         for inline_text in self._content:
-            if inline_text.is_text() and len(items := inline_text._text.split(target)) > 1:
+            if (
+                inline_text.is_text()
+                and len(items := inline_text._text.split(target)) > 1
+            ):
                 for item in items:
                     content.append(Inline(item))
                     if count == -1 or i < count:
@@ -873,7 +880,9 @@ class Paragraph(Block):
         """
         return self._replace_any(target, Inline(target, link=link), count)
 
-    def replace_link(self, target_link: str, replacement_link: str, count: int = -1) -> Paragraph:
+    def replace_link(
+        self, target_link: str, replacement_link: str, count: int = -1
+    ) -> Paragraph:
         """
         A convenience method which replaces matching URLs in the paragraph with
         a new url. Like :meth:`insert_link` and :meth:`replace`, this method is also
@@ -1053,7 +1062,9 @@ class Table(Block):
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
         self._header, self._body = self._process_table(header, body)
-        if len(self._body) > 1 and not all([len(self._body[0]) == len(x) for x in self._body[1:]]):
+        if len(self._body) > 1 and not all(
+            [len(self._body[0]) == len(x) for x in self._body[1:]]
+        ):
             raise ValueError("Table rows are not all the same length")
         elif body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")
@@ -1081,9 +1092,12 @@ class Table(Block):
             a table as a markdown string
         """
         rows = list()
-        header = [str(item).ljust(self._widths[i]) for i, item in enumerate(self._header)]
+        header = [
+            str(item).ljust(self._widths[i]) for i, item in enumerate(self._header)
+        ]
         body = [
-            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)] for row in self._body
+            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
+            for row in self._body
         ]
         rows.append(f"{' ' * self._indent}| {' | '.join(header)} |")
         if not self._align:
@@ -1114,7 +1128,9 @@ class Table(Block):
         CENTER = auto()
 
     @staticmethod
-    def _process_table(header, body) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
+    def _process_table(
+        header, body
+    ) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
         """
         Processes the table inputs to ensure header and body only contain paragraph blocks.
         Also, this computes the max width of each row to ensure pretty print works every time.

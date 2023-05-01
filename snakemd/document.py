@@ -363,7 +363,11 @@ class Document:
         logger.debug(f"Scrambled document")
 
     def dump(
-        self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8"
+        self,
+        name: str,
+        dir: str | os.PathLike = "",
+        ext: str = "md",
+        encoding: str = "utf-8",
     ) -> None:
         """
         Outputs the markdown document to a file. This method assumes the output directory
@@ -389,6 +393,8 @@ class Document:
             the encoding to use; defaults to utf-8
         """
         pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
-        with open(os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding) as output_file:
+        with open(
+            os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding
+        ) as output_file:
             output_file.write(str(self))
         logger.debug(f"Dumped document to {dir} with filename {name}.{ext}")

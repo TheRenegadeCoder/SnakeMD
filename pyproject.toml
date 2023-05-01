@@ -41,8 +41,9 @@ sphinx = "^6.2"
 sphinx_rtd_theme = "^1.2"
 sphinx-issues = "^3.0"
 
-[tool.poetry.group.formatting.dependencies]
-black = "23.3"
+[tool.poetry.group.style.dependencies]
+black = "^23.3"
+isort = "^5.12"
 
 # Pytest settings
 [tool.pytest.ini_options]
@@ -61,15 +62,13 @@ source = [
 [tool.coverage.report]
 fail_under = 100
 
-# autopep formatting settings
-[tool.autopep8]
-max_line_length = 120
-in-place = true
-recursive = true
-aggressive = 3
-
+# Black formatting settings
 [tool.black]
-line-length = 100
+line-length = 88
+
+# isort setttings
+[tool.isort]
+profile = "black"
 
 # Build system settings
 [build-system]

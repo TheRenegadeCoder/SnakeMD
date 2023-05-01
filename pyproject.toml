@@ -41,8 +41,9 @@ sphinx = "^6.2"
 sphinx_rtd_theme = "^1.2"
 sphinx-issues = "^3.0"
 
-[tool.poetry.group.style.dependencies]
+[tool.poetry.group.analysis.dependencies]
 black = "^23.3"
+pylint = "^2.17"
 isort = "^5.12"
 
 # Pytest settings
@@ -66,9 +67,14 @@ fail_under = 100
 [tool.black]
 line-length = 88
 
+# Pylint settings
+[tool.pylint.format]
+max-line-length = "88"
+
 # isort setttings
 [tool.isort]
 profile = "black"
+py_version = 311
 
 # Build system settings
 [build-system]

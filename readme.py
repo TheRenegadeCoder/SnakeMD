@@ -39,46 +39,37 @@ def _unordered_list(doc: Document):
 
 
 def _checklist(doc: Document):
-    doc.add_checklist(
-        [
-            "Pass the puck",
-            "Shoot the puck",
-            "Score a goal"
-        ]
-    )
+    doc.add_checklist(["Pass the puck", "Shoot the puck", "Score a goal"])
 
 
 def _nested_list(doc: Document):
     doc.add_block(
-        MDList([
-            "Apples",
-            Inline("Onions", bold=True),
-            MDList([
-                "Sweet",
-                "Red"
-            ]),
-            Paragraph(["This is the end of the list!"])
-        ])
+        MDList(
+            [
+                "Apples",
+                Inline("Onions", bold=True),
+                MDList(["Sweet", "Red"]),
+                Paragraph(["This is the end of the list!"]),
+            ]
+        )
     )
 
 
 def _table(doc: Document):
     doc.add_table(
         ["Height (cm)", "Weight (kg)", "Age (y)"],
-        [
-            ['150', '70', '21'],
-            ['164', '75', '19'],
-            ['181', '87', '40']
-        ],
+        [["150", "70", "21"], ["164", "75", "19"], ["181", "87", "40"]],
         [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT],
-        0
+        0,
     )
 
 
 def _insert_link(doc: Document):
-    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).")\
-        .insert_link("The Renegade Coder", "https://therenegadecoder.com")\
-        .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
+    doc.add_paragraph(
+        "Learn to program with The Renegade Coder (@RenegadeCoder94)."
+    ).insert_link("The Renegade Coder", "https://therenegadecoder.com").insert_link(
+        "@RenegadeCoder94", "https://twitter.com/RenegadeCoder94"
+    )
 
 
 def _image(doc: Document):
@@ -115,10 +106,9 @@ def _section(doc: Document, title: str, desc: str, func: Callable, level: int = 
     func(doc)
     doc.add_block(Paragraph([Inline("Markdown Source", italics=True)]))
     block: Block = doc._contents[-2]
-    doc.add_block(Code(
-        block if isinstance(block, Code) else str(block),
-        lang="markdown"
-    ))
+    doc.add_block(
+        Code(block if isinstance(block, Code) else str(block), lang="markdown")
+    )
     doc._contents.insert(-3, doc._contents.pop())
     doc._contents.insert(-3, doc._contents.pop())
 
@@ -151,7 +141,7 @@ def main() -> None:
         Paragraphs are the most basic feature of any Markdown file.
         As a result, they are very easy to create using SnakeMD.
         """,
-        _paragraph
+        _paragraph,
     )
 
     # Insert Links
@@ -163,7 +153,7 @@ def main() -> None:
         in paragraphs in a variety of ways, such as with the insert_link()
         method.
         """,
-        _insert_link
+        _insert_link,
     )
 
     # Images
@@ -171,7 +161,7 @@ def main() -> None:
         doc,
         "Images",
         "Images can be added by embedding Inline elements in a paragraph.",
-        _image
+        _image,
     )
 
     # Lists
@@ -192,7 +182,7 @@ def main() -> None:
         matters. As a result, we number them.
         """,
         _ordered_list,
-        level=3
+        level=3,
     )
 
     # Unordered lists
@@ -204,7 +194,7 @@ def main() -> None:
         does not matter. As a result, we bullet them.
         """,
         _unordered_list,
-        level=3
+        level=3,
     )
 
     # Checklist
@@ -216,7 +206,7 @@ def main() -> None:
         checked on and off. This feature is new as of v0.10.0.
         """,
         _checklist,
-        level=3
+        level=3,
     )
 
     # Nested lists
@@ -229,7 +219,7 @@ def main() -> None:
         lists, but they can be created manually using the MDList object.
         """,
         _nested_list,
-        level=3
+        level=3,
     )
 
     # Tables
@@ -241,7 +231,7 @@ def main() -> None:
         grid. To style any of the contents of a table, consider using
         Paragraph or Inline.
         """,
-        _table
+        _table,
     )
 
     # Code
@@ -252,7 +242,7 @@ def main() -> None:
         Code blocks are a form of structured text for sharing code
         snippets with syntax highlighting.
         """,
-        _code
+        _code,
     )
 
     # Quote
@@ -260,14 +250,14 @@ def main() -> None:
         doc,
         "Quotes",
         "Quotes are blocks of text that represent quotes from people.",
-        _quote
+        _quote,
     )
 
     _section(
         doc,
         "Horizontal Rule",
         "Horizontal Rules are visible dividers in a document.",
-        _horizontal_rule
+        _horizontal_rule,
     )
 
     _section(
@@ -279,7 +269,7 @@ def main() -> None:
         be used to insert any preformatted text you like,
         such as HTML tags, Jekyll frontmatter, and more.
         """,
-        _raw
+        _raw,
     )
 
     doc.dump("README")

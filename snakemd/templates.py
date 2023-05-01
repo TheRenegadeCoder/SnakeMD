@@ -14,7 +14,7 @@ class Template(Element):
     a superclass for a variety of abstractions over the typical markdown features.
     For example, Markdown has no feature for tables of contents, but a template
     could be created to generate one automatically for the user. In other words,
-    templates are meant to be conviences objects for our users. 
+    templates are meant to be conviences objects for our users.
     """
     pass
 
@@ -26,9 +26,9 @@ class TableOfContents(Template):
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
 
-    :param Document doc: 
+    :param Document doc:
         a reference to the document containing this table of contents
-    :param list[int] levels: 
+    :param list[int] levels:
         a range of integers representing the sequence of heading levels
         to include in the table of contents; defaults to range(2, 3)
     """
@@ -45,7 +45,7 @@ class TableOfContents(Template):
         """
         Renders the table of contents using the Document reference.
 
-        :return: 
+        :return:
             the table of contents as a markdown string
         """
         headings = self._get_headings()
@@ -56,7 +56,7 @@ class TableOfContents(Template):
         """
         Retrieves the list of headings from the current document.
 
-        :return: 
+        :return:
             a list heading objects
         """
         return [
@@ -69,7 +69,7 @@ class TableOfContents(Template):
         """
         Assembles the table of contents from the headings in the document.
 
-        :return: 
+        :return:
             a list of strings representing the table of contents
         """
         if not headings:

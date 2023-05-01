@@ -16,6 +16,7 @@ class Template(Element):
     could be created to generate one automatically for the user. In other words,
     templates are meant to be conviences objects for our users.
     """
+
     pass
 
 
@@ -37,9 +38,7 @@ class TableOfContents(Template):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
-        logger.debug(
-            f"New table of contents initialized with levels in {range}"
-        )
+        logger.debug(f"New table of contents initialized with levels in {range}")
 
     def __str__(self) -> str:
         """
@@ -65,7 +64,9 @@ class TableOfContents(Template):
             if isinstance(heading, Heading) and heading._level in self._levels
         ]
 
-    def _assemble_table_of_contents(self, headings: list[Heading], position: int) -> tuple(MDList, int):
+    def _assemble_table_of_contents(
+        self, headings: list[Heading], position: int
+    ) -> tuple(MDList, int):
         """
         Assembles the table of contents from the headings in the document.
 
@@ -82,7 +83,7 @@ class TableOfContents(Template):
             if headings[i]._level == level:
                 line = Inline(
                     headings[i].get_text(),
-                    link=f"#{'-'.join(headings[i].get_text().lower().split())}"
+                    link=f"#{'-'.join(headings[i].get_text().lower().split())}",
                 )
                 table_of_contents.append(line)
                 i += 1

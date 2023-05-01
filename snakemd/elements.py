@@ -88,7 +88,7 @@ class Inline(Element):
         bold: bool = False,
         italics: bool = False,
         strikethrough: bool = False,
-        code: bool = False
+        code: bool = False,
     ) -> None:
         self._text = text
         self._image = image
@@ -352,6 +352,7 @@ class Block(Element):
     (i.e., :code:`<p>`), headings (e.g., :code:`<h1>`, :code:`<h2>`, etc.),
     tables (i.e., :code:`<table>`), and lists (e.g., :code:`<ol>`, :code:`<ul>`, etc.).
     """
+
     pass
 
 
@@ -395,7 +396,7 @@ class Code(Block):
         :return:
             the code block as a markdown string
         """
-        ticks = '`' * self._backticks
+        ticks = "`" * self._backticks
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
     @staticmethod
@@ -438,9 +439,7 @@ class Heading(Block):
 
     def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:
         if level < 1 or level > 6:
-            raise ValueError(
-                f"Heading level must be between 1 and 6 but was {level}"
-            )
+            raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
         super().__init__()
         self._text: list[Inline] = self._process_text(text)
         self._level: int = level
@@ -479,10 +478,7 @@ class Heading(Block):
         elif isinstance(text, Inline):
             return [text]
         else:
-            return [
-                item if isinstance(item, Inline) else Inline(item)
-                for item in text
-            ]
+            return [item if isinstance(item, Inline) else Inline(item) for item in text]
 
     def promote(self) -> Heading:
         """
@@ -536,7 +532,7 @@ class Heading(Block):
             the heading as a string
         """
         text_elements = [item._text for item in self._text]
-        return ''.join(text_elements)
+        return "".join(text_elements)
 
 
 class HorizontalRule(Block):
@@ -590,14 +586,14 @@ class MDList(Block):
         self,
         items: Iterable[str | Inline | Block],
         ordered: bool = False,
-        checked: None | bool | Iterable[bool] = None
+        checked: None | bool | Iterable[bool] = None,
     ) -> None:
         super().__init__()
         self._items: list[Block] = self._process_items(items)
         self._ordered: bool = ordered
-        self._checked: bool | list[bool] = checked \
-            if checked is None or isinstance(checked, bool) \
-            else [_ for _ in checked]
+        self._checked: bool | list[bool] = (
+            checked if checked is None or isinstance(checked, bool) else [_ for _ in checked]
+        )
         self._space = ""
         if isinstance(self._checked, list) and self._top_level_count() != len(self._checked):
             raise ValueError(
@@ -765,7 +761,7 @@ class Paragraph(Block):
         :return:
             the paragraph as a markdown string
         """
-        paragraph = ''.join(str(item) for item in self._content)
+        paragraph = "".join(str(item) for item in self._content)
         return " ".join(paragraph.split())
 
     def add(self, text: str | Inline) -> Paragraph:
@@ -990,11 +986,7 @@ class Quote(Block):
         for line in self._lines:
             if isinstance(line, Quote):
                 line._depth = self._depth + 1
-                formatted_lines.extend([
-                    quote_markers,
-                    str(line),
-                    quote_markers
-                ])
+                formatted_lines.extend([quote_markers, str(line), quote_markers])
             else:
                 split = f"\n{quote_markers}".join(str(line).splitlines())
                 formatted_lines.append(f"{quote_markers}{split}")
@@ -1054,7 +1046,7 @@ class Table(Block):
         header: Iterable[str | Inline | Paragraph],
         body: Iterable[Iterable[str | Inline | Paragraph]] = [],
         align: None | Iterable[Align] = None,
-        indent: int = 0
+        indent: int = 0,
     ) -> None:
         logger.debug(f"Initializing table\n{(header, body, align)}")
         super().__init__()
@@ -1065,10 +1057,7 @@ class Table(Block):
             raise ValueError("Table rows are not all the same length")
         elif body and len(self._header) != len(self._body[0]):
             raise ValueError("Table header and rows have different lengths")
-        self._widths: list[int] = self._process_widths(
-            self._header,
-            self._body
-        )
+        self._widths: list[int] = self._process_widths(self._header, self._body)
         self._align = align
         self._indent = indent
 
@@ -1092,18 +1081,15 @@ class Table(Block):
             a table as a markdown string
         """
         rows = list()
-        header = [
-            str(item).ljust(self._widths[i])
-            for i, item in enumerate(self._header)
-        ]
+        header = [str(item).ljust(self._widths[i]) for i, item in enumerate(self._header)]
         body = [
-            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)]
-            for row in self._body
+            [str(item).ljust(self._widths[i]) for i, item in enumerate(row)] for row in self._body
         ]
         rows.append(f"{' ' * self._indent}| {' | '.join(header)} |")
         if not self._align:
             rows.append(
-                f"{' ' * self._indent}| {' | '.join('-' * width for width in self._widths)} |")
+                f"{' ' * self._indent}| {' | '.join('-' * width for width in self._widths)} |"
+            )
         else:
             meta = []
             for align, width in zip(self._align, self._widths):
@@ -1114,15 +1100,15 @@ class Table(Block):
                 else:
                     meta.append(f":{'-' * (width - 2)}:")
             rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
-        rows.extend(
-            (f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
-        return '\n'.join(rows)
+        rows.extend((f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
+        return "\n".join(rows)
 
     class Align(Enum):
         """
         Align is an enum only used by the Table class to specify the alignment
         of various columns in the table.
         """
+
         LEFT = auto()
         RIGHT = auto()
         CENTER = auto()

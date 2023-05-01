@@ -212,7 +212,7 @@ class Document:
         header: Iterable[str],
         data: Iterable[Iterable[str]],
         align: Iterable[Table.Align] = None,
-        indent: int = 0
+        indent: int = 0,
     ) -> Table:
         """
         A convenience method which adds a table to the document:
@@ -362,7 +362,9 @@ class Document:
         random.shuffle(self._contents)
         logger.debug(f"Scrambled document")
 
-    def dump(self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8") -> None:
+    def dump(
+        self, name: str, dir: str | os.PathLike = "", ext: str = "md", encoding: str = "utf-8"
+    ) -> None:
         """
         Outputs the markdown document to a file. This method assumes the output directory
         is the current working directory. Any alternative directory provided will be
@@ -387,10 +389,6 @@ class Document:
             the encoding to use; defaults to utf-8
         """
         pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
-        with open(
-            os.path.join(dir, f"{name}.{ext}"),
-            "w+",
-            encoding=encoding
-        ) as output_file:
+        with open(os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding) as output_file:
             output_file.write(str(self))
         logger.debug(f"Dumped document to {dir} with filename {name}.{ext}")

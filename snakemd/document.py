@@ -71,7 +71,7 @@ class Document:
             the :class:`Block` added to this Document
         """
         self._contents.append(block)
-        logger.debug(f"Added custom block to document\n{block}")
+        logger.debug("Added custom block to document\n%s", block)
         return block
 
     def add_raw(self, text: str) -> Raw:

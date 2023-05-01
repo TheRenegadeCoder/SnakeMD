@@ -47,9 +47,6 @@ isort = "^5.12"
 pydocstringformatter = "^v0.7"
 pylint = "^2.17"
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.2"
-
 # Pytest settings
 [tool.pytest.ini_options]
 minversion = "7.3"
@@ -87,6 +84,7 @@ py_version = 311
 write = true
 strip-whitespaces = true
 split-summary-body = false
+max-line-length = 88
 
 # Build system settings
 [build-system]

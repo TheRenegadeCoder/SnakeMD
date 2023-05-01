@@ -402,4 +402,4 @@ class Document:
             os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding
         ) as output_file:
             output_file.write(str(self))
-        logger.debug(f"Dumped document to {dir} with filename {name}.{ext}")
+        logger.debug("Dumped document to %s with filename %s.%s", dir, name, ext)

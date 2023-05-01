@@ -1,3 +1,8 @@
+"""
+The Element module contains all of the possible
+elements that can be added to a Document.
+"""
+
 from __future__ import annotations
 
 import logging
@@ -473,10 +478,9 @@ class Heading(Block):
         logger.debug("Processing heading text: %s", text)
         if isinstance(text, str):
             return [Inline(text)]
-        elif isinstance(text, Inline):
+        if isinstance(text, Inline):
             return [text]
-        else:
-            return [item if isinstance(item, Inline) else Inline(item) for item in text]
+        return [item if isinstance(item, Inline) else Inline(item) for item in text]
 
     def promote(self) -> Heading:
         """

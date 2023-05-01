@@ -89,6 +89,7 @@ write = true
 strip-whitespaces = true
 split-summary-body = false
 max-line-length = 88
+linewrap-full-docstring = true
 
 # Build system settings
 [build-system]

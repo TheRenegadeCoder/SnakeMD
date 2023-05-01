@@ -413,8 +413,7 @@ class Code(Block):
         """
         if isinstance(code, Code):
             return code._backticks + 1
-        else:
-            return 3
+        return 3
 
 
 class Heading(Block):
@@ -596,7 +595,7 @@ class MDList(Block):
         self._checked: bool | list[bool] = (
             checked
             if checked is None or isinstance(checked, bool)
-            else [_ for _ in checked]
+            else list(checked)
         )
         self._space = ""
         if isinstance(self._checked, list) and self._top_level_count() != len(
@@ -1211,7 +1210,7 @@ class Table(Block):
         """
 
         # Consume row
-        row_list = [_ for _ in row]
+        row_list = list(row)
         logger.debug("Adding row to table: %s", row_list)
 
         # Verify that it's safe to add

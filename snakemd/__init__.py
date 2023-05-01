@@ -1,4 +1,6 @@
 from .document import *
+from .elements import *
+from .templates import *
 
 
 def new_doc() -> Document:

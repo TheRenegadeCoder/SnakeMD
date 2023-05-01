@@ -324,7 +324,7 @@ class Inline(Element):
 
             >>> inline = Inline("This is normal text", link="https://snakemd.io")
             >>> inline.unlink()
-            <snakemd.element.Inline object at ...>
+            <snakemd.elements.Inline object at ...>
             >>> str(inline)
             'This is normal text'
 

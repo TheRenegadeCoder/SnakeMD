@@ -80,8 +80,11 @@ max-line-length = 88
 profile = "black"
 py_version = 311
 
+# pydocstringformatter settings
 [tool.pydocstringformatter]
 write = true
+strip-whitespaces = true
+split-summary-body = false
 
 # Build system settings
 [build-system]

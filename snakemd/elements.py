@@ -559,9 +559,6 @@ class HorizontalRule(Block):
     so there are no settings to adjust.
     """
 
-    def __init__(self):
-        super().__init__()
-
     def __str__(self) -> str:
         """
         Renders the horizontal rule as a markdown string. Markdown
@@ -726,9 +723,8 @@ class MDList(Block):
         """
         if not self._ordered:
             return 2
-        else:
-            # Ordered items vary in length, so we adjust the result based on the index
-            return 2 + len(str(item_index))
+        # Ordered items vary in length, so we adjust the result based on the index
+        return 2 + len(str(item_index))
 
 
 class Paragraph(Block):
@@ -920,7 +916,9 @@ class Paragraph(Block):
 
             >>> old = "https://therenegadecoder.com"
             >>> new = "https://snakemd.io"
-            >>> paragraph = Paragraph("Go here for docs").insert_link("here", old).replace_link(old, new)
+            >>> paragraph = Paragraph("Go here for docs")
+            >>> paragraph.insert_link("here", old).replace_link(old, new)
+            <snakemd.elements.Paragraph object at ...>
             >>> str(paragraph)
             'Go [here](https://snakemd.io) for docs'
 
@@ -949,7 +947,8 @@ class Quote(Block):
     :param str | Iterable[str | Inline | Block] content:
         the text to be formatted as a Markdown quote
 
-        - set to a string to render a whitespace respected quote (similar to :class:`snakemd.Code`)
+        - set to a string to render a whitespace respected quote 
+          (similar to :class:`snakemd.Code`)
         - set to a "list" of text objects to render a document-like quote
           (i.e., all items will be separated by newlines)
     """
@@ -1126,9 +1125,8 @@ class Table(Block):
         ]
         rows.append(f"{' ' * self._indent}| {' | '.join(header)} |")
         if not self._align:
-            rows.append(
-                f"{' ' * self._indent}| {' | '.join('-' * width for width in self._widths)} |"
-            )
+            dashes = ' | '.join('-' * width for width in self._widths)
+            rows.append(f"{' ' * self._indent}| {dashes} |")
         else:
             meta = []
             for align, width in zip(self._align, self._widths):
@@ -1167,7 +1165,8 @@ class Table(Block):
         :param body:
             the table body in its various forms
         :return:
-            the table containing only Paragraph blocks and a list of the widest items in each row
+            the table containing only Paragraph blocks and 
+            a list of the widest items in each row
         """
         processed_header = []
         processed_body = []

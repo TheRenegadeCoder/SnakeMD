@@ -21,7 +21,7 @@ from .elements import (
     Raw,
     Table,
 )
-from .templates import TableOfContents
+from .templates import TableOfContents, Template
 
 logger = logging.getLogger(__name__)
 
@@ -64,6 +64,11 @@ class Document:
         :return:
             the document as a markdown string
         """
+        # load templates
+        for block in self._blocks:
+            if isinstance(block, Template):
+                block.load(self._blocks)
+        # render blocks
         document = "\n\n".join(str(block) for block in self._blocks)
         logger.info("Rendered document: %r", document)
         return document
@@ -413,7 +418,7 @@ class Document:
         :return:
             the :class:`TableOfContents` added to this Document
         """
-        toc = TableOfContents(self._blocks, levels=levels)
+        toc = TableOfContents(levels=levels)
         self._blocks.append(toc)
         logger.info("Added table of contents to document: %r", toc)
         return toc

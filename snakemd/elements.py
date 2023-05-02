@@ -291,7 +291,7 @@ class Inline(Element):
 
             >>> inline = Inline("This is normal text", strikethrough=True)
             >>> inline.unstrikethrough()
-            <snakemd.elements.Inline object at ...>
+            Inline(text='This is normal text',... strikethrough=False,...)
             >>> print(inline)
             This is normal text
 
@@ -359,7 +359,7 @@ class Inline(Element):
 
             >>> inline = Inline("This is normal text", link="https://snakemd.io")
             >>> inline.unlink()
-            <snakemd.elements.Inline object at ...>
+            Inline(text='This is normal text',... link=None,...)
             >>> print(inline)
             This is normal text
 
@@ -382,7 +382,7 @@ class Inline(Element):
             ... bold=True
             ... )
             >>> inline.reset()
-            <snakemd.elements.Inline object at ...>
+            Inline(text='This is normal text',...)
             >>> print(inline)
             This is normal text
 

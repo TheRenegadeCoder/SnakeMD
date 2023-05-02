@@ -48,8 +48,8 @@ class Document:
         import os
         os.remove("README.md")
 
-    :param elements:
-        an optional list of blocks that make up a markdown document
+    :param list[Element] elements:
+        an optional list of elements that make up a markdown document
 
         .. versionadded:: 2.2
             Included to make __repr__ more useful

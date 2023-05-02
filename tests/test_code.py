@@ -24,12 +24,22 @@ def test_code_empty_java():
 
 
 def test_code_one_line():
+    """
+    Verifies that a code block is correctly instantiated
+    given a single line of sample code. Also verifies
+    the repr representation of the code block.
+    """
     code = Code("print('Hello, World!')")
     assert str(code) == "```generic\nprint('Hello, World!')\n```"
     assert repr(code) == r"""Code(code="print('Hello, World!')", lang='generic')"""
     
     
 def test_code_one_line_nested_single_quotes():
+    """
+    Verifies the same conditions as test_code_one_line()
+    with the quote style swapped. This is primarily a test
+    of repr.
+    """
     code = Code('print("Hello, World!")')
     assert str(code) == '```generic\nprint("Hello, World!")\n```'
     assert repr(code) == r"""Code(code='print("Hello, World!")', lang='generic')"""

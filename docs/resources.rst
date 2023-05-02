@@ -4,7 +4,7 @@ Resources
 To help with all your SnakeMD needs, we've put together
 a set of resources organized by the major versions of
 the library. The lists themselves are sorted by publish
-date, with the most recently published resources first. 
+date, with the most recently published resources first.
 
 v2.x
 ----

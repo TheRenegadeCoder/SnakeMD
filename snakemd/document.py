@@ -3,8 +3,6 @@ The document module houses the Document class, a tool for
 generating markdown documents.
 """
 
-from __future__ import annotations
-
 import logging
 import os
 import pathlib
@@ -397,7 +395,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_table_of_contents()
-            TableOfContents(blocks=[TableOfContents(blocks=[...], levels=range(2, 3))], levels=range(2, 3))
+            TableOfContents(blocks=[...], levels=range(2, 3))
             >>> doc.add_heading("First Item", 2)
             Heading(text=[Inline(text='First Item',...)], level=2)
             >>> doc.add_heading("Second Item", 2)

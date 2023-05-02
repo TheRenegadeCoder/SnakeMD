@@ -665,7 +665,9 @@ class HorizontalRule(Block):
         :return:
             the horizontal rule as a markdown string
         """
-        return "***"
+        horizontal_rule = "***"
+        logger.debug("Rendered horizontal rule: %r", horizontal_rule)
+        return horizontal_rule
 
     def __repr__(self) -> str:
         """
@@ -683,9 +685,7 @@ class HorizontalRule(Block):
         :return:
             the HorizontalRule object as a development string
         """
-        horizontal_rule: str = "HorizontalRule()"
-        logger.debug("Rendered horizontal rule: %r", horizontal_rule)
-        return horizontal_rule
+        return "HorizontalRule()"
 
 
 class MDList(Block):
@@ -1257,14 +1257,14 @@ class Table(Block):
     def __init__(
         self,
         header: Iterable[str | Inline | Paragraph],
-        body: Iterable[Iterable[str | Inline | Paragraph]] = [],
+        body: Iterable[Iterable[str | Inline | Paragraph]] = None,
         align: None | Iterable[Align] = None,
         indent: int = 0,
     ) -> None:
         logger.debug("Initializing table: (%r, %r, %r)", header, body, align)
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
-        self._header, self._body = self._process_table(header, body)
+        self._header, self._body = self._process_table(header, body or [])
         if len(self._body) > 1 and not all(
             len(self._body[0]) == len(x) for x in self._body[1:]
         ):

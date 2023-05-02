@@ -882,28 +882,6 @@ class Paragraph(Block):
     def __init__(self, content: str | Iterable[str | Inline]):
         self._content: list[Inline] = self._process_content(content)
 
-    @staticmethod
-    def _process_content(content) -> list[Inline]:
-        """
-        Processes the incoming content for the Paragraph.
-
-        :param content:
-            an iterable of various text items
-        :return:
-            the processed iterable as a list of Inline items
-        """
-        logger.debug("Processing paragraph content: %r", content)
-        if isinstance(content, str):
-            processed = [Inline(content)]
-        else:
-            processed = []
-            for item in content:
-                if isinstance(item, str):
-                    processed.append(Inline(item))
-                else:
-                    processed.append(item)
-        return processed
-
     def __str__(self) -> str:
         """
         Renders the paragraph as a markdown string. Markdown paragraphs
@@ -942,26 +920,28 @@ class Paragraph(Block):
             the Paragraph object as a development string
         """
         return f"Paragraph(content={self._content!r})"
-
-    def add(self, text: str | Inline) -> Paragraph:
+    
+    @staticmethod
+    def _process_content(content) -> list[Inline]:
         """
-        Adds a text object to the paragraph.
+        Processes the incoming content for the Paragraph.
 
-        .. doctest:: paragraph
-
-            >>> paragraph = Paragraph("Hello! ").add("I come in peace")
-            >>> str(paragraph)
-            'Hello! I come in peace'
-
-        :param str | Inline text:
-            a custom Inline element
+        :param content:
+            an iterable of various text items
         :return:
-            self
+            the processed iterable as a list of Inline items
         """
-        if isinstance(text, str):
-            text = Inline(text)
-        self._content.append(text)
-        return self
+        logger.debug("Processing paragraph content: %r", content)
+        if isinstance(content, str):
+            processed = [Inline(content)]
+        else:
+            processed = []
+            for item in content:
+                if isinstance(item, str):
+                    processed.append(Inline(item))
+                else:
+                    processed.append(item)
+        return processed
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """
@@ -1003,6 +983,26 @@ class Paragraph(Block):
             else:
                 content.append(inline_text)
         self._content = content
+        return self
+    
+    def add(self, text: str | Inline) -> Paragraph:
+        """
+        Adds a text object to the paragraph.
+
+        .. doctest:: paragraph
+
+            >>> paragraph = Paragraph("Hello! ").add("I come in peace")
+            >>> str(paragraph)
+            'Hello! I come in peace'
+
+        :param str | Inline text:
+            a custom Inline element
+        :return:
+            self
+        """
+        if isinstance(text, str):
+            text = Inline(text)
+        self._content.append(text)
         return self
 
     def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
@@ -1113,30 +1113,6 @@ class Quote(Block):
         self._lines: list[Block] = self._process_content(content)
         self._depth = 1
 
-    @staticmethod
-    def _process_content(lines) -> list[Block]:
-        """
-        Converts the raw input lines to something that is
-        a bit easier to work with. In this case, the lines
-        are converted to blocks.
-
-        :param lines:
-            a "list" of text objects or a string
-        :return:
-            a list of Blocks
-        """
-        logger.debug("Processing quote lines: %r", lines)
-        if isinstance(lines, str):
-            processed_lines = [Raw(lines)]
-        else:
-            processed_lines = []
-            for line in lines:
-                if isinstance(line, (str, Inline)):
-                    processed_lines.append(Raw(line))
-                else:
-                    processed_lines.append(line)
-        return processed_lines
-
     def __str__(self) -> str:
         """
         Renders the quote as a markdown string. Markdown quotes
@@ -1182,6 +1158,30 @@ class Quote(Block):
     
     def __repr__(self) -> str:
         return f"Quote(content={self._lines!r})"
+    
+    @staticmethod
+    def _process_content(lines) -> list[Block]:
+        """
+        Converts the raw input lines to something that is
+        a bit easier to work with. In this case, the lines
+        are converted to blocks.
+
+        :param lines:
+            a "list" of text objects or a string
+        :return:
+            a list of Blocks
+        """
+        logger.debug("Processing quote lines: %r", lines)
+        if isinstance(lines, str):
+            processed_lines = [Raw(lines)]
+        else:
+            processed_lines = []
+            for line in lines:
+                if isinstance(line, (str, Inline)):
+                    processed_lines.append(Raw(line))
+                else:
+                    processed_lines.append(line)
+        return processed_lines
 
 
 class Raw(Block):
@@ -1233,6 +1233,16 @@ class Table(Block):
     :param int indent:
         indent size for the whole table; defaults to 0
     """
+    
+    class Align(Enum):
+        """
+        Align is an enum only used by the Table class to specify the alignment
+        of various columns in the table.
+        """
+
+        LEFT = auto()
+        RIGHT = auto()
+        CENTER = auto()
 
     def __init__(
         self,
@@ -1308,16 +1318,6 @@ class Table(Block):
             f"indent={self._indent}"
             f")"
         )
-
-    class Align(Enum):
-        """
-        Align is an enum only used by the Table class to specify the alignment
-        of various columns in the table.
-        """
-
-        LEFT = auto()
-        RIGHT = auto()
-        CENTER = auto()
 
     @staticmethod
     def _process_table(

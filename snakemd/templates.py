@@ -53,6 +53,9 @@ class TableOfContents(Template):
         headings = self._get_headings()
         table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
         return str(table_of_contents)
+    
+    def __repr__(self) -> str:
+        raise NotImplementedError()
 
     def _get_headings(self) -> list[Heading]:
         """

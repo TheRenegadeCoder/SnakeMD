@@ -454,7 +454,6 @@ class Code(Block):
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
     def __repr__(self) -> str:
-        
         """
         Renders self as an unambiguous string for development.
         In this case, it displays in the style of a dataclass,

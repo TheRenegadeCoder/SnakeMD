@@ -65,11 +65,37 @@ def test_heading_inline_level_one():
 def test_heading_inline_bold_level_one():
     heading = Heading(Inline("Example heading", bold=True), 1)
     assert str(heading) == "# **Example heading**"
+    assert repr(heading) == (
+        r"Heading("
+        r"text=[Inline("
+            r"text='Example heading', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=True, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+        r")]"
+        r", level=1)"
+    )
 
 
 def test_heading_str_level_two():
     heading = Heading("Example heading", 2)
     assert str(heading) == "## Example heading"
+    assert repr(heading) == (
+        r"Heading("
+        r"text=[Inline("
+            r"text='Example heading', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+        r")]"
+        r", level=2)"
+    )
 
 
 def test_heading_str_level_three():

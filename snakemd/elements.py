@@ -27,7 +27,8 @@ class Element(ABC):
         The default string method to be implemented by all inheriting
         classes.
 
-        :return: a markdown ready representation of the element
+        :return: 
+            a markdown ready representation of the element
         """
 
         # @abstractmethod
@@ -42,7 +43,8 @@ class Element(ABC):
         than the default __repr__ method. Ultimately, this 
         method must be implemented by all inheriting classes.
 
-        :return: an unambiguous representation of the element
+        :return: 
+            an unambiguous representation of the element
         """
 
 
@@ -426,7 +428,6 @@ class Code(Block):
     """
 
     def __init__(self, code: str | Code, lang: str = "generic"):
-        super().__init__()
         self._code = code
         self._lang = lang
         self._backticks = self._process_backticks(code)
@@ -507,7 +508,6 @@ class Heading(Block):
     def __init__(self, text: str | Inline | Iterable[Inline | str], level: int) -> None:
         if level < 1 or level > 6:
             raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
-        super().__init__()
         self._text: list[Inline] = self._process_text(text)
         self._level: int = level
 
@@ -655,7 +655,6 @@ class MDList(Block):
         ordered: bool = False,
         checked: None | bool | Iterable[bool] = None,
     ) -> None:
-        super().__init__()
         self._items: list[Block] = self._process_items(items)
         self._ordered: bool = ordered
         self._checked: bool | list[bool] = (
@@ -793,7 +792,6 @@ class Paragraph(Block):
     """
 
     def __init__(self, content: str | Iterable[str | Inline]):
-        super().__init__()
         self._content: list[Inline] = self._process_content(content)
 
     @staticmethod
@@ -1001,7 +999,6 @@ class Quote(Block):
     """
 
     def __init__(self, content: str | Iterable[str | Inline | Block]) -> None:
-        super().__init__()
         self._lines: list[Block] = self._process_content(content)
         self._depth = 1
 
@@ -1084,7 +1081,6 @@ class Raw(Block):
     """
 
     def __init__(self, text: str) -> None:
-        super().__init__()
         self._text = text
 
     def __str__(self) -> str:
@@ -1129,7 +1125,6 @@ class Table(Block):
         indent: int = 0,
     ) -> None:
         logger.debug("Initializing table\n(%s, %s, %s)", header, body, align)
-        super().__init__()
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
         self._header, self._body = self._process_table(header, body)

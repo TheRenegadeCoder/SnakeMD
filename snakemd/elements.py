@@ -151,7 +151,7 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._code:
             text = f"`{text}`"
-        logger.debug("Rendered inline text: %s", text)
+        logger.debug("Rendered inline text: %r", text)
         return text
 
     def __repr__(self) -> str:
@@ -573,7 +573,7 @@ class Heading(Block):
         :return:
             the input text as an Inline
         """
-        logger.debug("Processing heading text: %s", text)
+        logger.debug("Processing heading text: %r", text)
         if isinstance(text, str):
             return [Inline(text)]
         if isinstance(text, Inline):
@@ -1086,7 +1086,7 @@ class Quote(Block):
         :return:
             a list of Blocks
         """
-        logger.debug("Processing quote lines: %s", lines)
+        logger.debug("Processing quote lines: %r", lines)
         if isinstance(lines, str):
             processed_lines = [Raw(lines)]
         else:
@@ -1357,7 +1357,7 @@ class Table(Block):
 
         # Consume row
         row_list = list(row)
-        logger.debug("Adding row to table: %s", row_list)
+        logger.debug("Adding row to table: %r", row_list)
 
         # Verify that it's safe to add
         if len(row) != len(self._header):

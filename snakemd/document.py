@@ -141,7 +141,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
-            <snakemd.elements.Paragraph object at ...>
+            Paragraph(content=[...])
             >>> print(doc)
             Mitochondria is the powerhouse of the cell.
 
@@ -163,7 +163,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
-            MDList(items=[Paragraph(content=[...], ordered=True, checked=None)
+            MDList(items=[...], ordered=True, checked=None)
             >>> print(doc)
             1. Goku
             2. Piccolo
@@ -187,7 +187,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
-            <snakemd.elements.MDList object at ...>
+            MDList(items=[...], ordered=False, checked=None)
             >>> print(doc)
             - Deku
             - Bakugo
@@ -211,7 +211,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
-            <snakemd.elements.MDList object at ...>
+            MDList(items=[...], ordered=False, checked=False)
             >>> print(doc)
             - [ ] Okabe
             - [ ] Mayuri
@@ -304,7 +304,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_quote("Welcome to the Internet!")
-            <snakemd.elements.Quote object at ...>
+            Quote(content=[Raw(text='Welcome to the Internet!')])
             >>> print(doc)
             > Welcome to the Internet!
 

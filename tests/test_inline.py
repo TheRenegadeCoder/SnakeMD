@@ -109,6 +109,13 @@ def test_inline_link():
 
 
 def test_inline_bold():
+    """
+    Verifies that the Inline bold parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Hello, World!", bold=True)
     assert str(text) == "**Hello, World!**"
     assert repr(text) == (
@@ -126,6 +133,13 @@ def test_inline_bold():
 
 
 def test_inline_italics():
+    """
+    Verifies that the Inline italics parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Hello, World!", italics=True)
     assert str(text) == "_Hello, World!_"
     assert repr(text) == (
@@ -143,6 +157,14 @@ def test_inline_italics():
 
 
 def test_inline_strikethrough():
+    """
+    Verifies that the Inline strikethrough parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted. Does
+    NOT verify that the markdown itself is
+    properly rendered as strikethrough is not
+    a feature of python-markdown. 
+    """
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"
     assert repr(text) == (
@@ -156,10 +178,16 @@ def test_inline_strikethrough():
         "code=False"
         ")"
     )
-    # Strikethrough not supported in python-markdown
 
 
 def test_inline_code():
+    """
+    Verifies that the Inline code parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("x = 7", code=True)
     assert str(text) == "`x = 7`"
     assert repr(text) == (

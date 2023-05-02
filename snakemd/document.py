@@ -2,6 +2,7 @@
 The document module houses the Document class, a tool for
 generating markdown documents.
 """
+from __future__ import annotations
 
 import logging
 import os

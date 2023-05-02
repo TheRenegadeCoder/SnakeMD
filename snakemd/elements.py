@@ -156,7 +156,7 @@ class Inline(Element):
         """
         Renders self as an unambiguous string for development.
         In this case, it displays in the style of a dataclass,
-        where are instance variables are listed with their
+        where instance variables are listed with their
         values.
 
         :return:
@@ -454,7 +454,17 @@ class Code(Block):
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
 
     def __repr__(self) -> str:
-        return "Code(" f"code={self._code!r}, " f"lang={self._lang!r}" ")"
+        
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        :return:
+            the Code object as a development string
+        """
+        return f"Code(code={self._code!r}, lang={self._lang!r})"
 
     @staticmethod
     def _process_backticks(code: str | Code) -> int:

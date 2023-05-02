@@ -42,3 +42,4 @@ Document objects are automatically created from the
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __str__, __repr__

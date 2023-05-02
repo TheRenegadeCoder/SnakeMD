@@ -75,16 +75,16 @@ class Document:
         where instance variables are listed with their
         values.
 
-        .. doctest:: mdlist
+        .. doctest:: document
 
-            >>> mdlist = MDList(["Plus", "Ultra"])
-            >>> repr(mdlist)
-            "MDList(items=[Paragraph(...), Paragraph(...)],...)"
+            >>> doc = snakemd.new_doc()
+            >>> repr(doc)
+            'Document(blocks=[])'
 
         :return:
             the MDList object as a development string
         """
-        return f"Document({self._blocks!r})"
+        return f"Document(blocks={self._blocks!r})"
     
     def get_blocks(self) -> list[Block]:
         """

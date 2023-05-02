@@ -921,6 +921,26 @@ class Paragraph(Block):
         return " ".join(paragraph.split())
 
     def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+        
+        Like Heading, the actual format of the development
+        string may be more complex than expected. Specifically,
+        all of the contents are automatically converted to
+        a list of Inline objects.
+
+        .. doctest:: paragraph
+
+            >>> paragraph = Paragraph("Howdy!")
+            >>> repr(paragraph)
+            "Paragraph(content=[Inline('Howdy!',...)])"
+
+        :return:
+            the Paragraph object as a development string
+        """
         return f"Paragraph(content={self._content})"
 
     def add(self, text: str | Inline) -> Paragraph:

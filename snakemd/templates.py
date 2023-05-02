@@ -1,3 +1,8 @@
+"""
+The template module houses the Template class
+and all of it's children.
+"""
+
 from __future__ import annotations
 
 import logging
@@ -14,9 +19,8 @@ class Template(Element):
     a superclass for a variety of abstractions over the typical markdown features.
     For example, Markdown has no feature for tables of contents, but a template
     could be created to generate one automatically for the user. In other words,
-    templates are meant to be conviences objects for our users. 
+    templates are meant to be conviences objects for our users.
     """
-    pass
 
 
 class TableOfContents(Template):
@@ -26,9 +30,9 @@ class TableOfContents(Template):
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
 
-    :param Document doc: 
+    :param Document doc:
         a reference to the document containing this table of contents
-    :param list[int] levels: 
+    :param list[int] levels:
         a range of integers representing the sequence of heading levels
         to include in the table of contents; defaults to range(2, 3)
     """
@@ -37,15 +41,13 @@ class TableOfContents(Template):
         super().__init__()
         self._contents = doc._contents  # DO NOT MODIFY
         self._levels = levels
-        logger.debug(
-            f"New table of contents initialized with levels in {range}"
-        )
+        logger.debug("New table of contents initialized with levels in %s", levels)
 
     def __str__(self) -> str:
         """
         Renders the table of contents using the Document reference.
 
-        :return: 
+        :return:
             the table of contents as a markdown string
         """
         headings = self._get_headings()
@@ -56,7 +58,7 @@ class TableOfContents(Template):
         """
         Retrieves the list of headings from the current document.
 
-        :return: 
+        :return:
             a list heading objects
         """
         return [
@@ -65,11 +67,13 @@ class TableOfContents(Template):
             if isinstance(heading, Heading) and heading._level in self._levels
         ]
 
-    def _assemble_table_of_contents(self, headings: list[Heading], position: int) -> tuple(MDList, int):
+    def _assemble_table_of_contents(
+        self, headings: list[Heading], position: int
+    ) -> tuple(MDList, int):
         """
         Assembles the table of contents from the headings in the document.
 
-        :return: 
+        :return:
             a list of strings representing the table of contents
         """
         if not headings:
@@ -77,12 +81,12 @@ class TableOfContents(Template):
 
         i = position
         level = headings[i]._level
-        table_of_contents = list()
+        table_of_contents = []
         while i < len(headings) and headings[i]._level >= level:
             if headings[i]._level == level:
                 line = Inline(
                     headings[i].get_text(),
-                    link=f"#{'-'.join(headings[i].get_text().lower().split())}"
+                    link=f"#{'-'.join(headings[i].get_text().lower().split())}",
                 )
                 table_of_contents.append(line)
                 i += 1

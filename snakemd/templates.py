@@ -6,12 +6,11 @@ and all of it's children.
 from __future__ import annotations
 
 import logging
-from abc import ABC, abstractmethod
 
 
 from .elements import Element, Heading, Inline, MDList, Block
 
-logger = logging.getLogger(__name__)    
+logger = logging.getLogger(__name__)
 
 
 class Template(Element):
@@ -22,28 +21,28 @@ class Template(Element):
     For example, Markdown has no feature for tables of contents, but a template
     could be created to generate one automatically for the user. In other words,
     templates are meant to be convience objects for our users.
-    
+
     One cool feature of templates is that they are lazy loaded. Unlike traditional
-    elements, this means templates aren't fully loaded until they are about to 
-    be rendered. The benefit is that we can place templates in our documents as 
-    placeholders without much configuration. Then, right before the document is 
+    elements, this means templates aren't fully loaded until they are about to
+    be rendered. The benefit is that we can place templates in our documents as
+    placeholders without much configuration. Then, right before the document is
     rendered, the template will be injected with a reference to the contents
     of the document. As a result, templates are able to take advantage of the
-    final contents of the document, such as being able to generate a word count 
-    from the words in the document or generate a table of contents from the 
+    final contents of the document, such as being able to generate a word count
+    from the words in the document or generate a table of contents from the
     headings in the document.
-    
+
     Note that the user does not have to worry about lazy loading at all.
     The document will take care of the dependency injection. If, however,
     the user needs to render a template outside the context of a document,
     they must call the load function manually.
     """
-    
+
     def __init__(self) -> None:
-        self._blocks: list[Block] = None
-        
-    def load(self, blocks: list[Block]) -> None:
-        self._blocks = blocks        
+        self._elements: list[Element] = None
+
+    def load(self, elements: list[Element]) -> None:
+        self._elements = elements
 
 
 class TableOfContents(Template):
@@ -78,7 +77,7 @@ class TableOfContents(Template):
         return str(table_of_contents)
 
     def __repr__(self) -> str:
-        return f"TableOfContents(levels={self._levels!r})"        
+        return f"TableOfContents(levels={self._levels!r})"
 
     def _get_headings(self) -> list[Heading]:
         """
@@ -89,7 +88,7 @@ class TableOfContents(Template):
         """
         return [
             heading
-            for heading in self._blocks
+            for heading in self._elements
             if isinstance(heading, Heading) and heading._level in self._levels
         ]
 

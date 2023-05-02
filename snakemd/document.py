@@ -12,6 +12,7 @@ from typing import Iterable
 from .elements import (
     Block,
     Code,
+    Element,
     Heading,
     HorizontalRule,
     Inline,
@@ -46,15 +47,15 @@ class Document:
         import os
         os.remove("README.md")
 
-    :param blocks:
+    :param elements:
         an optional list of blocks that make up a markdown document
 
         .. versionadded:: 2.2
             Included to make __repr__ more useful
     """
 
-    def __init__(self, blocks: list[Block] = None) -> None:
-        self._blocks: list[Block] = blocks or []
+    def __init__(self, elements: list[Element] = None) -> None:
+        self._elements: list[Element] = elements or []
         logger.info("Created new document: %r", self)
 
     def __str__(self):
@@ -65,11 +66,11 @@ class Document:
             the document as a markdown string
         """
         # load templates
-        for block in self._blocks:
+        for block in self._elements:
             if isinstance(block, Template):
-                block.load(self._blocks)
-        # render blocks
-        document = "\n\n".join(str(block) for block in self._blocks)
+                block.load(self._elements)
+        # render all
+        document = "\n\n".join(str(block) for block in self._elements)
         logger.info("Rendered document: %r", document)
         return document
 
@@ -89,7 +90,7 @@ class Document:
         :return:
             the MDList object as a development string
         """
-        return f"Document(blocks={self._blocks!r})"
+        return f"Document(blocks={self._elements!r})"
 
     def get_blocks(self) -> list[Block]:
         """
@@ -110,7 +111,7 @@ class Document:
         :return:
             the list of block comprising this document
         """
-        return self._blocks
+        return self._elements
 
     def add_block(self, block: Block) -> Block:
         """
@@ -131,7 +132,7 @@ class Document:
         :return:
             the :class:`Block` added to this Document
         """
-        self._blocks.append(block)
+        self._elements.append(block)
         logger.info("Added custom block to document: %r", block)
         return block
 
@@ -155,7 +156,7 @@ class Document:
             the :class:`Raw` block added to this Document
         """
         raw = Raw(text)
-        self._blocks.append(raw)
+        self._elements.append(raw)
         logger.info("Added raw block to document: %r", text)
         return raw
 
@@ -179,7 +180,7 @@ class Document:
             the :class:`Heading` added to this Document
         """
         heading = Heading(Inline(text), level)
-        self._blocks.append(heading)
+        self._elements.append(heading)
         logger.info("Added heading to document: %r", heading)
         return heading
 
@@ -201,7 +202,7 @@ class Document:
             the :class:`Paragraph` added to this Document
         """
         paragraph = Paragraph([Inline(text)])
-        self._blocks.append(paragraph)
+        self._elements.append(paragraph)
         logger.info("Added paragraph to document: %r", paragraph)
         return paragraph
 
@@ -225,7 +226,7 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_list = MDList(items, ordered=True)
-        self._blocks.append(md_list)
+        self._elements.append(md_list)
         logger.info("Added ordered list to document: %r", md_list)
         return md_list
 
@@ -249,7 +250,7 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_list = MDList(items)
-        self._blocks.append(md_list)
+        self._elements.append(md_list)
         logger.info("Added unordered list to document: %r", md_list)
         return md_list
 
@@ -273,7 +274,7 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_checklist = MDList(items, checked=False)
-        self._blocks.append(md_checklist)
+        self._elements.append(md_checklist)
         logger.info("Added checklist to document: %r", md_checklist)
         return md_checklist
 
@@ -316,7 +317,7 @@ class Document:
         header = [Paragraph([text]) for text in header]
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
-        self._blocks.append(table)
+        self._elements.append(table)
         logger.info("Added table to document: %r", table)
         return table
 
@@ -342,7 +343,7 @@ class Document:
             the :class:`Code` block added to this Document
         """
         code_block = Code(code, lang=lang)
-        self._blocks.append(code_block)
+        self._elements.append(code_block)
         logger.info("Added code block to document: %r", code_block)
         return code_block
 
@@ -364,7 +365,7 @@ class Document:
             the :class:`Quote` added to this Document
         """
         quote = Quote(text)
-        self._blocks.append(quote)
+        self._elements.append(quote)
         logger.info("Added quote to document: %r", quote)
         return quote
 
@@ -384,7 +385,7 @@ class Document:
             the :class:`HorizontalRule` added to this Document
         """
         horizontal_rule = HorizontalRule()
-        self._blocks.append(horizontal_rule)
+        self._elements.append(horizontal_rule)
         logger.info("Added horizontal rule to document: %r", horizontal_rule)
         return horizontal_rule
 
@@ -419,7 +420,7 @@ class Document:
             the :class:`TableOfContents` added to this Document
         """
         toc = TableOfContents(levels=levels)
-        self._blocks.append(toc)
+        self._elements.append(toc)
         logger.info("Added table of contents to document: %r", toc)
         return toc
 
@@ -437,7 +438,7 @@ class Document:
             >>> print(doc)
             ***
         """
-        random.shuffle(self._blocks)
+        random.shuffle(self._elements)
         logger.info("Scrambled document")
 
     def dump(

@@ -83,24 +83,68 @@ def test_inline_link():
 def test_inline_bold():
     text = Inline("Hello, World!", bold=True)
     assert str(text) == "**Hello, World!**"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=True, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert markdown.markdown(str(text)) == "<p><strong>Hello, World!</strong></p>"
 
 
 def test_inline_italics():
     text = Inline("Hello, World!", italics=True)
     assert str(text) == "_Hello, World!_"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=True, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert markdown.markdown(str(text)) == "<p><em>Hello, World!</em></p>"
 
 
 def test_inline_strikethrough():
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=True, "
+        "code=False"
+        ")"
+    )
     # Strikethrough not supported in python-markdown
 
 
 def test_inline_code():
     text = Inline("x = 7", code=True)
     assert str(text) == "`x = 7`"
+    assert repr(text) == (
+        "Inline("
+        "text='x = 7', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=True"
+        ")"
+    )
     assert markdown.markdown(str(text)) == "<p><code>x = 7</code></p>"
 
 

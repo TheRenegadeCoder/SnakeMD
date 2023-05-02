@@ -401,7 +401,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_table_of_contents()
-            TableOfContents(blocks=[...], levels=range(2, 3))
+            TableOfContents(levels=range(2, 3))
             >>> doc.add_heading("First Item", 2)
             Heading(text=[Inline(text='First Item',...)], level=2)
             >>> doc.add_heading("Second Item", 2)

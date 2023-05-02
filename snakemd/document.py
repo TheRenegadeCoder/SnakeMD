@@ -92,10 +92,10 @@ class Document:
         """
         return f"Document(blocks={self._elements!r})"
 
-    def get_blocks(self) -> list[Block]:
+    def get_elements(self) -> list[Element]:
         """
         A getter method which allows the user to retrieve
-        the underlying document structure of blocks
+        the underlying document structure of elements
         as a list. The return value is directly aliased
         to the underlying representation, so any changes
         to this object will change the document.

@@ -8,6 +8,10 @@ from snakemd import Inline
 
 
 def test_inline_empty():
+    """
+    Verifies that an empty string Inline object
+    properly initializes.
+    """
     text = Inline("")
     assert str(text) == ""
     assert repr(text) == (
@@ -25,6 +29,10 @@ def test_inline_empty():
 
 
 def test_inline_text():
+    """
+    Verifies that a small string Inline object
+    properly initializes.
+    """
     text = Inline("Hello, World!")
     assert str(text) == "Hello, World!"
     assert repr(text) == (

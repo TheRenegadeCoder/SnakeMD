@@ -456,7 +456,9 @@ class Code(Block):
             the code block as a markdown string
         """
         ticks = "`" * self._backticks
-        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+        code_block = f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+        logger.debug("Rendered code block: %r", code_block)
+        return code_block
 
     def __repr__(self) -> str:
         """
@@ -537,7 +539,9 @@ class Heading(Block):
             the heading as a markdown string
         """
         heading = [str(item) for item in self._text]
-        return f"{'#' * self._level} {''.join(heading)}"
+        heading = f"{'#' * self._level} {''.join(heading)}"
+        logger.debug("Rendered heading: %r", heading)
+        return heading
 
     def __repr__(self) -> str:
         """

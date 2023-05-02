@@ -58,6 +58,11 @@ def test_code_two_lines():
 
 
 def test_code_nested():
+    """
+    Verifies that a code block is correctly instantiated
+    given an existing code block. Also verifies the 
+    repr representation of the code block.
+    """
     nested_code = Code("print('Hello, World!')", lang="python")
     code = Code(nested_code, lang="markdown")
     assert str(code) == "````markdown\n```python\nprint('Hello, World!')\n```\n````"

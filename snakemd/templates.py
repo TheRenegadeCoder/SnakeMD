@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 
-from .elements import Element, Heading, Inline, MDList
+from .elements import Block, Element, Heading, Inline, MDList
 
 logger = logging.getLogger(__name__)
 
@@ -30,16 +30,19 @@ class TableOfContents(Template):
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
 
-    :param Document doc:
+    :param list[Block] blocks:
         a reference to the document containing this table of contents
+        
+        .. versionchanged:: 2.2
+            Used to take a Document object called doc
+
     :param list[int] levels:
         a range of integers representing the sequence of heading levels
         to include in the table of contents; defaults to range(2, 3)
     """
 
-    def __init__(self, doc: "Document", levels: range = range(2, 3)):
-        super().__init__()
-        self._contents = doc._contents  # DO NOT MODIFY
+    def __init__(self, blocks: list[Block], levels: range = range(2, 3)):
+        self._blocks = blocks  # DO NOT MODIFY
         self._levels = levels
         logger.debug("New table of contents initialized with levels in %s", levels)
 
@@ -55,7 +58,7 @@ class TableOfContents(Template):
         return str(table_of_contents)
     
     def __repr__(self) -> str:
-        raise NotImplementedError()
+        return f"TableOfContents(blocks={self._blocks!r}, levels={self._levels!r})"
 
     def _get_headings(self) -> list[Heading]:
         """
@@ -66,7 +69,7 @@ class TableOfContents(Template):
         """
         return [
             heading
-            for heading in self._contents
+            for heading in self._blocks
             if isinstance(heading, Heading) and heading._level in self._levels
         ]
 

@@ -687,6 +687,10 @@ class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered,
     unordered, and checked.
+    
+    .. testsetup:: mdlist
+    
+        from snakemd import MDList
 
     :raises ValueError:
         when the checked argument is an Iterable[bool] that does not
@@ -796,7 +800,7 @@ class MDList(Block):
 
             >>> mdlist = MDList(["Plus", "Ultra"])
             >>> repr(mdlist)
-            "MDList(content=[Paragraph(...), Paragraph(...)])"
+            "MDList(items=[Paragraph(...), Paragraph(...)],...)"
 
         :return:
             the MDList object as a development string
@@ -914,7 +918,7 @@ class Paragraph(Block):
 
             >>> paragraph = Paragraph("Howdy!")
             >>> repr(paragraph)
-            "Paragraph(content=[Inline('Howdy!',...)])"
+            "Paragraph(content=[Inline(text='Howdy!',...)])"
 
         :return:
             the Paragraph object as a development string
@@ -1042,7 +1046,7 @@ class Paragraph(Block):
 
             >>> paragraph = Paragraph("Go here for docs")
             >>> paragraph.insert_link("here", "https://snakemd.io")
-            <snakemd.elements.Paragraph object at ...>
+            Paragraph(content=[...])
             >>> str(paragraph)
             'Go [here](https://snakemd.io) for docs'
 
@@ -1074,7 +1078,7 @@ class Paragraph(Block):
             >>> new = "https://snakemd.io"
             >>> paragraph = Paragraph("Go here for docs")
             >>> paragraph.insert_link("here", old).replace_link(old, new)
-            <snakemd.elements.Paragraph object at ...>
+            Paragraph(content=[...])
             >>> str(paragraph)
             'Go [here](https://snakemd.io) for docs'
 

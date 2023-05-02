@@ -47,10 +47,16 @@ class Document:
 
         import os
         os.remove("README.md")
+        
+    :param blocks:
+        an optional list of blocks that make up a markdown document
+        
+        .. versionadded:: 2.2
+            Included to make __repr__ more useful
     """
 
-    def __init__(self) -> None:
-        self._contents: list[Block] = []
+    def __init__(self, blocks: list[Block] = None) -> None:
+        self._blocks: list[Block] = blocks or [] 
         logger.debug("New document initialized")
 
     def __str__(self):
@@ -60,7 +66,46 @@ class Document:
         :return:
             the document as a markdown string
         """
-        return "\n\n".join(str(block) for block in self._contents)
+        return "\n\n".join(str(block) for block in self._blocks)
+    
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        .. doctest:: mdlist
+
+            >>> mdlist = MDList(["Plus", "Ultra"])
+            >>> repr(mdlist)
+            "MDList(items=[Paragraph(...), Paragraph(...)],...)"
+
+        :return:
+            the MDList object as a development string
+        """
+        return f"Document({self._blocks!r})"
+    
+    def get_blocks(self) -> list[Block]:
+        """
+        A getter method which allows the user to retrieve
+        the underlying document structure of blocks
+        as a list. The return value is directly aliased
+        to the underlying representation, so any changes
+        to this object will change the document. 
+        
+        The primary use of this method is to share an
+        alias to the underlying document structure to
+        other useful components like TableOfContents
+        without creating circular references. 
+        
+        .. versionadded:: 2.2
+            Included as a part of the TableOfContents rework
+
+        :return: 
+            the list of block comprising this document
+        """
+        return self._blocks
 
     def add_block(self, block: Block) -> Block:
         """
@@ -81,7 +126,7 @@ class Document:
         :return:
             the :class:`Block` added to this Document
         """
-        self._contents.append(block)
+        self._blocks.append(block)
         logger.debug("Added custom block to document: %r", block)
         return block
 
@@ -93,7 +138,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_raw("X: 5\\nY: 4\\nZ: 3")
-            <snakemd.elements.Raw object at ...>
+            Raw(text='X: 5\\nY: 4\\nZ: 3')
             >>> print(doc)
             X: 5
             Y: 4
@@ -105,7 +150,7 @@ class Document:
             the :class:`Raw` block added to this Document
         """
         raw = Raw(text)
-        self._contents.append(raw)
+        self._blocks.append(raw)
         logger.debug("Added raw block to document: %r", text)
         return raw
 
@@ -129,7 +174,7 @@ class Document:
             the :class:`Heading` added to this Document
         """
         heading = Heading(Inline(text), level)
-        self._contents.append(heading)
+        self._blocks.append(heading)
         logger.debug("Added heading to document: %r", heading)
         return heading
 
@@ -151,7 +196,7 @@ class Document:
             the :class:`Paragraph` added to this Document
         """
         paragraph = Paragraph([Inline(text)])
-        self._contents.append(paragraph)
+        self._blocks.append(paragraph)
         logger.debug("Added paragraph to document: %r", paragraph)
         return paragraph
 
@@ -175,7 +220,7 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_list = MDList(items, ordered=True)
-        self._contents.append(md_list)
+        self._blocks.append(md_list)
         logger.debug("Added ordered list to document: %r", md_list)
         return md_list
 
@@ -199,7 +244,7 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_list = MDList(items)
-        self._contents.append(md_list)
+        self._blocks.append(md_list)
         logger.debug("Added unordered list to document: %r", md_list)
         return md_list
 
@@ -223,7 +268,7 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_checklist = MDList(items, checked=False)
-        self._contents.append(md_checklist)
+        self._blocks.append(md_checklist)
         logger.debug("Added checklist to document: %r", md_checklist)
         return md_checklist
 
@@ -266,7 +311,7 @@ class Document:
         header = [Paragraph([text]) for text in header]
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
-        self._contents.append(table)
+        self._blocks.append(table)
         logger.debug("Added table to document: %r", table)
         return table
 
@@ -292,7 +337,7 @@ class Document:
             the :class:`Code` block added to this Document
         """
         code_block = Code(code, lang=lang)
-        self._contents.append(code_block)
+        self._blocks.append(code_block)
         logger.debug("Added code block to document: %r", code_block)
         return code_block
 
@@ -314,7 +359,7 @@ class Document:
             the :class:`Quote` added to this Document
         """
         quote = Quote(text)
-        self._contents.append(quote)
+        self._blocks.append(quote)
         logger.debug("Added quote to document: %r", quote)
         return quote
 
@@ -334,7 +379,7 @@ class Document:
             the :class:`HorizontalRule` added to this Document
         """
         horizontal_rule = HorizontalRule()
-        self._contents.append(horizontal_rule)
+        self._blocks.append(horizontal_rule)
         logger.debug("Added horizontal rule to document: %r", horizontal_rule)
         return horizontal_rule
 
@@ -350,7 +395,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_table_of_contents()
-            <snakemd.templates.TableOfContents object at ...>
+            TableOfContents(blocks=[TableOfContents(blocks=[...], levels=range(2, 3))], levels=range(2, 3))
             >>> doc.add_heading("First Item", 2)
             Heading(text=[Inline(text='First Item',...)], level=2)
             >>> doc.add_heading("Second Item", 2)
@@ -368,8 +413,8 @@ class Document:
         :return:
             the :class:`TableOfContents` added to this Document
         """
-        toc = TableOfContents(self, levels=levels)
-        self._contents.append(toc)
+        toc = TableOfContents(self._blocks, levels=levels)
+        self._blocks.append(toc)
         logger.debug(
             "Added table of contents to document "
             "(unable to render until file is complete)"
@@ -390,7 +435,7 @@ class Document:
             >>> print(doc)
             ***
         """
-        random.shuffle(self._contents)
+        random.shuffle(self._blocks)
         logger.debug("Scrambled document")
 
     def dump(

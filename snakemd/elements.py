@@ -416,6 +416,10 @@ class Code(Block):
     A code block is a standalone block of syntax-highlighted code.
     Code blocks can have generic highlighting or highlighting based
     on their language.
+    
+    .. testsetup:: code
+    
+        from snakemd import Code
 
     :param str | Code code:
         the sourcecode to format as a Markdown code block
@@ -460,6 +464,12 @@ class Code(Block):
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
+        
+        .. doctest:: code
+
+            >>> code = Code('x = 87')
+            >>> repr(code)
+            "Code(code='x = 87', lang='generic')"
 
         :return:
             the Code object as a development string

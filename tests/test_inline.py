@@ -8,20 +8,74 @@ from snakemd import Inline
 
 
 def test_inline_empty():
+    """
+    Verifies that an empty string Inline object
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("")
     assert str(text) == ""
+    assert repr(text) == (
+        "Inline("
+        "text='', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert markdown.markdown(str(text)) == ""
 
 
 def test_inline_text():
+    """
+    Verifies that a small string Inline object
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Hello, World!")
     assert str(text) == "Hello, World!"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )    
     assert markdown.markdown(str(text)) == "<p>Hello, World!</p>"
 
 
 def test_inline_image():
+    """
+    Verifies that the Inline image parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Here", image="https://snakemd.io")
     assert str(text) == "![Here](https://snakemd.io)"
+    assert repr(text) == (
+        "Inline("
+        "text='Here', "
+        "image='https://snakemd.io', "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert (
         markdown.markdown(str(text))
         == '<p><img alt="Here" src="https://snakemd.io" /></p>'
@@ -29,34 +83,124 @@ def test_inline_image():
 
 
 def test_inline_link():
+    """
+    Verifies that the Inline link parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Here", link="https://snakemd.io")
     assert str(text) == "[Here](https://snakemd.io)"
+    assert repr(text) == (
+        "Inline("
+        "text='Here', "
+        "image=None, "
+        "link='https://snakemd.io', "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert (
         markdown.markdown(str(text)) == '<p><a href="https://snakemd.io">Here</a></p>'
     )
 
 
 def test_inline_bold():
+    """
+    Verifies that the Inline bold parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Hello, World!", bold=True)
     assert str(text) == "**Hello, World!**"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=True, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert markdown.markdown(str(text)) == "<p><strong>Hello, World!</strong></p>"
 
 
 def test_inline_italics():
+    """
+    Verifies that the Inline italics parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Hello, World!", italics=True)
     assert str(text) == "_Hello, World!_"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=True, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert markdown.markdown(str(text)) == "<p><em>Hello, World!</em></p>"
 
 
 def test_inline_strikethrough():
+    """
+    Verifies that the Inline strikethrough parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted. Does
+    NOT verify that the markdown itself is
+    properly rendered as strikethrough is not
+    a feature of python-markdown. 
+    """
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"
-    # Strikethrough not supported in python-markdown
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=True, "
+        "code=False"
+        ")"
+    )
 
 
 def test_inline_code():
+    """
+    Verifies that the Inline code parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("x = 7", code=True)
     assert str(text) == "`x = 7`"
+    assert repr(text) == (
+        "Inline("
+        "text='x = 7', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=True"
+        ")"
+    )
     assert markdown.markdown(str(text)) == "<p><code>x = 7</code></p>"
 
 

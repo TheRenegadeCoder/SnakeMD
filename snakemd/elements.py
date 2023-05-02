@@ -416,9 +416,9 @@ class Code(Block):
     A code block is a standalone block of syntax-highlighted code.
     Code blocks can have generic highlighting or highlighting based
     on their language.
-    
+
     .. testsetup:: code
-    
+
         from snakemd import Code
 
     :param str | Code code:
@@ -464,7 +464,7 @@ class Code(Block):
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
-        
+
         .. doctest:: code
 
             >>> code = Code('x = 87')
@@ -640,7 +640,7 @@ class HorizontalRule(Block):
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules only come in one form,
     so there are no settings to adjust.
-    
+
     .. testsetup:: horizontalrule
 
         from snakemd import HorizontalRule
@@ -657,15 +657,14 @@ class HorizontalRule(Block):
             the horizontal rule as a markdown string
         """
         return "***"
-    
-    
+
     def __repr__(self) -> str:
         """
         Renders self as an unambiguous string for development.
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
-        
+
         .. doctest:: horizontalrule
 
             >>> horizontal_rule = HorizontalRule()

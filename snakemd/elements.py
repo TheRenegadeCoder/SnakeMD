@@ -37,10 +37,10 @@ class Element(ABC):
         objects. As described by Digital Ocean, this method should
         return a string that can be used to recreate the object.
         This will not be true for every possible element as
-        there are internal structures and dependencies, but
-        it should be more informative than the default
-        __repr__ method. Ultimately, this method must be 
-        implemented by all inheriting classes.
+        there are internal structures as a result of 
+        post-processing, but it should be more informative 
+        than the default __repr__ method. Ultimately, this 
+        method must be implemented by all inheriting classes.
 
         :return: an unambiguous representation of the element
         """

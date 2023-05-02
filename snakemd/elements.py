@@ -941,7 +941,7 @@ class Paragraph(Block):
         :return:
             the Paragraph object as a development string
         """
-        return f"Paragraph(content={self._content})"
+        return f"Paragraph(content={self._content!r})"
 
     def add(self, text: str | Inline) -> Paragraph:
         """
@@ -1179,6 +1179,9 @@ class Quote(Block):
                 split = f"\n{quote_markers}".join(str(line).splitlines())
                 formatted_lines.append(f"{quote_markers}{split}")
         return "\n".join(formatted_lines)
+    
+    def __repr__(self) -> str:
+        return f"Quote(content={self._lines!r})"
 
 
 class Raw(Block):
@@ -1203,6 +1206,9 @@ class Raw(Block):
         :return: the raw block as a markdown string
         """
         return self._text
+    
+    def __repr__(self) -> str:
+        return f"Raw(text={self._text!r})"
 
 
 class Table(Block):
@@ -1292,6 +1298,16 @@ class Table(Block):
             rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
         rows.extend((f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
         return "\n".join(rows)
+    
+    def __repr__(self) -> str:
+        return (
+            f"Table("
+            f"header={self._header!r}, "
+            f"body={self._body!r}, "
+            f"align={self._align!r}, "
+            f"indent={self._indent}"
+            f")"
+        )
 
     class Align(Enum):
         """

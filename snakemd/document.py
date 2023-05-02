@@ -57,7 +57,7 @@ class Document:
 
     def __init__(self, blocks: list[Block] = None) -> None:
         self._blocks: list[Block] = blocks or [] 
-        logger.debug("New document initialized")
+        logger.info("Created new document: %r", self)
 
     def __str__(self):
         """
@@ -66,7 +66,9 @@ class Document:
         :return:
             the document as a markdown string
         """
-        return "\n\n".join(str(block) for block in self._blocks)
+        document = "\n\n".join(str(block) for block in self._blocks)
+        logger.info("Rendered document: %r", document)
+        return document
     
     def __repr__(self) -> str:
         """
@@ -127,7 +129,7 @@ class Document:
             the :class:`Block` added to this Document
         """
         self._blocks.append(block)
-        logger.debug("Added custom block to document: %r", block)
+        logger.info("Added custom block to document: %r", block)
         return block
 
     def add_raw(self, text: str) -> Raw:
@@ -151,7 +153,7 @@ class Document:
         """
         raw = Raw(text)
         self._blocks.append(raw)
-        logger.debug("Added raw block to document: %r", text)
+        logger.info("Added raw block to document: %r", text)
         return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
@@ -175,7 +177,7 @@ class Document:
         """
         heading = Heading(Inline(text), level)
         self._blocks.append(heading)
-        logger.debug("Added heading to document: %r", heading)
+        logger.info("Added heading to document: %r", heading)
         return heading
 
     def add_paragraph(self, text: str) -> Paragraph:
@@ -197,7 +199,7 @@ class Document:
         """
         paragraph = Paragraph([Inline(text)])
         self._blocks.append(paragraph)
-        logger.debug("Added paragraph to document: %r", paragraph)
+        logger.info("Added paragraph to document: %r", paragraph)
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
@@ -221,7 +223,7 @@ class Document:
         """
         md_list = MDList(items, ordered=True)
         self._blocks.append(md_list)
-        logger.debug("Added ordered list to document: %r", md_list)
+        logger.info("Added ordered list to document: %r", md_list)
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -245,7 +247,7 @@ class Document:
         """
         md_list = MDList(items)
         self._blocks.append(md_list)
-        logger.debug("Added unordered list to document: %r", md_list)
+        logger.info("Added unordered list to document: %r", md_list)
         return md_list
 
     def add_checklist(self, items: Iterable[str]) -> MDList:
@@ -269,7 +271,7 @@ class Document:
         """
         md_checklist = MDList(items, checked=False)
         self._blocks.append(md_checklist)
-        logger.debug("Added checklist to document: %r", md_checklist)
+        logger.info("Added checklist to document: %r", md_checklist)
         return md_checklist
 
     def add_table(
@@ -312,7 +314,7 @@ class Document:
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
         self._blocks.append(table)
-        logger.debug("Added table to document: %r", table)
+        logger.info("Added table to document: %r", table)
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Code:
@@ -338,7 +340,7 @@ class Document:
         """
         code_block = Code(code, lang=lang)
         self._blocks.append(code_block)
-        logger.debug("Added code block to document: %r", code_block)
+        logger.info("Added code block to document: %r", code_block)
         return code_block
 
     def add_quote(self, text: str) -> Quote:
@@ -360,7 +362,7 @@ class Document:
         """
         quote = Quote(text)
         self._blocks.append(quote)
-        logger.debug("Added quote to document: %r", quote)
+        logger.info("Added quote to document: %r", quote)
         return quote
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -380,7 +382,7 @@ class Document:
         """
         horizontal_rule = HorizontalRule()
         self._blocks.append(horizontal_rule)
-        logger.debug("Added horizontal rule to document: %r", horizontal_rule)
+        logger.info("Added horizontal rule to document: %r", horizontal_rule)
         return horizontal_rule
 
     def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
@@ -415,10 +417,7 @@ class Document:
         """
         toc = TableOfContents(self._blocks, levels=levels)
         self._blocks.append(toc)
-        logger.debug(
-            "Added table of contents to document "
-            "(unable to render until file is complete)"
-        )
+        logger.info("Added table of contents to document: %r", toc)
         return toc
 
     def scramble(self) -> None:
@@ -436,7 +435,7 @@ class Document:
             ***
         """
         random.shuffle(self._blocks)
-        logger.debug("Scrambled document")
+        logger.info("Scrambled document")
 
     def dump(
         self,
@@ -473,4 +472,4 @@ class Document:
             os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding
         ) as output_file:
             output_file.write(str(self))
-        logger.debug("Dumped document to %s with filename %s.%s", dir, name, ext)
+        logger.info("Dumped document to %s with filename %s.%s", dir, name, ext)

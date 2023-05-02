@@ -522,6 +522,7 @@ class Heading(Block):
             raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
         self._text: list[Inline] = self._process_text(text)
         self._level: int = level
+        logger.debug("Created new heading: %r", self)
 
     def __str__(self) -> str:
         """
@@ -576,13 +577,15 @@ class Heading(Block):
             an object to be forced to Inline
         :return:
             the input text as an Inline
-        """
-        logger.debug("Processing heading text: %r", text)
+        """        
         if isinstance(text, str):
-            return [Inline(text)]
-        if isinstance(text, Inline):
-            return [text]
-        return [item if isinstance(item, Inline) else Inline(item) for item in text]
+            processed =  [Inline(text)]
+        elif isinstance(text, Inline):
+            processed = [text]
+        else:
+            processed = [item if isinstance(item, Inline) else Inline(item) for item in text]
+        logger.debug("Processed heading text: %r", processed)
+        return processed
 
     def promote(self) -> Heading:
         """
@@ -935,7 +938,7 @@ class Paragraph(Block):
         :return:
             the processed iterable as a list of Inline items
         """
-        logger.debug("Processing paragraph content: %r", content)
+        
         if isinstance(content, str):
             processed = [Inline(content)]
         else:
@@ -945,6 +948,7 @@ class Paragraph(Block):
                     processed.append(Inline(item))
                 else:
                     processed.append(item)
+        logger.debug("Processed paragraph content: %r", processed)
         return processed
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
@@ -1175,7 +1179,6 @@ class Quote(Block):
         :return:
             a list of Blocks
         """
-        logger.debug("Processing quote lines: %r", lines)
         if isinstance(lines, str):
             processed_lines = [Raw(lines)]
         else:
@@ -1185,6 +1188,7 @@ class Quote(Block):
                     processed_lines.append(Raw(line))
                 else:
                     processed_lines.append(line)
+        logger.debug("Processed quote lines: %r", processed_lines)
         return processed_lines
 
 

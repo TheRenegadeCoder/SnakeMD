@@ -160,4 +160,4 @@ Inline
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__

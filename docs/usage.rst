@@ -52,7 +52,7 @@ we'll add a title to the document:
 .. doctest:: usage
 
     >>> doc.add_heading("Why Use SnakeMD?")
-    <snakemd.elements.Heading object at ...>
+    Heading(text=[Inline(text='Why Use SnakeMD?',...)], level=1)
 
 From here, we can do pretty much anything we'd like. Some
 quick actions might be to include a paragraph about this

@@ -896,13 +896,9 @@ class Paragraph(Block):
         """
         paragraph = "".join(str(item) for item in self._content)
         return " ".join(paragraph.split())
-    
+
     def __repr__(self) -> str:
-        return (
-            f"Paragraph("
-            f"content={self._content}"
-            f")"
-        )
+        return f"Paragraph(content={self._content})"
 
     def add(self, text: str | Inline) -> Paragraph:
         """

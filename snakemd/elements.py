@@ -18,7 +18,9 @@ class Element(ABC):
     A generic element interface which provides a framework for all
     types of elements in the collection. In short, elements must
     be able to be converted to their markdown representation using
-    the built-in :py:class:`str` constructor.
+    the built-in :py:class:`str` constructor. They must also be
+    able to be converted into development strings using the
+    :py:func:`repr` function.
     """
 
     @abstractmethod

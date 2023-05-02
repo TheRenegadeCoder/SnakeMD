@@ -546,7 +546,7 @@ class Heading(Block):
 
             >>> heading = Heading("", 1)
             >>> repr(heading)
-            Heading(text=[Inline(text='',...)], level=1)
+            "Heading(text=[Inline(text='',...)], level=1)"
 
         :return:
             the Code object as a development string
@@ -660,7 +660,7 @@ class HorizontalRule(Block):
 
             >>> horizontal_rule = HorizontalRule()
             >>> repr(horizontal_rule)
-            HorizontalRule()
+            'HorizontalRule()'
 
         :return:
             the HorizontalRule object as a development string

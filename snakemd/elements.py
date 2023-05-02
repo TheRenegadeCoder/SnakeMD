@@ -27,7 +27,18 @@ class Element(ABC):
         The default string method to be implemented by all inheriting
         classes.
 
-        :return: a string representation of the element
+        :return: a markdown ready representation of the element
+        """
+
+        # @abstractmethod
+        # def __repr__(self) -> str:
+        """
+        The developer's string method to help make sense of
+        objects. As described by Digital Ocean, this method should
+        return a string that can be used to recreate the object.
+        Must be implemented by all inheriting classes.
+
+        :return: an unambiguous representation of the element
         """
 
 
@@ -108,7 +119,7 @@ class Inline(Element):
 
     def __str__(self) -> str:
         """
-        Renders self as a string. In this case,
+        Renders self as a markdown ready string. In this case,
         inline can represent many different types of data from
         stylized text to code, links, and images.
 
@@ -119,7 +130,7 @@ class Inline(Element):
             '_**This is formatted text**_'
 
         :return:
-            the Inline object as a string
+            the Inline object as a markdown string
         """
         text = self._text
         if self._image:
@@ -136,6 +147,30 @@ class Inline(Element):
             text = f"`{text}`"
         logger.debug("Rendered inline text: %s", text)
         return text
+
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where are instance variables are listed with their
+        values.
+
+        :return:
+            the Inline object as a development string
+        """
+        image = self._image if not self._image else f"'{self._image}'"
+        link = self._link if not self._link else f"'{self._link}'"
+        return (
+            f"Inline("
+            f"text='{self._text}', "
+            f"image={image}, "
+            f"link={link}, "
+            f"bold={self._bold}, "
+            f"italics={self._italics}, "
+            f"strikethrough={self._strikethrough}, "
+            f"code={self._code}"
+            ")"
+        )
 
     def is_text(self) -> bool:
         """
@@ -175,8 +210,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is bold text").bold()
-            >>> str(inline)
-            '**This is bold text**'
+            >>> print(inline)
+            **This is bold text**
 
         :return:
             self
@@ -191,8 +226,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is normal text", bold=True).unbold()
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -207,8 +242,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is italicized text").italicize()
-            >>> str(inline)
-            '_This is italicized text_'
+            >>> print(inline)
+            _This is italicized text_
 
         :return:
             self
@@ -223,8 +258,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is normal text", italics=True).unitalicize()
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -239,8 +274,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is striked text").strikethrough()
-            >>> str(inline)
-            '~~This is striked text~~'
+            >>> print(inline)
+            ~~This is striked text~~
 
         :return:
             self
@@ -256,7 +291,7 @@ class Inline(Element):
 
             >>> inline = Inline("This is normal text", strikethrough=True)
             >>> inline.unstrikethrough()
-            <snakemd.elements.Inline object at ...>
+            Inline(text='This is normal text',... strikethrough=False,...)
             >>> print(inline)
             This is normal text
 
@@ -273,8 +308,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("x = 5").code()
-            >>> str(inline)
-            '`x = 5`'
+            >>> print(inline)
+            `x = 5`
 
         :return:
             self
@@ -289,8 +324,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is normal text", code=True).uncode()
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -305,8 +340,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("here").link("https://snakemd.io")
-            >>> str(inline)
-            '[here](https://snakemd.io)'
+            >>> print(inline)
+            [here](https://snakemd.io)
 
         :param str link:
             the URL or path to apply to this Inline element
@@ -324,9 +359,9 @@ class Inline(Element):
 
             >>> inline = Inline("This is normal text", link="https://snakemd.io")
             >>> inline.unlink()
-            <snakemd.elements.Inline object at ...>
-            >>> str(inline)
-            'This is normal text'
+            Inline(text='This is normal text',... link=None,...)
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -347,9 +382,9 @@ class Inline(Element):
             ... bold=True
             ... )
             >>> inline.reset()
-            <snakemd.elements.Inline object at ...>
-            >>> str(inline)
-            'This is normal text'
+            Inline(text='This is normal text',...)
+            >>> print(inline)
+            This is normal text
 
         :return:
             self

@@ -1,6 +1,9 @@
 from snakemd import Code
 
 
+# Constructor tests
+
+
 def test_code_empty():
     """
     Verifies that code block is correctly instantiated
@@ -67,3 +70,12 @@ def test_code_nested():
     code = Code(nested_code, lang="markdown")
     assert str(code) == "````markdown\n```python\nprint('Hello, World!')\n```\n````"
     assert repr(code) == r"""Code(code=Code(code="print('Hello, World!')", lang='python'), lang='markdown')"""
+    
+    
+# Method tests
+
+
+def test_repr_can_create_object():
+    code = Code("")
+    obj = eval(repr(code))
+    assert isinstance(obj, Code) 

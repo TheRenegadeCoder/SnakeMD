@@ -105,12 +105,13 @@ def _section(doc: Document, title: str, desc: str, func: Callable, level: int = 
     doc.add_block(Paragraph([Inline("Rendered Result", italics=True)]))
     func(doc)
     doc.add_block(Paragraph([Inline("Markdown Source", italics=True)]))
-    block: Block = doc._elements[-2]
+    elements = doc.get_elements()
+    block: Block = elements[-2]
     doc.add_block(
         Code(block if isinstance(block, Code) else str(block), lang="markdown")
     )
-    doc._elements.insert(-3, doc._elements.pop())
-    doc._elements.insert(-3, doc._elements.pop())
+    elements.insert(-3, elements.pop())
+    elements.insert(-3, elements.pop())
 
 
 def main() -> None:

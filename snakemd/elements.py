@@ -206,8 +206,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is bold text").bold()
-            >>> str(inline)
-            '**This is bold text**'
+            >>> print(inline)
+            **This is bold text**
 
         :return:
             self
@@ -222,8 +222,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is normal text", bold=True).unbold()
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -238,8 +238,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is italicized text").italicize()
-            >>> str(inline)
-            '_This is italicized text_'
+            >>> print(inline)
+            _This is italicized text_
 
         :return:
             self
@@ -254,8 +254,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is normal text", italics=True).unitalicize()
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -270,8 +270,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is striked text").strikethrough()
-            >>> str(inline)
-            '~~This is striked text~~'
+            >>> print(inline)
+            ~~This is striked text~~
 
         :return:
             self
@@ -304,8 +304,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("x = 5").code()
-            >>> str(inline)
-            '`x = 5`'
+            >>> print(inline)
+            `x = 5`
 
         :return:
             self
@@ -320,8 +320,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("This is normal text", code=True).uncode()
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -336,8 +336,8 @@ class Inline(Element):
         .. doctest:: inline
 
             >>> inline = Inline("here").link("https://snakemd.io")
-            >>> str(inline)
-            '[here](https://snakemd.io)'
+            >>> print(inline)
+            [here](https://snakemd.io)
 
         :param str link:
             the URL or path to apply to this Inline element
@@ -356,8 +356,8 @@ class Inline(Element):
             >>> inline = Inline("This is normal text", link="https://snakemd.io")
             >>> inline.unlink()
             <snakemd.elements.Inline object at ...>
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self
@@ -379,8 +379,8 @@ class Inline(Element):
             ... )
             >>> inline.reset()
             <snakemd.elements.Inline object at ...>
-            >>> str(inline)
-            'This is normal text'
+            >>> print(inline)
+            This is normal text
 
         :return:
             self

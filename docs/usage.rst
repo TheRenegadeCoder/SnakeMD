@@ -71,7 +71,7 @@ library as well as a list of reasons why we might use it:
     ...     "SnakeMD makes it easy to create markdown files.",
     ...     "SnakeMD has been used to automate documentation for The Renegade Coder projects."
     ... ])
-    <snakemd.elements.MDList object at ...>
+    MDList(items=[...], ordered=False, checked=None)
 
 One thing that's really cool about using SnakeMD is that we can
 build out the structure of a document before we modify it to
@@ -85,7 +85,7 @@ how we might insert a link to the docs:
 .. doctest:: usage
 
     >>> p.insert_link("SnakeMD", "https://snakemd.therenegadecoder.com")
-    <snakemd.elements.Paragraph object at ...>
+    Paragraph(content=[...])
 
 And if all goes well, we can output the results by outputting the
 document like before. Or, if we just need to see the results as

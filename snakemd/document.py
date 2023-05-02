@@ -163,7 +163,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
-            <snakemd.elements.MDList object at ...>
+            MDList(items=[Paragraph(content=[...], ordered=True, checked=None)
             >>> print(doc)
             1. Goku
             2. Piccolo

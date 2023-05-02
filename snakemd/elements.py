@@ -869,7 +869,7 @@ class Paragraph(Block):
         :return:
             the processed iterable as a list of Inline items
         """
-        logger.debug("Processing paragraph content:%s", content)
+        logger.debug("Processing paragraph content: %r", content)
         if isinstance(content, str):
             processed = [Inline(content)]
         else:
@@ -1196,7 +1196,7 @@ class Table(Block):
         align: None | Iterable[Align] = None,
         indent: int = 0,
     ) -> None:
-        logger.debug("Initializing table\n(%s, %s, %s)", header, body, align)
+        logger.debug("Initializing table: (%r, %r, %r)", header, body, align)
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
         self._header, self._body = self._process_table(header, body)
@@ -1291,7 +1291,7 @@ class Table(Block):
                 processed_header.append(Paragraph([item]))
             else:
                 processed_header.append(item)
-        logger.debug("Processed header input\n%s", processed_header)
+        logger.debug("Processed header input: %r", processed_header)
 
         # Process body
         for row in body:
@@ -1302,7 +1302,7 @@ class Table(Block):
                 else:
                     processed_row.append(item)
             processed_body.append(processed_row)
-        logger.debug("Processed table body\n%s", processed_body)
+        logger.debug("Processed table body: %r", processed_body)
 
         return processed_header, processed_body
 

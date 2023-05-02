@@ -23,7 +23,8 @@ def test_md_list_one_inline():
     assert str(md_list) == "- Deku"
     assert repr(md_list) == (
         r"MDList("
-        r"items=[Paragraph(content=[Inline("
+        r"items=[Paragraph(content=["
+            r"Inline("
             r"text='Deku', "
             r"image=None, "
             r"link=None, "
@@ -31,7 +32,8 @@ def test_md_list_one_inline():
             r"italics=False, "
             r"strikethrough=False, "
             r"code=False"
-        r")])], "
+            r")"
+        r"])], "
         r"ordered=False, "
         r"checked=None"
         r")"
@@ -41,16 +43,91 @@ def test_md_list_one_inline():
 def test_md_list_one_str():
     md_list = MDList(["Deku"])
     assert str(md_list) == "- Deku"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[Paragraph(content=["
+            r"Inline("
+            r"text='Deku', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+            r")"
+        r"])], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_one_paragraph():
     md_list = MDList([Paragraph(["Deku"])])
     assert str(md_list) == "- Deku"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[Paragraph(content=["
+            r"Inline("
+            r"text='Deku', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+            r")"
+        r"])], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_many():
     md_list = MDList([Inline("Deku"), Inline("Bakugo"), Inline("Uraraka")])
     assert str(md_list) == "- Deku\n- Bakugo\n- Uraraka"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=["
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Deku', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r"), "
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Bakugo', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r"), "
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Uraraka', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r")"
+        r"], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_many_mixed_syntax():

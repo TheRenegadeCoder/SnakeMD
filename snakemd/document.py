@@ -82,7 +82,7 @@ class Document:
             the :class:`Block` added to this Document
         """
         self._contents.append(block)
-        logger.debug("Added custom block to document\n%s", block)
+        logger.debug("Added custom block to document: %r", block)
         return block
 
     def add_raw(self, text: str) -> Raw:
@@ -106,7 +106,7 @@ class Document:
         """
         raw = Raw(text)
         self._contents.append(raw)
-        logger.debug("Added raw block to document\n%s", text)
+        logger.debug("Added raw block to document: %r", text)
         return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
@@ -130,7 +130,7 @@ class Document:
         """
         heading = Heading(Inline(text), level)
         self._contents.append(heading)
-        logger.debug("Added heading to document\n%s", heading)
+        logger.debug("Added heading to document: %r", heading)
         return heading
 
     def add_paragraph(self, text: str) -> Paragraph:
@@ -152,7 +152,7 @@ class Document:
         """
         paragraph = Paragraph([Inline(text)])
         self._contents.append(paragraph)
-        logger.debug("Added paragraph to document\n%s", paragraph)
+        logger.debug("Added paragraph to document: %r", paragraph)
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
@@ -176,7 +176,7 @@ class Document:
         """
         md_list = MDList(items, ordered=True)
         self._contents.append(md_list)
-        logger.debug("Added ordered list to document\n%s", md_list)
+        logger.debug("Added ordered list to document: %r", md_list)
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -200,7 +200,7 @@ class Document:
         """
         md_list = MDList(items)
         self._contents.append(md_list)
-        logger.debug("Added unordered list to document\n%s", md_list)
+        logger.debug("Added unordered list to document: %r", md_list)
         return md_list
 
     def add_checklist(self, items: Iterable[str]) -> MDList:
@@ -224,7 +224,7 @@ class Document:
         """
         md_checklist = MDList(items, checked=False)
         self._contents.append(md_checklist)
-        logger.debug("Added checklist to document\n%s", md_checklist)
+        logger.debug("Added checklist to document: %r", md_checklist)
         return md_checklist
 
     def add_table(
@@ -267,7 +267,7 @@ class Document:
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
         self._contents.append(table)
-        logger.debug("Added table to document\n%s", table)
+        logger.debug("Added table to document: %r", table)
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Code:
@@ -293,7 +293,7 @@ class Document:
         """
         code_block = Code(code, lang=lang)
         self._contents.append(code_block)
-        logger.debug("Added code block to document\n%s", code_block)
+        logger.debug("Added code block to document: %r", code_block)
         return code_block
 
     def add_quote(self, text: str) -> Quote:
@@ -315,7 +315,7 @@ class Document:
         """
         quote = Quote(text)
         self._contents.append(quote)
-        logger.debug("Added quote to document\n%s", quote)
+        logger.debug("Added quote to document: %r", quote)
         return quote
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -335,7 +335,7 @@ class Document:
         """
         horizontal_rule = HorizontalRule()
         self._contents.append(horizontal_rule)
-        logger.debug("Added horizontal rule to document\n%s", horizontal_rule)
+        logger.debug("Added horizontal rule to document: %r", horizontal_rule)
         return horizontal_rule
 
     def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:

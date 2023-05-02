@@ -29,9 +29,9 @@ class Element(ABC):
 
         :return: a markdown ready representation of the element
         """
-        
-    #@abstractmethod
-    #def __repr__(self) -> str:
+
+        # @abstractmethod
+        # def __repr__(self) -> str:
         """
         The developer's string method to help make sense of
         objects. As described by Digital Ocean, this method should
@@ -147,7 +147,7 @@ class Inline(Element):
             text = f"`{text}`"
         logger.debug("Rendered inline text: %s", text)
         return text
-    
+
     def __repr__(self) -> str:
         """
         Renders self as an unambiguous string for development.
@@ -162,7 +162,7 @@ class Inline(Element):
         link = self._link if not self._link else f"'{self._link}'"
         return (
             f"Inline("
-            f"text='{self._text}', " 
+            f"text='{self._text}', "
             f"image={image}, "
             f"link={link}, "
             f"bold={self._bold}, "

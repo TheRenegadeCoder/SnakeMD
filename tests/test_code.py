@@ -13,6 +13,11 @@ def test_code_empty():
 
 
 def test_code_empty_java():
+    """
+    Verifies that code block is correctly instantiated
+    for a custom language with empty input. Also verifies
+    the repr representation of the code block.
+    """
     code = Code("", lang="java")
     assert str(code) == "```java\n\n```"
     assert repr(code) == r"Code(code='', lang='java')"
@@ -22,6 +27,12 @@ def test_code_one_line():
     code = Code("print('Hello, World!')")
     assert str(code) == "```generic\nprint('Hello, World!')\n```"
     assert repr(code) == r"""Code(code="print('Hello, World!')", lang='generic')"""
+    
+    
+def test_code_one_line_nested_single_quotes():
+    code = Code('print("Hello, World!")')
+    assert str(code) == '```generic\nprint("Hello, World!")\n```'
+    assert repr(code) == r"""Code(code='print("Hello, World!")', lang='generic')"""
 
 
 def test_code_two_lines():

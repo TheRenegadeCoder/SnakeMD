@@ -27,7 +27,7 @@ class Element(ABC):
         The default string method to be implemented by all inheriting
         classes.
 
-        :return: 
+        :return:
             a markdown ready representation of the element
         """
 
@@ -528,22 +528,22 @@ class Heading(Block):
         """
         heading = [str(item) for item in self._text]
         return f"{'#' * self._level} {''.join(heading)}"
-    
+
     def __repr__(self) -> str:
         """
         Renders self as an unambiguous string for development.
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
-        
+
         Note that Headings can accept a variety of string-like
-        inputs. However, the underlying representation forces 
-        all possible inputs to be a list of Inline objects. 
+        inputs. However, the underlying representation forces
+        all possible inputs to be a list of Inline objects.
         As a result, the repr representation will often be
         significantly more complex than expected.
-        
+
         .. doctest:: heading
-        
+
             >>> heading = Heading("", 1)
             >>> repr(heading)
             Heading(text=[Inline(text='',...)], level=1)

@@ -452,14 +452,9 @@ class Code(Block):
         """
         ticks = "`" * self._backticks
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
-    
+
     def __repr__(self) -> str:
-        return (
-            "Code("
-            f"code={self._code!r}, "
-            f"lang={self._lang!r}"
-            ")"
-        )
+        return "Code(" f"code={self._code!r}, " f"lang={self._lang!r}" ")"
 
     @staticmethod
     def _process_backticks(code: str | Code) -> int:

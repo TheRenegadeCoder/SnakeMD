@@ -2,6 +2,11 @@ from snakemd import Code
 
 
 def test_code_empty():
+    """
+    Verifies that code block is correctly instantiated
+    for empty input. Also verifies the repr
+    representation of the code block. 
+    """
     code = Code("")
     assert str(code) == "```generic\n\n```"
     assert repr(code) == r"Code(code='', lang='generic')"

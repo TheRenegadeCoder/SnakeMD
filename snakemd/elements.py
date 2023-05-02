@@ -162,17 +162,15 @@ class Inline(Element):
         :return:
             the Inline object as a development string
         """
-        image = self._image if not self._image else f"'{self._image}'"
-        link = self._link if not self._link else f"'{self._link}'"
         return (
             f"Inline("
-            f"text='{self._text}', "
-            f"image={image}, "
-            f"link={link}, "
-            f"bold={self._bold}, "
-            f"italics={self._italics}, "
-            f"strikethrough={self._strikethrough}, "
-            f"code={self._code}"
+            f"text={self._text!r}, "
+            f"image={self._image!r}, "
+            f"link={self._link!r}, "
+            f"bold={self._bold!r}, "
+            f"italics={self._italics!r}, "
+            f"strikethrough={self._strikethrough!r}, "
+            f"code={self._code!r}"
             ")"
         )
 

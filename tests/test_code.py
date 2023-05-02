@@ -46,6 +46,11 @@ def test_code_one_line_nested_single_quotes():
 
 
 def test_code_two_lines():
+    """
+    Verifies that a code block is correctly instantiated
+    given a pair of lines of sample code. Also verifies
+    the repr representation of the code block.
+    """
     code = Code("sum = 4 + 5\nprint(sum)")
     print(repr(code))
     assert str(code) == "```generic\nsum = 4 + 5\nprint(sum)\n```"

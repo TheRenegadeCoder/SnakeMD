@@ -27,7 +27,16 @@ class Element(ABC):
         The default string method to be implemented by all inheriting
         classes.
 
-        :return: a string representation of the element
+        :return: a markdown ready representation of the element
+        """
+        
+    #@abstractmethod
+    #def __repr__(self) -> str:
+        """
+        The developer's string method to help make sense of
+        objects. Must be implemented by all inheriting classes.
+
+        :return: an unambiguous representation of the element
         """
 
 
@@ -136,6 +145,19 @@ class Inline(Element):
             text = f"`{text}`"
         logger.debug("Rendered inline text: %s", text)
         return text
+    
+    def __repr__(self) -> str:
+        return (
+            f"Inline("
+            f"text={self._text}, " 
+            f"image={self._image}, "
+            f"link={self._link}, "
+            f"bold={self._bold}, "
+            f"italics={self._italics}, "
+            f"strikethrough={self._strikethrough}, "
+            f"code={self._code}"
+            ")"
+        )
 
     def is_text(self) -> bool:
         """

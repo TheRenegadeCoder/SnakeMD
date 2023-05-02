@@ -10,7 +10,10 @@ from snakemd import Inline
 def test_inline_empty():
     """
     Verifies that an empty string Inline object
-    properly initializes.
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
     """
     text = Inline("")
     assert str(text) == ""
@@ -31,7 +34,10 @@ def test_inline_empty():
 def test_inline_text():
     """
     Verifies that a small string Inline object
-    properly initializes.
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
     """
     text = Inline("Hello, World!")
     assert str(text) == "Hello, World!"
@@ -50,6 +56,13 @@ def test_inline_text():
 
 
 def test_inline_image():
+    """
+    Verifies that the Inline image parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Here", image="https://snakemd.io")
     assert str(text) == "![Here](https://snakemd.io)"
     assert repr(text) == (
@@ -70,6 +83,13 @@ def test_inline_image():
 
 
 def test_inline_link():
+    """
+    Verifies that the Inline link parameter
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     text = Inline("Here", link="https://snakemd.io")
     assert str(text) == "[Here](https://snakemd.io)"
     assert repr(text) == (

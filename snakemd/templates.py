@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 
-from .elements import Element, Heading, Inline, MDList
+from .elements import Block, Element, Heading, Inline, MDList
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +19,35 @@ class Template(Element):
     a superclass for a variety of abstractions over the typical markdown features.
     For example, Markdown has no feature for tables of contents, but a template
     could be created to generate one automatically for the user. In other words,
-    templates are meant to be conviences objects for our users.
+    templates are meant to be convience objects for our users.
+
+    One cool feature of templates is that they are lazy loaded. Unlike traditional
+    elements, this means templates aren't fully loaded until they are about to
+    be rendered. The benefit is that we can place templates in our documents as
+    placeholders without much configuration. Then, right before the document is
+    rendered, the template will be injected with a reference to the contents
+    of the document. As a result, templates are able to take advantage of the
+    final contents of the document, such as being able to generate a word count
+    from the words in the document or generate a table of contents from the
+    headings in the document.
+
+    Note that the user does not have to worry about lazy loading at all.
+    The document will take care of the dependency injection. If, however,
+    the user needs to render a template outside the context of a document,
+    they must call the load function manually.
     """
+
+    def __init__(self) -> None:
+        self._elements: list[Element] = None # DO NOT MODIFY
+
+    def load(self, elements: list[Element]) -> None:
+        """
+        Loads the template with a list of elements, presumably
+        from an existing document.
+
+        :param elements: a list of document elements
+        """
+        self._elements = elements
 
 
 class TableOfContents(Template):
@@ -30,17 +57,17 @@ class TableOfContents(Template):
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.
 
-    :param Document doc:
-        a reference to the document containing this table of contents
-    :param list[int] levels:
+    .. versionchanged:: 2.2
+        Removed the doc parameter
+
+    :param range[int] levels:
         a range of integers representing the sequence of heading levels
         to include in the table of contents; defaults to range(2, 3)
     """
 
-    def __init__(self, doc: "Document", levels: range = range(2, 3)):
+    def __init__(self, levels: range = range(2, 3)):
         super().__init__()
-        self._contents = doc._contents  # DO NOT MODIFY
-        self._levels = levels
+        self._levels: range = levels
         logger.debug("New table of contents initialized with levels in %s", levels)
 
     def __str__(self) -> str:
@@ -54,6 +81,9 @@ class TableOfContents(Template):
         table_of_contents, _ = self._assemble_table_of_contents(headings, 0)
         return str(table_of_contents)
 
+    def __repr__(self) -> str:
+        return f"TableOfContents(levels={self._levels!r})"
+
     def _get_headings(self) -> list[Heading]:
         """
         Retrieves the list of headings from the current document.
@@ -63,7 +93,7 @@ class TableOfContents(Template):
         """
         return [
             heading
-            for heading in self._contents
+            for heading in self._elements
             if isinstance(heading, Heading) and heading._level in self._levels
         ]
 

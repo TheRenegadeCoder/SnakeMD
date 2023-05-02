@@ -9,31 +9,171 @@ from snakemd import Code, Heading, HorizontalRule, Inline, MDList, Paragraph
 def test_md_list_empty():
     md_list = MDList([])
     assert str(md_list) == ""
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_one_inline():
     md_list = MDList([Inline("Deku")])
     assert str(md_list) == "- Deku"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[Paragraph(content=["
+            r"Inline("
+            r"text='Deku', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+            r")"
+        r"])], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_one_str():
     md_list = MDList(["Deku"])
     assert str(md_list) == "- Deku"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[Paragraph(content=["
+            r"Inline("
+            r"text='Deku', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+            r")"
+        r"])], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_one_paragraph():
     md_list = MDList([Paragraph(["Deku"])])
     assert str(md_list) == "- Deku"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[Paragraph(content=["
+            r"Inline("
+            r"text='Deku', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+            r")"
+        r"])], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_many():
     md_list = MDList([Inline("Deku"), Inline("Bakugo"), Inline("Uraraka")])
     assert str(md_list) == "- Deku\n- Bakugo\n- Uraraka"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=["
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Deku', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r"), "
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Bakugo', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r"), "
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Uraraka', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r")"
+        r"], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_many_mixed_syntax():
     md_list = MDList(["Deku", Inline("Bakugo"), Paragraph(["Uraraka"])])
     assert str(md_list) == "- Deku\n- Bakugo\n- Uraraka"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=["
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Deku', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r"), "
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Bakugo', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r"), "
+            r"Paragraph(content=["
+                r"Inline("
+                r"text='Uraraka', "
+                r"image=None, "
+                r"link=None, "
+                r"bold=False, "
+                r"italics=False, "
+                r"strikethrough=False, "
+                r"code=False"
+                r")]"
+            r")"
+        r"], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_nested_unordered():
@@ -165,3 +305,12 @@ def test_md_list_nested_checked_nested_exception_list():
     with pytest.raises(ValueError):
         inner_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=[True, True, False])
         MDList(["Characters", inner_list, "Powers"], checked=[False, True, False])
+        
+
+# Method tests
+
+
+def test_repr_can_create_object():
+    mdlist = MDList([])
+    obj = eval(repr(mdlist))
+    assert isinstance(obj, MDList) 

@@ -15,7 +15,7 @@ is known as an element. Below is the element interface.
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 For consistency, element mutators all return self to allow
 for method chaining. This is sometimes referred to as the
@@ -67,7 +67,7 @@ Code
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 Heading
 ^^^^^^^
@@ -76,7 +76,7 @@ Heading
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 HorizontalRule
 ^^^^^^^^^^^^^^
@@ -85,7 +85,7 @@ HorizontalRule
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 MDList
 ^^^^^^
@@ -94,7 +94,7 @@ MDList
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 Paragraph
 ^^^^^^^^^
@@ -103,7 +103,7 @@ Paragraph
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 Quote
 ^^^^^
@@ -112,7 +112,7 @@ Quote
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 Raw
 ^^^
@@ -121,7 +121,7 @@ Raw
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 Table
 ^^^^^
@@ -130,7 +130,7 @@ Table
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__
 
 Inline Elements
 ---------------
@@ -160,4 +160,4 @@ Inline
    :members:
    :undoc-members:
    :show-inheritance:
-   :special-members: __str__
+   :special-members: __str__, __repr__

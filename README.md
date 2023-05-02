@@ -61,9 +61,11 @@ _SnakeMD Source_
 
 ```py
 def _insert_link(doc: Document):
-    doc.add_paragraph("Learn to program with The Renegade Coder (@RenegadeCoder94).") \
-        .insert_link("The Renegade Coder", "https://therenegadecoder.com") \
-        .insert_link("@RenegadeCoder94", "https://twitter.com/RenegadeCoder94")
+    doc.add_paragraph(
+        "Learn to program with The Renegade Coder (@RenegadeCoder94)."
+    ).insert_link("The Renegade Coder", "https://therenegadecoder.com").insert_link(
+        "@RenegadeCoder94", "https://twitter.com/RenegadeCoder94"
+    )
 ```
 
 _Markdown Source_
@@ -162,13 +164,7 @@ _SnakeMD Source_
 
 ```py
 def _checklist(doc: Document):
-    doc.add_checklist(
-        [
-            "Pass the puck",
-            "Shoot the puck",
-            "Score a goal"
-        ]
-    )
+    doc.add_checklist(["Pass the puck", "Shoot the puck", "Score a goal"])
 ```
 
 _Markdown Source_
@@ -194,15 +190,14 @@ _SnakeMD Source_
 ```py
 def _nested_list(doc: Document):
     doc.add_block(
-        MDList([
-            "Apples",
-            Inline("Onions", bold=True),
-            MDList([
-                "Sweet",
-                "Red"
-            ]),
-            Paragraph(["This is the end of the list!"])
-        ])
+        MDList(
+            [
+                "Apples",
+                Inline("Onions", bold=True),
+                MDList(["Sweet", "Red"]),
+                Paragraph(["This is the end of the list!"]),
+            ]
+        )
     )
 ```
 
@@ -234,13 +229,9 @@ _SnakeMD Source_
 def _table(doc: Document):
     doc.add_table(
         ["Height (cm)", "Weight (kg)", "Age (y)"],
-        [
-            ['150', '70', '21'],
-            ['164', '75', '19'],
-            ['181', '87', '40']
-        ],
+        [["150", "70", "21"], ["164", "75", "19"], ["181", "87", "40"]],
         [Table.Align.LEFT, Table.Align.CENTER, Table.Align.RIGHT],
-        0
+        0,
     )
 ```
 

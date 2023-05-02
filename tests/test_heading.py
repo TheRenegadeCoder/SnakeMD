@@ -213,3 +213,9 @@ def test_heading_list():
 def test_heading_list_styling():
     heading = Heading([Inline("Example", bold=True), " heading"], 1)
     assert str(heading) == "# **Example** heading"
+    
+
+def test_repr_can_create_object():
+    heading = Heading("", 1)
+    obj = eval(repr(heading))
+    assert isinstance(obj, Heading) 

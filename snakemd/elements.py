@@ -18,7 +18,9 @@ class Element(ABC):
     A generic element interface which provides a framework for all
     types of elements in the collection. In short, elements must
     be able to be converted to their markdown representation using
-    the built-in :py:class:`str` constructor.
+    the built-in :py:class:`str` constructor. They must also be
+    able to be converted into development strings using the
+    :py:func:`repr` function.
     """
 
     @abstractmethod
@@ -31,19 +33,19 @@ class Element(ABC):
             a markdown ready representation of the element
         """
 
-        # @abstractmethod
-        # def __repr__(self) -> str:
+    @abstractmethod
+    def __repr__(self) -> str:
         """
         The developer's string method to help make sense of
         objects. As described by Digital Ocean, this method should
         return a string that can be used to recreate the object.
         This will not be true for every possible element as
-        there are internal structures as a result of 
-        post-processing, but it should be more informative 
-        than the default __repr__ method. Ultimately, this 
+        there are internal structures as a result of
+        post-processing, but it should be more informative
+        than the default __repr__ method. Ultimately, this
         method must be implemented by all inheriting classes.
 
-        :return: 
+        :return:
             an unambiguous representation of the element
         """
 
@@ -151,7 +153,7 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._code:
             text = f"`{text}`"
-        logger.debug("Rendered inline text: %s", text)
+        logger.debug("Rendered inline text: %r", text)
         return text
 
     def __repr__(self) -> str:
@@ -417,6 +419,10 @@ class Code(Block):
     Code blocks can have generic highlighting or highlighting based
     on their language.
 
+    .. testsetup:: code
+
+        from snakemd import Code
+
     :param str | Code code:
         the sourcecode to format as a Markdown code block
 
@@ -452,7 +458,9 @@ class Code(Block):
             the code block as a markdown string
         """
         ticks = "`" * self._backticks
-        return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+        code_block = f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+        logger.debug("Rendered code block: %r", code_block)
+        return code_block
 
     def __repr__(self) -> str:
         """
@@ -460,6 +468,12 @@ class Code(Block):
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
+
+        .. doctest:: code
+
+            >>> code = Code('x = 87')
+            >>> repr(code)
+            "Code(code='x = 87', lang='generic')"
 
         :return:
             the Code object as a development string
@@ -510,6 +524,7 @@ class Heading(Block):
             raise ValueError(f"Heading level must be between 1 and 6 but was {level}")
         self._text: list[Inline] = self._process_text(text)
         self._level: int = level
+        logger.debug("Created new heading: %r", self)
 
     def __str__(self) -> str:
         """
@@ -527,7 +542,9 @@ class Heading(Block):
             the heading as a markdown string
         """
         heading = [str(item) for item in self._text]
-        return f"{'#' * self._level} {''.join(heading)}"
+        heading = f"{'#' * self._level} {''.join(heading)}"
+        logger.debug("Rendered heading: %r", heading)
+        return heading
 
     def __repr__(self) -> str:
         """
@@ -546,7 +563,7 @@ class Heading(Block):
 
             >>> heading = Heading("", 1)
             >>> repr(heading)
-            Heading(text=[Inline(text='',...)], level=1)
+            "Heading(text=[Inline(text='',...)], level=1)"
 
         :return:
             the Code object as a development string
@@ -563,12 +580,16 @@ class Heading(Block):
         :return:
             the input text as an Inline
         """
-        logger.debug("Processing heading text: %s", text)
         if isinstance(text, str):
-            return [Inline(text)]
-        if isinstance(text, Inline):
-            return [text]
-        return [item if isinstance(item, Inline) else Inline(item) for item in text]
+            processed = [Inline(text)]
+        elif isinstance(text, Inline):
+            processed = [text]
+        else:
+            processed = [
+                item if isinstance(item, Inline) else Inline(item) for item in text
+            ]
+        logger.debug("Processed heading text: %r", processed)
+        return processed
 
     def promote(self) -> Heading:
         """
@@ -630,6 +651,10 @@ class HorizontalRule(Block):
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules only come in one form,
     so there are no settings to adjust.
+
+    .. testsetup:: horizontalrule
+
+        from snakemd import HorizontalRule
     """
 
     def __str__(self) -> str:
@@ -642,13 +667,37 @@ class HorizontalRule(Block):
         :return:
             the horizontal rule as a markdown string
         """
-        return "***"
+        horizontal_rule = "***"
+        logger.debug("Rendered horizontal rule: %r", horizontal_rule)
+        return horizontal_rule
+
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        .. doctest:: horizontalrule
+
+            >>> horizontal_rule = HorizontalRule()
+            >>> repr(horizontal_rule)
+            'HorizontalRule()'
+
+        :return:
+            the HorizontalRule object as a development string
+        """
+        return "HorizontalRule()"
 
 
 class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered,
     unordered, and checked.
+
+    .. testsetup:: mdlist
+
+        from snakemd import MDList
 
     :raises ValueError:
         when the checked argument is an Iterable[bool] that does not
@@ -743,7 +792,33 @@ class MDList(Block):
 
                 output.append(row)
                 i += 1
-        return "\n".join(output)
+        mdlist = "\n".join(output)
+        logger.debug("Rendered markdown list: %r", mdlist)
+        return mdlist
+
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        .. doctest:: mdlist
+
+            >>> mdlist = MDList(["Plus", "Ultra"])
+            >>> repr(mdlist)
+            "MDList(items=[Paragraph(...), Paragraph(...)],...)"
+
+        :return:
+            the MDList object as a development string
+        """
+        return (
+            f"MDList("
+            f"items={self._items!r}, "
+            f"ordered={self._ordered!r}, "
+            f"checked={self._checked!r}"
+            f")"
+        )
 
     @staticmethod
     def _process_items(items) -> list[Block]:
@@ -818,28 +893,6 @@ class Paragraph(Block):
     def __init__(self, content: str | Iterable[str | Inline]):
         self._content: list[Inline] = self._process_content(content)
 
-    @staticmethod
-    def _process_content(content) -> list[Inline]:
-        """
-        Processes the incoming content for the Paragraph.
-
-        :param content:
-            an iterable of various text items
-        :return:
-            the processed iterable as a list of Inline items
-        """
-        logger.debug("Processing paragraph content:%s", content)
-        if isinstance(content, str):
-            processed = [Inline(content)]
-        else:
-            processed = []
-            for item in content:
-                if isinstance(item, str):
-                    processed.append(Inline(item))
-                else:
-                    processed.append(item)
-        return processed
-
     def __str__(self) -> str:
         """
         Renders the paragraph as a markdown string. Markdown paragraphs
@@ -856,25 +909,51 @@ class Paragraph(Block):
         paragraph = "".join(str(item) for item in self._content)
         return " ".join(paragraph.split())
 
-    def add(self, text: str | Inline) -> Paragraph:
+    def __repr__(self) -> str:
         """
-        Adds a text object to the paragraph.
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        Like Heading, the actual format of the development
+        string may be more complex than expected. Specifically,
+        all of the contents are automatically converted to
+        a list of Inline objects.
 
         .. doctest:: paragraph
 
-            >>> paragraph = Paragraph("Hello! ").add("I come in peace")
-            >>> str(paragraph)
-            'Hello! I come in peace'
+            >>> paragraph = Paragraph("Howdy!")
+            >>> repr(paragraph)
+            "Paragraph(content=[Inline(text='Howdy!',...)])"
 
-        :param str | Inline text:
-            a custom Inline element
         :return:
-            self
+            the Paragraph object as a development string
         """
-        if isinstance(text, str):
-            text = Inline(text)
-        self._content.append(text)
-        return self
+        return f"Paragraph(content={self._content!r})"
+
+    @staticmethod
+    def _process_content(content) -> list[Inline]:
+        """
+        Processes the incoming content for the Paragraph.
+
+        :param content:
+            an iterable of various text items
+        :return:
+            the processed iterable as a list of Inline items
+        """
+
+        if isinstance(content, str):
+            processed = [Inline(content)]
+        else:
+            processed = []
+            for item in content:
+                if isinstance(item, str):
+                    processed.append(Inline(item))
+                else:
+                    processed.append(item)
+        logger.debug("Processed paragraph content: %r", processed)
+        return processed
 
     def _replace_any(self, target: str, text: Inline, count: int = -1) -> Paragraph:
         """
@@ -918,6 +997,26 @@ class Paragraph(Block):
         self._content = content
         return self
 
+    def add(self, text: str | Inline) -> Paragraph:
+        """
+        Adds a text object to the paragraph.
+
+        .. doctest:: paragraph
+
+            >>> paragraph = Paragraph("Hello! ").add("I come in peace")
+            >>> str(paragraph)
+            'Hello! I come in peace'
+
+        :param str | Inline text:
+            a custom Inline element
+        :return:
+            self
+        """
+        if isinstance(text, str):
+            text = Inline(text)
+        self._content.append(text)
+        return self
+
     def replace(self, target: str, replacement: str, count: int = -1) -> Paragraph:
         """
         A convenience method which replaces a target string with a string of
@@ -955,7 +1054,7 @@ class Paragraph(Block):
 
             >>> paragraph = Paragraph("Go here for docs")
             >>> paragraph.insert_link("here", "https://snakemd.io")
-            <snakemd.elements.Paragraph object at ...>
+            Paragraph(content=[...])
             >>> str(paragraph)
             'Go [here](https://snakemd.io) for docs'
 
@@ -987,7 +1086,7 @@ class Paragraph(Block):
             >>> new = "https://snakemd.io"
             >>> paragraph = Paragraph("Go here for docs")
             >>> paragraph.insert_link("here", old).replace_link(old, new)
-            <snakemd.elements.Paragraph object at ...>
+            Paragraph(content=[...])
             >>> str(paragraph)
             'Go [here](https://snakemd.io) for docs'
 
@@ -1025,30 +1124,6 @@ class Quote(Block):
     def __init__(self, content: str | Iterable[str | Inline | Block]) -> None:
         self._lines: list[Block] = self._process_content(content)
         self._depth = 1
-
-    @staticmethod
-    def _process_content(lines) -> list[Block]:
-        """
-        Converts the raw input lines to something that is
-        a bit easier to work with. In this case, the lines
-        are converted to blocks.
-
-        :param lines:
-            a "list" of text objects or a string
-        :return:
-            a list of Blocks
-        """
-        logger.debug("Processing quote lines: %s", lines)
-        if isinstance(lines, str):
-            processed_lines = [Raw(lines)]
-        else:
-            processed_lines = []
-            for line in lines:
-                if isinstance(line, (str, Inline)):
-                    processed_lines.append(Raw(line))
-                else:
-                    processed_lines.append(line)
-        return processed_lines
 
     def __str__(self) -> str:
         """
@@ -1093,6 +1168,33 @@ class Quote(Block):
                 formatted_lines.append(f"{quote_markers}{split}")
         return "\n".join(formatted_lines)
 
+    def __repr__(self) -> str:
+        return f"Quote(content={self._lines!r})"
+
+    @staticmethod
+    def _process_content(lines) -> list[Block]:
+        """
+        Converts the raw input lines to something that is
+        a bit easier to work with. In this case, the lines
+        are converted to blocks.
+
+        :param lines:
+            a "list" of text objects or a string
+        :return:
+            a list of Blocks
+        """
+        if isinstance(lines, str):
+            processed_lines = [Raw(lines)]
+        else:
+            processed_lines = []
+            for line in lines:
+                if isinstance(line, (str, Inline)):
+                    processed_lines.append(Raw(line))
+                else:
+                    processed_lines.append(line)
+        logger.debug("Processed quote lines: %r", processed_lines)
+        return processed_lines
+
 
 class Raw(Block):
     """
@@ -1116,6 +1218,9 @@ class Raw(Block):
         :return: the raw block as a markdown string
         """
         return self._text
+
+    def __repr__(self) -> str:
+        return f"Raw(text={self._text!r})"
 
 
 class Table(Block):
@@ -1141,17 +1246,27 @@ class Table(Block):
         indent size for the whole table; defaults to 0
     """
 
+    class Align(Enum):
+        """
+        Align is an enum only used by the Table class to specify the alignment
+        of various columns in the table.
+        """
+
+        LEFT = auto()
+        RIGHT = auto()
+        CENTER = auto()
+
     def __init__(
         self,
         header: Iterable[str | Inline | Paragraph],
-        body: Iterable[Iterable[str | Inline | Paragraph]] = [],
+        body: Iterable[Iterable[str | Inline | Paragraph]] = None,
         align: None | Iterable[Align] = None,
         indent: int = 0,
     ) -> None:
-        logger.debug("Initializing table\n(%s, %s, %s)", header, body, align)
+        logger.debug("Initializing table: (%r, %r, %r)", header, body, align)
         self._header: list[Paragraph]
         self._body: list[list[Paragraph]]
-        self._header, self._body = self._process_table(header, body)
+        self._header, self._body = self._process_table(header, body or [])
         if len(self._body) > 1 and not all(
             len(self._body[0]) == len(x) for x in self._body[1:]
         ):
@@ -1206,15 +1321,15 @@ class Table(Block):
         rows.extend((f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
         return "\n".join(rows)
 
-    class Align(Enum):
-        """
-        Align is an enum only used by the Table class to specify the alignment
-        of various columns in the table.
-        """
-
-        LEFT = auto()
-        RIGHT = auto()
-        CENTER = auto()
+    def __repr__(self) -> str:
+        return (
+            f"Table("
+            f"header={self._header!r}, "
+            f"body={self._body!r}, "
+            f"align={self._align!r}, "
+            f"indent={self._indent}"
+            f")"
+        )
 
     @staticmethod
     def _process_table(
@@ -1243,7 +1358,7 @@ class Table(Block):
                 processed_header.append(Paragraph([item]))
             else:
                 processed_header.append(item)
-        logger.debug("Processed header input\n%s", processed_header)
+        logger.debug("Processed header input: %r", processed_header)
 
         # Process body
         for row in body:
@@ -1254,7 +1369,7 @@ class Table(Block):
                 else:
                     processed_row.append(item)
             processed_body.append(processed_row)
-        logger.debug("Processed table body\n%s", processed_body)
+        logger.debug("Processed table body: %r", processed_body)
 
         return processed_header, processed_body
 
@@ -1291,7 +1406,7 @@ class Table(Block):
             ... [["1st", "Crosby"], ["2nd", "McDavid"]]
             ... )
             >>> table.add_row(["3rd", "Matthews"])
-            <snakemd.elements.Table object at ...>
+            Table(header=[...], body=[...], align=None, indent=0)
             >>> print(table)
             | Rank | Player   |
             | ---- | -------- |
@@ -1309,7 +1424,7 @@ class Table(Block):
 
         # Consume row
         row_list = list(row)
-        logger.debug("Adding row to table: %s", row_list)
+        logger.debug("Adding row to table: %r", row_list)
 
         # Verify that it's safe to add
         if len(row) != len(self._header):

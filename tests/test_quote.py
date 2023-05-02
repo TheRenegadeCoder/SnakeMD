@@ -1,4 +1,7 @@
-from snakemd import Quote, Heading, Code, HorizontalRule, MDList
+from snakemd import Quote, Heading, Code, HorizontalRule, MDList, Raw
+
+
+# Constructor tests
 
 
 def test_quote_one_str():
@@ -39,3 +42,12 @@ def test_quote_hr():
 def test_quote_mdlist():
     quote = Quote([MDList(["How", "Now", "Brown"])])
     assert str(quote) == "> - How\n> - Now\n> - Brown"
+    
+
+# Method tests
+    
+
+def test_repr_can_create_object():
+    quote = Quote("")
+    obj = eval(repr(quote))
+    assert isinstance(obj, Quote) 

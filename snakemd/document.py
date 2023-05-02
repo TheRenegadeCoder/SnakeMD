@@ -2,7 +2,6 @@
 The document module houses the Document class, a tool for
 generating markdown documents.
 """
-
 from __future__ import annotations
 
 import logging
@@ -14,6 +13,7 @@ from typing import Iterable
 from .elements import (
     Block,
     Code,
+    Element,
     Heading,
     HorizontalRule,
     Inline,
@@ -23,7 +23,7 @@ from .elements import (
     Raw,
     Table,
 )
-from .templates import TableOfContents
+from .templates import TableOfContents, Template
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 class Document:
     """
     A document represents a markdown file. Documents store
-    a collection of blocks which are appended with new lines
+    a collection of elements which are appended with new lines
     between to generate the markdown document. Document methods
     are intended to provided convenience when generating a
     markdown file. However, the functionality is not exhaustive.
@@ -47,20 +47,80 @@ class Document:
 
         import os
         os.remove("README.md")
+
+    :param list[Element] elements:
+        an optional list of elements that make up a markdown document
+
+        .. versionadded:: 2.2
+            Included to make __repr__ more useful
     """
 
-    def __init__(self) -> None:
-        self._contents: list[Block] = []
-        logger.debug("New document initialized")
+    def __init__(self, elements: list[Element] = None) -> None:
+        self._elements: list[Element] = elements or []
+        logger.info("Created new document: %r", self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
-        Renders the markdown document from a list of blocks.
+        Renders the markdown document from a list of elements.
+
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> doc.add_heading("First")
+            Heading(text=[...], level=1)
+            >>> print(doc)
+            # First
 
         :return:
             the document as a markdown string
         """
-        return "\n\n".join(str(block) for block in self._contents)
+        # load templates
+        for block in self._elements:
+            if isinstance(block, Template):
+                block.load(self._elements)
+        # render all
+        document = "\n\n".join(str(block) for block in self._elements)
+        logger.info("Rendered document: %r", document)
+        return document
+
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> repr(doc)
+            'Document(elements=[])'
+
+        :return:
+            the MDList object as a development string
+        """
+        return f"Document(elements={self._elements!r})"
+
+    def get_elements(self) -> list[Element]:
+        """
+        A getter method which allows the user to retrieve
+        the underlying document structure of elements
+        as a list. The return value is directly aliased
+        to the underlying representation, so any changes
+        to this object will change the document.
+
+        The primary use of this method is to share an
+        alias to the underlying document structure to
+        other useful components like TableOfContents
+        without creating circular references.
+
+        .. versionadded:: 2.2
+            Included as a part of the TableOfContents rework
+
+        :return:
+            the list of block comprising this document
+        """
+        return self._elements
 
     def add_block(self, block: Block) -> Block:
         """
@@ -81,8 +141,8 @@ class Document:
         :return:
             the :class:`Block` added to this Document
         """
-        self._contents.append(block)
-        logger.debug("Added custom block to document\n%s", block)
+        self._elements.append(block)
+        logger.info("Added custom block to document: %r", block)
         return block
 
     def add_raw(self, text: str) -> Raw:
@@ -93,7 +153,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_raw("X: 5\\nY: 4\\nZ: 3")
-            <snakemd.elements.Raw object at ...>
+            Raw(text='X: 5\\nY: 4\\nZ: 3')
             >>> print(doc)
             X: 5
             Y: 4
@@ -105,8 +165,8 @@ class Document:
             the :class:`Raw` block added to this Document
         """
         raw = Raw(text)
-        self._contents.append(raw)
-        logger.debug("Added raw block to document\n%s", text)
+        self._elements.append(raw)
+        logger.info("Added raw block to document: %r", text)
         return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
@@ -129,8 +189,8 @@ class Document:
             the :class:`Heading` added to this Document
         """
         heading = Heading(Inline(text), level)
-        self._contents.append(heading)
-        logger.debug("Added heading to document\n%s", heading)
+        self._elements.append(heading)
+        logger.info("Added heading to document: %r", heading)
         return heading
 
     def add_paragraph(self, text: str) -> Paragraph:
@@ -141,7 +201,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_paragraph("Mitochondria is the powerhouse of the cell.")
-            <snakemd.elements.Paragraph object at ...>
+            Paragraph(content=[...])
             >>> print(doc)
             Mitochondria is the powerhouse of the cell.
 
@@ -151,8 +211,8 @@ class Document:
             the :class:`Paragraph` added to this Document
         """
         paragraph = Paragraph([Inline(text)])
-        self._contents.append(paragraph)
-        logger.debug("Added paragraph to document\n%s", paragraph)
+        self._elements.append(paragraph)
+        logger.info("Added paragraph to document: %r", paragraph)
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
@@ -163,7 +223,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_ordered_list(["Goku", "Piccolo", "Vegeta"])
-            <snakemd.elements.MDList object at ...>
+            MDList(items=[...], ordered=True, checked=None)
             >>> print(doc)
             1. Goku
             2. Piccolo
@@ -175,8 +235,8 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_list = MDList(items, ordered=True)
-        self._contents.append(md_list)
-        logger.debug("Added ordered list to document\n%s", md_list)
+        self._elements.append(md_list)
+        logger.info("Added ordered list to document: %r", md_list)
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -187,7 +247,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_unordered_list(["Deku", "Bakugo", "Kirishima"])
-            <snakemd.elements.MDList object at ...>
+            MDList(items=[...], ordered=False, checked=None)
             >>> print(doc)
             - Deku
             - Bakugo
@@ -199,8 +259,8 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_list = MDList(items)
-        self._contents.append(md_list)
-        logger.debug("Added unordered list to document\n%s", md_list)
+        self._elements.append(md_list)
+        logger.info("Added unordered list to document: %r", md_list)
         return md_list
 
     def add_checklist(self, items: Iterable[str]) -> MDList:
@@ -211,7 +271,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
-            <snakemd.elements.MDList object at ...>
+            MDList(items=[...], ordered=False, checked=False)
             >>> print(doc)
             - [ ] Okabe
             - [ ] Mayuri
@@ -223,8 +283,8 @@ class Document:
             the :class:`MDList` added to this Document
         """
         md_checklist = MDList(items, checked=False)
-        self._contents.append(md_checklist)
-        logger.debug("Added checklist to document\n%s", md_checklist)
+        self._elements.append(md_checklist)
+        logger.info("Added checklist to document: %r", md_checklist)
         return md_checklist
 
     def add_table(
@@ -244,7 +304,7 @@ class Document:
             >>> rows = [["1st", "Robert"], ["2nd", "Rae"]]
             >>> align = [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT]
             >>> doc.add_table(header, rows, align=align)
-            <snakemd.elements.Table object at ...>
+            Table(header=[...], body=[...], align=[...], indent=0)
             >>> print(doc) # doctest: +NORMALIZE_WHITESPACE
             | Place | Name   |
             | :---: | -----: |
@@ -266,8 +326,8 @@ class Document:
         header = [Paragraph([text]) for text in header]
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
-        self._contents.append(table)
-        logger.debug("Added table to document\n%s", table)
+        self._elements.append(table)
+        logger.info("Added table to document: %r", table)
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Code:
@@ -292,8 +352,8 @@ class Document:
             the :class:`Code` block added to this Document
         """
         code_block = Code(code, lang=lang)
-        self._contents.append(code_block)
-        logger.debug("Added code block to document\n%s", code_block)
+        self._elements.append(code_block)
+        logger.info("Added code block to document: %r", code_block)
         return code_block
 
     def add_quote(self, text: str) -> Quote:
@@ -304,7 +364,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_quote("Welcome to the Internet!")
-            <snakemd.elements.Quote object at ...>
+            Quote(content=[Raw(text='Welcome to the Internet!')])
             >>> print(doc)
             > Welcome to the Internet!
 
@@ -314,8 +374,8 @@ class Document:
             the :class:`Quote` added to this Document
         """
         quote = Quote(text)
-        self._contents.append(quote)
-        logger.debug("Added quote to document\n%s", quote)
+        self._elements.append(quote)
+        logger.info("Added quote to document: %r", quote)
         return quote
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -326,7 +386,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
-            <snakemd.elements.HorizontalRule object at ...>
+            HorizontalRule()
             >>> print(doc)
             ***
 
@@ -334,8 +394,8 @@ class Document:
             the :class:`HorizontalRule` added to this Document
         """
         horizontal_rule = HorizontalRule()
-        self._contents.append(horizontal_rule)
-        logger.debug("Added horizontal rule to document\n%s", horizontal_rule)
+        self._elements.append(horizontal_rule)
+        logger.info("Added horizontal rule to document: %r", horizontal_rule)
         return horizontal_rule
 
     def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
@@ -350,7 +410,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_table_of_contents()
-            <snakemd.templates.TableOfContents object at ...>
+            TableOfContents(levels=range(2, 3))
             >>> doc.add_heading("First Item", 2)
             Heading(text=[Inline(text='First Item',...)], level=2)
             >>> doc.add_heading("Second Item", 2)
@@ -368,12 +428,9 @@ class Document:
         :return:
             the :class:`TableOfContents` added to this Document
         """
-        toc = TableOfContents(self, levels=levels)
-        self._contents.append(toc)
-        logger.debug(
-            "Added table of contents to document "
-            "(unable to render until file is complete)"
-        )
+        toc = TableOfContents(levels=levels)
+        self._elements.append(toc)
+        logger.info("Added table of contents to document: %r", toc)
         return toc
 
     def scramble(self) -> None:
@@ -385,13 +442,13 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
-            <snakemd.elements.HorizontalRule object at ...>
+            HorizontalRule()
             >>> doc.scramble()
             >>> print(doc)
             ***
         """
-        random.shuffle(self._contents)
-        logger.debug("Scrambled document")
+        random.shuffle(self._elements)
+        logger.info("Scrambled document")
 
     def dump(
         self,
@@ -411,7 +468,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
-            <snakemd.elements.HorizontalRule object at ...>
+            HorizontalRule()
             >>> doc.dump("README")
 
         :param str name:
@@ -428,4 +485,4 @@ class Document:
             os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding
         ) as output_file:
             output_file.write(str(self))
-        logger.debug("Dumped document to %s with filename %s.%s", dir, name, ext)
+        logger.info("Dumped document to %s with filename %s.%s", dir, name, ext)

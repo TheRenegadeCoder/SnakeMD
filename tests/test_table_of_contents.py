@@ -4,23 +4,26 @@ from snakemd.document import Document
 
 def test_table_of_contents_empty():
     doc = Document()
-    toc = TableOfContents(doc)
+    toc = TableOfContents()
+    toc.load(doc.get_elements())
     assert str(toc) == ""
 
 
 def test_table_of_contents_one_section():
     doc = Document()
-    toc = TableOfContents(doc)
+    toc = TableOfContents()
     doc.add_heading("Section", level=2)
+    toc.load(doc.get_elements())
     assert str(toc) == "1. [Section](#section)"
 
 
 def test_table_of_contents_many_sections():
     doc = Document()
-    toc = TableOfContents(doc)
+    toc = TableOfContents()
     doc.add_heading("Section 1", level=2)
     doc.add_heading("Section 2", level=2)
     doc.add_heading("Section 3", level=2)
+    toc.load(doc.get_elements())
     assert (
         str(toc) == "1. [Section 1](#section-1)\n"
         "2. [Section 2](#section-2)\n"
@@ -30,23 +33,25 @@ def test_table_of_contents_many_sections():
 
 def test_table_of_contents_many_sections_and_subsections_limit_h2():
     doc = Document()
-    toc = TableOfContents(doc)
+    toc = TableOfContents()
     doc.add_heading("Section 1", level=2)
     doc.add_heading("Subsection 1", level=3)
     doc.add_heading("Subsection 2", level=3)
     doc.add_heading("Section 2", level=2)
     doc.add_heading("Subsection 3", level=3)
+    toc.load(doc.get_elements())
     assert str(toc) == "1. [Section 1](#section-1)\n" "2. [Section 2](#section-2)"
 
 
 def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
     doc = Document()
-    toc = TableOfContents(doc, levels=range(2, 4))
+    toc = TableOfContents(levels=range(2, 4))
     doc.add_heading("Section 1", level=2)
     doc.add_heading("Subsection 1", level=3)
     doc.add_heading("Subsection 2", level=3)
     doc.add_heading("Section 2", level=2)
     doc.add_heading("Subsection 3", level=3)
+    toc.load(doc.get_elements())
     assert (
         str(toc) == "1. [Section 1](#section-1)\n"
         "   1. [Subsection 1](#subsection-1)\n"
@@ -58,7 +63,7 @@ def test_table_of_contents_many_sections_and_subsections_limit_h2_h3():
 
 def test_table_of_contents_double_digit_sections():
     doc = Document()
-    toc = TableOfContents(doc, levels=range(2, 4))
+    toc = TableOfContents(levels=range(2, 4))
     doc.add_heading("Section 1", level=2)
     doc.add_heading("Subsection 1A", level=3)
     doc.add_heading("Subsection 1B", level=3)
@@ -73,6 +78,7 @@ def test_table_of_contents_double_digit_sections():
     doc.add_heading("Section 9", level=2)
     doc.add_heading("Section 10", level=2)
     doc.add_heading("Subsection 10A", level=3)
+    toc.load(doc.get_elements())
     assert (
         str(toc) == "1. [Section 1](#section-1)\n"
         "   1. [Subsection 1A](#subsection-1a)\n"
@@ -93,10 +99,11 @@ def test_table_of_contents_double_digit_sections():
 
 def test_table_of_contents_triple_nesting():
     doc = Document()
-    toc = TableOfContents(doc, levels=range(2, 5))
+    toc = TableOfContents(levels=range(2, 5))
     doc.add_heading("Section 1", level=2)
     doc.add_heading("Subsection 1A", level=3)
     doc.add_heading("Subsubsection 1Ai", level=4)
+    toc.load(doc.get_elements())
     assert (
         str(toc) == "1. [Section 1](#section-1)\n"
         "   1. [Subsection 1A](#subsection-1a)\n"

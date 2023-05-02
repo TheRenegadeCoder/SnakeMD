@@ -8,6 +8,7 @@ from snakemd import Document, Heading, Paragraph, HorizontalRule
 def test_document_empty():
     doc = Document()
     assert str(doc) == ""
+    assert repr(doc) == "Document(elements=[])"
 
 
 def test_document_add_heading():

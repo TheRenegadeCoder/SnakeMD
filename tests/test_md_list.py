@@ -305,3 +305,12 @@ def test_md_list_nested_checked_nested_exception_list():
     with pytest.raises(ValueError):
         inner_list = MDList(["Deku", "Bakugo", "Uraraka"], checked=[True, True, False])
         MDList(["Characters", inner_list, "Powers"], checked=[False, True, False])
+        
+
+# Method tests
+
+
+def test_repr_can_create_object():
+    mdlist = MDList([])
+    obj = eval(repr(mdlist))
+    assert isinstance(obj, MDList) 

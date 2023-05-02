@@ -465,3 +465,9 @@ def test_inline_is_link_method():
 def test_inline_is_link_method():
     is_link = Inline("Hello").is_link()
     assert not is_link
+
+
+def test_repr_can_create_object():
+    inline = Inline("")
+    obj = eval(repr(inline))
+    assert isinstance(obj, Inline) 

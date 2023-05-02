@@ -72,7 +72,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_block(snakemd.Heading("Python is Cool!", 2))
-            <snakemd.elements.Heading object at ...>
+            Heading(text=[Inline(text='Python is Cool!',...)], level=2)
             >>> print(doc)
             ## Python is Cool!
 
@@ -117,7 +117,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_heading("Welcome to SnakeMD!")
-            <snakemd.elements.Heading object at ...>
+            Heading(text=[Inline(text='Welcome to SnakeMD!',...)], level=1)
             >>> print(doc)
             # Welcome to SnakeMD!
 
@@ -352,9 +352,9 @@ class Document:
             >>> doc.add_table_of_contents()
             <snakemd.templates.TableOfContents object at ...>
             >>> doc.add_heading("First Item", 2)
-            <snakemd.elements.Heading object at ...>
+            Heading(text=[Inline(text='First Item',...)], level=2)
             >>> doc.add_heading("Second Item", 2)
-            <snakemd.elements.Heading object at ...>
+            Heading(text=[Inline(text='Second Item',...)], level=2)
             >>> print(doc)
             1. [First Item](#first-item)
             2. [Second Item](#second-item)

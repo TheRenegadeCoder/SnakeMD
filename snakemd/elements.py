@@ -117,7 +117,7 @@ class Inline(Element):
 
     def __str__(self) -> str:
         """
-        Renders self as a string. In this case,
+        Renders self as a markdown ready string. In this case,
         inline can represent many different types of data from
         stylized text to code, links, and images.
 
@@ -128,7 +128,7 @@ class Inline(Element):
             '_**This is formatted text**_'
 
         :return:
-            the Inline object as a string
+            the Inline object as a markdown string
         """
         text = self._text
         if self._image:
@@ -147,6 +147,15 @@ class Inline(Element):
         return text
     
     def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where are instance variables are listed with their
+        values.
+
+        :return:
+            the Inline object as a development string
+        """
         return (
             f"Inline("
             f"text={self._text}, " 

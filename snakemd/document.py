@@ -244,7 +244,7 @@ class Document:
             >>> rows = [["1st", "Robert"], ["2nd", "Rae"]]
             >>> align = [snakemd.Table.Align.CENTER, snakemd.Table.Align.RIGHT]
             >>> doc.add_table(header, rows, align=align)
-            <snakemd.elements.Table object at ...>
+            Table(header=[...], body=[...], align=[...], indent=0)
             >>> print(doc) # doctest: +NORMALIZE_WHITESPACE
             | Place | Name   |
             | :---: | -----: |

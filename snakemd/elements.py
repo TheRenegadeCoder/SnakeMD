@@ -1394,7 +1394,7 @@ class Table(Block):
             ... [["1st", "Crosby"], ["2nd", "McDavid"]]
             ... )
             >>> table.add_row(["3rd", "Matthews"])
-            <snakemd.elements.Table object at ...>
+            Table(header=[...], body=[...], align=None, indent=0)
             >>> print(table)
             | Rank | Player   |
             | ---- | -------- |

@@ -38,12 +38,12 @@ class Element(ABC):
         objects. As described by Digital Ocean, this method should
         return a string that can be used to recreate the object.
         This will not be true for every possible element as
-        there are internal structures as a result of 
-        post-processing, but it should be more informative 
-        than the default __repr__ method. Ultimately, this 
+        there are internal structures as a result of
+        post-processing, but it should be more informative
+        than the default __repr__ method. Ultimately, this
         method must be implemented by all inheriting classes.
 
-        :return: 
+        :return:
             an unambiguous representation of the element
         """
 
@@ -577,13 +577,15 @@ class Heading(Block):
             an object to be forced to Inline
         :return:
             the input text as an Inline
-        """        
+        """
         if isinstance(text, str):
-            processed =  [Inline(text)]
+            processed = [Inline(text)]
         elif isinstance(text, Inline):
             processed = [text]
         else:
-            processed = [item if isinstance(item, Inline) else Inline(item) for item in text]
+            processed = [
+                item if isinstance(item, Inline) else Inline(item) for item in text
+            ]
         logger.debug("Processed heading text: %r", processed)
         return processed
 
@@ -690,9 +692,9 @@ class MDList(Block):
     """
     A markdown list is a standalone list that comes in three varieties: ordered,
     unordered, and checked.
-    
+
     .. testsetup:: mdlist
-    
+
         from snakemd import MDList
 
     :raises ValueError:
@@ -911,7 +913,7 @@ class Paragraph(Block):
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
-        
+
         Like Heading, the actual format of the development
         string may be more complex than expected. Specifically,
         all of the contents are automatically converted to
@@ -927,7 +929,7 @@ class Paragraph(Block):
             the Paragraph object as a development string
         """
         return f"Paragraph(content={self._content!r})"
-    
+
     @staticmethod
     def _process_content(content) -> list[Inline]:
         """
@@ -938,7 +940,7 @@ class Paragraph(Block):
         :return:
             the processed iterable as a list of Inline items
         """
-        
+
         if isinstance(content, str):
             processed = [Inline(content)]
         else:
@@ -992,7 +994,7 @@ class Paragraph(Block):
                 content.append(inline_text)
         self._content = content
         return self
-    
+
     def add(self, text: str | Inline) -> Paragraph:
         """
         Adds a text object to the paragraph.
@@ -1163,10 +1165,10 @@ class Quote(Block):
                 split = f"\n{quote_markers}".join(str(line).splitlines())
                 formatted_lines.append(f"{quote_markers}{split}")
         return "\n".join(formatted_lines)
-    
+
     def __repr__(self) -> str:
         return f"Quote(content={self._lines!r})"
-    
+
     @staticmethod
     def _process_content(lines) -> list[Block]:
         """
@@ -1214,7 +1216,7 @@ class Raw(Block):
         :return: the raw block as a markdown string
         """
         return self._text
-    
+
     def __repr__(self) -> str:
         return f"Raw(text={self._text!r})"
 
@@ -1241,7 +1243,7 @@ class Table(Block):
     :param int indent:
         indent size for the whole table; defaults to 0
     """
-    
+
     class Align(Enum):
         """
         Align is an enum only used by the Table class to specify the alignment
@@ -1316,7 +1318,7 @@ class Table(Block):
             rows.append(f"{' ' * self._indent}| {' | '.join(meta)} |")
         rows.extend((f"{' ' * self._indent}| {' | '.join(row)} |" for row in body))
         return "\n".join(rows)
-    
+
     def __repr__(self) -> str:
         return (
             f"Table("

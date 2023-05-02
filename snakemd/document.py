@@ -47,16 +47,16 @@ class Document:
 
         import os
         os.remove("README.md")
-        
+
     :param blocks:
         an optional list of blocks that make up a markdown document
-        
+
         .. versionadded:: 2.2
             Included to make __repr__ more useful
     """
 
     def __init__(self, blocks: list[Block] = None) -> None:
-        self._blocks: list[Block] = blocks or [] 
+        self._blocks: list[Block] = blocks or []
         logger.info("Created new document: %r", self)
 
     def __str__(self):
@@ -69,7 +69,7 @@ class Document:
         document = "\n\n".join(str(block) for block in self._blocks)
         logger.info("Rendered document: %r", document)
         return document
-    
+
     def __repr__(self) -> str:
         """
         Renders self as an unambiguous string for development.
@@ -87,24 +87,24 @@ class Document:
             the MDList object as a development string
         """
         return f"Document(blocks={self._blocks!r})"
-    
+
     def get_blocks(self) -> list[Block]:
         """
         A getter method which allows the user to retrieve
         the underlying document structure of blocks
         as a list. The return value is directly aliased
         to the underlying representation, so any changes
-        to this object will change the document. 
-        
+        to this object will change the document.
+
         The primary use of this method is to share an
         alias to the underlying document structure to
         other useful components like TableOfContents
-        without creating circular references. 
-        
+        without creating circular references.
+
         .. versionadded:: 2.2
             Included as a part of the TableOfContents rework
 
-        :return: 
+        :return:
             the list of block comprising this document
         """
         return self._blocks

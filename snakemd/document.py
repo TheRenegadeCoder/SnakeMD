@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 class Document:
     """
     A document represents a markdown file. Documents store
-    a collection of blocks which are appended with new lines
+    a collection of elements which are appended with new lines
     between to generate the markdown document. Document methods
     are intended to provided convenience when generating a
     markdown file. However, the functionality is not exhaustive.
@@ -85,12 +85,12 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> repr(doc)
-            'Document(blocks=[])'
+            'Document(elements=[])'
 
         :return:
             the MDList object as a development string
         """
-        return f"Document(blocks={self._elements!r})"
+        return f"Document(elements={self._elements!r})"
 
     def get_elements(self) -> list[Element]:
         """

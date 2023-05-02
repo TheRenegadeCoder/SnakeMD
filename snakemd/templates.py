@@ -42,6 +42,12 @@ class Template(Element):
         self._elements: list[Element] = None
 
     def load(self, elements: list[Element]) -> None:
+        """
+        Loads the template with a list of elements, presumably
+        from an existing document.
+
+        :param elements: a list of document elements
+        """
         self._elements = elements
 
 

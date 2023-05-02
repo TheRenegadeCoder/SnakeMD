@@ -36,7 +36,11 @@ class Element(ABC):
         The developer's string method to help make sense of
         objects. As described by Digital Ocean, this method should
         return a string that can be used to recreate the object.
-        Must be implemented by all inheriting classes.
+        This will not be true for every possible element as
+        there are internal structures as a result of 
+        post-processing, but it should be more informative 
+        than the default __repr__ method. Ultimately, this 
+        method must be implemented by all inheriting classes.
 
         :return: an unambiguous representation of the element
         """
@@ -152,23 +156,21 @@ class Inline(Element):
         """
         Renders self as an unambiguous string for development.
         In this case, it displays in the style of a dataclass,
-        where are instance variables are listed with their
+        where instance variables are listed with their
         values.
 
         :return:
             the Inline object as a development string
         """
-        image = self._image if not self._image else f"'{self._image}'"
-        link = self._link if not self._link else f"'{self._link}'"
         return (
             f"Inline("
-            f"text='{self._text}', "
-            f"image={image}, "
-            f"link={link}, "
-            f"bold={self._bold}, "
-            f"italics={self._italics}, "
-            f"strikethrough={self._strikethrough}, "
-            f"code={self._code}"
+            f"text={self._text!r}, "
+            f"image={self._image!r}, "
+            f"link={self._link!r}, "
+            f"bold={self._bold!r}, "
+            f"italics={self._italics!r}, "
+            f"strikethrough={self._strikethrough!r}, "
+            f"code={self._code!r}"
             ")"
         )
 
@@ -450,6 +452,18 @@ class Code(Block):
         """
         ticks = "`" * self._backticks
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        :return:
+            the Code object as a development string
+        """
+        return f"Code(code={self._code!r}, lang={self._lang!r})"
 
     @staticmethod
     def _process_backticks(code: str | Code) -> int:

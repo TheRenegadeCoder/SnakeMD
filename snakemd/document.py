@@ -278,7 +278,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_code("x = 5")
-            <snakemd.elements.Code object at ...>
+            Code(code='x = 5', lang='generic')
             >>> print(doc)
             ```generic
             x = 5

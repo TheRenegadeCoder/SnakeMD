@@ -34,7 +34,9 @@ class Element(ABC):
     #def __repr__(self) -> str:
         """
         The developer's string method to help make sense of
-        objects. Must be implemented by all inheriting classes.
+        objects. As described by Digital Ocean, this method should
+        return a string that can be used to recreate the object.
+        Must be implemented by all inheriting classes.
 
         :return: an unambiguous representation of the element
         """
@@ -156,11 +158,13 @@ class Inline(Element):
         :return:
             the Inline object as a development string
         """
+        image = self._image if not self._image else f"'{self._image}'"
+        link = self._link if not self._link else f"'{self._link}'"
         return (
             f"Inline("
-            f"text={self._text}, " 
-            f"image={self._image}, "
-            f"link={self._link}, "
+            f"text='{self._text}', " 
+            f"image={image}, "
+            f"link={link}, "
             f"bold={self._bold}, "
             f"italics={self._italics}, "
             f"strikethrough={self._strikethrough}, "

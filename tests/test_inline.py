@@ -10,18 +10,51 @@ from snakemd import Inline
 def test_inline_empty():
     text = Inline("")
     assert str(text) == ""
+    assert repr(text) == (
+        "Inline("
+        "text='', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert markdown.markdown(str(text)) == ""
 
 
 def test_inline_text():
     text = Inline("Hello, World!")
     assert str(text) == "Hello, World!"
+    assert repr(text) == (
+        "Inline("
+        "text='Hello, World!', "
+        "image=None, "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )    
     assert markdown.markdown(str(text)) == "<p>Hello, World!</p>"
 
 
 def test_inline_image():
     text = Inline("Here", image="https://snakemd.io")
     assert str(text) == "![Here](https://snakemd.io)"
+    assert repr(text) == (
+        "Inline("
+        "text='Here', "
+        "image='https://snakemd.io', "
+        "link=None, "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert (
         markdown.markdown(str(text))
         == '<p><img alt="Here" src="https://snakemd.io" /></p>'
@@ -31,6 +64,17 @@ def test_inline_image():
 def test_inline_link():
     text = Inline("Here", link="https://snakemd.io")
     assert str(text) == "[Here](https://snakemd.io)"
+    assert repr(text) == (
+        "Inline("
+        "text='Here', "
+        "image=None, "
+        "link='https://snakemd.io', "
+        "bold=False, "
+        "italics=False, "
+        "strikethrough=False, "
+        "code=False"
+        ")"
+    )
     assert (
         markdown.markdown(str(text)) == '<p><a href="https://snakemd.io">Here</a></p>'
     )

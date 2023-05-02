@@ -678,7 +678,9 @@ class HorizontalRule(Block):
         :return:
             the HorizontalRule object as a development string
         """
-        return "HorizontalRule()"
+        horizontal_rule: str = "HorizontalRule()"
+        logger.debug("Rendered horizontal rule: %r", horizontal_rule)
+        return horizontal_rule
 
 
 class MDList(Block):
@@ -779,7 +781,9 @@ class MDList(Block):
 
                 output.append(row)
                 i += 1
-        return "\n".join(output)
+        mdlist = "\n".join(output)
+        logger.debug("Rendered markdown list: %r", mdlist)
+        return mdlist
 
     def __repr__(self) -> str:
         """

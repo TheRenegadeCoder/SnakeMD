@@ -782,6 +782,21 @@ class MDList(Block):
         return "\n".join(output)
 
     def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values.
+
+        .. doctest:: mdlist
+
+            >>> mdlist = MDList(["Plus", "Ultra"])
+            >>> repr(mdlist)
+            "MDList(content=[Paragraph(...), Paragraph(...)])"
+
+        :return:
+            the MDList object as a development string
+        """
         return (
             f"MDList("
             f"items={self._items!r}, "

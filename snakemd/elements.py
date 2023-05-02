@@ -31,8 +31,8 @@ class Element(ABC):
             a markdown ready representation of the element
         """
 
-        # @abstractmethod
-        # def __repr__(self) -> str:
+    @abstractmethod
+    def __repr__(self) -> str:
         """
         The developer's string method to help make sense of
         objects. As described by Digital Ocean, this method should

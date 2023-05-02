@@ -58,9 +58,17 @@ class Document:
         self._elements: list[Element] = elements or []
         logger.info("Created new document: %r", self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
-        Renders the markdown document from a list of blocks.
+        Renders the markdown document from a list of elements.
+
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> doc.add_heading("First")
+            Heading(text=[...], level=1)
+            >>> print(doc)
+            # First
 
         :return:
             the document as a markdown string

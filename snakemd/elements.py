@@ -777,6 +777,15 @@ class MDList(Block):
                 i += 1
         return "\n".join(output)
 
+    def __repr__(self) -> str:
+        return (
+            f"MDList("
+            f"items={self._items!r}, "
+            f"ordered={self._ordered!r}, "
+            f"checked={self._checked!r}"
+            f")"
+        )
+
     @staticmethod
     def _process_items(items) -> list[Block]:
         """
@@ -887,6 +896,13 @@ class Paragraph(Block):
         """
         paragraph = "".join(str(item) for item in self._content)
         return " ".join(paragraph.split())
+    
+    def __repr__(self) -> str:
+        return (
+            f"Paragraph("
+            f"content={self._content}"
+            f")"
+        )
 
     def add(self, text: str | Inline) -> Paragraph:
         """

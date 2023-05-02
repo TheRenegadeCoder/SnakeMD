@@ -9,11 +9,33 @@ from snakemd import Code, Heading, HorizontalRule, Inline, MDList, Paragraph
 def test_md_list_empty():
     md_list = MDList([])
     assert str(md_list) == ""
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_one_inline():
     md_list = MDList([Inline("Deku")])
     assert str(md_list) == "- Deku"
+    assert repr(md_list) == (
+        r"MDList("
+        r"items=[Paragraph(content=[Inline("
+            r"text='Deku', "
+            r"image=None, "
+            r"link=None, "
+            r"bold=False, "
+            r"italics=False, "
+            r"strikethrough=False, "
+            r"code=False"
+        r")])], "
+        r"ordered=False, "
+        r"checked=None"
+        r")"
+    )
 
 
 def test_md_list_one_str():

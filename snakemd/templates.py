@@ -38,7 +38,7 @@ class Template(Element):
     """
 
     def __init__(self) -> None:
-        self._elements: list[Element] = None
+        self._elements: list[Element] = None # DO NOT MODIFY
 
     def load(self, elements: list[Element]) -> None:
         """

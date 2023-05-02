@@ -326,7 +326,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
-            <snakemd.elements.HorizontalRule object at ...>
+            HorizontalRule()
             >>> print(doc)
             ***
 
@@ -385,7 +385,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
-            <snakemd.elements.HorizontalRule object at ...>
+            HorizontalRule()
             >>> doc.scramble()
             >>> print(doc)
             ***
@@ -411,7 +411,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_horizontal_rule()
-            <snakemd.elements.HorizontalRule object at ...>
+            HorizontalRule()
             >>> doc.dump("README")
 
         :param str name:

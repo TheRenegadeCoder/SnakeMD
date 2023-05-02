@@ -36,7 +36,11 @@ class Element(ABC):
         The developer's string method to help make sense of
         objects. As described by Digital Ocean, this method should
         return a string that can be used to recreate the object.
-        Must be implemented by all inheriting classes.
+        This will not be true for every possible element as
+        there are internal structures and dependencies, but
+        it should be more informative than the default
+        __repr__ method. Ultimately, this method must be 
+        implemented by all inheriting classes.
 
         :return: an unambiguous representation of the element
         """
@@ -450,6 +454,14 @@ class Code(Block):
         """
         ticks = "`" * self._backticks
         return f"{ticks}{self._lang}\n{self._code}\n{ticks}"
+    
+    def __repr__(self) -> str:
+        return (
+            "Code("
+            f"code={self._code!r}, "
+            f"lang={self._lang!r}"
+            ")"
+        )
 
     @staticmethod
     def _process_backticks(code: str | Code) -> int:

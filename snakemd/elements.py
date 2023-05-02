@@ -630,6 +630,10 @@ class HorizontalRule(Block):
     A horizontal rule is a line separating different sections of
     a document. Horizontal rules only come in one form,
     so there are no settings to adjust.
+    
+    .. testsetup:: horizontalrule
+
+        from snakemd import HorizontalRule
     """
 
     def __str__(self) -> str:
@@ -651,6 +655,12 @@ class HorizontalRule(Block):
         In this case, it displays in the style of a dataclass,
         where instance variables are listed with their
         values.
+        
+        .. doctest:: horizontalrule
+
+            >>> horizontal_rule = HorizontalRule()
+            >>> repr(horizontal_rule)
+            HorizontalRule()
 
         :return:
             the HorizontalRule object as a development string

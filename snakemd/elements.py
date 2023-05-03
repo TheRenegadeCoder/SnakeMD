@@ -37,12 +37,11 @@ class Element(ABC):
     def __repr__(self) -> str:
         """
         The developer's string method to help make sense of
-        objects. As described by Digital Ocean, this method should
-        return a string that can be used to recreate the object.
-        This will not be true for every possible element as
-        there are internal structures as a result of
-        post-processing, but it should be more informative
-        than the default __repr__ method. Ultimately, this
+        objects. For the purposes of this repo, the __repr__
+        method should create strings that can be used to
+        recreate the element, much like the built-in
+        feature of dataclasses (a feature which may be adopted
+        in future versions of snakemd). Ultimately, this
         method must be implemented by all inheriting classes.
 
         :return:

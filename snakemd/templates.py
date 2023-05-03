@@ -52,7 +52,7 @@ class Template(Element):  # pylint: disable=too-few-public-methods
 
 class TableOfContents(Template):
     """
-    A Table of Contents is an block containing an ordered list
+    A Table of Contents is an element containing an ordered list
     of all the `<h2>` headings in the document by default. A range can be
     specified to customize which headings (e.g., `<h3>`) are included in
     the table of contents. This element can be placed anywhere in the document.

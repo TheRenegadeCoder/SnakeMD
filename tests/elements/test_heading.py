@@ -33,6 +33,13 @@ def test_heading_empty():
 
 
 def test_heading_str_level_one():
+    """
+    Verifies that a Heading object properly 
+    initializes with a typical string. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading("Example heading", 1)
     assert str(heading) == "# Example heading"
     assert repr(heading) == (
@@ -48,6 +55,7 @@ def test_heading_str_level_one():
         r")]"
         r", level=1)"
     )
+    assert markdown.markdown(str(heading)) == "<h1>Example heading</h1>"
 
 
 def test_heading_inline_level_one():
@@ -66,6 +74,7 @@ def test_heading_inline_level_one():
         r")]"
         r", level=1)"
     )
+    assert markdown.markdown(str(heading)) == "<h1>Example heading</h1>"
 
 
 def test_heading_inline_bold_level_one():
@@ -84,6 +93,7 @@ def test_heading_inline_bold_level_one():
         r")]"
         r", level=1)"
     )
+    assert markdown.markdown(str(heading)) == "<h1><strong>Example heading</strong></h1>"
 
 
 def test_heading_str_level_two():
@@ -102,6 +112,7 @@ def test_heading_str_level_two():
         r")]"
         r", level=2)"
     )
+    assert markdown.markdown(str(heading)) == "<h2>Example heading</h2>"
 
 
 def test_heading_str_level_three():
@@ -120,6 +131,7 @@ def test_heading_str_level_three():
         r")]"
         r", level=3)"
     )
+    assert markdown.markdown(str(heading)) == "<h3>Example heading</h3>"
 
 
 def test_heading_str_level_four():
@@ -138,6 +150,7 @@ def test_heading_str_level_four():
         r")]"
         r", level=4)"
     )
+    assert markdown.markdown(str(heading)) == "<h4>Example heading</h4>"
 
 
 def test_heading_str_level_five():
@@ -156,6 +169,7 @@ def test_heading_str_level_five():
         r")]"
         r", level=5)"
     )
+    assert markdown.markdown(str(heading)) == "<h5>Example heading</h5>"
 
 
 def test_heading_str_level_six():
@@ -174,6 +188,7 @@ def test_heading_str_level_six():
         r")]"
         r", level=6)"
     )
+    assert markdown.markdown(str(heading)) == "<h6>Example heading</h6>"
 
 
 def test_heading_str_level_zero_exception():

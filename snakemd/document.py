@@ -475,10 +475,10 @@ class Document:
             the name of the markdown file to output without the file extension
         :param str | os.PathLike directory:
             the output directory for the markdown file; defaults to ""
-            
+
             .. versionchanged:: 2.2
                 Renamed from dir to directory to avoid built-in clashes
-            
+
         :param str ext:
             the output file extension; defaults to "md"
         :param str encoding:

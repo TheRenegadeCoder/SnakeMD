@@ -209,6 +209,21 @@ class Inline(Element):
         """
         return bool(self._link)
 
+    def get_text(self) -> str:
+        """
+        Retrieves the text attribute of the Inline element.
+
+        .. doctest:: inline
+
+            >>> inline = Inline("This is text")
+            >>> inline.get_text()
+            "This is text"
+
+        :return:
+            the text of the Inline element
+        """
+        return self._text
+
     def bold(self) -> Inline:
         """
         Adds bold styling to self.
@@ -642,7 +657,7 @@ class Heading(Block):
         :return:
             the heading as a string
         """
-        text_elements = [item._text for item in self._text]
+        text_elements = [item.get_text() for item in self._text]
         return "".join(text_elements)
 
 
@@ -982,7 +997,7 @@ class Paragraph(Block):
         for inline_text in self._content:
             if (
                 inline_text.is_text()
-                and len(items := inline_text._text.split(target)) > 1
+                and len(items := inline_text.get_text().split(target)) > 1
             ):
                 for item in items:
                     content.append(Inline(item))

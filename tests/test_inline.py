@@ -1,4 +1,3 @@
-import pytest
 import markdown
 
 from snakemd import Inline

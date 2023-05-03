@@ -61,6 +61,8 @@ class CSVTable(Template):
     the CSV is assumed to be a header. Future
     iterations of this template may allow users
     to select the exact row for their header.
+    Future iterations may also allow for different
+    CSV dialects like Excel.
 
     .. versionadded:: 2.2
         Included to showcase the possibilities of
@@ -79,6 +81,10 @@ class CSVTable(Template):
         self._table = self._process_csv(path, encoding)
 
     def __str__(self) -> str:
+        """
+        Renders self as a markdown ready string. See
+        :class:`snakemd.Table` for more details.
+        """
         return str(self._table)
 
     def __repr__(self) -> str:
@@ -117,7 +123,8 @@ class TableOfContents(Template):
 
     def __str__(self) -> str:
         """
-        Renders the table of contents using the Document reference.
+        Renders self as a markdown ready string. See :class:`snakemd.MDList`
+        for more details.
 
         :return:
             the table of contents as a markdown string

@@ -220,8 +220,7 @@ class Inline(Element):
             "This is text"
 
         .. versionadded:: 2.2
-            Included to remove protected-member access from
-            existing codebase.
+            Included to avoid protected member access scenarios.
 
         :return:
             the text of the Inline element
@@ -239,8 +238,7 @@ class Inline(Element):
             "https://snakemd.io"
 
         .. versionadded:: 2.2
-            Included to remove protected-member access from
-            existing codebase.
+            Included to avoid protected member access scenarios.
 
         :return:
             the link of the Inline element
@@ -682,6 +680,23 @@ class Heading(Block):
         """
         text_elements = [item.get_text() for item in self._text]
         return "".join(text_elements)
+
+    def get_level(self) -> int:
+        """
+        Retrieves the level of the heading.
+
+        .. doctest:: heading
+
+            >>> heading = Heading("This is the heading text", 1)
+            >>> heading.get_level()
+            1
+
+        .. versionadded:: 2.2
+            Included to avoid protected member access scenarios.
+
+        :return:
+            the heading level
+        """
 
 
 class HorizontalRule(Block):

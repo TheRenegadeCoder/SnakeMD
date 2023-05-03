@@ -94,7 +94,7 @@ class TableOfContents(Template):
         return [
             heading
             for heading in self._elements
-            if isinstance(heading, Heading) and heading._level in self._levels
+            if isinstance(heading, Heading) and heading.get_level() in self._levels
         ]
 
     def _assemble_table_of_contents(
@@ -110,10 +110,10 @@ class TableOfContents(Template):
             return MDList([]), -1
 
         i = position
-        level = headings[i]._level
+        level = headings[i].get_level()
         table_of_contents = []
-        while i < len(headings) and headings[i]._level >= level:
-            if headings[i]._level == level:
+        while i < len(headings) and headings[i].get_level() >= level:
+            if headings[i].get_level() == level:
                 line = Inline(
                     headings[i].get_text(),
                     link=f"#{'-'.join(headings[i].get_text().lower().split())}",

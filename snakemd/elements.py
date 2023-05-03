@@ -217,7 +217,7 @@ class Inline(Element):
 
             >>> inline = Inline("This is text")
             >>> inline.get_text()
-            "This is text"
+            'This is text'
 
         .. versionadded:: 2.2
             Included to avoid protected member access scenarios.
@@ -235,7 +235,7 @@ class Inline(Element):
 
             >>> inline = Inline("Here", link="https://snakemd.io")
             >>> inline.get_link()
-            "https://snakemd.io"
+            'https://snakemd.io'
 
         .. versionadded:: 2.2
             Included to avoid protected member access scenarios.

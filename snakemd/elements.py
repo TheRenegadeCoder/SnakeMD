@@ -219,10 +219,33 @@ class Inline(Element):
             >>> inline.get_text()
             "This is text"
 
+        .. versionadded:: 2.2
+            Included to remove protected-member access from
+            existing codebase.
+
         :return:
             the text of the Inline element
         """
         return self._text
+
+    def get_link(self) -> str:
+        """
+        Retrieves the link attribute of the Inline element.
+
+        .. doctest:: inline
+
+            >>> inline = Inline("Here", link="https://snakemd.io")
+            >>> inline.get_link()
+            "https://snakemd.io"
+
+        .. versionadded:: 2.2
+            Included to remove protected-member access from
+            existing codebase.
+
+        :return:
+            the link of the Inline element
+        """
+        return self._link
 
     def bold(self) -> Inline:
         """
@@ -1116,7 +1139,7 @@ class Paragraph(Block):
         """
         i = 0
         for text in self._content:
-            if (count == -1 or i < count) and text._link == target_link:
+            if (count == -1 or i < count) and text.get_link() == target_link:
                 text.link(replacement_link)
                 i += 1
         return self

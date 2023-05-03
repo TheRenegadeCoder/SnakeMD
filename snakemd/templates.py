@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 
-from .elements import Block, Element, Heading, Inline, MDList
+from .elements import Element, Heading, Inline, MDList
 
 logger = logging.getLogger(__name__)
 

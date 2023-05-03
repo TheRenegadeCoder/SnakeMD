@@ -5,9 +5,9 @@ and all of it's children.
 
 from __future__ import annotations
 
+import csv
 import logging
 import os
-import csv
 
 from .elements import Element, Heading, Inline, MDList, Table
 
@@ -84,7 +84,7 @@ class CSVTable(Template):
         """
         Renders self as a markdown ready string. See
         :class:`snakemd.Table` for more details.
-        
+
         :return:
             the CSVTable as a markdown string
         """
@@ -94,14 +94,25 @@ class CSVTable(Template):
         """
         Renders self as an unambiguous string for development.
         See :class:`snakemd.Table` for more details.
-        
+
         :return:
             the CSVTable as a development string
         """
         return repr(self._table)
 
     @staticmethod
-    def _process_csv(path: os.PathLike, encoding: str):
+    def _process_csv(path: os.PathLike, encoding: str) -> Table:
+        """
+        A helper method for processing the CSV file into
+        a Table object.
+
+        :param os.Pathlike path:
+            the path to the CSV file
+        :param str encoding:
+            the encoding of the CSV file
+        :return:
+            the CSV file as a markdown Table
+        """
         with open(path, encoding=encoding) as csv_file:
             csv_reader = csv.reader(csv_file)
             header = next(csv_reader)

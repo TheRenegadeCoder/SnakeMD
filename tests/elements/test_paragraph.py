@@ -138,9 +138,9 @@ def test_paragraph_replace_str():
     paragraph = Paragraph("Test Text")
     paragraph.replace("Test", "Real")
     assert str(paragraph) == "Real Text"
-    
+
 
 def test_repr_can_create_object():
     paragraph = Paragraph("")
     obj = eval(repr(paragraph))
-    assert isinstance(obj, Paragraph) 
+    assert isinstance(obj, Paragraph)

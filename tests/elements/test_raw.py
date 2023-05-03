@@ -22,11 +22,12 @@ def test_raw_two_lines():
 def test_raw_user_example():
     raw = Raw("Title: My super title\nDate: 2010-12-03 10:20")
     assert str(raw) == "Title: My super title\nDate: 2010-12-03 10:20"
-    
-    
+
+
 # Method tests
+
 
 def test_repr_can_create_object():
     raw = Raw("")
     obj = eval(repr(raw))
-    assert isinstance(obj, Raw) 
+    assert isinstance(obj, Raw)

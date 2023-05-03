@@ -86,9 +86,9 @@ def test_table_add_row_exception():
     with pytest.raises(ValueError):
         table = Table(["Age"])
         table.add_row(["25", "55"])
-        
+
 
 def test_repr_can_create_object():
     table = Table([])
     obj = eval(repr(table))
-    assert isinstance(obj, Table) 
+    assert isinstance(obj, Table)

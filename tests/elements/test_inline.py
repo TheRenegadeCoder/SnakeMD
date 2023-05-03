@@ -50,7 +50,7 @@ def test_inline_text():
         "strikethrough=False, "
         "code=False"
         ")"
-    )    
+    )
     assert markdown.markdown(str(text)) == "<p>Hello, World!</p>"
 
 
@@ -162,7 +162,7 @@ def test_inline_strikethrough():
     the repr string is properly formatted. Does
     NOT verify that the markdown itself is
     properly rendered as strikethrough is not
-    a feature of python-markdown. 
+    a feature of python-markdown.
     """
     text = Inline("Hello, World!", strikethrough=True)
     assert str(text) == "~~Hello, World!~~"
@@ -469,4 +469,4 @@ def test_inline_is_link_method():
 def test_repr_can_create_object():
     inline = Inline("")
     obj = eval(repr(inline))
-    assert isinstance(obj, Inline) 
+    assert isinstance(obj, Inline)

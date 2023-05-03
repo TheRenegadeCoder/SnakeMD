@@ -13,6 +13,21 @@ as follows:
 v2.x
 ----
 
+* v2.2.0b1 [:pr:`#140`, :pr:`#142`, :pr:`#143`, :pr:`#144`, :pr:`#145`, :pr:`#146`, :pr:`#149`]
+
+  * Expanded the Element requirements to include :code:`__repr__()` for developer friendly strings
+  * Reworked logging system to take advantage of lazy loading and new :code:`__repr__()` methods
+  * Expanded testing to verify the :code:`__repr__()` strings can be used as Python code
+  * Added a handful of getter methods to dissuade folks from using protected members of classes
+  * Fixed jQuery issues in documentation
+  * Incorporated linting (specifically pylint) in development workflow
+  * Updated changelog string for consistency on PyPI
+  * Introduced concept of lazy loading for templates to allow for processing of document contents at render time
+  * Broke existing behavior of a handful of utilities: 
+  
+    * Changed the :code:`dir` parameter to :code:`directory` for :code:`dump()` method of :code:`Document` to eliminate shadowing of built-in :code:`dir` 
+    * Removed :code:`doc` parameter of :code:`TableOfContents` constructor in preference of new lazy loading system of templates
+
 * v2.1.0 [:pr:`136`]
 
   * Migrated build system from setup.py to poetry

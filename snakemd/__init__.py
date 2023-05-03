@@ -2,9 +2,9 @@
 The SnakeMD module is the root module of the snakemd
 system. It imports all classes to be used directly
 through snakemd, so users don't need to know
-the underlying directory structure. Likewise, 
+the underlying directory structure. Likewise,
 directory structure can be changed in future iterations
-of the project without affecting users. 
+of the project without affecting users.
 """
 
 from .document import *

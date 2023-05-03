@@ -53,20 +53,40 @@ class Template(Element):  # pylint: disable=too-few-public-methods
 
 
 class CSVTable(Template):
-    def __init__(self, path: os.PathLike) -> None:
+    """
+    A CSV Table is a wrapper for the Table Block,
+    which provides a seamless way to load CSV data
+    into Markdown. Because Markdown tables are
+    required to have headers, the first row of
+    the CSV is assumed to be a header. Future
+    iterations of this template may allow users
+    to select the exact row for their header.
+
+    .. versionadded:: 2.2
+        Included to showcase the possibilities of
+        templates
+
+    :param os.Pathlike path:
+        the path to a CSV file
+    :param str encoding:
+        the encoding of the CSV file; defaults to utf-8
+    """
+
+    def __init__(self, path: os.PathLike, encoding: str = "utf-8") -> None:
         super().__init__()
         self._path = path
-        self._table = self._process_csv(path)
-        
+        self._encoding = encoding
+        self._table = self._process_csv(path, encoding)
+
     def __str__(self) -> str:
         return str(self._table)
-    
+
     def __repr__(self) -> str:
         return repr(self._table)
 
     @staticmethod
-    def _process_csv(path: os.PathLike):
-        with open(path) as csv_file:
+    def _process_csv(path: os.PathLike, encoding: str):
+        with open(path, encoding=encoding) as csv_file:
             csv_reader = csv.reader(csv_file)
             header = next(csv_reader)
             table = Table(header=header)

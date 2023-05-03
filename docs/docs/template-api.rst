@@ -32,9 +32,9 @@ available for subclassing. Your templates can either
 be included directly in snakemd, or you're free
 to create your own template library by importing
 snakemd. In the former case, the template should
-make use of the Python standard library and not
-depend on external dependencies. In the latter case,
-that restriction does not apply. With that said,
+make use of the Python standard library only and not
+make use of any external dependencies. In the latter 
+case, that restriction does not apply. With that said,
 the existing templates can be found below.
 
 TableOfContents

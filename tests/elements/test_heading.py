@@ -1,5 +1,5 @@
 import pytest
-
+import markdown
 from snakemd import Heading, Inline
 
 
@@ -7,6 +7,13 @@ from snakemd import Heading, Inline
 
 
 def test_heading_empty():
+    """
+    Verifies that an empty string Heading object
+    properly initializes. Also verifies that
+    the repr string is properly formatted
+    and that the markdown itself is properly
+    rendered.
+    """
     heading = Heading("", 1)
     assert str(heading) == "# "
     assert repr(heading) == (
@@ -22,6 +29,7 @@ def test_heading_empty():
         r")]"
         r", level=1)"
     )
+    assert markdown.markdown(str(heading)) == "<h1></h1>"
 
 
 def test_heading_str_level_one():

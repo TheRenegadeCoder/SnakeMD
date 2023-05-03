@@ -84,10 +84,20 @@ class CSVTable(Template):
         """
         Renders self as a markdown ready string. See
         :class:`snakemd.Table` for more details.
+        
+        :return:
+            the CSVTable as a markdown string
         """
         return str(self._table)
 
     def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        See :class:`snakemd.Table` for more details.
+        
+        :return:
+            the CSVTable as a development string
+        """
         return repr(self._table)
 
     @staticmethod

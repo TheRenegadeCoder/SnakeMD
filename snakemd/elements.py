@@ -209,6 +209,42 @@ class Inline(Element):
         """
         return bool(self._link)
 
+    def get_text(self) -> str:
+        """
+        Retrieves the text attribute of the Inline element.
+
+        .. doctest:: inline
+
+            >>> inline = Inline("This is text")
+            >>> inline.get_text()
+            'This is text'
+
+        .. versionadded:: 2.2
+            Included to avoid protected member access scenarios.
+
+        :return:
+            the text of the Inline element
+        """
+        return self._text
+
+    def get_link(self) -> str:
+        """
+        Retrieves the link attribute of the Inline element.
+
+        .. doctest:: inline
+
+            >>> inline = Inline("Here", link="https://snakemd.io")
+            >>> inline.get_link()
+            'https://snakemd.io'
+
+        .. versionadded:: 2.2
+            Included to avoid protected member access scenarios.
+
+        :return:
+            the link of the Inline element
+        """
+        return self._link
+
     def bold(self) -> Inline:
         """
         Adds bold styling to self.
@@ -404,7 +440,7 @@ class Inline(Element):
         return self
 
 
-class Block(Element):
+class Block(Element):  # pylint: disable=too-few-public-methods
     """
     A block element in Markdown. A block is defined as a standalone
     element starting on a newline. Examples of blocks include paragraphs
@@ -490,7 +526,7 @@ class Code(Block):
         :return: the number of appropriate backticks for this code block
         """
         if isinstance(code, Code):
-            return code._backticks + 1
+            return code._backticks + 1  # pylint: disable=protected-access
         return 3
 
 
@@ -642,8 +678,26 @@ class Heading(Block):
         :return:
             the heading as a string
         """
-        text_elements = [item._text for item in self._text]
+        text_elements = [item.get_text() for item in self._text]
         return "".join(text_elements)
+
+    def get_level(self) -> int:
+        """
+        Retrieves the level of the heading.
+
+        .. doctest:: heading
+
+            >>> heading = Heading("This is the heading text", 1)
+            >>> heading.get_level()
+            1
+
+        .. versionadded:: 2.2
+            Included to avoid protected member access scenarios.
+
+        :return:
+            the heading level
+        """
+        return self._level
 
 
 class HorizontalRule(Block):
@@ -982,7 +1036,7 @@ class Paragraph(Block):
         for inline_text in self._content:
             if (
                 inline_text.is_text()
-                and len(items := inline_text._text.split(target)) > 1
+                and len(items := inline_text.get_text().split(target)) > 1
             ):
                 for item in items:
                     content.append(Inline(item))
@@ -1101,7 +1155,7 @@ class Paragraph(Block):
         """
         i = 0
         for text in self._content:
-            if (count == -1 or i < count) and text._link == target_link:
+            if (count == -1 or i < count) and text.get_link() == target_link:
                 text.link(replacement_link)
                 i += 1
         return self
@@ -1161,7 +1215,7 @@ class Quote(Block):
         quote_markers = f"{'> ' * self._depth}"
         for line in self._lines:
             if isinstance(line, Quote):
-                line._depth = self._depth + 1
+                line._depth = self._depth + 1  # pylint: disable=W0201
                 formatted_lines.extend([quote_markers, str(line), quote_markers])
             else:
                 split = f"\n{quote_markers}".join(str(line).splitlines())

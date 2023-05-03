@@ -453,7 +453,7 @@ class Document:
     def dump(
         self,
         name: str,
-        dir: str | os.PathLike = "",
+        directory: str | os.PathLike = "",
         ext: str = "md",
         encoding: str = "utf-8",
     ) -> None:
@@ -473,16 +473,20 @@ class Document:
 
         :param str name:
             the name of the markdown file to output without the file extension
-        :param str | os.PathLike dir:
+        :param str | os.PathLike directory:
             the output directory for the markdown file; defaults to ""
+            
+            .. versionchanged:: 2.2
+                Renamed from dir to directory to avoid built-in clashes
+            
         :param str ext:
             the output file extension; defaults to "md"
         :param str encoding:
             the encoding to use; defaults to utf-8
         """
-        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
         with open(
-            os.path.join(dir, f"{name}.{ext}"), "w+", encoding=encoding
+            os.path.join(directory, f"{name}.{ext}"), "w+", encoding=encoding
         ) as output_file:
             output_file.write(str(self))
-        logger.info("Dumped document to %s with filename %s.%s", dir, name, ext)
+        logger.info("Dumped document to %s with filename %s.%s", directory, name, ext)

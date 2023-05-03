@@ -1,4 +1,5 @@
 import pytest
+
 from snakemd.templates import CSVTable
 
 

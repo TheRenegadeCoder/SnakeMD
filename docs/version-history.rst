@@ -13,7 +13,7 @@ as follows:
 v2.x
 ----
 
-* v2.2.0b1
+* v2.2.0b1 [:pr:`#140`, :pr:`#142`, :pr:`#143`, :pr:`#144`, :pr:`#145`, :pr:`#146`, :pr:`#149`]
 
   * Expanded the Element requirements to include :code:`__repr__()` for developer friendly strings
   * Reworked logging system to take advantage of lazy loading and new :code:`__repr__()` methods

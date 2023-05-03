@@ -5,9 +5,11 @@ and all of it's children.
 
 from __future__ import annotations
 
+import csv
 import logging
+import os
 
-from .elements import Element, Heading, Inline, MDList
+from .elements import Element, Heading, Inline, MDList, Table
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +52,76 @@ class Template(Element):  # pylint: disable=too-few-public-methods
         self._elements = elements
 
 
+class CSVTable(Template):
+    """
+    A CSV Table is a wrapper for the Table Block,
+    which provides a seamless way to load CSV data
+    into Markdown. Because Markdown tables are
+    required to have headers, the first row of
+    the CSV is assumed to be a header. Future
+    iterations of this template may allow users
+    to select the exact row for their header.
+    Future iterations may also allow for different
+    CSV dialects like Excel.
+
+    .. versionadded:: 2.2
+        Included to showcase the possibilities of
+        templates
+
+    :param os.Pathlike path:
+        the path to a CSV file
+    :param str encoding:
+        the encoding of the CSV file; defaults to utf-8
+    """
+
+    def __init__(self, path: os.PathLike, encoding: str = "utf-8") -> None:
+        super().__init__()
+        self._path = path
+        self._encoding = encoding
+        self._table = self._process_csv(path, encoding)
+
+    def __str__(self) -> str:
+        """
+        Renders self as a markdown ready string. See
+        :class:`snakemd.Table` for more details.
+
+        :return:
+            the CSVTable as a markdown string
+        """
+        return str(self._table)
+
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        See :class:`snakemd.Table` for more details.
+
+        :return:
+            the CSVTable as a development string
+        """
+        return repr(self._table)
+
+    @staticmethod
+    def _process_csv(path: os.PathLike, encoding: str) -> Table:
+        """
+        A helper method for processing the CSV file into
+        a Table object.
+
+        :param os.Pathlike path:
+            the path to the CSV file
+        :param str encoding:
+            the encoding of the CSV file
+        :return:
+            the CSV file as a markdown Table
+        """
+        with open(path, encoding=encoding) as csv_file:
+            csv_reader = csv.reader(csv_file)
+            header = next(csv_reader)
+            table = Table(header=header)
+            for row in csv_reader:
+                table.add_row(row=row)
+            return table
+
+
 class TableOfContents(Template):
     """
     A Table of Contents is an element containing an ordered list
@@ -65,14 +137,15 @@ class TableOfContents(Template):
         to include in the table of contents; defaults to range(2, 3)
     """
 
-    def __init__(self, levels: range = range(2, 3)):
+    def __init__(self, levels: range = range(2, 3)) -> None:
         super().__init__()
         self._levels: range = levels
         logger.debug("New table of contents initialized with levels in %s", levels)
 
     def __str__(self) -> str:
         """
-        Renders the table of contents using the Document reference.
+        Renders self as a markdown ready string. See :class:`snakemd.MDList`
+        for more details.
 
         :return:
             the table of contents as a markdown string

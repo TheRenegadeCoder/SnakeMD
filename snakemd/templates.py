@@ -6,8 +6,10 @@ and all of it's children.
 from __future__ import annotations
 
 import logging
+import os
+import csv
 
-from .elements import Element, Heading, Inline, MDList
+from .elements import Element, Heading, Inline, MDList, Table
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +52,29 @@ class Template(Element):  # pylint: disable=too-few-public-methods
         self._elements = elements
 
 
+class CSVTable(Template):
+    def __init__(self, path: os.PathLike) -> None:
+        super().__init__()
+        self._path = path
+        self._table = self._process_csv(path)
+        
+    def __str__(self) -> str:
+        return str(self._table)
+    
+    def __repr__(self) -> str:
+        return repr(self._table)
+
+    @staticmethod
+    def _process_csv(path: os.PathLike):
+        with open(path) as csv_file:
+            csv_reader = csv.reader(csv_file)
+            header = next(csv_reader)
+            table = Table(header=header)
+            for row in csv_reader:
+                table.add_row(row=row)
+            return table
+
+
 class TableOfContents(Template):
     """
     A Table of Contents is an element containing an ordered list
@@ -65,7 +90,7 @@ class TableOfContents(Template):
         to include in the table of contents; defaults to range(2, 3)
     """
 
-    def __init__(self, levels: range = range(2, 3)):
+    def __init__(self, levels: range = range(2, 3)) -> None:
         super().__init__()
         self._levels: range = levels
         logger.debug("New table of contents initialized with levels in %s", levels)

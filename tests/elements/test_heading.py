@@ -59,6 +59,13 @@ def test_heading_str_level_one():
 
 
 def test_heading_inline_level_one():
+    """
+    Verifies that a Heading object properly 
+    initializes with an Inline string. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading(Inline("Example heading"), 1)
     assert str(heading) == "# Example heading"
     assert repr(heading) == (
@@ -78,6 +85,13 @@ def test_heading_inline_level_one():
 
 
 def test_heading_inline_bold_level_one():
+    """
+    Verifies that a Heading object properly 
+    initializes with a custom Inline string. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading(Inline("Example heading", bold=True), 1)
     assert str(heading) == "# **Example heading**"
     assert repr(heading) == (
@@ -97,6 +111,13 @@ def test_heading_inline_bold_level_one():
 
 
 def test_heading_str_level_two():
+    """
+    Verifies that a Heading object properly 
+    initializes with as a level 2 heading. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading("Example heading", 2)
     assert str(heading) == "## Example heading"
     assert repr(heading) == (
@@ -116,6 +137,13 @@ def test_heading_str_level_two():
 
 
 def test_heading_str_level_three():
+    """
+    Verifies that a Heading object properly 
+    initializes with as a level 3 heading. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading("Example heading", 3)
     assert str(heading) == "### Example heading"
     assert repr(heading) == (
@@ -135,6 +163,13 @@ def test_heading_str_level_three():
 
 
 def test_heading_str_level_four():
+    """
+    Verifies that a Heading object properly 
+    initializes with as a level 4 heading. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading("Example heading", 4)
     assert str(heading) == "#### Example heading"
     assert repr(heading) == (
@@ -154,6 +189,13 @@ def test_heading_str_level_four():
 
 
 def test_heading_str_level_five():
+    """
+    Verifies that a Heading object properly 
+    initializes with as a level 5 heading. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading("Example heading", 5)
     assert str(heading) == "##### Example heading"
     assert repr(heading) == (
@@ -173,6 +215,13 @@ def test_heading_str_level_five():
 
 
 def test_heading_str_level_six():
+    """
+    Verifies that a Heading object properly 
+    initializes with as a level 6 heading. Also 
+    verifies that the repr string is properly 
+    formatted and that the markdown itself is 
+    properly rendered.
+    """
     heading = Heading("Example heading", 6)
     assert str(heading) == "###### Example heading"
     assert repr(heading) == (

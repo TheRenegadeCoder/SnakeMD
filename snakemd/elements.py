@@ -697,6 +697,7 @@ class Heading(Block):
         :return:
             the heading level
         """
+        return self._level
 
 
 class HorizontalRule(Block):

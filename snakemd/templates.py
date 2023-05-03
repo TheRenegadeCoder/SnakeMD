@@ -12,7 +12,7 @@ from .elements import Element, Heading, Inline, MDList
 logger = logging.getLogger(__name__)
 
 
-class Template(Element):
+class Template(Element):  # pylint: disable=too-few-public-methods
     """
     A template element in Markdown. A template can be thought of as a subdocument or
     collection of blocks. The entire purpose of the Template interface is to provide

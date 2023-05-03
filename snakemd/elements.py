@@ -440,7 +440,7 @@ class Inline(Element):
         return self
 
 
-class Block(Element):
+class Block(Element):  # pylint: disable=too-few-public-methods
     """
     A block element in Markdown. A block is defined as a standalone
     element starting on a newline. Examples of blocks include paragraphs
@@ -526,7 +526,7 @@ class Code(Block):
         :return: the number of appropriate backticks for this code block
         """
         if isinstance(code, Code):
-            return code._backticks + 1
+            return code._backticks + 1  # pylint: disable=protected-access
         return 3
 
 
@@ -1214,7 +1214,7 @@ class Quote(Block):
         quote_markers = f"{'> ' * self._depth}"
         for line in self._lines:
             if isinstance(line, Quote):
-                line._depth = self._depth + 1
+                line._depth = self._depth + 1  # pylint: disable=W0201
                 formatted_lines.extend([quote_markers, str(line), quote_markers])
             else:
                 split = f"\n{quote_markers}".join(str(line).splitlines())

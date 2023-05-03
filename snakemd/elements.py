@@ -516,6 +516,21 @@ class Code(Block):
         """
         return f"Code(code={self._code!r}, lang={self._lang!r})"
 
+    def __eq__(self, other) -> bool:
+        """
+        Checks to see if this code block is equal to some
+        other object. Equality is based on the provided
+        arguments to the constructor (i.e., is the code
+        the same and the language the same?).
+
+        :return:
+            True if the constructor arguments are equivalent;
+            False, otherwise
+        """
+        if isinstance(other, Code):
+            return self._code == other._code and self._lang == other._lang
+        return False
+
     @staticmethod
     def _process_backticks(code: str | Code) -> int:
         """

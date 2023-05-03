@@ -76,6 +76,13 @@ def test_code_nested():
 
 
 def test_repr_can_create_object():
+    """
+    Verifies that the __repr__ method can correctly
+    generate a string that can be used to create
+    an identical code block.
+    """
     code = Code("")
     obj = eval(repr(code))
-    assert isinstance(obj, Code) 
+    assert isinstance(obj, Code)
+    assert obj == code
+    assert id(obj) != id(code)

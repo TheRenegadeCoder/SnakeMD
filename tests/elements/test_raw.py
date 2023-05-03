@@ -1,6 +1,5 @@
 from snakemd import Raw
 
-
 # Constructor tests
 
 

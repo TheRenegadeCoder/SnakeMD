@@ -1,4 +1,5 @@
 from types import GeneratorType
+
 from snakemd import Inline, Paragraph
 
 

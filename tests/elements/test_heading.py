@@ -1,7 +1,7 @@
-import pytest
 import markdown
-from snakemd import Heading, Inline
+import pytest
 
+from snakemd import Heading, Inline
 
 # Constructor Tests
 

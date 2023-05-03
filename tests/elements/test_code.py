@@ -1,6 +1,5 @@
 from snakemd import Code
 
-
 # Constructor tests
 
 

@@ -1,6 +1,6 @@
 import pytest
-from snakemd import Inline, Paragraph, Table
 
+from snakemd import Inline, Paragraph, Table
 
 # Constructor tests
 

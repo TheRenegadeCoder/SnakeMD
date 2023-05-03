@@ -2,7 +2,6 @@ import markdown
 
 from snakemd import Inline
 
-
 # Constructor tests (singles)
 
 

@@ -2,7 +2,7 @@
 [tool.poetry]
 name = "SnakeMD"
 description = "A markdown generation library for Python."
-version = "2.1.0"
+version = "2.2.0b1"
 license = "MIT"
 
 authors = [

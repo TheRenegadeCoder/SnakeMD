@@ -1,6 +1,6 @@
 import os
-from snakemd import Document, Heading, Paragraph, HorizontalRule
 
+from snakemd import Document, Heading, HorizontalRule, Paragraph
 
 # Method tests (singles)
 

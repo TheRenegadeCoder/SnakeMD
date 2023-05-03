@@ -28,10 +28,10 @@ author = "The Renegade Coder"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 
-    'sphinx_issues', 
-    'sphinx.ext.intersphinx', 
-    'sphinx.ext.doctest',
+    "sphinx.ext.autodoc",
+    "sphinx_issues",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.doctest",
     "sphinxcontrib.jquery",
 ]
 

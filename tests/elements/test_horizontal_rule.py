@@ -6,6 +6,10 @@ from snakemd import HorizontalRule
 
 
 def test_horizontal_rule():
+    """
+    Verifies that a HorizontalRule is properly
+    initialized. 
+    """
     hr = HorizontalRule()
     assert str(hr) == "***"
     assert repr(hr) == "HorizontalRule()"

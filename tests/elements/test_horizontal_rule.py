@@ -1,10 +1,22 @@
+import markdown
 from snakemd import HorizontalRule
 
 
+# Constructor tests
+
+
 def test_horizontal_rule():
+    """
+    Verifies that a HorizontalRule is properly
+    initialized. 
+    """
     hr = HorizontalRule()
     assert str(hr) == "***"
     assert repr(hr) == "HorizontalRule()"
+    assert markdown.markdown(str(hr)) == "<hr />"
+
+
+# Method tests
 
 
 def test_repr_can_create_object():

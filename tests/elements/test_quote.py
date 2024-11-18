@@ -1,4 +1,4 @@
-from snakemd import Code, Heading, HorizontalRule, MDList, Quote
+from snakemd import Code, Heading, HorizontalRule, MDList, Quote, Raw
 
 # Constructor tests
 
@@ -48,6 +48,5 @@ def test_quote_mdlist():
 
 def test_repr_can_create_object():
     quote = Quote("")
-    exec("from snakemd import Raw")
     obj = eval(repr(quote))
     assert isinstance(obj, Quote)

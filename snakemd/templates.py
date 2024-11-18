@@ -166,7 +166,7 @@ class TableOfContents(Template):
         toc extension.
         """
         anchor = re.sub(r'[^\w\s-]', '', text).strip().lower()
-        return re.sub(r'[{}\s]+'.format("-"), "-", anchor)
+        return re.sub(r'[-\s]+', "-", anchor)
 
     def _get_headings(self) -> list[Heading]:
         """

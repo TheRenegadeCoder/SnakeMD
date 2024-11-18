@@ -16,6 +16,8 @@ v2.x
 * v2.2.1 [:pr:`#164`]
 
   * Fixed a bug where headings with special characters would not link properly in the table of contents
+  * Dropped support for Python 3.8 due to deprecation
+  * Added support for Python 3.12 and 3.13
 
 * v2.2.0 [:pr:`#152`, :pr:`153`, :pr:`#159`]
   

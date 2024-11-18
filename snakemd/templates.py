@@ -9,7 +9,6 @@ import csv
 import logging
 import os
 import re
-import string
 
 from .elements import Element, Heading, Inline, MDList, Table
 

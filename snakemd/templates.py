@@ -159,6 +159,16 @@ class TableOfContents(Template):
     def __repr__(self) -> str:
         return f"TableOfContents(levels={self._levels!r})"
 
+    @staticmethod
+    def _convert_heading_to_anchor(text: str):
+        """
+        A helper method for generating anchor text. 
+        Technique is borrowed from the python markdown's
+        toc extension.
+        """
+        anchor = re.sub(r'[^\w\s-]', '', text).strip().lower()
+        return re.sub(r'[{}\s]+'.format("-"), "-", anchor)
+
     def _get_headings(self) -> list[Heading]:
         """
         Retrieves the list of headings from the current document.
@@ -171,17 +181,7 @@ class TableOfContents(Template):
             for heading in self._elements
             if isinstance(heading, Heading) and heading.get_level() in self._levels
         ]
-        
-    @staticmethod
-    def _convert_heading_to_anchor(text: str):
-        """
-        A helper method for generating anchor text. 
-        Technique is borrowed from the python markdown's
-        toc extension.
-        """
-        anchor = re.sub(r'[^\w\s-]', '', text).strip().lower()
-        return re.sub(r'[{}\s]+'.format("-"), "-", anchor)
-        
+
     def _assemble_table_of_contents(
         self, headings: list[Heading], position: int
     ) -> tuple[MDList, int]:
@@ -203,7 +203,7 @@ class TableOfContents(Template):
             if heading_level == level:
                 line = Inline(
                     heading_text,
-                    link=f"#{TableOfContents._convert_heading_to_anchor(heading_text)}",
+                    link=f"#{self._convert_heading_to_anchor(heading_text)}",
                 )
                 table_of_contents.append(line)
                 i += 1

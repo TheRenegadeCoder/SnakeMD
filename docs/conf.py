@@ -9,7 +9,6 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
 import os
 import sys
 
@@ -48,8 +47,17 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = "sphinx_rtd_theme"
+
+# Adds "edit source" links
+# Source: https://docs.readthedocs.io/en/stable/guides/edit-source-links-sphinx.html
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "TheRenegadeCoder", # Username
+    "github_repo": "SnakeMD", # Repo name
+    "github_version": "main", # Version
+    "conf_py_path": "/docs/", # Path in the checkout to the docs root
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -64,3 +72,12 @@ issues_github_path = "TheRenegadeCoder/SnakeMD"
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
 html_theme_options = {"display_version": True}
+
+# -- ReadTheDocs Configuration
+
+# Set canonical URL from the Read the Docs Domain
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+
+# Tell Jinja2 templates the build is running on Read the Docs
+if os.environ.get("READTHEDOCS", "") == "True":
+    html_context["READTHEDOCS"] = True

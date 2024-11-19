@@ -49,7 +49,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # a list of builtin themes.
 html_theme = "sphinx_rtd_theme"
 
-# Adds "edit source: links
+# Adds "edit source" links
 # Source: https://docs.readthedocs.io/en/stable/guides/edit-source-links-sphinx.html
 html_context = {
     "display_github": True, # Integrate GitHub

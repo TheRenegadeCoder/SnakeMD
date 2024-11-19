@@ -2,7 +2,7 @@
 [tool.poetry]
 name = "SnakeMD"
 description = "A markdown generation library for Python."
-version = "2.2.0"
+version = "2.2.1"
 license = "MIT"
 
 authors = [
@@ -17,10 +17,11 @@ documentation = "https://www.snakemd.io/en/latest/docs/"
 classifiers=[
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
     "Topic :: Documentation :: Sphinx",
 ]
@@ -29,7 +30,7 @@ classifiers=[
 Changelog = "https://www.snakemd.io/en/latest/version-history/"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 
 [tool.poetry.group.test.dependencies]
 coverage = "^7.2"
@@ -45,7 +46,7 @@ sphinx_rtd_theme = "^1.2"
 black = "^23.3"
 isort = "^5.12"
 pydocstringformatter = "^v0.7"
-pylint = "^2.17"
+pylint = "^3.3"
 
 # Pytest settings
 [tool.pytest.ini_options]
@@ -71,7 +72,7 @@ fail_under = 95
 # Black formatting settings
 [tool.black]
 line-length = 88
-target-version = ['py38', 'py39', 'py310', 'py311']
+target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
 
 # Pylint settings
 [tool.pylint.format]
@@ -87,7 +88,7 @@ disable = [
 # isort setttings
 [tool.isort]
 profile = "black"
-py_version = 311
+py_version = 313
 
 # pydocstringformatter settings
 [tool.pydocstringformatter]

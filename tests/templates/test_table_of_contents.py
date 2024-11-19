@@ -1,3 +1,5 @@
+import markdown
+
 from snakemd.document import Document
 from snakemd.templates import TableOfContents
 
@@ -15,6 +17,16 @@ def test_table_of_contents_one_section():
     doc.add_heading("Section", level=2)
     toc.load(doc.get_elements())
     assert str(toc) == "1. [Section](#section)"
+    assert markdown.markdown(str(doc), extensions=['toc']) == "<h2 id=\"section\">Section</h2>"
+
+    
+def test_table_of_contents_one_section_special_chars():
+    doc = Document()
+    toc = TableOfContents()
+    doc.add_heading("Section's", level=2)
+    toc.load(doc.get_elements())
+    assert str(toc) == "1. [Section's](#sections)"
+    assert markdown.markdown(str(doc), extensions=['toc']) == "<h2 id=\"sections\">Section's</h2>"
 
 
 def test_table_of_contents_many_sections():

@@ -8,6 +8,7 @@ from __future__ import annotations
 import csv
 import logging
 import os
+import re
 
 from .elements import Element, Heading, Inline, MDList, Table
 
@@ -157,6 +158,16 @@ class TableOfContents(Template):
     def __repr__(self) -> str:
         return f"TableOfContents(levels={self._levels!r})"
 
+    @staticmethod
+    def _convert_heading_to_anchor(text: str):
+        """
+        A helper method for generating anchor text. 
+        Technique is borrowed from the python markdown's
+        toc extension.
+        """
+        anchor = re.sub(r'[^\w\s-]', '', text).strip().lower()
+        return re.sub(r'[-\s]+', "-", anchor)
+
     def _get_headings(self) -> list[Heading]:
         """
         Retrieves the list of headings from the current document.
@@ -172,7 +183,7 @@ class TableOfContents(Template):
 
     def _assemble_table_of_contents(
         self, headings: list[Heading], position: int
-    ) -> tuple(MDList, int):
+    ) -> tuple[MDList, int]:
         """
         Assembles the table of contents from the headings in the document.
 
@@ -186,10 +197,12 @@ class TableOfContents(Template):
         level = headings[i].get_level()
         table_of_contents = []
         while i < len(headings) and headings[i].get_level() >= level:
-            if headings[i].get_level() == level:
+            heading_text: str = headings[i].get_text()
+            heading_level: int = headings[i].get_level()
+            if heading_level == level:
                 line = Inline(
-                    headings[i].get_text(),
-                    link=f"#{'-'.join(headings[i].get_text().lower().split())}",
+                    heading_text,
+                    link=f"#{self._convert_heading_to_anchor(heading_text)}",
                 )
                 table_of_contents.append(line)
                 i += 1

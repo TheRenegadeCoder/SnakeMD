@@ -13,6 +13,18 @@ as follows:
 v2.x
 ----
 
+* v2.2.1 [:pr:`#164`]
+
+  * Fixed a bug where headings with special characters would not link properly in the table of contents
+  * Dropped support for Python 3.8 due to deprecation
+  * Added support for Python 3.12 and 3.13
+
+* v2.2.0 [:pr:`#152`, :pr:`153`, :pr:`#159`]
+  
+  * Added documentation throughout the repo
+  * Expanded testing
+  * Added CSVTable Template and accompanying documentation
+
 * v2.2.0b1 [:pr:`#140`, :pr:`#142`, :pr:`#143`, :pr:`#144`, :pr:`#145`, :pr:`#146`, :pr:`#149`]
 
   * Expanded the Element requirements to include :code:`__repr__()` for developer friendly strings

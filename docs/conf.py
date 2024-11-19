@@ -64,3 +64,12 @@ issues_github_path = "TheRenegadeCoder/SnakeMD"
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
 html_theme_options = {"display_version": True}
+
+# -- ReadTheDocs Configuration
+
+# Set canonical URL from the Read the Docs Domain
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+
+# Tell Jinja2 templates the build is running on Read the Docs
+if os.environ.get("READTHEDOCS", "") == "True":
+    html_context["READTHEDOCS"] = True

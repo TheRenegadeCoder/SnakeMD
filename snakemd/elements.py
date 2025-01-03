@@ -108,7 +108,7 @@ class Inline(Element):
         the line break state of the inline text
         
         - defaults to :code:`False`
-        - set to :code:`True` to add a line break to the end of the element (i.e., `  \n`)
+        - set to :code:`True` to add a line break to the end of the element (i.e., `<br>`)
     """
 
     def __init__(
@@ -160,7 +160,9 @@ class Inline(Element):
         if self._code:
             text = f"`{text}`"
         if self._linebreak:
-            text = f"{text}  \n"
+            # Note: doing this the markdown way (i.e., space-space-newline)
+            # does not work with the current implementation of Paragraph
+            text = f"{text}<br>"
         logger.debug("Rendered inline text: %r", text)
         return text
 

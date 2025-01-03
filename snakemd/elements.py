@@ -104,6 +104,11 @@ class Inline(Element):
 
         - defaults to :code:`False`
         - set to :code:`True` to render text as code (i.e., ```text```)
+    :param bool linebreak:
+        the line break state of the inline text
+        
+        - defaults to :code:`False`
+        - set to :code:`True` to add a line break to the end of the element (i.e., `  \n`)
     """
 
     def __init__(
@@ -115,6 +120,7 @@ class Inline(Element):
         italics: bool = False,
         strikethrough: bool = False,
         code: bool = False,
+        linebreak: bool = False,
     ) -> None:
         self._text = text
         self._image = image
@@ -123,6 +129,7 @@ class Inline(Element):
         self._italics = italics
         self._strikethrough = strikethrough
         self._code = code
+        self._linebreak = linebreak
 
     def __str__(self) -> str:
         """
@@ -152,6 +159,8 @@ class Inline(Element):
             text = f"~~{text}~~"
         if self._code:
             text = f"`{text}`"
+        if self._linebreak:
+            text = f"{text}  \n"
         logger.debug("Rendered inline text: %r", text)
         return text
 

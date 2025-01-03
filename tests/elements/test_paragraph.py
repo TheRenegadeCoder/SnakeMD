@@ -145,3 +145,11 @@ def test_repr_can_create_object():
     paragraph = Paragraph("")
     obj = eval(repr(paragraph))
     assert isinstance(obj, Paragraph)
+    
+
+def test_paragraph_with_linebreak():
+    paragraph = Paragraph([
+        Inline("First Line", linebreak=True), 
+        Inline("Second Line")
+    ])
+    assert str(paragraph) == "First Line  \nSecond Line"

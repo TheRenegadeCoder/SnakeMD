@@ -200,6 +200,14 @@ def test_inline_code():
         ")"
     )
     assert markdown.markdown(str(text)) == "<p><code>x = 7</code></p>"
+    
+
+def test_inline_linebreak():
+    text = Inline("Test", linebreak=True)
+    assert str(text) == "Test  \n"
+    # Note: markdown test will not pass because a single line alone
+    # is not enough to trigger the markdown library to generate
+    # a line break: see Paragraph for a working example
 
 
 # Constructor tests (2-combos)

@@ -13,6 +13,10 @@ as follows:
 v2.x
 ----
 
+* v2.3.0 
+
+  * Added a line break option to Inline text to grant a little more control over formatting
+
 * v2.2.1 [:pr:`#164`]
 
   * Fixed a bug where headings with special characters would not link properly in the table of contents

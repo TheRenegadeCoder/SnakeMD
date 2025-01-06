@@ -162,7 +162,7 @@ class Inline(Element):
         if self._linebreak:
             # Note: doing this the markdown way (i.e., space-space-newline)
             # does not work with the current implementation of Paragraph
-            text = f"{text}<br>"
+            text = f"{text}<br />"
         logger.debug("Rendered inline text: %r", text)
         return text
 

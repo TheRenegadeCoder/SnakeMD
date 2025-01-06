@@ -204,8 +204,8 @@ def test_inline_code():
 
 def test_inline_linebreak():
     text = Inline("Test", linebreak=True)
-    assert str(text) == "Test<br>"
-    assert markdown.markdown(str(text)) == "<p>Test<br></p>"
+    assert str(text) == "Test<br />"
+    assert markdown.markdown(str(text)) == "<p>Test<br /></p>"
 
 
 # Constructor tests (2-combos)

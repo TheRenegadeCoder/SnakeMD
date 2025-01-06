@@ -152,4 +152,4 @@ def test_paragraph_with_linebreak():
         Inline("First Line", linebreak=True), 
         Inline("Second Line")
     ])
-    assert str(paragraph) == "First Line<br>Second Line"
+    assert str(paragraph) == "First Line<br />Second Line"

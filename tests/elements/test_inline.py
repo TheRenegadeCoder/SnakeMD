@@ -200,6 +200,12 @@ def test_inline_code():
         ")"
     )
     assert markdown.markdown(str(text)) == "<p><code>x = 7</code></p>"
+    
+
+def test_inline_linebreak():
+    text = Inline("Test", linebreak=True)
+    assert str(text) == "Test<br />"
+    assert markdown.markdown(str(text)) == "<p>Test<br /></p>"
 
 
 # Constructor tests (2-combos)

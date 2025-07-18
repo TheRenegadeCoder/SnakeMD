@@ -184,7 +184,8 @@ class Inline(Element):
             f"bold={self._bold!r}, "
             f"italics={self._italics!r}, "
             f"strikethrough={self._strikethrough!r}, "
-            f"code={self._code!r}"
+            f"code={self._code!r}, "
+            f"linebreak={self._linebreak!r}"
             ")"
         )
 

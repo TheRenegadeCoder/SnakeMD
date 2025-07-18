@@ -78,6 +78,16 @@ def test_insert_link_two_same():
 def test_insert_link_two_limit():
     paragraph = Paragraph(["Hello, Hello!"]).insert_link("Hello", "A", count=1)
     assert str(paragraph) == "[Hello](A), Hello!"
+    
+
+def test_insert_link_existing_styles():
+    paragraph = Paragraph([
+        Inline("First Line", linebreak=True),
+        Inline("Second Line")
+    ]).insert_link(
+        "First Line", "https://example.com"
+    )
+    assert str(paragraph) == "[First Line](https://example.com)<br />Second Line"
 
 
 def test_replace_link_one():

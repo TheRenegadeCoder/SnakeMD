@@ -1,18 +1,22 @@
-# Poetry settings
-[tool.poetry]
+[project]
 name = "SnakeMD"
 description = "A markdown generation library for Python."
-version = "2.4.0"
 license = "MIT"
-
-authors = [
-    "Jeremy Grifski <jeremy.grifski@therenegadecoder.com>"
-]
-
+version = "2.4.0"
+dynamic = ["classifiers"]
 readme = "README.md"
+authors = [{name = "Jeremy Grifski", email = "jeremy.grifski@therenegadecoder.com"}]
+requires-python = '>=3.9,<4.0'
+dependencies = []
+
+[project.urls]
 homepage = "https://www.snakemd.io"
 repository = "https://github.com/TheRenegadeCoder/SnakeMD"
 documentation = "https://www.snakemd.io/en/latest/docs/"
+Changelog = "https://www.snakemd.io/en/latest/version-history/"
+
+# Poetry settings
+[tool.poetry]
 
 classifiers=[
     "Development Status :: 5 - Production/Stable",
@@ -25,12 +29,7 @@ classifiers=[
     "Operating System :: OS Independent",
     "Topic :: Documentation :: Sphinx",
 ]
-
-[tool.poetry.urls]
-Changelog = "https://www.snakemd.io/en/latest/version-history/"
-
-[tool.poetry.dependencies]
-python = "^3.9"
+requires-poetry = '>=2.0,<3.0'
 
 [tool.poetry.group.test.dependencies]
 coverage = "^7.2"
@@ -99,5 +98,5 @@ max-line-length = 88
 
 # Build system settings
 [build-system]
-requires = ["poetry-core"]
+requires = ['poetry-core (>=2.0,<3.0)']
 build-backend = "poetry.core.masonry.api"

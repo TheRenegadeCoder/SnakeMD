@@ -2,7 +2,7 @@
 name = "SnakeMD"
 description = "A markdown generation library for Python."
 license = "MIT"
-version = "2.4.0"
+version = "2.4.0b1"
 dynamic = ["classifiers"]
 readme = "README.md"
 authors = [{name = "Jeremy Grifski", email = "jeremy.grifski@therenegadecoder.com"}]

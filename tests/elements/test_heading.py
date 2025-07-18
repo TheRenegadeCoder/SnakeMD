@@ -25,7 +25,8 @@ def test_heading_empty():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=1)"
     )
@@ -51,7 +52,8 @@ def test_heading_str_level_one():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=1)"
     )
@@ -77,7 +79,8 @@ def test_heading_inline_level_one():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=1)"
     )
@@ -103,7 +106,8 @@ def test_heading_inline_bold_level_one():
             r"bold=True, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=1)"
     )
@@ -129,7 +133,8 @@ def test_heading_str_level_two():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=2)"
     )
@@ -155,7 +160,8 @@ def test_heading_str_level_three():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=3)"
     )
@@ -181,7 +187,8 @@ def test_heading_str_level_four():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=4)"
     )
@@ -207,7 +214,8 @@ def test_heading_str_level_five():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=5)"
     )
@@ -233,7 +241,8 @@ def test_heading_str_level_six():
             r"bold=False, "
             r"italics=False, "
             r"strikethrough=False, "
-            r"code=False"
+            r"code=False, "
+            r"linebreak=False"
         r")]"
         r", level=6)"
     )

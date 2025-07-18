@@ -184,7 +184,8 @@ class Inline(Element):
             f"bold={self._bold!r}, "
             f"italics={self._italics!r}, "
             f"strikethrough={self._strikethrough!r}, "
-            f"code={self._code!r}"
+            f"code={self._code!r}, "
+            f"linebreak={self._linebreak!r}"
             ")"
         )
 
@@ -384,6 +385,38 @@ class Inline(Element):
         """
         self._code = False
         return self
+    
+    def breakline(self) -> Inline:
+        """
+        Adds a linebreak to self.
+
+        .. doctest:: inline
+
+            >>> inline = Inline("Hello").breakline()
+            >>> print(inline)
+            Hello<br />
+
+        :return:
+            self
+        """
+        self._linebreak = True
+        return self
+    
+    def unbreakline(self) -> Inline:
+        """
+        Removes linebreak from self.
+
+        .. doctest:: inline
+
+            >>> inline = Inline("Hello", linebreak=True).unbreakline()
+            >>> print(inline)
+            Hello
+
+        :return:
+            self
+        """
+        self._linebreak = False
+        return self
 
     def link(self, link: str) -> Inline:
         """
@@ -447,6 +480,19 @@ class Inline(Element):
         self._italics = False
         self._bold = False
         self._strikethrough = False
+        return self
+    
+    def _apply_styles_from(self, text: Inline) -> Inline:
+        """
+        A helper method that applies text styling to self from another 
+        Inline object. This includes only boolean styling information
+        related to the behavior of is_text(). In other words, link, image, 
+        and code information is not copied over.  
+        """
+        self._bold = text._bold
+        self._italics = text._italics
+        self._strikethrough = text._strikethrough
+        self._linebreak = text._linebreak
         return self
 
 
@@ -1056,23 +1102,35 @@ class Paragraph(Block):
         :return:
             self
         """
-        i = 0
-        content = []
+        content: list[Inline] = []
         for inline_text in self._content:
-            if (
-                inline_text.is_text()
-                and len(items := inline_text.get_text().split(target)) > 1
-            ):
-                for item in items:
-                    content.append(Inline(item))
-                    if count == -1 or i < count:
-                        content.append(text)
-                        i += 1
-                    else:
-                        content.append(Inline(target))
-                content.pop()
-            else:
+            # Skip inline elements that we don't care about
+            if not inline_text.is_text() or target not in inline_text.get_text():
                 content.append(inline_text)
+                continue
+            # Split the inline element into pieces and reapply styles
+            else:
+                # Redistributes styles
+                items = [
+                    Inline(item)._apply_styles_from(inline_text) 
+                    for item in inline_text.get_text().split(target, count)
+                ]
+                
+                # Adds text back in with appropriate style information
+                for item in items:
+                    content.append(item)
+                    content.append(text._apply_styles_from(inline_text))
+                content.pop()
+                
+                # Trim empty strings from edges
+                if content[-1].get_text() == "":
+                    content.pop()
+                if content[0].get_text() == "":
+                    content = content[1:]
+                
+                # Remove line breaks that may have been distributed by applying styles
+                content[:-1] = map(lambda item: item.unbreakline(), content[:-1])
+                
         self._content = content
         return self
 

@@ -23,7 +23,8 @@ def test_inline_empty():
         "bold=False, "
         "italics=False, "
         "strikethrough=False, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
     assert markdown.markdown(str(text)) == ""
@@ -47,7 +48,8 @@ def test_inline_text():
         "bold=False, "
         "italics=False, "
         "strikethrough=False, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
     assert markdown.markdown(str(text)) == "<p>Hello, World!</p>"
@@ -71,7 +73,8 @@ def test_inline_image():
         "bold=False, "
         "italics=False, "
         "strikethrough=False, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
     assert (
@@ -98,7 +101,8 @@ def test_inline_link():
         "bold=False, "
         "italics=False, "
         "strikethrough=False, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
     assert (
@@ -124,7 +128,8 @@ def test_inline_bold():
         "bold=True, "
         "italics=False, "
         "strikethrough=False, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
     assert markdown.markdown(str(text)) == "<p><strong>Hello, World!</strong></p>"
@@ -148,7 +153,8 @@ def test_inline_italics():
         "bold=False, "
         "italics=True, "
         "strikethrough=False, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
     assert markdown.markdown(str(text)) == "<p><em>Hello, World!</em></p>"
@@ -173,7 +179,8 @@ def test_inline_strikethrough():
         "bold=False, "
         "italics=False, "
         "strikethrough=True, "
-        "code=False"
+        "code=False, "
+        "linebreak=False"
         ")"
     )
 
@@ -196,7 +203,8 @@ def test_inline_code():
         "bold=False, "
         "italics=False, "
         "strikethrough=False, "
-        "code=True"
+        "code=True, "
+        "linebreak=False"
         ")"
     )
     assert markdown.markdown(str(text)) == "<p><code>x = 7</code></p>"

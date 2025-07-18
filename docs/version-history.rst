@@ -13,6 +13,12 @@ as follows:
 v2.x
 ----
 
+* v2.4.0b1 [:pr:`171`]
+
+  * Upgraded Poetry file format to 2.x
+  * Added `breakline()` and `unbreakline()` methods
+  * Fixed issue where inserting a link in a paragraph would strip styles
+
 * v2.3.0 [:pr:`168`]
 
   * Added a line break option to Inline text to grant a little more control over formatting

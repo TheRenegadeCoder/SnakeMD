@@ -78,6 +78,43 @@ def test_insert_link_two_same():
 def test_insert_link_two_limit():
     paragraph = Paragraph(["Hello, Hello!"]).insert_link("Hello", "A", count=1)
     assert str(paragraph) == "[Hello](A), Hello!"
+    
+
+def test_insert_link_where_text_has_italics_first():
+    paragraph = Paragraph([
+        Inline("Line of Text", italics=True)
+    ]).insert_link(
+        "Line", "https://example.com"
+    )
+    assert str(paragraph) == "_[Line](https://example.com)__ of Text_"
+    
+
+def test_insert_link_where_text_has_italics_middle():
+    paragraph = Paragraph([
+        Inline("Line of Text", italics=True)
+    ]).insert_link(
+        "of", "https://example.com"
+    )
+    assert str(paragraph) == "_Line __[of](https://example.com)__ Text_"
+
+
+def test_insert_link_where_text_has_italics_last():
+    paragraph = Paragraph([
+        Inline("Line of Text", italics=True)
+    ]).insert_link(
+        "Text", "https://example.com"
+    )
+    assert str(paragraph) == "_Line of __[Text](https://example.com)_"
+
+
+def test_insert_link_where_text_has_newline():
+    paragraph = Paragraph([
+        Inline("First Line", linebreak=True),
+        Inline("Second Line")
+    ]).insert_link(
+        "First Line", "https://example.com"
+    )
+    assert str(paragraph) == "[First Line](https://example.com)<br />Second Line"
 
 
 def test_replace_link_one():

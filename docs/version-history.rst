@@ -13,7 +13,7 @@ as follows:
 v2.x
 ----
 
-* v2.4.0 [:pr:`171`]
+* v2.4.0b1 [:pr:`171`]
 
   * Upgraded Poetry file format to 2.x
   * Added `breakline()` and `unbreakline()` methods

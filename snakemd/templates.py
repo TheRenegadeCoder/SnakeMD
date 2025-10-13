@@ -4,13 +4,15 @@ and all of it's children.
 """
 
 from __future__ import annotations
+from enum import Enum, auto
 
 import csv
 import logging
 import os
 import re
+from typing import Iterable
 
-from .elements import Element, Heading, Inline, MDList, Table
+from .elements import Block, Element, Heading, Inline, MDList, Quote, Table
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +53,45 @@ class Template(Element):  # pylint: disable=too-few-public-methods
         :param elements: a list of document elements
         """
         self._elements = elements
+
+
+class Alerts(Template):
+    """
+    Alerts are a wrapper of the Quote object to provide
+    support for the alerts Markdown extension. While
+    quotes can be nested in each other, alerts cannot.  
+    
+    .. versionadded:: 2.5
+        Included for user convenience
+        
+    :param Kind kind: 
+        the kind of alert; limited to:
+        
+        - NOTE
+        - TIP
+        - IMPORTANT 
+        - WARNING
+        - CAUTION
+    :param str | Iterable[str | Inline | Block] message:
+        the message you would like to show with the alert
+    """
+    
+    class Kind(Enum):
+        NOTE = auto()
+        TIP = auto()
+        IMPORTANT = auto()
+        WARNING = auto()
+        CAUTION = auto()
+    
+    def __init__(self, kind: Kind, message: str | Iterable[str | Inline | Block]) -> None:
+        self._kind = kind
+        self._message = message
+        
+    def __str__(self) -> str:
+        return str(Quote([f"[!{self._kind.name}]", self._message]))
+    
+    def __repr__(self) -> str:
+        return f"Alerts(kind={self._kind!r},message={self._message!r})"
 
 
 class CSVTable(Template):
@@ -141,7 +182,8 @@ class TableOfContents(Template):
     def __init__(self, levels: range = range(2, 3)) -> None:
         super().__init__()
         self._levels: range = levels
-        logger.debug("New table of contents initialized with levels in %s", levels)
+        logger.debug(
+            "New table of contents initialized with levels in %s", levels)
 
     def __str__(self) -> str:
         """

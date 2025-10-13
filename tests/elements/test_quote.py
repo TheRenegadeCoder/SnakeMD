@@ -1,4 +1,5 @@
 from snakemd import Code, Heading, HorizontalRule, MDList, Quote, Raw
+from snakemd.elements import Inline
 
 # Constructor tests
 
@@ -41,6 +42,11 @@ def test_quote_hr():
 def test_quote_mdlist():
     quote = Quote([MDList(["How", "Now", "Brown"])])
     assert str(quote) == "> - How\n> - Now\n> - Brown"
+    
+
+def test_quote_inline():
+    quote = Quote(["[!NOTE]", Inline("...", bold=True)])
+    assert str(quote) == "> [!NOTE]\n> **...**"
 
 
 # Method tests

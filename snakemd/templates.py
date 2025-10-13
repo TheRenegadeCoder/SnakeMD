@@ -4,13 +4,13 @@ and all of it's children.
 """
 
 from __future__ import annotations
-from enum import Enum, auto
 
 import csv
 import logging
 import os
 import re
 from typing import Iterable
+from enum import Enum, auto
 
 from .elements import Block, Element, Heading, Inline, MDList, Quote, Table
 
@@ -60,13 +60,13 @@ class Alerts(Template):
     Alerts are a wrapper of the Quote object to provide
     support for the alerts Markdown extension. While
     quotes can be nested in each other, alerts cannot.  
-    
+
     .. versionadded:: 2.5
         Included for user convenience
-        
+
     :param Kind kind: 
         the kind of alert; limited to:
-        
+
         - NOTE
         - TIP
         - IMPORTANT 
@@ -75,21 +75,21 @@ class Alerts(Template):
     :param str | Iterable[str | Inline | Block] message:
         the message you would like to show with the alert
     """
-    
+
     class Kind(Enum):
         NOTE = auto()
         TIP = auto()
         IMPORTANT = auto()
         WARNING = auto()
         CAUTION = auto()
-    
+
     def __init__(self, kind: Kind, message: str | Iterable[str | Inline | Block]) -> None:
         self._kind = kind
         self._message = message
-        
+
     def __str__(self) -> str:
         return str(Quote([f"[!{self._kind.name}]", self._message]))
-    
+
     def __repr__(self) -> str:
         return f"Alerts(kind={self._kind!r},message={self._message!r})"
 

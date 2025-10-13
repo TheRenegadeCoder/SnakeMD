@@ -61,7 +61,7 @@ class Alerts(Template):
     support for the alerts Markdown extension. While
     quotes can be nested in each other, alerts cannot.  
 
-    .. versionadded:: 2.5
+    .. versionadded:: 2.4
         Included for user convenience
 
     :param Kind kind: 

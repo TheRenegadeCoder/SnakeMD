@@ -2,11 +2,11 @@
 name = "SnakeMD"
 description = "A markdown generation library for Python."
 license = "MIT"
-version = "2.4.0b1"
+version = "2.4.0"
 dynamic = ["classifiers"]
 readme = "README.md"
 authors = [{name = "Jeremy Grifski", email = "jeremy.grifski@therenegadecoder.com"}]
-requires-python = '>=3.9,<4.0'
+requires-python = '>=3.10,<4.0'
 dependencies = []
 
 [project.urls]
@@ -21,11 +21,11 @@ Changelog = "https://www.snakemd.io/en/latest/version-history/"
 classifiers=[
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "Topic :: Documentation :: Sphinx",
 ]
@@ -49,7 +49,7 @@ pylint = "^3.3"
 
 # Pytest settings
 [tool.pytest.ini_options]
-minversion = "7.3"
+minversion = "8.4"
 testpaths = [
     "tests"
 ]
@@ -71,7 +71,7 @@ fail_under = 95
 # Black formatting settings
 [tool.black]
 line-length = 88
-target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
+target-version = ['py310', 'py311', 'py312', 'py313', 'py314']
 
 # Pylint settings
 [tool.pylint.format]

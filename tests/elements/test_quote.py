@@ -1,4 +1,4 @@
-from snakemd import Code, Heading, HorizontalRule, MDList, Quote, Inline
+from snakemd import Code, Heading, HorizontalRule, MDList, Quote, Inline, Raw
 
 # Constructor tests
 

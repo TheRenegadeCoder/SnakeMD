@@ -32,9 +32,9 @@ classifiers=[
 requires-poetry = '>=2.0,<3.0'
 
 [tool.poetry.group.test.dependencies]
-coverage = "^7.2"
-markdown = "^3.4"
-pytest = "^7.3"
+coverage = "^7.10"
+markdown = "^3.9"
+pytest = "^8.4"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^6.2"
@@ -42,7 +42,7 @@ sphinx-issues = "^3.0"
 sphinx_rtd_theme = "^1.2"
 
 [tool.poetry.group.analysis.dependencies]
-black = "^23.3"
+black = "^25.9"
 isort = "^5.12"
 pydocstringformatter = "^v0.7"
 pylint = "^3.3"

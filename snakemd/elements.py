@@ -1325,8 +1325,10 @@ class Quote(Block):
         else:
             processed_lines = []
             for line in lines:
-                if isinstance(line, (str, Inline)):
+                if isinstance(line, str):
                     processed_lines.append(Raw(line))
+                elif isinstance(line, Inline):
+                    processed_lines.append(Paragraph([line]))
                 else:
                     processed_lines.append(line)
         logger.debug("Processed quote lines: %r", processed_lines)

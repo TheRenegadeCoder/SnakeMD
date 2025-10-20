@@ -46,7 +46,7 @@ Alerts
    :show-inheritance:
 
 Checklist
-^^^^^^
+^^^^^^^^^
 
 .. autoclass:: snakemd.Checklist
    :members:

@@ -845,6 +845,9 @@ class MDList(Block):
           (i.e., :code:`- [x]`)
         - set to :code:`Iterable[bool]` to render the checked
           status of the top-level list elements directly
+          
+        .. deprecated:: 2.4
+            Use :class:`snakemd.Checklist` template instead
     """
 
     def __init__(
@@ -859,7 +862,7 @@ class MDList(Block):
             checked if checked is None or isinstance(checked, bool) else list(checked)
         )
         self._space = ""
-        if isinstance(self._checked, list) and self._top_level_count() != len(
+        if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
             self._checked
         ):
             raise ValueError(
@@ -896,7 +899,7 @@ class MDList(Block):
         i = 1
         for item in self._items:
             if isinstance(item, MDList):
-                item._space = self._space + " " * self._get_indent_size(i)
+                item._space = self._space + " " * self._get_indent_size(self._ordered, i)
                 output.append(str(item))
             else:
                 # Create the start of the row based on `order` parameter
@@ -964,7 +967,8 @@ class MDList(Block):
                 processed.append(item)
         return processed
 
-    def _top_level_count(self) -> int:
+    @staticmethod
+    def _top_level_count(items) -> int:
         """
         Given that MDList can accept a variety of blocks,
         we need to know how many items in the provided list
@@ -972,26 +976,31 @@ class MDList(Block):
         We use this number to throw errors if this count does
         not match up with the checklist count.
 
+        :param items:
+            a list of items
         :return:
             a count of top-level elements
         """
         count = 0
-        for item in self._items:
+        for item in items:
             if not isinstance(item, MDList):
                 count += 1
         return count
 
-    def _get_indent_size(self, item_index: int = -1) -> int:
+    @staticmethod
+    def _get_indent_size(ordered: bool, item_index: int = -1) -> int:
         """
         Returns the number of spaces that any sublists should be indented.
 
+        :param bool ordered:
+            the boolean value indicating if a list is ordered
         :param int item_index:
             the index of the item to check (only used for ordered lists);
             defaults to -1
         :return:
             the number of spaces
         """
-        if not self._ordered:
+        if not ordered:
             return 2
         # Ordered items vary in length, so we adjust the result based on the index
         return 2 + len(str(item_index))

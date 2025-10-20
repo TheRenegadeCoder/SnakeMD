@@ -83,7 +83,11 @@ class Alerts(Template):
         WARNING = auto()
         CAUTION = auto()
 
-    def __init__(self, kind: Kind, message: str | Iterable[str | Inline | Block]) -> None:
+    def __init__(
+        self,
+        kind: Kind,
+        message: str | Iterable[str | Inline | Block]
+    ) -> None:
         super().__init__()
         self._kind = kind
         self._message = message
@@ -108,8 +112,8 @@ class Alerts(Template):
             the Alert as a development string
         """
         return repr(self._alert)
-    
-    
+
+
 class Checklist(Template):
     """
     Checklist is an MDList extension to provide support
@@ -118,10 +122,10 @@ class Checklist(Template):
     directly into MDList. However, because checklists
     are not a vanilla Markdown feature, they were
     moved here.
-    
+
     .. versionadded:: 2.4
         Included for user convenience
-    
+
     :raises ValueError:
         when the checked argument is an Iterable[bool] that does not
         match the number of top-level elements in the list
@@ -137,15 +141,17 @@ class Checklist(Template):
         - set to :code:`Iterable[bool]` to render the checked
           status of the top-level list elements directly
     """
+
     def __init__(
-        self, 
-        items: Iterable[str | Inline | Block], 
+        self,
+        items: Iterable[str | Inline | Block],
         checked: bool | Iterable[bool] = False
     ) -> None:
         super().__init__()
         self._items: list[Block] = MDList._process_items(items)
         self._checked: bool | list[bool] = (
-            checked if checked is None or isinstance(checked, bool) else list(checked)
+            checked if checked is None or isinstance(
+                checked, bool) else list(checked)
         )
         self._space = ""
         if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
@@ -156,7 +162,7 @@ class Checklist(Template):
                 "match number of booleans supplied by checked parameter: "
                 f"{self._checked}"
             )
-    
+
     def __str__(self):
         """
         Renders the checklist as a markdown string. Checklists
@@ -180,21 +186,21 @@ class Checklist(Template):
                 output.append(str(item))
             else:
                 row = f"{self._space}-"
-                
+
                 if isinstance(self._checked, bool):
                     checked_str = "X" if self._checked else " "
                     row = f"{row} [{checked_str}] {item}"
                 else:
                     checked_str = "X" if self._checked[i - 1] else " "
                     row = f"{row} [{checked_str}] {item}"
-                
+
                 output.append(row)
             i += 1
-        
+
         checklist = "\n".join(output)
         logger.debug("Rendered checklist: %r", checklist)
         return checklist
-    
+
     def __repr__(self) -> str:
         """
         Renders self as an unambiguous string for development.

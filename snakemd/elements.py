@@ -845,6 +845,9 @@ class MDList(Block):
           (i.e., :code:`- [x]`)
         - set to :code:`Iterable[bool]` to render the checked
           status of the top-level list elements directly
+          
+        .. deprecated:: 2.4
+            Use :class:`snakemd.Checklist` template instead
     """
 
     def __init__(
@@ -964,7 +967,8 @@ class MDList(Block):
                 processed.append(item)
         return processed
 
-    def _top_level_count(self) -> int:
+    @staticmethod
+    def _top_level_count(items) -> int:
         """
         Given that MDList can accept a variety of blocks,
         we need to know how many items in the provided list
@@ -972,11 +976,13 @@ class MDList(Block):
         We use this number to throw errors if this count does
         not match up with the checklist count.
 
+        :param items:
+            a list of items
         :return:
             a count of top-level elements
         """
         count = 0
-        for item in self._items:
+        for item in items:
             if not isinstance(item, MDList):
                 count += 1
         return count

@@ -181,7 +181,7 @@ class Checklist(Template):
         output = []
         i = 1
         for item in self._items:
-            if isinstance(item, Checklist | MDList):
+            if isinstance(item, (Checklist, MDList)):
                 item._space = self._space + " " * 2
                 output.append(str(item))
             else:

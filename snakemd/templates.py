@@ -161,16 +161,20 @@ class Checklist(Template):
         output = []
         i = 1
         for item in self._items:
-            row = f"{self._space}-"
-            
-            if isinstance(self._checked, bool):
-                checked_str = "X" if self._checked else " "
-                row = f"{row} [{checked_str}] {item}"
+            if isinstance(item, Checklist | MDList):
+                item._space = self._space + " " * 2
+                output.append(str(item))
             else:
-                checked_str = "X" if self._checked[i - 1] else " "
-                row = f"{row} [{checked_str}] {item}"
-             
-            output.append(row)
+                row = f"{self._space}-"
+                
+                if isinstance(self._checked, bool):
+                    checked_str = "X" if self._checked else " "
+                    row = f"{row} [{checked_str}] {item}"
+                else:
+                    checked_str = "X" if self._checked[i - 1] else " "
+                    row = f"{row} [{checked_str}] {item}"
+                
+                output.append(row)
             i += 1
         
         checklist = "\n".join(output)

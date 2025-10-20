@@ -158,6 +158,20 @@ class Checklist(Template):
             )
     
     def __str__(self):
+        """
+        Renders the checklist as a markdown string. Checklists
+        function very similarly to unorded lists, but require
+        additional information about the status of each task
+        (i.e., whether it is checked or not).
+
+        .. code-block:: markdown
+
+            - [ ] Do reading
+            - [X] Do writing
+
+        :return:
+            the list as a markdown string
+        """
         output = []
         i = 1
         for item in self._items:
@@ -178,7 +192,7 @@ class Checklist(Template):
             i += 1
         
         checklist = "\n".join(output)
-        logger.debug("Rendered markdown list: %r", checklist)
+        logger.debug("Rendered checklist: %r", checklist)
         return checklist
     
     def __repr__(self) -> str:

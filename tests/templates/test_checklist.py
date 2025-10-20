@@ -1,3 +1,4 @@
+from snakemd.elements import MDList
 from snakemd.templates import Checklist
 
 def test_checklist_one_item_true():
@@ -19,3 +20,7 @@ def test_checklist_many_items_true():
 def test_checklist_many_items_nested_true():
     checklist = Checklist(["Write code", Checklist(["Implement TODO"], True), "Do Laundry"], True)
     assert str(checklist) == "- [X] Write code\n  - [X] Implement TODO\n- [X] Do Laundry"
+    
+def test_checklist_many_items_nested_mdlist_true():
+    checklist = Checklist(["Write code", MDList(["Implement TODO"]), "Do Laundry"], True)
+    assert str(checklist) == "- [X] Write code\n  - Implement TODO\n- [X] Do Laundry"

@@ -992,6 +992,8 @@ class MDList(Block):
         """
         Returns the number of spaces that any sublists should be indented.
 
+        :param bool ordered:
+            the boolean value indicating if a list is ordered
         :param int item_index:
             the index of the item to check (only used for ordered lists);
             defaults to -1

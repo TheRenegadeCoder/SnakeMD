@@ -37,6 +37,22 @@ make use of any external dependencies. In the latter
 case, that restriction does not apply. With that said,
 the existing templates can be found below.
 
+Alerts
+^^^^^^
+
+.. autoclass:: snakemd.Alerts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Checklist
+^^^^^^
+
+.. autoclass:: snakemd.Checklist
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 CSVTable
 ^^^^^^^^
 

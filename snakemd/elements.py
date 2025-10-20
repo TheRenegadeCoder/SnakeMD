@@ -862,7 +862,7 @@ class MDList(Block):
             checked if checked is None or isinstance(checked, bool) else list(checked)
         )
         self._space = ""
-        if isinstance(self._checked, list) and self._top_level_count() != len(
+        if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
             self._checked
         ):
             raise ValueError(

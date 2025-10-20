@@ -112,7 +112,7 @@ class Alerts(Template):
     
 class Checklist(Template):
     """
-    Checklist is an MDList wrapper to provide support
+    Checklist is an MDList extension to provide support
     for Markdown checklists, which are a Markdown
     extension. Previously, this feature was baked
     directly into MDList. However, because checklists
@@ -142,12 +142,13 @@ class Checklist(Template):
         items: Iterable[str | Inline | Block], 
         checked: bool | Iterable[bool] = False
     ) -> None:
-        super.__init__()
+        super().__init__()
         self._items: list[Block] = MDList._process_items(items)
-        self._checked = bool | list[bool] = (
+        self._checked: bool | list[bool] = (
             checked if checked is None or isinstance(checked, bool) else list(checked)
         )
-        if isinstance(self._checked, list) and MDList._top_level_count() != len(
+        self._space = ""
+        if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
             self._checked
         ):
             raise ValueError(
@@ -156,11 +157,11 @@ class Checklist(Template):
                 f"{self._checked}"
             )
     
-
     def __str__(self):
         output = []
         i = 1
         for item in self._items:
+            row = f"{self._space}-"
             
             if isinstance(self._checked, bool):
                 checked_str = "X" if self._checked else " "
@@ -175,6 +176,31 @@ class Checklist(Template):
         checklist = "\n".join(output)
         logger.debug("Rendered markdown list: %r", checklist)
         return checklist
+    
+    def __repr__(self) -> str:
+        """
+        Renders self as an unambiguous string for development.
+        In this case, it displays in the style of a dataclass,
+        where instance variables are listed with their
+        values. Unlike many of the other templates, Checklists
+        aren't a direct wrapper of MDList, and therefore cannot
+        be represented as MDList alone. 
+
+        .. doctest:: checklist
+
+            >>> checklist = Checklist(["Do Homework"], True)
+            >>> repr(checklist)
+            "Checklist(items=[Paragraph(...)], checked=True)"
+
+        :return:
+            the Checklist object as a development string
+        """
+        return (
+            f"Checklist("
+            f"items={self._items!r}, "
+            f"checked={self._checked!r}"
+            f")"
+        )
 
 
 class CSVTable(Template):

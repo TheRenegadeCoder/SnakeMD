@@ -55,9 +55,9 @@ class Template(Element):  # pylint: disable=too-few-public-methods
         self._elements = elements
 
 
-class Alerts(Template):
+class Alert(Template):
     """
-    Alerts are a wrapper of the Quote object to provide
+    Alert is a wrapper of the Quote object to provide
     support for the alerts Markdown extension. While
     quotes can be nested in each other, alerts cannot.  
 

@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../"))
 # -- Project information -----------------------------------------------------
 
 project = "SnakeMD"
-copyright = "2021-2023, The Renegade Coder"
+copyright = "2021-2025, The Renegade Coder"
 author = "The Renegade Coder"
 
 # -- General configuration ---------------------------------------------------
@@ -70,8 +70,6 @@ html_favicon = "_static/favicon.ico"
 issues_github_path = "TheRenegadeCoder/SnakeMD"
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
-
-html_theme_options = {"display_version": True}
 
 # -- ReadTheDocs Configuration
 

@@ -85,8 +85,8 @@ class Alerts(Template):
 
     def __init__(
         self,
-        kind: Kind,
-        message: str | Iterable[str | Inline | Block]
+        message: str | Iterable[str | Inline | Block],
+        kind: Kind
     ) -> None:
         super().__init__()
         self._kind = kind

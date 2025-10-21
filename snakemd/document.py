@@ -23,7 +23,12 @@ from .elements import (
     Raw,
     Table,
 )
-from .templates import TableOfContents, Template
+from .templates import (
+    Alerts,
+    Template,
+    Checklist, 
+    TableOfContents, 
+)
 
 logger = logging.getLogger(__name__)
 
@@ -263,7 +268,7 @@ class Document:
         logger.info("Added unordered list to document: %r", md_list)
         return md_list
 
-    def add_checklist(self, items: Iterable[str]) -> MDList:
+    def add_checklist(self, items: Iterable[str]) -> Checklist:
         """
         A convenience method which adds a checklist to the document.
 
@@ -282,10 +287,10 @@ class Document:
         :return:
             the :class:`MDList` added to this Document
         """
-        md_checklist = MDList(items, checked=False)
-        self._elements.append(md_checklist)
-        logger.info("Added checklist to document: %r", md_checklist)
-        return md_checklist
+        checklist = Checklist(items, checked=False)
+        self._elements.append(checklist)
+        logger.info("Added checklist to document: %r", checklist)
+        return checklist
 
     def add_table(
         self,
@@ -432,6 +437,27 @@ class Document:
         self._elements.append(toc)
         logger.info("Added table of contents to document: %r", toc)
         return toc
+    
+    def add_alert(self, message: str, kind: Alerts.Kind = Alerts.Kind.NOTE) -> Alerts:
+        """
+        A convenience method which adds an alert to the document:
+        
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> doc.add_alert("Please subscribe")
+            Alert(message="Please subscribe", kind=Kind.NOTE)
+            >>> print(doc)
+            >> ![NOTE]\n>> Please subscribe
+            
+        :param str message:
+            a message that you want to stand out in your document
+        :param Kind kind: 
+            the kind of alert; see :class:`snakemd.Alerts.Kind` for details
+        """
+        alert = Alerts(message, kind)
+        self._elements.append(alert)
+        logger.info("Added alert to document: %r", alert)
 
     def scramble(self) -> None:
         """

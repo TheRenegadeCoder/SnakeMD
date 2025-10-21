@@ -1,26 +1,26 @@
 from snakemd.elements import Inline
-from snakemd.templates import Alerts
+from snakemd.templates import Alert
 
-def test_alerts_note():
-    alert = Alerts(Alerts.Kind.NOTE, "Hello, World!")
+def test_alert_note():
+    alert = Alert("Hello, World!", Alert.Kind.NOTE)
     assert str(alert) == "> [!NOTE]\n> Hello, World!"    
 
-def test_alerts_tip():
-    alert = Alerts(Alerts.Kind.TIP, "Hello, World!")
+def test_alert_tip():
+    alert = Alert("Hello, World!", Alert.Kind.TIP)
     assert str(alert) == "> [!TIP]\n> Hello, World!"    
 
-def test_alerts_important():
-    alert = Alerts(Alerts.Kind.IMPORTANT, "Hello, World!")
+def test_alert_important():
+    alert = Alert("Hello, World!", Alert.Kind.IMPORTANT)
     assert str(alert) == "> [!IMPORTANT]\n> Hello, World!"  
 
-def test_alerts_warning():
-    alert = Alerts(Alerts.Kind.WARNING, "Hello, World!")
+def test_alert_warning():
+    alert = Alert("Hello, World!", Alert.Kind.WARNING)
     assert str(alert) == "> [!WARNING]\n> Hello, World!" 
     
-def test_alerts_caution():
-    alert = Alerts(Alerts.Kind.CAUTION, "Hello, World!")
+def test_alert_caution():
+    alert = Alert("Hello, World!", Alert.Kind.CAUTION, )
     assert str(alert) == "> [!CAUTION]\n> Hello, World!" 
     
-def test_alerts_inline():
-    alert = Alerts(Alerts.Kind.NOTE, Inline("Hello, World!", italics=True))
+def test_alert_inline():
+    alert = Alert(Inline("Hello, World!", italics=True), Alert.Kind.NOTE)
     assert str(alert) == "> [!NOTE]\n> _Hello, World!_" 

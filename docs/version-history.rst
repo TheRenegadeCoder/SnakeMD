@@ -20,6 +20,10 @@ v2.x
   * Added the checklist feature to templates
   * Deprecated the :code:`checked` parameter in :code:`MDList`
   * Added a handful of convenience methods to the document API to expose the new templates
+  * Dropped support for Python 3.9 due to deprecation
+  * Added supported for Python 3.14
+  * Added new templates to docs
+  * Updated a variety of developmental dependencies
 
 * v2.4.0b1 [:pr:`171`]
 

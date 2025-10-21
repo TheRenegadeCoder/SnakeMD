@@ -276,7 +276,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
-            MDList(items=[...], ordered=False, checked=False)
+            Checklist(items=[...], checked=False)
             >>> print(doc)
             - [ ] Okabe
             - [ ] Mayuri
@@ -446,10 +446,11 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_alert("Please subscribe")
-            Alert(message="Please subscribe", kind=Kind.NOTE)
+            Quote(content=[Raw(text='[!NOTE]'), Raw(text='Please subscribe')])
             >>> print(doc)
-            >> ![NOTE]\n>> Please subscribe
-            
+            > [!NOTE]
+            > Please subscribe
+
         :param str message:
             a message that you want to stand out in your document
         :param Kind kind: 
@@ -458,6 +459,7 @@ class Document:
         alert = Alerts(message, kind)
         self._elements.append(alert)
         logger.info("Added alert to document: %r", alert)
+        return alert
 
     def scramble(self) -> None:
         """

@@ -37,10 +37,10 @@ make use of any external dependencies. In the latter
 case, that restriction does not apply. With that said,
 the existing templates can be found below.
 
-Alerts
-^^^^^^
+Alert
+^^^^^
 
-.. autoclass:: snakemd.Alerts
+.. autoclass:: snakemd.Alert
    :members:
    :undoc-members:
    :show-inheritance:

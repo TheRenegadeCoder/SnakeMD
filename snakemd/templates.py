@@ -77,6 +77,11 @@ class Alert(Template):
     """
 
     class Kind(Enum):
+        """
+        Kind is an enum representing the different
+        kinds of alerts that you might place in a
+        document. 
+        """
         NOTE = auto()
         TIP = auto()
         IMPORTANT = auto()
@@ -154,8 +159,9 @@ class Checklist(Template):
                 checked, bool) else list(checked)
         )
         self._space = ""
-        if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
-            self._checked
+        if (
+            isinstance(self._checked, list)
+            and MDList._top_level_count(self._items) != len(self._checked)
         ):
             raise ValueError(
                 "Number of top-level elements in checklist does not "

@@ -27,8 +27,8 @@ from .templates import (
     Alert,
     CSVTable,
     Template,
-    Checklist, 
-    TableOfContents, 
+    Checklist,
+    TableOfContents,
 )
 
 logger = logging.getLogger(__name__)
@@ -335,7 +335,7 @@ class Document:
         self._elements.append(table)
         logger.info("Added table to document: %r", table)
         return table
-    
+
     def add_table_from_csv(self, path: os.PathLike) -> CSVTable:
         """
         A convenience method which adds a table from a CSV file to
@@ -465,7 +465,7 @@ class Document:
         self._elements.append(toc)
         logger.info("Added table of contents to document: %r", toc)
         return toc
-    
+
     def add_alert(self, message: str, kind: Alert.Kind = Alert.Kind.NOTE) -> Alert:
         """
         A convenience method which adds an alert to the document:

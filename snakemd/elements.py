@@ -108,7 +108,8 @@ class Inline(Element):
         the line break state of the inline text
         
         - defaults to :code:`False`
-        - set to :code:`True` to add a line break to the end of the element (i.e., `<br>`)
+        - set to :code:`True` to add a line break to the 
+          end of the element (i.e., `<br>`)
     """
 
     def __init__(
@@ -385,7 +386,7 @@ class Inline(Element):
         """
         self._code = False
         return self
-    
+
     def breakline(self) -> Inline:
         """
         Adds a linebreak to self.
@@ -401,7 +402,7 @@ class Inline(Element):
         """
         self._linebreak = True
         return self
-    
+
     def unbreakline(self) -> Inline:
         """
         Removes linebreak from self.
@@ -481,7 +482,7 @@ class Inline(Element):
         self._bold = False
         self._strikethrough = False
         return self
-    
+
     def _apply_styles_from(self, text: Inline) -> Inline:
         """
         A helper method that applies text styling to self from another 
@@ -862,8 +863,9 @@ class MDList(Block):
             checked if checked is None or isinstance(checked, bool) else list(checked)
         )
         self._space = ""
-        if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
-            self._checked
+        if (
+            isinstance(self._checked, list)
+            and MDList._top_level_count(self._items) != len(self._checked)
         ):
             raise ValueError(
                 "Number of top-level elements in checklist does not "
@@ -1117,28 +1119,27 @@ class Paragraph(Block):
             if not inline_text.is_text() or target not in inline_text.get_text():
                 content.append(inline_text)
                 continue
-            # Split the inline element into pieces and reapply styles
-            else:
-                # Redistributes styles
-                items = [
-                    Inline(item)._apply_styles_from(inline_text) 
-                    for item in inline_text.get_text().split(target, count)
-                ]
-                
-                # Adds text back in with appropriate style information
-                for item in items:
-                    content.append(item)
-                    content.append(text._apply_styles_from(inline_text))
+
+            # Split the inline element into pieces
+            items = [
+                Inline(item)._apply_styles_from(inline_text)
+                for item in inline_text.get_text().split(target, count)
+            ]
+
+            # Adds text back in with appropriate style information
+            for item in items:
+                content.append(item)
+                content.append(text._apply_styles_from(inline_text))
+            content.pop()
+
+            # Trim empty strings from edges
+            if content[-1].get_text() == "":
                 content.pop()
-                
-                # Trim empty strings from edges
-                if content[-1].get_text() == "":
-                    content.pop()
-                if content[0].get_text() == "":
-                    content = content[1:]
-                
-                # Remove line breaks that may have been distributed by applying styles
-                content[:-1] = map(lambda item: item.unbreakline(), content[:-1])
+            if content[0].get_text() == "":
+                content = content[1:]
+
+            # Remove line breaks that may have been distributed by applying styles
+            content[:-1] = map(lambda item: item.unbreakline(), content[:-1])
                 
         self._content = content
         return self

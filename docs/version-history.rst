@@ -13,10 +13,18 @@ as follows:
 v2.x
 ----
 
+* v2.4.0 [:pr:`174`, :pr:`175`, :pr:`178`, :pr:`179`, :pr:`180`]
+  
+  * Fixed an issue where quotes would crash when inline elements were provided as input
+  * Added the alerts feature as a new template
+  * Added the checklist feature to templates
+  * Deprecated the :code:`checked` parameter in :code:`MDList`
+  * Added a handful of convenience methods to the document API to expose the new templates
+
 * v2.4.0b1 [:pr:`171`]
 
   * Upgraded Poetry file format to 2.x
-  * Added `breakline()` and `unbreakline()` methods
+  * Added :code:`breakline()` and :code:`unbreakline()` methods
   * Fixed issue where inserting a link in a paragraph would strip styles
 
 * v2.3.0 [:pr:`168`]

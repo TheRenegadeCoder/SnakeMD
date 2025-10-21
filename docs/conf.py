@@ -71,8 +71,6 @@ issues_github_path = "TheRenegadeCoder/SnakeMD"
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
-html_theme_options = {"display_version": True}
-
 # -- ReadTheDocs Configuration
 
 # Set canonical URL from the Read the Docs Domain

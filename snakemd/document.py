@@ -23,7 +23,13 @@ from .elements import (
     Raw,
     Table,
 )
-from .templates import TableOfContents, Template
+from .templates import (
+    Alert,
+    CSVTable,
+    Template,
+    Checklist,
+    TableOfContents,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -263,7 +269,7 @@ class Document:
         logger.info("Added unordered list to document: %r", md_list)
         return md_list
 
-    def add_checklist(self, items: Iterable[str]) -> MDList:
+    def add_checklist(self, items: Iterable[str]) -> Checklist:
         """
         A convenience method which adds a checklist to the document.
 
@@ -271,7 +277,7 @@ class Document:
 
             >>> doc = snakemd.new_doc()
             >>> doc.add_checklist(["Okabe", "Mayuri", "Kurisu"])
-            MDList(items=[...], ordered=False, checked=False)
+            Checklist(items=[...], checked=False)
             >>> print(doc)
             - [ ] Okabe
             - [ ] Mayuri
@@ -282,10 +288,10 @@ class Document:
         :return:
             the :class:`MDList` added to this Document
         """
-        md_checklist = MDList(items, checked=False)
-        self._elements.append(md_checklist)
-        logger.info("Added checklist to document: %r", md_checklist)
-        return md_checklist
+        checklist = Checklist(items, checked=False)
+        self._elements.append(checklist)
+        logger.info("Added checklist to document: %r", checklist)
+        return checklist
 
     def add_table(
         self,
@@ -326,6 +332,33 @@ class Document:
         header = [Paragraph([text]) for text in header]
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
+        self._elements.append(table)
+        logger.info("Added table to document: %r", table)
+        return table
+
+    def add_table_from_csv(self, path: os.PathLike) -> CSVTable:
+        """
+        A convenience method which adds a table from a CSV file to
+        the document:
+        
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> doc.add_table_from_csv("../tests/resources/python-support.csv")
+            Table(header=[...], body=[...], align=None, indent=0)
+            >>> print(doc) # doctest: +NORMALIZE_WHITESPACE
+            | Python              | 3.11 | 3.10 | 3.9 | 3.8 |
+            | ------------------- | ---- | ---- | --- | --- |
+            | SnakeMD >= 2.0      | Yes  | Yes  | Yes | Yes |
+            | SnakeMD 0.12 - 0.15 | Yes  | Yes  | Yes | Yes |
+            | SnakeMD < 0.12      |      | Yes  | Yes | Yes |
+            
+        :param os.PathLike path:
+            a path to a CSV file
+        :return:
+            the :class:`Table` added to this Document
+        """
+        table = CSVTable(path)
         self._elements.append(table)
         logger.info("Added table to document: %r", table)
         return table
@@ -432,6 +465,31 @@ class Document:
         self._elements.append(toc)
         logger.info("Added table of contents to document: %r", toc)
         return toc
+
+    def add_alert(self, message: str, kind: Alert.Kind = Alert.Kind.NOTE) -> Alert:
+        """
+        A convenience method which adds an alert to the document:
+        
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> doc.add_alert("Please subscribe")
+            Quote(content=[Raw(text='[!NOTE]'), Raw(text='Please subscribe')])
+            >>> print(doc)
+            > [!NOTE]
+            > Please subscribe
+
+        :param str message:
+            a message that you want to stand out in your document
+        :param Kind kind: 
+            the kind of alert; see :class:`snakemd.Alerts.Kind` for details
+        :return:
+            the :class:`Alert` added to this Document
+        """
+        alert = Alert(message, kind)
+        self._elements.append(alert)
+        logger.info("Added alert to document: %r", alert)
+        return alert
 
     def scramble(self) -> None:
         """

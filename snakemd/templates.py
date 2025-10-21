@@ -55,9 +55,9 @@ class Template(Element):  # pylint: disable=too-few-public-methods
         self._elements = elements
 
 
-class Alerts(Template):
+class Alert(Template):
     """
-    Alerts are a wrapper of the Quote object to provide
+    Alert is a wrapper of the Quote object to provide
     support for the alerts Markdown extension. While
     quotes can be nested in each other, alerts cannot.  
 
@@ -77,6 +77,11 @@ class Alerts(Template):
     """
 
     class Kind(Enum):
+        """
+        Kind is an enum representing the different
+        kinds of alerts that you might place in a
+        document. 
+        """
         NOTE = auto()
         TIP = auto()
         IMPORTANT = auto()
@@ -85,8 +90,8 @@ class Alerts(Template):
 
     def __init__(
         self,
-        kind: Kind,
-        message: str | Iterable[str | Inline | Block]
+        message: str | Iterable[str | Inline | Block],
+        kind: Kind
     ) -> None:
         super().__init__()
         self._kind = kind
@@ -154,8 +159,9 @@ class Checklist(Template):
                 checked, bool) else list(checked)
         )
         self._space = ""
-        if isinstance(self._checked, list) and MDList._top_level_count(self._items) != len(
-            self._checked
+        if (
+            isinstance(self._checked, list)
+            and MDList._top_level_count(self._items) != len(self._checked)
         ):
             raise ValueError(
                 "Number of top-level elements in checklist does not "

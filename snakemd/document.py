@@ -24,7 +24,8 @@ from .elements import (
     Table,
 )
 from .templates import (
-    Alerts,
+    Alert,
+    CSVTable,
     Template,
     Checklist, 
     TableOfContents, 
@@ -334,6 +335,33 @@ class Document:
         self._elements.append(table)
         logger.info("Added table to document: %r", table)
         return table
+    
+    def add_table_from_csv(self, path: os.PathLike) -> CSVTable:
+        """
+        A convenience method which adds a table from a CSV file to
+        the document:
+        
+        .. doctest:: document
+
+            >>> doc = snakemd.new_doc()
+            >>> doc.add_table_from_csv("../tests/resources/python-support.csv")
+            Table(header=[...], body=[...], align=None, indent=0)
+            >>> print(doc) # doctest: +NORMALIZE_WHITESPACE
+            | Python              | 3.11 | 3.10 | 3.9 | 3.8 |
+            | ------------------- | ---- | ---- | --- | --- |
+            | SnakeMD >= 2.0      | Yes  | Yes  | Yes | Yes |
+            | SnakeMD 0.12 - 0.15 | Yes  | Yes  | Yes | Yes |
+            | SnakeMD < 0.12      |      | Yes  | Yes | Yes |
+            
+        :param os.PathLike path:
+            a path to a CSV file
+        :return:
+            the :class:`Table` added to this Document
+        """
+        table = CSVTable(path)
+        self._elements.append(table)
+        logger.info("Added table to document: %r", table)
+        return table
 
     def add_code(self, code: str, lang: str = "generic") -> Code:
         """
@@ -438,7 +466,7 @@ class Document:
         logger.info("Added table of contents to document: %r", toc)
         return toc
     
-    def add_alert(self, message: str, kind: Alerts.Kind = Alerts.Kind.NOTE) -> Alerts:
+    def add_alert(self, message: str, kind: Alert.Kind = Alert.Kind.NOTE) -> Alert:
         """
         A convenience method which adds an alert to the document:
         
@@ -455,8 +483,10 @@ class Document:
             a message that you want to stand out in your document
         :param Kind kind: 
             the kind of alert; see :class:`snakemd.Alerts.Kind` for details
+        :return:
+            the :class:`Alert` added to this Document
         """
-        alert = Alerts(message, kind)
+        alert = Alert(message, kind)
         self._elements.append(alert)
         logger.info("Added alert to document: %r", alert)
         return alert

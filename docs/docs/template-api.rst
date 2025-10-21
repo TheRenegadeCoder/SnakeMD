@@ -7,6 +7,10 @@ a template system is slowly being developed for folks who
 are looking for a bit more convenience. Ultimately, these
 folks can expect support for typical document sections such
 as tables of contents, footers, copyrights, and more.
+In addition, because the core element library is designed
+to adhere as closely to vanilla Markdown as possible,
+folks can also find extended markdown features here,
+such as checklists, alerts, and more. 
 
 Template Interface
 ------------------

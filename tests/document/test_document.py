@@ -1,6 +1,6 @@
 import os
 
-from snakemd import Document, Heading, HorizontalRule, Paragraph
+from snakemd import Document, Heading, HorizontalRule, Paragraph, Alert
 
 # Method tests (singles)
 
@@ -144,6 +144,12 @@ def test_add_block_horizontal_rule():
     doc = Document()
     doc.add_block(HorizontalRule())
     assert str(doc) == "***"
+
+
+def test_add_alert():
+    doc = Document()
+    doc.add_alert("Do not the cat", Alert.Kind.CAUTION)
+    assert str(doc) == "> [!CAUTION]\n> Do not the cat"
 
 
 def test_scramble_empty():

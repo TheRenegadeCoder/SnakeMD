@@ -82,11 +82,41 @@ class Alert(Template):
         kinds of alerts that you might place in a
         document. 
         """
+        
         NOTE = auto()
+        """
+        As the GitHub docs state, a note should provide
+        "useful information that users should know, 
+        even when skimming content."
+        """
+
         TIP = auto()
+        """
+        As the GitHub docs state, a tip should provide
+        "helpful advice for doing things better or 
+        more easily."
+        """
+
         IMPORTANT = auto()
+        """
+        As the GitHub docs state, an important alert should
+        provide "key information users need to know to 
+        achieve their goal."
+        """
+
         WARNING = auto()
+        """
+        As the GitHub docs state, a warning should provide
+        "urgent info that needs immediate user attention 
+        to avoid problems."
+        """
+
         CAUTION = auto()
+        """
+        As the GitHub docs state, a caution alert should
+        "[advise] about risks or negative outcomes of 
+        certain actions."
+        """
 
     def __init__(
         self,

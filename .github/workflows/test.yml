@@ -35,7 +35,7 @@ jobs:
       run: poetry run coverage run -m pytest
 
     - name: Coverage
-      run: poetry run coverage report
+      run: poetry run coverage report -m
 
     - name: PyLint
       run: poetry run pylint snakemd

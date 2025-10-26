@@ -13,7 +13,7 @@ as follows:
 v2.x
 ----
 
-* v2.4.0 [:pr:`174`, :pr:`175`, :pr:`178`, :pr:`179`, :pr:`180`]
+* v2.4.0 [:pr:`174`, :pr:`175`, :pr:`178`, :pr:`179`, :pr:`180`, :pr:`181`]
   
   * Fixed an issue where quotes would crash when inline elements were provided as input
   * Added the alerts feature as a new template

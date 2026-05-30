@@ -12,6 +12,9 @@ as follows:
 
 v2.x
 ----
+* v2.4.1 [:pr:`183`]
+
+  * Reduce logging noise by using `logging.debug` instead of `logging.info` in `snamemd.document`
 
 * v2.4.0 [:pr:`174`, :pr:`175`, :pr:`178`, :pr:`179`, :pr:`180`, :pr:`181`]
   

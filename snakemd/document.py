@@ -63,7 +63,7 @@ class Document:
 
     def __init__(self, elements: list[Element] = None) -> None:
         self._elements: list[Element] = elements or []
-        logger.info("Created new document: %r", self)
+        logger.debug("Created new document: %r", self)
 
     def __str__(self) -> str:
         """
@@ -86,7 +86,7 @@ class Document:
                 block.load(self._elements)
         # render all
         document = "\n\n".join(str(block) for block in self._elements)
-        logger.info("Rendered document: %r", document)
+        logger.debug("Rendered document: %r", document)
         return document
 
     def __repr__(self) -> str:
@@ -148,7 +148,7 @@ class Document:
             the :class:`Block` added to this Document
         """
         self._elements.append(block)
-        logger.info("Added custom block to document: %r", block)
+        logger.debug("Added custom block to document: %r", block)
         return block
 
     def add_raw(self, text: str) -> Raw:
@@ -172,7 +172,7 @@ class Document:
         """
         raw = Raw(text)
         self._elements.append(raw)
-        logger.info("Added raw block to document: %r", text)
+        logger.debug("Added raw block to document: %r", text)
         return raw
 
     def add_heading(self, text: str, level: int = 1) -> Heading:
@@ -196,7 +196,7 @@ class Document:
         """
         heading = Heading(Inline(text), level)
         self._elements.append(heading)
-        logger.info("Added heading to document: %r", heading)
+        logger.debug("Added heading to document: %r", heading)
         return heading
 
     def add_paragraph(self, text: str) -> Paragraph:
@@ -218,7 +218,7 @@ class Document:
         """
         paragraph = Paragraph([Inline(text)])
         self._elements.append(paragraph)
-        logger.info("Added paragraph to document: %r", paragraph)
+        logger.debug("Added paragraph to document: %r", paragraph)
         return paragraph
 
     def add_ordered_list(self, items: Iterable[str]) -> MDList:
@@ -242,7 +242,7 @@ class Document:
         """
         md_list = MDList(items, ordered=True)
         self._elements.append(md_list)
-        logger.info("Added ordered list to document: %r", md_list)
+        logger.debug("Added ordered list to document: %r", md_list)
         return md_list
 
     def add_unordered_list(self, items: Iterable[str]) -> MDList:
@@ -266,7 +266,7 @@ class Document:
         """
         md_list = MDList(items)
         self._elements.append(md_list)
-        logger.info("Added unordered list to document: %r", md_list)
+        logger.debug("Added unordered list to document: %r", md_list)
         return md_list
 
     def add_checklist(self, items: Iterable[str]) -> Checklist:
@@ -290,7 +290,7 @@ class Document:
         """
         checklist = Checklist(items, checked=False)
         self._elements.append(checklist)
-        logger.info("Added checklist to document: %r", checklist)
+        logger.debug("Added checklist to document: %r", checklist)
         return checklist
 
     def add_table(
@@ -333,7 +333,7 @@ class Document:
         data = [[Paragraph([item]) for item in row] for row in data]
         table = Table(header, data, align, indent)
         self._elements.append(table)
-        logger.info("Added table to document: %r", table)
+        logger.debug("Added table to document: %r", table)
         return table
 
     def add_table_from_csv(self, path: os.PathLike) -> CSVTable:
@@ -360,7 +360,7 @@ class Document:
         """
         table = CSVTable(path)
         self._elements.append(table)
-        logger.info("Added table to document: %r", table)
+        logger.debug("Added table to document: %r", table)
         return table
 
     def add_code(self, code: str, lang: str = "generic") -> Code:
@@ -386,7 +386,7 @@ class Document:
         """
         code_block = Code(code, lang=lang)
         self._elements.append(code_block)
-        logger.info("Added code block to document: %r", code_block)
+        logger.debug("Added code block to document: %r", code_block)
         return code_block
 
     def add_quote(self, text: str) -> Quote:
@@ -408,7 +408,7 @@ class Document:
         """
         quote = Quote(text)
         self._elements.append(quote)
-        logger.info("Added quote to document: %r", quote)
+        logger.debug("Added quote to document: %r", quote)
         return quote
 
     def add_horizontal_rule(self) -> HorizontalRule:
@@ -428,7 +428,7 @@ class Document:
         """
         horizontal_rule = HorizontalRule()
         self._elements.append(horizontal_rule)
-        logger.info("Added horizontal rule to document: %r", horizontal_rule)
+        logger.debug("Added horizontal rule to document: %r", horizontal_rule)
         return horizontal_rule
 
     def add_table_of_contents(self, levels: range = range(2, 3)) -> TableOfContents:
@@ -463,7 +463,7 @@ class Document:
         """
         toc = TableOfContents(levels=levels)
         self._elements.append(toc)
-        logger.info("Added table of contents to document: %r", toc)
+        logger.debug("Added table of contents to document: %r", toc)
         return toc
 
     def add_alert(self, message: str, kind: Alert.Kind = Alert.Kind.NOTE) -> Alert:
@@ -488,7 +488,7 @@ class Document:
         """
         alert = Alert(message, kind)
         self._elements.append(alert)
-        logger.info("Added alert to document: %r", alert)
+        logger.debug("Added alert to document: %r", alert)
         return alert
 
     def scramble(self) -> None:
@@ -506,7 +506,7 @@ class Document:
             ***
         """
         random.shuffle(self._elements)
-        logger.info("Scrambled document")
+        logger.debug("Scrambled document")
 
     def dump(
         self,
@@ -547,4 +547,4 @@ class Document:
             os.path.join(directory, f"{name}.{ext}"), "w+", encoding=encoding
         ) as output_file:
             output_file.write(str(self))
-        logger.info("Dumped document to %s with filename %s.%s", directory, name, ext)
+        logger.debug("Dumped document to %s with filename %s.%s", directory, name, ext)

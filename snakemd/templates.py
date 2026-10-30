@@ -9,7 +9,7 @@ import csv
 import logging
 import os
 import re
-from typing import Iterable
+from typing import Iterable, cast as _cast
 from enum import Enum, auto
 
 from .elements import Block, Element, Heading, Inline, MDList, Quote, Table
@@ -43,7 +43,7 @@ class Template(Element):  # pylint: disable=too-few-public-methods
     """
 
     def __init__(self) -> None:
-        self._elements: list[Element] = None  # DO NOT MODIFY
+        self._elements: list[Element] | None = None  # DO NOT MODIFY
 
     def load(self, elements: list[Element]) -> None:
         """
@@ -126,7 +126,14 @@ class Alert(Template):
         super().__init__()
         self._kind = kind
         self._message = message
-        self._alert = Quote([f"[!{self._kind.name}]", self._message])
+        # Alert has historically passed iterable messages as one quote item.
+        # Retain that rendering while keeping Quote's documented item types.
+        self._alert = Quote(
+            _cast(
+                Iterable[str | Inline | Block],
+                [f"[!{self._kind.name}]", self._message],
+            )
+        )
 
     def __str__(self) -> str:
         """
@@ -199,7 +206,7 @@ class Checklist(Template):
                 f"{self._checked}"
             )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Renders the checklist as a markdown string. Checklists
         function very similarly to unorded lists, but require
@@ -279,13 +286,17 @@ class CSVTable(Template):
         Included to showcase the possibilities of
         templates
 
-    :param os.Pathlike path:
-        the path to a CSV file
+    :param str | bytes | os.PathLike path:
+        the path to a CSV file, as a string, bytes, or path-like object
     :param str encoding:
         the encoding of the CSV file; defaults to utf-8
     """
 
-    def __init__(self, path: os.PathLike, encoding: str = "utf-8") -> None:
+    def __init__(
+        self,
+        path: str | bytes | os.PathLike,
+        encoding: str = "utf-8",
+    ) -> None:
         super().__init__()
         self._path = path
         self._encoding = encoding
@@ -312,7 +323,9 @@ class CSVTable(Template):
         return repr(self._table)
 
     @staticmethod
-    def _process_csv(path: os.PathLike, encoding: str) -> Table:
+    def _process_csv(
+        path: str | bytes | os.PathLike, encoding: str
+    ) -> Table:
         """
         A helper method for processing the CSV file into
         a Table object.
@@ -386,9 +399,12 @@ class TableOfContents(Template):
         :return:
             a list heading objects
         """
+        # Templates are expected to be loaded before rendering.  This cast leaves
+        # the existing TypeError for an unloaded template unchanged.
+        elements = _cast(list[Element], self._elements)
         return [
             heading
-            for heading in self._elements
+            for heading in elements
             if isinstance(heading, Heading) and heading.get_level() in self._levels
         ]
 
@@ -406,7 +422,7 @@ class TableOfContents(Template):
 
         i = position
         level = headings[i].get_level()
-        table_of_contents = []
+        table_of_contents: list[Inline | MDList] = []
         while i < len(headings) and headings[i].get_level() >= level:
             heading_text: str = headings[i].get_text()
             heading_level: int = headings[i].get_level()

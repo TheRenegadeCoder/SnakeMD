@@ -1,0 +1,8 @@
+# Tools for the isolated installed-wheel consumer check (not runtime dependencies).
+# Install separately from Poetry's environment to avoid dependency conflicts
+# (for example, different pathspec requirements). Version ranges are not locked.
+build>=1,<2
+mypy>=1.10,<3
+poetry-core>=2,<3
+pyright>=1.1.414,<2
+ty>=0.0.95,<1

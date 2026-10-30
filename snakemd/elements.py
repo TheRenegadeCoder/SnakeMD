@@ -239,7 +239,7 @@ class Inline(Element):
         """
         return self._text
 
-    def get_link(self) -> str:
+    def get_link(self) -> str | None:
         """
         Retrieves the link attribute of the Inline element.
 
@@ -253,7 +253,7 @@ class Inline(Element):
             Included to avoid protected member access scenarios.
 
         :return:
-            the link of the Inline element
+            the link of the Inline element, or None if it has no link
         """
         return self._link
 
@@ -573,7 +573,7 @@ class Code(Block):
         """
         return f"Code(code={self._code!r}, lang={self._lang!r})"
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Checks to see if this code block is equal to some
         other object. Equality is based on the provided
@@ -649,8 +649,8 @@ class Heading(Block):
         :return:
             the heading as a markdown string
         """
-        heading = [str(item) for item in self._text]
-        heading = f"{'#' * self._level} {''.join(heading)}"
+        parts = [str(item) for item in self._text]
+        heading = f"{'#' * self._level} {''.join(parts)}"
         logger.debug("Rendered heading: %r", heading)
         return heading
 
@@ -859,7 +859,7 @@ class MDList(Block):
     ) -> None:
         self._items: list[Block] = self._process_items(items)
         self._ordered: bool = ordered
-        self._checked: bool | list[bool] = (
+        self._checked: bool | list[bool] | None = (
             checked if checked is None or isinstance(checked, bool) else list(checked)
         )
         self._space = ""
@@ -961,7 +961,7 @@ class MDList(Block):
         :return:
             a list of Blocks
         """
-        processed = []
+        processed: list[Block] = []
         for item in items:
             if isinstance(item, (str, Inline)):
                 processed.append(Paragraph([item]))
@@ -1269,7 +1269,8 @@ class Quote(Block):
     """
 
     def __init__(self, content: str | Iterable[str | Inline | Block]) -> None:
-        self._lines: list[Block] = self._process_content(content)
+        # Alert can pass an iterable message as a single nested item (issue #191).
+        self._lines: list[object] = self._process_content(content)
         self._depth = 1
 
     def __str__(self) -> str:
@@ -1319,17 +1320,16 @@ class Quote(Block):
         return f"Quote(content={self._lines!r})"
 
     @staticmethod
-    def _process_content(lines) -> list[Block]:
+    def _process_content(lines: str | Iterable[object]) -> list[object]:
         """
-        Converts the raw input lines to something that is
-        a bit easier to work with. In this case, the lines
-        are converted to blocks.
+        Converts strings and inline elements to blocks and retains other objects.
 
         :param lines:
             a "list" of text objects or a string
         :return:
-            a list of Blocks
+            the processed objects
         """
+        processed_lines: list[object]
         if isinstance(lines, str):
             processed_lines = [Raw(lines)]
         else:
@@ -1408,13 +1408,13 @@ class Table(Block):
     def __init__(
         self,
         header: Iterable[str | Inline | Paragraph],
-        body: Iterable[Iterable[str | Inline | Paragraph]] = None,
+        body: Iterable[Iterable[str | Inline | Paragraph]] | None = None,
         align: None | Iterable[Align] = None,
         indent: int = 0,
     ) -> None:
         logger.debug("Initializing table: (%r, %r, %r)", header, body, align)
         self._header: list[Paragraph]
-        self._body: list[list[Paragraph]]
+        self._body: list[list[str | Inline | Paragraph]]
         self._header, self._body = self._process_table(header, body or [])
         if len(self._body) > 1 and not all(
             len(self._body[0]) == len(x) for x in self._body[1:]
@@ -1483,7 +1483,7 @@ class Table(Block):
     @staticmethod
     def _process_table(
         header, body
-    ) -> tuple(list[Paragraph], list[list[Paragraph]], list[int]):
+    ) -> tuple[list[Paragraph], list[list[str | Inline | Paragraph]]]:
         """
         Processes the table inputs to ensure header and body only contain paragraph
         blocks.
@@ -1495,11 +1495,10 @@ class Table(Block):
         :param body:
             the table body in its various forms
         :return:
-            the table containing only Paragraph blocks and
-            a list of the widest items in each row
+            the processed header and body, containing only Paragraph blocks
         """
         processed_header = []
-        processed_body = []
+        processed_body: list[list[str | Inline | Paragraph]] = []
 
         # Process header
         for item in header:
@@ -1511,7 +1510,7 @@ class Table(Block):
 
         # Process body
         for row in body:
-            processed_row = []
+            processed_row: list[str | Inline | Paragraph] = []
             for item in row:
                 if isinstance(item, (str, Inline)):
                     processed_row.append(Paragraph([item]))
@@ -1566,7 +1565,7 @@ class Table(Block):
         :raises ValueError:
             when row is not the same width as the table header
         :param Iterable[str | Inline | Paragraph] row:
-            a row of data
+            an iterable of cells
         :return:
             self
         """
@@ -1576,7 +1575,7 @@ class Table(Block):
         logger.debug("Adding row to table: %r", row_list)
 
         # Verify that it's safe to add
-        if len(row) != len(self._header):
+        if len(row_list) != len(self._header):
             raise ValueError(
                 f"Unable to add row with width {len(row_list)} "
                 f"to table with header of width {len(self._header)}"

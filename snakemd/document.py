@@ -61,7 +61,7 @@ class Document:
             Included to make __repr__ more useful
     """
 
-    def __init__(self, elements: list[Element] = None) -> None:
+    def __init__(self, elements: list[Element] | None = None) -> None:
         self._elements: list[Element] = elements or []
         logger.debug("Created new document: %r", self)
 
@@ -297,7 +297,7 @@ class Document:
         self,
         header: Iterable[str],
         data: Iterable[Iterable[str]],
-        align: Iterable[Table.Align] = None,
+        align: Iterable[Table.Align] | None = None,
         indent: int = 0,
     ) -> Table:
         """
@@ -329,14 +329,14 @@ class Document:
         :return:
             the :class:`Table` added to this Document
         """
-        header = [Paragraph([text]) for text in header]
-        data = [[Paragraph([item]) for item in row] for row in data]
-        table = Table(header, data, align, indent)
+        table_header = [Paragraph([text]) for text in header]
+        table_data = [[Paragraph([item]) for item in row] for row in data]
+        table = Table(table_header, table_data, align, indent)
         self._elements.append(table)
         logger.debug("Added table to document: %r", table)
         return table
 
-    def add_table_from_csv(self, path: os.PathLike) -> CSVTable:
+    def add_table_from_csv(self, path: str | bytes | os.PathLike) -> CSVTable:
         """
         A convenience method which adds a table from a CSV file to
         the document:
@@ -353,8 +353,8 @@ class Document:
             | SnakeMD 0.12 - 0.15 | Yes  | Yes  | Yes | Yes |
             | SnakeMD < 0.12      |      | Yes  | Yes | Yes |
             
-        :param os.PathLike path:
-            a path to a CSV file
+        :param str | bytes | os.PathLike path:
+            a path to a CSV file, as a string, bytes, or path-like object
         :return:
             the :class:`Table` added to this Document
         """
@@ -511,7 +511,7 @@ class Document:
     def dump(
         self,
         name: str,
-        directory: str | os.PathLike = "",
+        directory: str | os.PathLike[str] = "",
         ext: str = "md",
         encoding: str = "utf-8",
     ) -> None:

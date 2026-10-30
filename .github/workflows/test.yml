@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
         poetry-version: ["2.1"]
         os: [ubuntu-latest, macos-latest, windows-latest]
 
@@ -30,6 +30,17 @@ jobs:
 
     - name: Install Dependencies
       run: poetry install
+
+    - name: Install typing verification tools
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        python -m venv "$RUNNER_TEMP/snakemd-typing-tools"
+        "$RUNNER_TEMP/snakemd-typing-tools/bin/python" -m pip install -r tests/typing/requirements.txt
+
+    - name: Check typing in installed distributions
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        "$RUNNER_TEMP/snakemd-typing-tools/bin/python" tests/check_installed_typing.py
 
     - name: PyTest
       run: poetry run coverage run -m pytest

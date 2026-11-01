@@ -126,7 +126,13 @@ class Alert(Template):
         super().__init__()
         self._kind = kind
         self._message = message
-        self._alert = Quote([f"[!{self._kind.name}]", self._message])
+        # A single string, Inline, or Block stays one quote line; an
+        # iterable message expands so each item renders as its own line.
+        if isinstance(message, (str, Inline, Block)):
+            items = [message]
+        else:
+            items = list(message)
+        self._alert = Quote([f"[!{self._kind.name}]", *items])
 
     def __str__(self) -> str:
         """

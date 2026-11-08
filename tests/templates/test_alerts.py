@@ -24,3 +24,11 @@ def test_alert_caution():
 def test_alert_inline():
     alert = Alert(Inline("Hello, World!", italics=True), Alert.Kind.NOTE)
     assert str(alert) == "> [!NOTE]\n> _Hello, World!_" 
+
+def test_alert_list_message():
+    alert = Alert(["one", "two"], Alert.Kind.NOTE)
+    assert str(alert) == "> [!NOTE]\n> one\n> two"
+
+def test_alert_generator_message():
+    alert = Alert((line for line in ["one", "two"]), Alert.Kind.NOTE)
+    assert str(alert) == "> [!NOTE]\n> one\n> two"
